@@ -2,6 +2,7 @@
 
 import { useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
+import CitySearch from '@/components/CitySearch'
 
 // ── Helpers ────────────────────────────────────────────────
 
@@ -241,11 +242,11 @@ function SearchForm({
             {/* Local de retirada */}
             <div>
               <label style={labelStyle}>Local de retirada</label>
-              <input
-                style={inputStyle}
-                placeholder="Cidade ou aeroporto"
+              <CitySearch
                 value={location}
-                onChange={e => setLocation(e.target.value)}
+                onChange={setLocation}
+                placeholder="Cidade ou aeroporto"
+                dark={true}
                 required
               />
             </div>
@@ -413,13 +414,56 @@ function CarrosContent() {
         )}
 
         {!searched && (
-          <div style={{ textAlign: 'center', padding: '60px 0' }}>
+          <div>
             <p style={{
               fontFamily: 'Plus Jakarta Sans, sans-serif',
-              color: '#5A6A80', fontSize: '0.95rem',
+              fontSize: '0.85rem', color: '#5A6A80',
+              marginBottom: 20, textAlign: 'center',
             }}>
-              Digite o local de retirada e as datas para ver as opções de aluguel.
+              Preencha o local e as datas — os links abaixo serão ativados com seus dados.
             </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, opacity: 0.5, pointerEvents: 'none' }}>
+              {CAR_PROVIDERS.map(provider => (
+                <div key={provider.id} className="card" style={{ padding: '24px 28px', display: 'flex', alignItems: 'center', gap: 20 }}>
+                  <div style={{
+                    width: 56, height: 56, borderRadius: 14,
+                    background: provider.color + '15', border: `2px solid ${provider.color}30`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 24, flexShrink: 0,
+                  }}>
+                    {provider.logo}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                      <h3 style={{ fontFamily: 'Fraunces, serif', fontSize: '1.05rem', color: '#0D1B3E', margin: 0 }}>
+                        {provider.name}
+                      </h3>
+                      {provider.badge && (
+                        <span style={{
+                          fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.68rem',
+                          fontWeight: 700, color: provider.color, background: provider.color + '15',
+                          padding: '2px 8px', borderRadius: 20, textTransform: 'uppercase',
+                        }}>
+                          {provider.badge}
+                        </span>
+                      )}
+                    </div>
+                    <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.83rem', color: '#5A6A80', margin: 0 }}>
+                      {provider.description}
+                    </p>
+                  </div>
+                  <div style={{
+                    background: '#D0DCF0', color: '#fff',
+                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                    fontWeight: 700, fontSize: '0.85rem',
+                    padding: '10px 20px', borderRadius: 10,
+                    whiteSpace: 'nowrap', flexShrink: 0,
+                  }}>
+                    Ver preços →
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>

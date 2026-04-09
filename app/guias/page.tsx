@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from 'react'
 import Image from 'next/image'
 import { useSearchParams, useRouter } from 'next/navigation'
+import CitySearch from '@/components/CitySearch'
 
 // ── Types ──────────────────────────────────────────────────
 
@@ -210,11 +211,11 @@ function SearchForm({
             {/* Destino */}
             <div>
               <label style={labelStyle}>Destino</label>
-              <input
-                style={inputStyle}
-                placeholder="Ex: Rio de Janeiro, Paris, Tóquio"
+              <CitySearch
                 value={destination}
-                onChange={e => setDestination(e.target.value)}
+                onChange={setDestination}
+                placeholder="Ex: Rio de Janeiro, Paris, Tóquio"
+                dark={true}
                 required
               />
             </div>
@@ -270,8 +271,9 @@ function GuiasContent() {
   const initialDate        = searchParams.get('date')        || ''
   const initialCategory    = searchParams.get('category')    || ''
 
-  const [experiences, setExperiences] = useState<Experience[]>([])
-  const [status,      setStatus]      = useState<'idle' | 'loading' | 'done' | 'error'>('idle')
+  const [experiences,  setExperiences]  = useState<Experience[]>([])
+  const [status,       setStatus]       = useState<'idle' | 'loading' | 'done' | 'error' | 'redirect'>('idle')
+  const [fallbackUrl,  setFallbackUrl]  = useState<string>('')
   const [current, setCurrent] = useState({
     destination: initialDestination,
     date:        initialDate,
@@ -298,6 +300,13 @@ function GuiasContent() {
     try {
       const res  = await fetch(`/api/experiences?${qs}`)
       const data = await res.json()
+
+      // API não configurada ainda → redireciona para GYG diretamente
+      if (res.status === 503 || res.status === 500) {
+        setFallbackUrl(data.fallbackUrl || `https://www.getyourguide.com/s/?q=${encodeURIComponent(destination)}`)
+        setStatus('redirect')
+        return
+      }
 
       if (!res.ok) throw new Error(data.error || 'Erro desconhecido')
 
@@ -338,30 +347,113 @@ function GuiasContent() {
           </div>
         )}
 
-        {/* Erro / API não configurada */}
+        {/* Redirect → GetYourGuide (API ainda não configurada) */}
+        {status === 'redirect' && (
+          <div>
+            {/* Cabeçalho */}
+            <div style={{ marginBottom: 20 }}>
+              <h2 style={{ fontFamily: 'Fraunces, serif', fontSize: '1.2rem', color: '#0D1B3E', marginBottom: 4 }}>
+                Experiências em {current.destination}
+              </h2>
+              <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.85rem', color: '#5A6A80' }}>
+                Redirecionando para GetYourGuide — maior plataforma de experiências do mundo
+              </p>
+            </div>
+
+            {/* Card de redirect */}
+            <div style={{
+              background: '#fff', borderRadius: 16, overflow: 'hidden',
+              boxShadow: '0 4px 20px rgba(13,27,62,0.08)', border: '1px solid #D0DCF0',
+            }}>
+              {/* Header colorido */}
+              <div style={{
+                background: 'linear-gradient(135deg, #0D1B3E 0%, #1E3A6E 100%)',
+                padding: '32px 40px', display: 'flex', alignItems: 'center', gap: 24,
+              }}>
+                <div style={{
+                  width: 64, height: 64, borderRadius: 16,
+                  background: 'rgba(255,255,255,0.12)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 28, flexShrink: 0,
+                }}>
+                  🧭
+                </div>
+                <div>
+                  <p style={{
+                    fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.72rem',
+                    color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase',
+                    letterSpacing: '1.5px', marginBottom: 6,
+                  }}>
+                    Parceiro verificado
+                  </p>
+                  <h3 style={{ fontFamily: 'Fraunces, serif', fontSize: '1.4rem', color: '#fff', margin: 0 }}>
+                    GetYourGuide — {current.destination}
+                  </h3>
+                  <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.85rem', color: 'rgba(255,255,255,0.65)', marginTop: 4, marginBottom: 0 }}>
+                    Tours, experiências, guias locais e atividades para a sua viagem
+                  </p>
+                </div>
+              </div>
+
+              {/* Corpo */}
+              <div style={{ padding: '32px 40px' }}>
+                <div style={{
+                  display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                  gap: 16, marginBottom: 32,
+                }}>
+                  {[
+                    { icon: '⭐', label: 'Avaliações verificadas', desc: 'Só quem fez a experiência avalia' },
+                    { icon: '🔒', label: 'Reserva segura', desc: 'Cancelamento grátis na maioria das atividades' },
+                    { icon: '🌍', label: '+300 mil atividades', desc: 'O maior catálogo global de experiências' },
+                    { icon: '💬', label: 'Suporte em português', desc: 'Atendimento disponível em PT-BR' },
+                  ].map(item => (
+                    <div key={item.label} style={{
+                      background: '#F4F7FF', borderRadius: 12, padding: '16px 18px',
+                    }}>
+                      <span style={{ fontSize: 20, display: 'block', marginBottom: 8 }}>{item.icon}</span>
+                      <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.82rem', fontWeight: 700, color: '#0D1B3E', margin: '0 0 4px' }}>
+                        {item.label}
+                      </p>
+                      <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.75rem', color: '#5A6A80', margin: 0 }}>
+                        {item.desc}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                <a
+                  href={fallbackUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary"
+                  style={{ display: 'block', textAlign: 'center', padding: '14px', fontSize: '0.95rem', fontWeight: 700 }}
+                >
+                  Ver experiências em {current.destination} no GetYourGuide →
+                </a>
+                <p style={{
+                  fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.75rem',
+                  color: '#5A6A80', textAlign: 'center', marginTop: 10,
+                }}>
+                  A Go Livoo recebe uma comissão quando você reserva — sem custo adicional para você.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Erro genérico */}
         {status === 'error' && (
           <div style={{
             background: '#fff', borderRadius: 14, padding: 48,
             textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)',
           }}>
-            <span style={{ fontSize: 40, display: 'block', marginBottom: 12 }}>🗺️</span>
-            <h3 style={{ fontFamily: 'Fraunces, serif', color: '#0D1B3E', marginBottom: 8 }}>
-              Busca em configuração
-            </h3>
-            <p style={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#5A6A80',
-              fontSize: '0.9rem', maxWidth: 440, margin: '0 auto 28px',
-            }}>
-              A integração com GetYourGuide está sendo configurada. Enquanto isso, você pode buscar diretamente na plataforma.
+            <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#5A6A80', fontSize: '0.9rem', marginBottom: 20 }}>
+              Não foi possível carregar as experiências. Tente novamente.
             </p>
-            <a
-              href={gygFallbackUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary"
-              style={{ display: 'inline-block', fontSize: '0.9rem', padding: '12px 28px' }}
-            >
-              Buscar experiências em {current.destination} no GetYourGuide
+            <a href={`https://www.getyourguide.com/s/?q=${encodeURIComponent(current.destination)}`}
+              target="_blank" rel="noopener noreferrer" className="btn-primary"
+              style={{ display: 'inline-block', fontSize: '0.9rem', padding: '12px 28px' }}>
+              Buscar no GetYourGuide →
             </a>
           </div>
         )}

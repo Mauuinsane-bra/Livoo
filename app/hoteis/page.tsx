@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
+import CitySearch from '@/components/CitySearch'
 
 // ── Types ──────────────────────────────────────────────────
 
@@ -177,11 +178,11 @@ function SearchForm({
             {/* Destino */}
             <div>
               <label style={labelStyle}>Destino</label>
-              <input
-                style={inputStyle}
-                placeholder="Cidade, região ou hotel"
+              <CitySearch
                 value={location}
-                onChange={e => setLocation(e.target.value)}
+                onChange={setLocation}
+                placeholder="Cidade ou destino"
+                dark={true}
                 required
               />
             </div>

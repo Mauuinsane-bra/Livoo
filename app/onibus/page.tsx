@@ -2,6 +2,7 @@
 
 import { useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
+import CitySearch from '@/components/CitySearch'
 
 // ── Helpers ────────────────────────────────────────────────
 
@@ -216,11 +217,11 @@ function SearchForm({
             {/* Origem */}
             <div>
               <label style={labelStyle}>Origem</label>
-              <input
-                style={inputStyle}
-                placeholder="Ex: São Paulo"
+              <CitySearch
                 value={from}
-                onChange={e => setFrom(e.target.value)}
+                onChange={setFrom}
+                placeholder="Ex: São Paulo"
+                dark={true}
                 required
               />
             </div>
@@ -228,11 +229,11 @@ function SearchForm({
             {/* Destino */}
             <div>
               <label style={labelStyle}>Destino</label>
-              <input
-                style={inputStyle}
-                placeholder="Ex: Rio de Janeiro"
+              <CitySearch
                 value={to}
-                onChange={e => setTo(e.target.value)}
+                onChange={setTo}
+                placeholder="Ex: Rio de Janeiro"
+                dark={true}
                 required
               />
             </div>
@@ -401,15 +402,58 @@ function OnibusContent() {
           </>
         )}
 
-        {/* Estado inicial */}
+        {/* Estado inicial — mostra provedores como preview */}
         {!searched && (
-          <div style={{ textAlign: 'center', padding: '60px 0' }}>
+          <div>
             <p style={{
               fontFamily: 'Plus Jakarta Sans, sans-serif',
-              color: '#5A6A80', fontSize: '0.95rem',
+              fontSize: '0.85rem', color: '#5A6A80',
+              marginBottom: 20, textAlign: 'center',
             }}>
-              Digite a origem, o destino e a data para ver as opções de ônibus disponíveis.
+              Preencha origem, destino e data — os links abaixo serão ativados com seus dados.
             </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, opacity: 0.5, pointerEvents: 'none' }}>
+              {PROVIDERS.map(provider => (
+                <div key={provider.id} className="card" style={{ padding: '24px 28px', display: 'flex', alignItems: 'center', gap: 20 }}>
+                  <div style={{
+                    width: 56, height: 56, borderRadius: 14,
+                    background: provider.color + '18', border: `2px solid ${provider.color}30`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 24, flexShrink: 0,
+                  }}>
+                    {provider.logo}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                      <h3 style={{ fontFamily: 'Fraunces, serif', fontSize: '1.05rem', color: '#0D1B3E', margin: 0 }}>
+                        {provider.name}
+                      </h3>
+                      {provider.badge && (
+                        <span style={{
+                          fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.68rem',
+                          fontWeight: 700, color: provider.color, background: provider.color + '15',
+                          padding: '2px 8px', borderRadius: 20, textTransform: 'uppercase', letterSpacing: '0.5px',
+                        }}>
+                          {provider.badge}
+                        </span>
+                      )}
+                    </div>
+                    <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.83rem', color: '#5A6A80', margin: 0 }}>
+                      {provider.description}
+                    </p>
+                  </div>
+                  <div style={{
+                    background: '#D0DCF0', color: '#fff',
+                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                    fontWeight: 700, fontSize: '0.85rem',
+                    padding: '10px 20px', borderRadius: 10,
+                    whiteSpace: 'nowrap', flexShrink: 0,
+                  }}>
+                    Ver passagens →
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>
