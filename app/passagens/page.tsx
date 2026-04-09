@@ -386,15 +386,50 @@ function PassagensContent() {
         )}
 
         {/* ── Sem resultados ───────────────────────────── */}
-        {status === 'done' && totalFound === 0 && (
-          <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
-            <span style={{ fontSize: 40, display: 'block', marginBottom: 12 }}>✈️</span>
-            <h3 style={{ fontFamily: 'Fraunces, serif', color: '#0D1B3E', marginBottom: 8 }}>Nenhum voo encontrado</h3>
-            <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#5A6A80', fontSize: '0.9rem' }}>
-              Tente outras datas ou remova o filtro "Só direto".
-            </p>
-          </div>
-        )}
+        {status === 'done' && totalFound === 0 && (() => {
+          const orig = params.get('origin') ?? origin?.iata ?? ''
+          const dest = params.get('destination') ?? destination?.iata ?? ''
+          const date = params.get('date') ?? dateFrom
+          const [, month, day] = (date || '2026-01-01').split('-')
+          const aviasalesUrl = orig && dest && date
+            ? `https://www.aviasales.com/search/${orig}${day}${month}${dest}1?currency=BRL`
+            : 'https://www.aviasales.com'
+
+          return (
+            <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
+              <span style={{ fontSize: 40, display: 'block', marginBottom: 12 }}>✈️</span>
+              <h3 style={{ fontFamily: 'Fraunces, serif', color: '#0D1B3E', marginBottom: 8 }}>
+                Não encontramos voos em nossa base para essa rota
+              </h3>
+              <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#5A6A80', fontSize: '0.9rem', marginBottom: 28, maxWidth: 460, margin: '0 auto 28px' }}>
+                Nossa base de preços é atualizada periodicamente e pode não ter dados para rotas menos frequentes.
+                Encontramos a rota no Aviasales com preços em tempo real.
+              </p>
+              <a
+                href={aviasalesUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-block',
+                  background: '#1A56DB',
+                  color: '#fff',
+                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontWeight: 700,
+                  fontSize: '0.95rem',
+                  padding: '14px 32px',
+                  borderRadius: 10,
+                  textDecoration: 'none',
+                  marginBottom: 16,
+                }}
+              >
+                Ver voos {orig} → {dest} no Aviasales
+              </a>
+              <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.75rem', color: '#9BA8B8', margin: '12px 0 0' }}>
+                Você será redirecionado para o Aviasales com a sua busca já preenchida
+              </p>
+            </div>
+          )
+        })()}
 
         {/* ── Resultados: modo simples / ida+volta ─────── */}
         {status === 'done' && !isMultiDestination && totalFound > 0 && (
