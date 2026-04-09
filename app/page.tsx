@@ -62,7 +62,7 @@ const steps = [
   },
   {
     num: '02',
-    title: 'A Livoo localiza e monta o pacote',
+    title: 'A Go Livoo localiza e monta o pacote',
     desc: 'Identificamos o evento, encontramos os melhores voos, hotéis próximos e guias locais especializados.',
   },
   {
@@ -137,7 +137,7 @@ export default function Home() {
           }}>
             Você quer a experiência.
             <br />
-            <span style={{ color: '#F5A623' }}>A Livoo resolve o resto.</span>
+            <span style={{ color: '#F5A623' }}>A Go Livoo resolve o resto.</span>
           </h1>
 
           <p style={{
@@ -149,7 +149,7 @@ export default function Home() {
             lineHeight: 1.7,
           }}>
             Diga o que quer viver — um rally na Geórgia, um festival no Japão,
-            um GP em Mônaco. A Livoo monta voo, hotel, guia e documentação.
+            um GP em Mônaco. A Go Livoo monta voo, hotel, guia e documentação.
           </p>
 
           {/* Widget de busca */}
@@ -445,7 +445,7 @@ export default function Home() {
             Seja um dos primeiros
           </h2>
           <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.95rem', color: 'rgba(255,255,255,0.65)', marginBottom: 36, lineHeight: 1.7 }}>
-            A Livoo está em desenvolvimento. Entre na lista e você será notificado quando abrirmos o acesso — e terá condições especiais de lançamento.
+            A Go Livoo está em desenvolvimento. Entre na lista e você será notificado quando abrirmos o acesso — e terá condições especiais de lançamento.
           </p>
           <WaitlistForm />
         </div>

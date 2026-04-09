@@ -24,6 +24,7 @@ export default function EventoSlugPage({ params }: Props) {
           alt={event.title}
           fill
           priority
+          unoptimized
           style={{ objectFit: 'cover' }}
           sizes="100vw"
         />
@@ -208,7 +209,7 @@ export default function EventoSlugPage({ params }: Props) {
                       }}
                     >
                       <div style={{ position: 'relative', width: 64, height: 48, borderRadius: 8, overflow: 'hidden', flexShrink: 0 }}>
-                        <Image src={r.imageUrl} alt={r.title} fill style={{ objectFit: 'cover' }} sizes="64px" />
+                        <Image src={r.imageUrl} alt={r.title} fill unoptimized style={{ objectFit: 'cover' }} sizes="64px" />
                       </div>
                       <div>
                         <p style={{

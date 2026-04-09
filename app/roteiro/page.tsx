@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, Suspense } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 interface ParsedItinerary {
@@ -33,6 +33,7 @@ const categoryEmoji: Record<string, string> = {
 
 function RoteiroContent() {
   const params = useSearchParams()
+  const router = useRouter()
   const prompt   = params.get('q') ?? ''
   const includes = params.get('includes')?.split(',') ?? []
   const origin   = params.get('origin') ?? ''
@@ -41,7 +42,7 @@ function RoteiroContent() {
   const [result, setResult] = useState<RoteiroResult | null>(null)
 
   useEffect(() => {
-    if (!prompt) { setStatus('error'); return }
+    if (!prompt) { router.replace('/'); return }
 
     fetch('/api/roteiro', {
       method: 'POST',
@@ -256,7 +257,7 @@ function RoteiroContent() {
           borderRadius: 14, padding: 32, textAlign: 'center',
         }}>
           <h3 style={{ fontFamily: 'Fraunces, serif', color: '#fff', fontSize: '1.3rem', marginBottom: 10 }}>
-            Quer que a Livoo monte tudo por você?
+            Quer que a Go Livoo monte tudo por você?
           </h3>
           <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: 'rgba(255,255,255,0.65)', fontSize: '0.9rem', marginBottom: 24 }}>
             Estamos construindo a versão completa — voo + hotel + guia + documentação em um clique.

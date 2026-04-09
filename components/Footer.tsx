@@ -72,7 +72,7 @@ export default function Footer() {
               lineHeight: 1.7,
               maxWidth: 280,
             }}>
-              Você quer a experiência. A Livoo resolve o resto.
+              Você quer a experiência. A Go Livoo resolve o resto.
               Empresa em constituição — 2026.
             </p>
           </div>
