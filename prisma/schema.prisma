@@ -1,0 +1,63 @@
+// Livoo — Schema do banco de dados local (SQLite via Prisma)
+// Para usar em produção: trocar "sqlite" por "postgresql" e atualizar DATABASE_URL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Lista de espera — acesso antecipado
+model Waitlist {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  interests String   @default("[]") // JSON array armazenado como texto no SQLite
+  createdAt DateTime @default(now())
+
+  @@map("waitlist")
+}
+
+// Roteiros gerados pela IA
+model Itinerary {
+  id          String   @id @default(cuid())
+  userId      String?  // null = usuário não logado
+  prompt      String
+  parsedData  String   @default("{}") // JSON armazenado como texto
+  status      String   @default("draft") // draft | confirmed | completed
+  createdAt   DateTime @default(now())
+
+  @@map("itineraries")
+}
+
+// Verificações de documentação (Livoo Prep)
+model PrepCheck {
+  id              Int      @id @default(autoincrement())
+  userId          String?
+  nationality     String
+  destination     String
+  destinationName String?
+  result          String   @default("{}") // JSON armazenado como texto
+  paid            Boolean  @default(false)
+  createdAt       DateTime @default(now())
+
+  @@map("prep_checks")
+}
+
+// Alertas de preço
+model PriceAlert {
+  id           Int      @id @default(autoincrement())
+  userId       String?
+  origin       String
+  destination  String
+  targetPrice  Float
+  currentPrice Float?
+  active       Boolean  @default(true)
+  lastChecked  DateTime?
+  createdAt    DateTime @default(now())
+
+  @@map("price_alerts")
+}

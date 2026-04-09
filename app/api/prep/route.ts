@@ -1,0 +1,64 @@
+// app/api/prep/route.ts
+// GET /api/prep?nationality=BR&destination=GE
+
+import { NextRequest, NextResponse } from 'next/server'
+
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url)
+  const nationality     = searchParams.get('nationality') ?? 'BR'
+  const destination     = searchParams.get('destination')
+  const destinationName = searchParams.get('destinationName') ?? destination
+
+  if (!destination) {
+    return NextResponse.json(
+      { error: 'Parâmetro obrigatório: destination (ex: GE para Geórgia)' },
+      { status: 400 }
+    )
+  }
+
+  // Se Sherpa não configurado, retorna dados de demonstração
+  if (!process.env.SHERPA_API_KEY) {
+    const demoResult = {
+      destination,
+      nationality,
+      visaRequired:        false,
+      visaType:            'not_required',
+      visaInfo:            'Configure SHERPA_API_KEY para dados reais em tempo real.',
+      passportValidity:    'Mín. 6 meses após retorno (regra geral)',
+      vaccinesRequired:    [],
+      vaccinesRecommended: [{ name: 'Febre Amarela', status: 'recommended', details: 'Recomendada para viajantes do Brasil' }],
+      entryRestrictions:   [],
+      lastUpdated:         new Date().toISOString(),
+      source:              'Modo demonstração',
+      isDemoMode:          true,
+    }
+
+    return NextResponse.json({ requirements: demoResult })
+  }
+
+  try {
+    const { checkEntryRequirements } = await import('@/lib/sherpa')
+    const requirements = await checkEntryRequirements(nationality, destination)
+
+    // Salvar no banco local
+    try {
+      const { savePrepCheck } = await import('@/lib/db')
+      await savePrepCheck({
+        nationality,
+        destination,
+        destinationName: destinationName ?? undefined,
+        result: requirements as unknown as Record<string, unknown>,
+      })
+    } catch {
+      // Não falhar se não salvar
+    }
+
+    return NextResponse.json({ requirements })
+  } catch (error) {
+    console.error('Erro ao verificar documentação:', error)
+    return NextResponse.json(
+      { error: 'Erro ao verificar requisitos. Tente novamente.' },
+      { status: 500 }
+    )
+  }
+}

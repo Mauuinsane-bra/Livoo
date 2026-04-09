@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design Tokens ────────────────────────────────────── */
+:root {
+  --primary:      #1A56DB;
+  --primary-dark: #1040B0;
+  --gold:         #F5A623;
+  --gold-dark:    #D48A0A;
+  --navy:         #0D1B3E;
+  --navy-mid:     #1E3A6E;
+  --light:        #EEF4FF;
+  --light-gold:   #FFF8EC;
+  --gray:         #5A6A80;
+  --border:       #D0DCF0;
+  --bg-alt:       #F4F7FF;
+  --radius:       12px;
+}
+
+/* ── Base ─────────────────────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--navy);
+  background: #fff;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* ── Andorinha — Animações ────────────────────────────── */
+@keyframes birdFly {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-7px); }
+}
+
+@keyframes wingL {
+  from { transform: rotate(6deg);  }
+  to   { transform: rotate(-10deg); }
+}
+
+@keyframes wingR {
+  from { transform: rotate(-6deg); }
+  to   { transform: rotate(10deg); }
+}
+
+/* Aplicado diretamente na tag svg pelo className */
+.livoo-bird {
+  display: block;
+  animation: birdFly 3s ease-in-out infinite;
+}
+
+.wing-left  {
+  animation: wingL 0.7s ease-in-out infinite alternate;
+  transform-origin: 50% 55%;
+}
+
+.wing-right {
+  animation: wingR 0.7s ease-in-out infinite alternate;
+  transform-origin: 50% 55%;
+}
+
+/* ── Logo ─────────────────────────────────────────────── */
+.logo-name {
+  font-family: 'Fraunces', serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: -0.5px;
+}
+.logo-dot { color: var(--primary); }
+.logo-tagline {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 500;
+  color: var(--gray);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  display: block;
+}
+
+/* ── Botões ───────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary);
+  color: #fff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 12px 24px;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  text-decoration: none;
+}
+.btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gold);
+  color: var(--navy);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 12px 28px;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  text-decoration: none;
+}
+.btn-gold:hover { background: var(--gold-dark); transform: translateY(-1px); }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--primary);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 11px 24px;
+  border-radius: var(--radius);
+  border: 2px solid var(--primary);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.btn-outline:hover { background: var(--primary); color: #fff; }
+
+/* ── Cards ────────────────────────────────────────────── */
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(13, 27, 62, 0.06);
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(13, 27, 62, 0.12);
+}
+
+/* ── Seções ───────────────────────────────────────────── */
+.section { padding: 80px 0; }
+.section-alt { background: var(--bg-alt); }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--primary);
+  display: block;
+  margin-bottom: 12px;
+}
+
+/* ── Formulários ──────────────────────────────────────── */
+.input-field {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.9rem;
+  color: var(--navy);
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.input-field:focus { border-color: var(--primary); }
+.input-field::placeholder { color: var(--gray); }
+
+/* ── Badges / chips ───────────────────────────────────── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 50px;
+  border: 1.5px solid var(--border);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gray);
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.chip:hover, .chip.active {
+  background: var(--light);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* ── Numeração (01, 02, 03) ───────────────────────────── */
+.step-number {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--navy);
+  color: #fff;
+  font-family: 'Fraunces', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── Hero gradient ────────────────────────────────────── */
+.hero-gradient {
+  background: linear-gradient(135deg, #060e20 0%, #0D1B3E 40%, #1E3A6E 100%);
+}
+
+/* ── Scrollbar personalizada ──────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-alt); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gray); }
