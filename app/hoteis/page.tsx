@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, Suspense } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 
@@ -265,11 +265,12 @@ function HoteisContent() {
   })
 
   // Dispara busca automática se vier com parâmetros na URL
-  useState(() => {
+  useEffect(() => {
     if (initialLocation && initialCheckIn && initialCheckOut) {
       fetchHotels(initialLocation, initialCheckIn, initialCheckOut, initialAdults)
     }
-  })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   function calcNights(ci: string, co: string): number {
     if (!ci || !co) return 1

@@ -5,6 +5,8 @@ const nextConfig = {
       { protocol: 'https', hostname: 'cdn.getyourguide.com' },
       { protocol: 'https', hostname: 'cf.bstatic.com' },
       { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: 'photo.hotellook.com' },
+      { protocol: 'https', hostname: '**.getyourguide.com' },
     ],
   },
   experimental: {

@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, Suspense } from 'react'
+import { useState, useEffect, Suspense } from 'react'
+import Image from 'next/image'
 import { useSearchParams, useRouter } from 'next/navigation'
 
 // ── Types ──────────────────────────────────────────────────
@@ -42,15 +43,20 @@ function ExperienceCard({ exp }: { exp: Experience }) {
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: 36, minHeight: 140,
         }}>
-          {!imgError ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={exp.imageUrl}
-              alt={exp.title}
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              onError={() => setImgError(true)}
-            />
-          ) : '🗺️'}
+          {!imgError && exp.imageUrl ? (
+            <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: 140 }}>
+              <Image
+                src={exp.imageUrl}
+                alt={exp.title}
+                fill
+                style={{ objectFit: 'cover' }}
+                sizes="180px"
+                onError={() => setImgError(true)}
+              />
+            </div>
+          ) : (
+            <span>🗺️</span>
+          )}
         </div>
 
         {/* Conteúdo */}
@@ -272,11 +278,12 @@ function GuiasContent() {
     category:    initialCategory,
   })
 
-  useState(() => {
+  useEffect(() => {
     if (initialDestination) {
       fetchExperiences(initialDestination, initialDate, initialCategory)
     }
-  })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   async function fetchExperiences(destination: string, date: string, category: string) {
     setStatus('loading')
