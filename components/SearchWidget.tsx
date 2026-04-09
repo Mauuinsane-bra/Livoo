@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AirportSearch, { type Airport } from './AirportSearch'
 import DatePicker from './DatePicker'
+import CitySearch from './CitySearch'
 
 type Tab = 'roteiro' | 'passagens' | 'hoteis' | 'carros' | 'onibus' | 'guias'
 type TripType = 'oneway' | 'roundtrip' | 'multidestination'
@@ -87,6 +88,20 @@ export default function SearchWidget() {
   const [hotelCheckout, setHotelCheckout] = useState('')
   const [hotelGuests, setHotelGuests]     = useState('2')
 
+  // Carros
+  const [carsLocation, setCarsLocation] = useState('')
+  const [carsPickup,   setCarsPickup]   = useState('')
+  const [carsDropoff,  setCarsDropoff]  = useState('')
+
+  // Ônibus
+  const [busFrom,       setBusFrom]       = useState('')
+  const [busTo,         setBusTo]         = useState('')
+  const [busDate,       setBusDate]       = useState('')
+  const [busPassengers, setBusPassengers] = useState('1')
+
+  // Guias
+  const [guiasDestination, setGuiasDestination] = useState('')
+
   function toggleChip(chip: string) {
     setSelectedChips(p => p.includes(chip) ? p.filter(c => c !== chip) : [...p, chip])
   }
@@ -135,6 +150,29 @@ export default function SearchWidget() {
     if (!hotelCity || !hotelCheckin) return
     const params = new URLSearchParams({ city: hotelCity, checkin: hotelCheckin, checkout: hotelCheckout, guests: hotelGuests })
     router.push(`/hoteis?${params}`)
+  }
+
+  function handleCarrosSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!carsLocation) return
+    const params = new URLSearchParams({ location: carsLocation })
+    if (carsPickup)  params.set('pickup',  carsPickup)
+    if (carsDropoff) params.set('dropoff', carsDropoff)
+    router.push(`/carros?${params}`)
+  }
+
+  function handleOnibusSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!busFrom || !busTo || !busDate) return
+    const params = new URLSearchParams({ from: busFrom, to: busTo, date: busDate, passengers: busPassengers })
+    router.push(`/onibus?${params}`)
+  }
+
+  function handleGuiasSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!guiasDestination) return
+    const params = new URLSearchParams({ destination: guiasDestination })
+    router.push(`/guias?${params}`)
   }
 
   // ── Estilos compartilhados ──────────────────────────
@@ -494,18 +532,102 @@ export default function SearchWidget() {
           </form>
         )}
 
-        {/* ══ TABS EM DESENVOLVIMENTO ══ */}
-        {(activeTab === 'carros' || activeTab === 'onibus' || activeTab === 'guias') && (
-          <div style={{ textAlign: 'center', padding: '24px 0' }}>
-            <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#5A6A80', marginBottom: 16, fontSize: '0.9rem' }}>
-              {activeTab === 'carros'  && 'Aluguel de carros em breve.'}
-              {activeTab === 'onibus' && 'Passagens de ônibus em breve (Buser + Comfortbus).'}
-              {activeTab === 'guias'  && 'Catálogo de guias e experiências em breve (GetYourGuide).'}
-            </p>
-            <button onClick={() => setActiveTab('roteiro')} className="btn-primary">
-              Usar Roteiro Completo
+        {/* ══ CARROS ══ */}
+        {activeTab === 'carros' && (
+          <form onSubmit={handleCarrosSubmit}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
+              <div style={{ gridColumn: '1 / -1' }}>
+                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                  Cidade de retirada
+                </label>
+                <CitySearch
+                  value={carsLocation}
+                  onChange={setCarsLocation}
+                  placeholder="Ex: São Paulo, Rio de Janeiro"
+                  required
+                />
+              </div>
+              <DatePicker label="Data de retirada" value={carsPickup} onChange={setCarsPickup} />
+              <DatePicker label="Data de devolução" value={carsDropoff} onChange={setCarsDropoff} min={carsPickup || undefined} />
+            </div>
+            <button
+              type="submit"
+              disabled={!carsLocation}
+              className="btn-primary"
+              style={{ width: '100%', justifyContent: 'center', padding: 14, opacity: !carsLocation ? 0.5 : 1 }}
+            >
+              Buscar carros →
             </button>
-          </div>
+          </form>
+        )}
+
+        {/* ══ ÔNIBUS ══ */}
+        {activeTab === 'onibus' && (
+          <form onSubmit={handleOnibusSubmit}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                  Origem
+                </label>
+                <CitySearch value={busFrom} onChange={setBusFrom} placeholder="Ex: São Paulo" required />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                  Destino
+                </label>
+                <CitySearch value={busTo} onChange={setBusTo} placeholder="Ex: Rio de Janeiro" required />
+              </div>
+              <DatePicker label="Data de ida" value={busDate} onChange={setBusDate} />
+              <div>
+                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                  Passageiros
+                </label>
+                <input
+                  type="number" min={1} max={10}
+                  value={busPassengers} onChange={e => setBusPassengers(e.target.value)}
+                  style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #D0DCF0', borderRadius: 10, fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.9rem', outline: 'none' }}
+                  onFocus={e => (e.target.style.borderColor = '#1A56DB')}
+                  onBlur={e => (e.target.style.borderColor = '#D0DCF0')}
+                />
+              </div>
+            </div>
+            <button
+              type="submit"
+              disabled={!busFrom || !busTo || !busDate}
+              className="btn-primary"
+              style={{ width: '100%', justifyContent: 'center', padding: 14, opacity: (!busFrom || !busTo || !busDate) ? 0.5 : 1 }}
+            >
+              Buscar passagens de ônibus →
+            </button>
+          </form>
+        )}
+
+        {/* ══ GUIAS ══ */}
+        {activeTab === 'guias' && (
+          <form onSubmit={handleGuiasSubmit}>
+            <div style={{ marginBottom: 16 }}>
+              <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                Destino
+              </label>
+              <CitySearch
+                value={guiasDestination}
+                onChange={setGuiasDestination}
+                placeholder="Onde você vai? Ex: Rio de Janeiro, Barcelona..."
+                required
+              />
+            </div>
+            <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.8rem', color: '#8A9AB5', marginBottom: 16 }}>
+              Encontramos guias locais, passeios e experiências via GetYourGuide — mais de 300 mil atividades no mundo.
+            </p>
+            <button
+              type="submit"
+              disabled={!guiasDestination}
+              className="btn-primary"
+              style={{ width: '100%', justifyContent: 'center', padding: 14, opacity: !guiasDestination ? 0.5 : 1 }}
+            >
+              Ver guias e experiências →
+            </button>
+          </form>
         )}
 
       </div>

@@ -34,7 +34,12 @@ const categoryEmoji: Record<string, string> = {
 function RoteiroContent() {
   const params = useSearchParams()
   const router = useRouter()
-  const prompt   = params.get('q') ?? ''
+
+  // Aceita ?q=... (SearchWidget) ou ?evento=...&destino=... (página de eventos)
+  const rawQ     = params.get('q') ?? ''
+  const evento   = params.get('evento') ?? ''
+  const destino  = params.get('destino') ?? ''
+  const prompt   = rawQ || (evento ? `Quero montar um roteiro para assistir ao evento "${evento}" em ${destino}` : '')
   const includes = params.get('includes')?.split(',') ?? []
   const origin   = params.get('origin') ?? ''
 
