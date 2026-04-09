@@ -148,7 +148,7 @@ export default function WaitlistForm() {
           <a href="/privacidade" style={{ color: '#F5A623', textDecoration: 'underline' }}>
             Política de Privacidade
           </a>{' '}
-          e autorizo o uso do meu email para comunicações da Livoo. Posso cancelar a qualquer momento.
+          e autorizo o uso do meu email para comunicações da Go Livoo. Posso cancelar a qualquer momento.
         </span>
       </label>
 

@@ -5,26 +5,27 @@ import '@/styles/globals.css'
 
 export const metadata: Metadata = {
   title: {
-    default: 'Livoo — Vá mais longe por menos',
-    template: '%s | Livoo',
+    default: 'Go Livoo — Vá mais longe por menos',
+    template: '%s | Go Livoo',
   },
   description:
-    'Livoo é a plataforma de soluções para viajantes que transforma sua experiência em um pacote completo: voo, hotel, guia local e toda a documentação necessária.',
+    'Go Livoo é a plataforma de soluções para viajantes que transforma sua experiência em um pacote completo: voo, hotel, guia local e toda a documentação necessária.',
   keywords: [
     'agência de viagens para eventos',
     'roteiro personalizado viagem',
     'pacote completo viagem',
     'visto para brasileiro',
-    'livoo',
+    'golivoo',
+    'go livoo',
   ],
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'),
   openGraph: {
     type:      'website',
     locale:    'pt_BR',
     url:       process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
-    siteName:  'Livoo',
-    title:     'Livoo — Vá mais longe por menos',
-    description: 'Você quer a experiência. A Livoo resolve o resto.',
+    siteName:  'Go Livoo',
+    title:     'Go Livoo — Vá mais longe por menos',
+    description: 'Você quer a experiência. A Go Livoo resolve o resto.',
   },
   robots: { index: true, follow: true },
 }

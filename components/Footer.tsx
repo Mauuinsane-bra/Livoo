@@ -52,7 +52,7 @@ export default function Footer() {
                   color: '#F5A623',
                   display: 'block',
                 }}>
-                  Livoo.
+                  Go Livoo.
                 </span>
                 <small style={{
                   fontFamily: 'Plus Jakarta Sans, sans-serif',
@@ -127,7 +127,7 @@ export default function Footer() {
             fontSize: '0.8rem',
             color: 'rgba(255,255,255,0.4)',
           }}>
-            © {new Date().getFullYear()} Livoo. Empresa em constituição.
+            © {new Date().getFullYear()} Go Livoo. Empresa em constituição.
           </p>
           <div style={{ display: 'flex', gap: 20 }}>
             {['Instagram', 'LinkedIn', 'TikTok'].map((social) => (

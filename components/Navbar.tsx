@@ -54,7 +54,7 @@ export default function Navbar() {
           <BirdSVG variant="navbar" size={34} />
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <span className="logo-name">
-              Livoo<span className="logo-dot">.</span>
+              Go Livoo<span className="logo-dot">.</span>
             </span>
             <small className="logo-tagline">Vá mais longe por menos</small>
           </div>

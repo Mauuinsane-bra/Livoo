@@ -114,7 +114,7 @@ export async function POST(req: NextRequest) {
       const notifyHtml = `
         <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #D0DCF0">
           <div style="background:#0D1B3E;padding:20px 24px">
-            <span style="font-size:20px;font-weight:700;color:#F5A623">Livoo.</span>
+            <span style="font-size:20px;font-weight:700;color:#F5A623">Go Livoo.</span>
             <span style="font-size:11px;color:rgba(255,255,255,0.45);margin-left:10px;text-transform:uppercase;letter-spacing:1px">Novo cadastro na Waitlist</span>
           </div>
           <div style="padding:24px">
@@ -132,25 +132,25 @@ export async function POST(req: NextRequest) {
       const confirmHtml = `
         <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #D0DCF0">
           <div style="background:#0D1B3E;padding:32px 28px;text-align:center">
-            <div style="font-size:26px;font-weight:700;color:#F5A623;letter-spacing:2px">Livoo.</div>
+            <div style="font-size:26px;font-weight:700;color:#F5A623;letter-spacing:2px">Go Livoo.</div>
             <div style="font-size:11px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:2px;margin-top:4px">Vá mais longe por menos</div>
           </div>
           <div style="padding:36px 28px;text-align:center">
             <div style="font-size:40px;margin-bottom:16px">✓</div>
             <h2 style="margin:0 0 12px;font-size:20px;color:#0D1B3E">Você está na lista, ${firstName}!</h2>
             <p style="margin:0 0 24px;font-size:14px;color:#5A6A80;line-height:1.7">
-              Obrigado por se cadastrar. Você será um dos primeiros a saber quando a Livoo abrir — e vai ter acesso especial antes de todo mundo.
+              Obrigado por se cadastrar. Você será um dos primeiros a saber quando a Go Livoo abrir — e vai ter acesso especial antes de todo mundo.
             </p>
             <div style="background:#FFF8EC;border:1px solid rgba(245,166,35,0.3);border-radius:10px;padding:18px 20px;text-align:left;margin-bottom:24px">
               <p style="margin:0;font-size:13px;color:#92400e;line-height:1.6">
-                <strong>O que a Livoo faz por você:</strong><br>
+                <strong>O que a Go Livoo faz por você:</strong><br>
                 Você descreve a experiência que quer viver — show, evento esportivo, aventura — e a gente monta o pacote completo: voo, hotel, guia e toda a documentação necessária.
               </p>
             </div>
             <p style="margin:0;font-size:12px;color:#5A6A80">Até breve!</p>
           </div>
           <div style="background:#F4F7FF;padding:14px 28px;text-align:center">
-            <p style="margin:0;font-size:11px;color:#5A6A80">Livoo — Plataforma de Soluções para Viajantes</p>
+            <p style="margin:0;font-size:11px;color:#5A6A80">Go Livoo — Plataforma de Soluções para Viajantes</p>
           </div>
         </div>`
 
