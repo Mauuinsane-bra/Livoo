@@ -235,8 +235,8 @@ export default function Home() {
           </div>
 
           <div style={{ textAlign: 'center', marginTop: 40 }}>
-            <a href="/roteiro" className="btn-outline">
-              Ver todas as experiências
+            <a href="/eventos" className="btn-outline">
+              Ver todos os eventos
             </a>
           </div>
         </div>
@@ -343,82 +343,115 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── PLANOS ── */}
+      {/* ── COMO GANHAMOS ── */}
       <section className="section section-alt">
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <span className="section-label">Planos</span>
+          <div style={{ textAlign: 'center', marginBottom: 56 }}>
+            <span className="section-label">Transparência</span>
             <h2 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.4rem)', color: '#0D1B3E', marginBottom: 12 }}>
-              Simples, justo e sem mensalidade
+              Gratuito para você. Simples assim.
             </h2>
-            <p style={{ color: '#5A6A80', fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.95rem' }}>
-              Pague só quando viajar. Nada de assinatura que você esquece de cancelar.
+            <p style={{ color: '#5A6A80', fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.95rem', maxWidth: 520, margin: '0 auto' }}>
+              Buscar voos, hotéis, eventos e montar roteiros é gratuito. A Go Livoo ganha uma comissão dos parceiros quando você reserva — sem nenhum custo extra para você.
             </p>
           </div>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: 24,
-            maxWidth: 960,
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: 28,
+            maxWidth: 860,
             margin: '0 auto',
           }}>
-            {/* Free */}
-            <div className="card">
-              <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#5A6A80', marginBottom: 12 }}>Livoo Free</p>
-              <p style={{ fontFamily: 'Fraunces, serif', fontSize: '2.4rem', fontWeight: 700, color: '#0D1B3E', marginBottom: 4 }}>R$ 0</p>
-              <p style={{ fontSize: '0.85rem', color: '#5A6A80', marginBottom: 24 }}>Sempre gratuito</p>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
-                {['Busca de voos e hotéis', 'Roteiro completo (3/mês)', 'Doc Check básico', '2 alertas de preço'].map(f => (
-                  <li key={f} style={{ display: 'flex', gap: 8, fontSize: '0.88rem', color: '#5A6A80' }}>
-                    <span style={{ color: '#1A56DB', fontWeight: 700 }}>✓</span> {f}
+            {/* Gratuito */}
+            <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+              <div>
+                <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#1A56DB', marginBottom: 10 }}>
+                  A plataforma
+                </p>
+                <p style={{ fontFamily: 'Fraunces, serif', fontSize: '2.2rem', fontWeight: 700, color: '#0D1B3E', marginBottom: 4 }}>
+                  Grátis
+                </p>
+                <p style={{ fontSize: '0.85rem', color: '#5A6A80' }}>para sempre</p>
+              </div>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 12, flex: 1 }}>
+                {[
+                  'Busca de voos, hotéis, ônibus e carros',
+                  'Roteiros montados com IA',
+                  'Eventos e experiências no destino',
+                  'Guias turísticos locais',
+                  'Comparação de preços em tempo real',
+                ].map(f => (
+                  <li key={f} style={{ display: 'flex', gap: 10, fontSize: '0.88rem', color: '#5A6A80', alignItems: 'flex-start' }}>
+                    <span style={{ color: '#1A56DB', fontWeight: 700, flexShrink: 0 }}>✓</span> {f}
                   </li>
                 ))}
               </ul>
-              <a href="/#acesso-antecipado" className="btn-outline" style={{ display: 'block', textAlign: 'center' }}>
-                Começar grátis
-              </a>
-            </div>
-
-            {/* Prep */}
-            <div className="card" style={{ border: '2px solid #1A56DB', position: 'relative' }}>
-              <span style={{
-                position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)',
-                background: '#1A56DB', color: '#fff', fontSize: '0.72rem', fontWeight: 700,
-                padding: '4px 14px', borderRadius: 50, whiteSpace: 'nowrap',
+              <p style={{
+                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontSize: '0.78rem',
+                color: '#5A6A80',
+                background: '#F4F7FF',
+                padding: '10px 14px',
+                borderRadius: 8,
+                lineHeight: 1.5,
               }}>
-                Mais Popular
-              </span>
-              <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#1A56DB', marginBottom: 12 }}>Livoo Prep</p>
-              <p style={{ fontFamily: 'Fraunces, serif', fontSize: '2.4rem', fontWeight: 700, color: '#0D1B3E', marginBottom: 4 }}>R$ 39</p>
-              <p style={{ fontSize: '0.85rem', color: '#5A6A80', marginBottom: 24 }}>por viagem</p>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
-                {['Doc Check completo (visto, vacinas, passaporte)', 'Checklist personalizado em PDF', 'Cotação de seguro viagem', 'Suporte prioritário'].map(f => (
-                  <li key={f} style={{ display: 'flex', gap: 8, fontSize: '0.88rem', color: '#5A6A80' }}>
-                    <span style={{ color: '#1A56DB', fontWeight: 700 }}>✓</span> {f}
-                  </li>
-                ))}
-              </ul>
-              <a href="/prep" className="btn-primary" style={{ display: 'block', textAlign: 'center' }}>
-                Verificar minha viagem
+                A Go Livoo recebe uma comissão dos parceiros (Booking, Travelpayouts, GetYourGuide) quando você reserva — sem custo adicional para você.
+              </p>
+              <a href="/#acesso-antecipado" className="btn-outline" style={{ display: 'block', textAlign: 'center' }}>
+                Entrar na lista de espera
               </a>
             </div>
 
-            {/* Anual */}
-            <div className="card" style={{ background: '#0D1B3E', border: 'none' }}>
-              <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#F5A623', marginBottom: 12 }}>Livoo Pass Anual</p>
-              <p style={{ fontFamily: 'Fraunces, serif', fontSize: '2.4rem', fontWeight: 700, color: '#fff', marginBottom: 4 }}>R$ 199</p>
-              <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', marginBottom: 24 }}>por ano</p>
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
-                {['Tudo do Prep, ilimitado', 'Roteiros ilimitados', 'Alertas ilimitados', 'Cashback 5% em reservas'].map(f => (
-                  <li key={f} style={{ display: 'flex', gap: 8, fontSize: '0.88rem', color: 'rgba(255,255,255,0.65)' }}>
-                    <span style={{ color: '#F5A623', fontWeight: 700 }}>✓</span> {f}
-                  </li>
-                ))}
-              </ul>
-              <a href="/#acesso-antecipado" className="btn-gold" style={{ display: 'block', textAlign: 'center' }}>
-                Quero o Pass Anual
+            {/* Livoo Prep */}
+            <div className="card" style={{ background: '#0D1B3E', border: 'none', display: 'flex', flexDirection: 'column', gap: 20 }}>
+              <div>
+                <span style={{
+                  background: 'rgba(245,166,35,0.2)',
+                  color: '#F5A623',
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  letterSpacing: '1.5px',
+                  textTransform: 'uppercase',
+                  padding: '4px 12px',
+                  borderRadius: 50,
+                  display: 'inline-block',
+                  marginBottom: 12,
+                }}>
+                  Serviço adicional
+                </span>
+                <p style={{ fontFamily: 'Fraunces, serif', fontSize: '2.2rem', fontWeight: 700, color: '#fff', marginBottom: 4 }}>
+                  R$ 39
+                </p>
+                <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)' }}>por verificação de viagem</p>
+              </div>
+
+              <div>
+                <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.92rem', color: 'rgba(255,255,255,0.8)', fontWeight: 600, marginBottom: 12 }}>
+                  Livoo Prep — Documentação da viagem
+                </p>
+                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 12, flex: 1 }}>
+                  {[
+                    'Visto necessário e como solicitar',
+                    'Validade mínima do passaporte',
+                    'Vacinas obrigatórias e recomendadas',
+                    'Restrições de entrada no destino',
+                    'Checklist personalizado em PDF',
+                    'Cotação de seguro viagem',
+                  ].map(f => (
+                    <li key={f} style={{ display: 'flex', gap: 10, fontSize: '0.88rem', color: 'rgba(255,255,255,0.65)', alignItems: 'flex-start' }}>
+                      <span style={{ color: '#F5A623', fontWeight: 700, flexShrink: 0 }}>✓</span> {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <a href="/prep" className="btn-gold" style={{ display: 'block', textAlign: 'center', marginTop: 'auto' }}>
+                Verificar minha documentação
               </a>
+              <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.35)', textAlign: 'center', marginTop: -8 }}>
+                Em desenvolvimento — disponível em breve
+              </p>
             </div>
           </div>
         </div>
