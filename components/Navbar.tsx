@@ -7,11 +7,11 @@ import BirdSVG from './BirdSVG'
 const navLinks = [
   { label: 'Passagens', href: '/passagens' },
   { label: 'Hotéis',    href: '/hoteis' },
+  { label: 'Eventos',   href: '/eventos' },
   { label: 'Pacotes',   href: '/pacotes' },
   { label: 'Carros',    href: '/carros' },
   { label: 'Ônibus',    href: '/onibus' },
   { label: 'Guias',     href: '/guias' },
-  { label: 'Cruzeiros', href: '/cruzeiros' },
   { label: 'Roteiro Completo', href: '/roteiro', highlight: true },
 ]
 
