@@ -247,8 +247,8 @@ export default function Home() {
         <div className="container">
           <div style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 64,
+            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+            gap: 48,
             alignItems: 'center',
           }}>
             <div>

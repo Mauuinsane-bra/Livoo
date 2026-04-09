@@ -9,9 +9,7 @@ const nextConfig = {
       { protocol: 'https', hostname: '**.getyourguide.com' },
     ],
   },
-  experimental: {
-    serverComponentsExternalPackages: ['amadeus'],
-  },
+  serverExternalPackages: ['amadeus'],
 }
 
 module.exports = nextConfig
