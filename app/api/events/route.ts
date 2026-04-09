@@ -7,6 +7,9 @@
 // Env: TICKETMASTER_API_KEY no .env.local
 
 import { NextRequest, NextResponse } from 'next/server'
+import { createRateLimiter, sanitizeString } from '@/lib/rate-limit'
+
+const rateLimit = createRateLimiter('events', { maxRequests: 30, windowMs: 60_000 })
 
 // ── Interfaces ─────────────────────────────────────────────
 
@@ -224,10 +227,18 @@ async function searchTicketmaster(params: {
 // ── Route handler ──────────────────────────────────────────
 
 export async function GET(req: NextRequest) {
+  const blocked = rateLimit(req)
+  if (blocked) return blocked
+
   const { searchParams } = new URL(req.url)
-  const keyword     = searchParams.get('keyword')     ?? undefined
-  const category    = searchParams.get('category')    ?? undefined
+  const keyword     = searchParams.get('keyword')     ? sanitizeString(searchParams.get('keyword')!, 100) : undefined
+  const category    = searchParams.get('category')    ? sanitizeString(searchParams.get('category')!, 50) : undefined
   const countryCode = searchParams.get('countryCode') ?? undefined
+
+  // Validar countryCode se fornecido
+  if (countryCode && !/^[A-Z]{2}$/.test(countryCode.toUpperCase())) {
+    return NextResponse.json({ error: 'countryCode inválido. Use código ISO de 2 letras.' }, { status: 400 })
+  }
 
   if (!process.env.TICKETMASTER_API_KEY) {
     return NextResponse.json(
@@ -244,7 +255,7 @@ export async function GET(req: NextRequest) {
     const events = await searchTicketmaster({ keyword, category, countryCode })
     return NextResponse.json({ events, isDemoMode: false })
   } catch (error: unknown) {
-    console.error('Erro Ticketmaster:', error)
+    console.error('Erro ao buscar eventos')
     return NextResponse.json(
       { events: [], isDemoMode: false, error: 'Erro ao buscar eventos ao vivo.' },
       { status: 500 }

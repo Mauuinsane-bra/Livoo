@@ -1,22 +1,50 @@
 // app/api/flights/route.ts
 // GET /api/flights?origin=GRU&destination=LIS&date=2026-10-15&passengers=1
 // GET /api/flights?origin=GRU&destination=LIS&date=2026-10-15&returnDate=2026-10-25&passengers=1
-// Suporta ida simples e ida+volta (duas chamadas paralelas ao Travelpayouts)
 
 import { NextRequest, NextResponse } from 'next/server'
+import { createRateLimiter, isValidIATA, isValidDate, isValidInt } from '@/lib/rate-limit'
+
+const rateLimit = createRateLimiter('flights', { maxRequests: 30, windowMs: 60_000 })
 
 export async function GET(req: NextRequest) {
+  // Rate limiting
+  const blocked = rateLimit(req)
+  if (blocked) return blocked
+
   const { searchParams } = new URL(req.url)
 
-  const origin      = searchParams.get('origin')      || searchParams.get('originSkyId')
-  const destination = searchParams.get('destination') || searchParams.get('destinationSkyId')
-  const date        = searchParams.get('date')
-  const returnDate  = searchParams.get('returnDate') ?? undefined
-  const passengers  = parseInt(searchParams.get('passengers') ?? '1')
+  const origin      = (searchParams.get('origin') || searchParams.get('originSkyId') || '').toUpperCase()
+  const destination = (searchParams.get('destination') || searchParams.get('destinationSkyId') || '').toUpperCase()
+  const date        = searchParams.get('date') || ''
+  const returnDate  = searchParams.get('returnDate') || ''
+  const passengers  = isValidInt(searchParams.get('passengers'), 1, 9) ?? 1
 
+  // Validação de input
   if (!origin || !destination || !date) {
     return NextResponse.json(
       { error: 'Parâmetros obrigatórios: origin, destination, date' },
+      { status: 400 }
+    )
+  }
+
+  if (!isValidIATA(origin) || !isValidIATA(destination)) {
+    return NextResponse.json(
+      { error: 'Códigos de aeroporto inválidos. Use códigos IATA (3 letras, ex: GRU, LIS).' },
+      { status: 400 }
+    )
+  }
+
+  if (!isValidDate(date)) {
+    return NextResponse.json(
+      { error: 'Data de ida inválida. Use formato YYYY-MM-DD.' },
+      { status: 400 }
+    )
+  }
+
+  if (returnDate && !isValidDate(returnDate)) {
+    return NextResponse.json(
+      { error: 'Data de volta inválida. Use formato YYYY-MM-DD.' },
       { status: 400 }
     )
   }
@@ -31,7 +59,6 @@ export async function GET(req: NextRequest) {
   try {
     const { searchFlights } = await import('@/lib/travelpayouts')
 
-    // Busca sempre o voo de ida
     const outboundPromise = searchFlights({
       origin,
       destination,
@@ -40,11 +67,10 @@ export async function GET(req: NextRequest) {
       currency: 'brl',
     })
 
-    // Se tiver data de volta, busca também o voo de retorno em paralelo
     const returnPromise = returnDate
       ? searchFlights({
-          origin:      destination, // invertido: destino vira origem
-          destination: origin,      // origem vira destino
+          origin:      destination,
+          destination: origin,
           date:        returnDate,
           adults:      passengers,
           currency:    'brl',
@@ -54,18 +80,18 @@ export async function GET(req: NextRequest) {
     const [outbound, returning] = await Promise.all([outboundPromise, returnPromise])
 
     return NextResponse.json({
-      outbound,                          // voos de ida
-      returning,                         // voos de volta (vazio se só ida)
+      outbound,
+      returning,
       isRoundTrip: Boolean(returnDate),
     })
 
   } catch (error: unknown) {
-    console.error('Erro Travelpayouts flights:', error)
-    const errMsg = error instanceof Error ? error.message : String(error)
+    console.error('Erro ao buscar voos')
+    const errMsg = error instanceof Error ? error.message : ''
 
     if (errMsg.includes('401') || errMsg.includes('403')) {
       return NextResponse.json(
-        { error: 'Token inválido. Verifique TRAVELPAYOUTS_TOKEN no .env.local.' },
+        { error: 'Erro de autenticação na API de voos.' },
         { status: 401 }
       )
     }

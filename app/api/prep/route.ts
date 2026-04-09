@@ -2,16 +2,38 @@
 // GET /api/prep?nationality=BR&destination=GE
 
 import { NextRequest, NextResponse } from 'next/server'
+import { createRateLimiter, isValidCountryCode, sanitizeString } from '@/lib/rate-limit'
+
+const rateLimit = createRateLimiter('prep', { maxRequests: 15, windowMs: 60_000 })
 
 export async function GET(req: NextRequest) {
+  const blocked = rateLimit(req)
+  if (blocked) return blocked
+
   const { searchParams } = new URL(req.url)
-  const nationality     = searchParams.get('nationality') ?? 'BR'
-  const destination     = searchParams.get('destination')
-  const destinationName = searchParams.get('destinationName') ?? destination
+  const nationality     = (searchParams.get('nationality') ?? 'BR').toUpperCase()
+  const destination     = (searchParams.get('destination') ?? '').toUpperCase()
+  const destinationName = searchParams.get('destinationName')
+    ? sanitizeString(searchParams.get('destinationName')!, 100)
+    : destination
 
   if (!destination) {
     return NextResponse.json(
       { error: 'Parâmetro obrigatório: destination (ex: GE para Geórgia)' },
+      { status: 400 }
+    )
+  }
+
+  if (!isValidCountryCode(nationality)) {
+    return NextResponse.json(
+      { error: 'Código de nacionalidade inválido. Use ISO 3166-1 alpha-2 (ex: BR).' },
+      { status: 400 }
+    )
+  }
+
+  if (!isValidCountryCode(destination)) {
+    return NextResponse.json(
+      { error: 'Código de destino inválido. Use ISO 3166-1 alpha-2 (ex: GE).' },
       { status: 400 }
     )
   }
@@ -54,8 +76,8 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.json({ requirements })
-  } catch (error) {
-    console.error('Erro ao verificar documentação:', error)
+  } catch {
+    console.error('Erro ao verificar documentação')
     return NextResponse.json(
       { error: 'Erro ao verificar requisitos. Tente novamente.' },
       { status: 500 }

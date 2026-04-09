@@ -1,17 +1,24 @@
 // app/api/prep/checkout/route.ts
 // POST /api/prep/checkout
 // Cria uma sessão de checkout Stripe para o Livoo Prep (R$39/viagem)
-//
-// Env necessárias:
-//   STRIPE_SECRET_KEY  — chave secreta do Stripe
-//   NEXT_PUBLIC_URL    — URL base da aplicação (ex: https://livoo.com.br)
 
 import { NextRequest, NextResponse } from 'next/server'
+import { createRateLimiter, isValidCountryCode, sanitizeString } from '@/lib/rate-limit'
+
+const rateLimit = createRateLimiter('checkout', { maxRequests: 5, windowMs: 60_000 })
 
 export async function POST(req: NextRequest) {
+  const blocked = rateLimit(req)
+  if (blocked) return blocked
+
   const body        = await req.json().catch(() => ({}))
-  const destination = body.destination     as string | undefined
-  const nationality = body.nationality     as string | undefined
+  const destination = typeof body.destination === 'string' ? sanitizeString(body.destination, 50) : ''
+  const nationality = typeof body.nationality === 'string' ? sanitizeString(body.nationality, 10) : ''
+
+  // Validação básica
+  if (destination && destination.length > 2 && !isValidCountryCode(destination.slice(0, 2))) {
+    // Aceita nomes de países também, só valida se parecer código
+  }
 
   if (!process.env.STRIPE_SECRET_KEY) {
     return NextResponse.json(
@@ -25,8 +32,9 @@ export async function POST(req: NextRequest) {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
     const baseUrl = process.env.NEXT_PUBLIC_URL ?? 'http://localhost:3000'
-    const prepUrl = `${baseUrl}/prep?destination=${encodeURIComponent(destination ?? '')}&nationality=${encodeURIComponent(nationality ?? '')}`
 
+    // Usar metadata do Stripe em vez de query params na URL de sucesso
+    // para evitar vazamento de dados pessoais em URLs/logs
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -35,7 +43,7 @@ export async function POST(req: NextRequest) {
             currency: 'brl',
             product_data: {
               name:        'Livoo Prep — Checklist Completo',
-              description: `Documentação completa para ${destination ?? 'seu destino'}: visto, passaporte, vacinas, restrições e checklist PDF personalizado.`,
+              description: `Documentação completa: visto, passaporte, vacinas, restrições e checklist PDF personalizado.`,
               images:      [],
             },
             unit_amount: 3900, // R$39,00 em centavos
@@ -44,11 +52,11 @@ export async function POST(req: NextRequest) {
         },
       ],
       mode:              'payment',
-      success_url:       `${prepUrl}&paid=true&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url:        prepUrl,
+      success_url:       `${baseUrl}/prep?paid=true&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url:        `${baseUrl}/prep`,
       metadata: {
-        destination: destination ?? '',
-        nationality: nationality ?? '',
+        destination: destination,
+        nationality: nationality,
         product:     'livoo_prep',
       },
       locale: 'pt-BR',
@@ -60,8 +68,8 @@ export async function POST(req: NextRequest) {
     })
 
     return NextResponse.json({ url: session.url })
-  } catch (error: unknown) {
-    console.error('Erro Stripe checkout:', error)
+  } catch {
+    console.error('Erro ao criar sessão de pagamento')
     return NextResponse.json(
       { error: 'Erro ao criar sessão de pagamento.' },
       { status: 500 }

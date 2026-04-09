@@ -62,7 +62,7 @@ const STATIC_AIRPORTS = [
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
-  const query = searchParams.get('q') ?? ''
+  const query = (searchParams.get('q') ?? '').trim().slice(0, 50) // limitar tamanho
 
   if (query.length < 1) {
     return NextResponse.json({ airports: [] })

@@ -2,23 +2,71 @@
 // POST /api/roteiro — interpreta pedido de roteiro via GPT-4o
 
 import { NextRequest, NextResponse } from 'next/server'
+import { createRateLimiter, sanitizeString } from '@/lib/rate-limit'
+
+// Rate limiting mais agressivo para rota com custo (OpenAI)
+const rateLimit = createRateLimiter('roteiro', { maxRequests: 10, windowMs: 60_000 })
+
+const MAX_PROMPT_LENGTH = 1000
+
+// Remove tentativas óbvias de prompt injection
+function sanitizePrompt(prompt: string): string {
+  let clean = sanitizeString(prompt, MAX_PROMPT_LENGTH)
+
+  // Remove padrões comuns de injection
+  const injectionPatterns = [
+    /ignore\s+(previous|all|above)\s+instructions?/gi,
+    /you\s+are\s+now\s+/gi,
+    /system\s*:\s*/gi,
+    /\[INST\]/gi,
+    /<<SYS>>/gi,
+    /forget\s+(everything|all|your)\s*/gi,
+    /override\s+(your|the)\s+(instructions?|rules?|prompt)/gi,
+    /do\s+not\s+follow\s+(your|the)\s+(instructions?|rules?)/gi,
+  ]
+
+  for (const pattern of injectionPatterns) {
+    clean = clean.replace(pattern, '')
+  }
+
+  return clean.trim()
+}
 
 export async function POST(req: NextRequest) {
+  // Rate limiting
+  const blocked = rateLimit(req)
+  if (blocked) return blocked
+
   try {
     const body = await req.json()
-    const { prompt, includes } = body as {
+    const { prompt: rawPrompt, includes } = body as {
       prompt: string
       includes?: string[]
     }
 
-    if (!prompt || prompt.trim().length < 10) {
+    if (!rawPrompt || typeof rawPrompt !== 'string' || rawPrompt.trim().length < 10) {
       return NextResponse.json(
         { error: 'Descreva melhor o que você quer viver (mínimo 10 caracteres).' },
         { status: 400 }
       )
     }
 
-    // Se não tiver OpenAI configurado, retorna resposta simulada para desenvolvimento
+    if (rawPrompt.length > MAX_PROMPT_LENGTH) {
+      return NextResponse.json(
+        { error: `Descrição muito longa (máximo ${MAX_PROMPT_LENGTH} caracteres).` },
+        { status: 400 }
+      )
+    }
+
+    // Validar includes
+    const validIncludes = ['voo', 'hotel', 'guia', 'ingresso', 'transfer', 'seguro']
+    const safeIncludes = Array.isArray(includes)
+      ? includes.filter((i): i is string => typeof i === 'string' && validIncludes.includes(i))
+      : []
+
+    const prompt = sanitizePrompt(rawPrompt)
+
+    // Se não tiver OpenAI configurado, retorna resposta simulada
     if (!process.env.OPENAI_API_KEY) {
       const mockResponse = {
         success: true,
@@ -45,9 +93,9 @@ export async function POST(req: NextRequest) {
     const { parseItineraryRequest } = await import('@/lib/openai')
     const parsed = await parseItineraryRequest(prompt)
 
-    // Busca de voos se incluído (via Travelpayouts — gratuito, sem markup)
+    // Busca de voos se incluído
     let flights = null
-    if (includes?.includes('voo') && parsed.originIATA && parsed.destinationIATA && process.env.TRAVELPAYOUTS_TOKEN) {
+    if (safeIncludes.includes('voo') && parsed.originIATA && parsed.destinationIATA && process.env.TRAVELPAYOUTS_TOKEN) {
       try {
         const { searchFlights } = await import('@/lib/travelpayouts')
         const today = new Date()
@@ -61,23 +109,26 @@ export async function POST(req: NextRequest) {
           date:        eventDate.toISOString().split('T')[0],
           currency:    'brl',
         })
-      } catch (flightError) {
-        console.error('Erro ao buscar voos:', flightError)
+      } catch {
+        console.error('Erro ao buscar voos para roteiro')
       }
     }
 
     // Salvar no banco local
     try {
       const { saveItinerary } = await import('@/lib/db')
-      await saveItinerary({ prompt, parsedData: { ...parsed, includes, flights } })
-    } catch (dbError) {
-      console.warn('Itinerário não salvo no banco:', dbError)
+      await saveItinerary({ prompt, parsedData: { ...parsed, includes: safeIncludes, flights } })
+    } catch {
+      // Não falhar se não salvar
     }
 
     return NextResponse.json({ success: true, parsed, flights })
 
-  } catch (error) {
-    console.error('Erro na rota /api/roteiro:', error)
+  } catch (err) {
+    console.error('Erro ao processar roteiro')
+    if (err instanceof SyntaxError) {
+      return NextResponse.json({ error: 'Corpo da requisição inválido.' }, { status: 400 })
+    }
     return NextResponse.json(
       { error: 'Erro ao processar roteiro. Tente novamente.' },
       { status: 500 }

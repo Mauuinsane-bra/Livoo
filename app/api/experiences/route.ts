@@ -6,13 +6,19 @@
 // Requer: GETYOURGUIDE_API_KEY no .env.local (aprovação pelo programa de afiliados)
 
 import { NextRequest, NextResponse } from 'next/server'
+import { createRateLimiter, sanitizeString } from '@/lib/rate-limit'
+
+const rateLimit = createRateLimiter('experiences', { maxRequests: 20, windowMs: 60_000 })
 
 export async function GET(req: NextRequest) {
+  const blocked = rateLimit(req)
+  if (blocked) return blocked
+
   const { searchParams } = new URL(req.url)
 
-  const destination = searchParams.get('destination')
+  const destination = searchParams.get('destination') ? sanitizeString(searchParams.get('destination')!, 100) : null
   const date        = searchParams.get('date')        ?? undefined
-  const category    = searchParams.get('category')    ?? undefined
+  const category    = searchParams.get('category')    ? sanitizeString(searchParams.get('category')!, 50) : undefined
 
   if (!destination) {
     return NextResponse.json(
@@ -38,7 +44,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ experiences, fallbackUrl })
 
   } catch (error: unknown) {
-    console.error('Erro GetYourGuide:', error)
+    console.error('Erro ao buscar experiências')
     return NextResponse.json(
       {
         error: 'Erro ao buscar experiências.',

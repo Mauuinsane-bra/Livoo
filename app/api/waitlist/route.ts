@@ -12,6 +12,19 @@ const RATE_LIMIT_MAX      = 3
 const RATE_LIMIT_WINDOW   = 10 * 60 * 1000  // 10 min em ms
 const ipAttempts = new Map<string, { count: number; resetAt: number }>()
 
+function getClientIp(req: NextRequest): string {
+  // Em ambientes de proxy confiáveis (Vercel, Cloudflare), x-forwarded-for é seguro.
+  // Em outros ambientes, considere usar o IP do socket.
+  // NOTA: Em Vercel, o primeiro IP do x-forwarded-for é injetado pela plataforma.
+  const forwarded = req.headers.get('x-forwarded-for')
+  if (forwarded) {
+    // Pega o ÚLTIMO IP (adicionado pelo proxy confiável mais próximo)
+    const ips = forwarded.split(',').map(s => s.trim())
+    return ips[ips.length - 1] || 'unknown'
+  }
+  return req.headers.get('x-real-ip') ?? 'unknown'
+}
+
 function checkRateLimit(ip: string): { allowed: boolean; retryAfter?: number } {
   const now    = Date.now()
   const record = ipAttempts.get(ip)
@@ -30,8 +43,9 @@ function checkRateLimit(ip: string): { allowed: boolean; retryAfter?: number } {
   return { allowed: true }
 }
 
-// ── Storage JSON ───────────────────────────────────────
+// ── Storage JSON com file locking simples ─────────────
 const DATA_FILE = path.join(process.cwd(), 'data', 'waitlist.json')
+let writeLock = false
 
 function readList(): Array<Record<string, unknown>> {
   try {
@@ -42,11 +56,30 @@ function readList(): Array<Record<string, unknown>> {
   }
 }
 
-function writeList(entries: Array<Record<string, unknown>>) {
-  const dir = path.dirname(DATA_FILE)
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
-  fs.writeFileSync(DATA_FILE, JSON.stringify(entries, null, 2), 'utf-8')
+async function writeListSafe(entries: Array<Record<string, unknown>>) {
+  // Espera lock liberar (timeout de 5s)
+  const start = Date.now()
+  while (writeLock && Date.now() - start < 5000) {
+    await new Promise(r => setTimeout(r, 50))
+  }
+  writeLock = true
+  try {
+    const dir = path.dirname(DATA_FILE)
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
+    fs.writeFileSync(DATA_FILE, JSON.stringify(entries, null, 2), 'utf-8')
+  } finally {
+    writeLock = false
+  }
 }
+
+// ── Validação ─────────────────────────────────────────
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+const VALID_INTERESTS = [
+  'Futebol', 'Automobilismo', 'Shows', 'Cultura',
+  'Aventura', 'Gastronomia', 'Praias', 'Intercâmbio',
+]
+const MAX_NAME_LENGTH = 100
+const MAX_EMAIL_LENGTH = 254
 
 // ── Resend via fetch nativo ────────────────────────────
 async function sendEmail(to: string, subject: string, html: string) {
@@ -64,10 +97,7 @@ async function sendEmail(to: string, subject: string, html: string) {
 export async function POST(req: NextRequest) {
   try {
     // Rate limiting por IP
-    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
-              ?? req.headers.get('x-real-ip')
-              ?? 'unknown'
-
+    const ip = getClientIp(req)
     const rate = checkRateLimit(ip)
     if (!rate.allowed) {
       return NextResponse.json(
@@ -78,11 +108,32 @@ export async function POST(req: NextRequest) {
 
     const { name, email, interests } = await req.json()
 
-    if (!name?.trim() || !email?.trim()) {
-      return NextResponse.json({ error: 'Nome e email são obrigatórios.' }, { status: 400 })
+    // Validação de nome
+    if (!name?.trim() || typeof name !== 'string') {
+      return NextResponse.json({ error: 'Nome é obrigatório.' }, { status: 400 })
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (name.trim().length > MAX_NAME_LENGTH) {
+      return NextResponse.json({ error: `Nome muito longo (máx ${MAX_NAME_LENGTH} caracteres).` }, { status: 400 })
+    }
+
+    // Validação de email
+    if (!email?.trim() || typeof email !== 'string') {
+      return NextResponse.json({ error: 'Email é obrigatório.' }, { status: 400 })
+    }
+    if (email.trim().length > MAX_EMAIL_LENGTH) {
       return NextResponse.json({ error: 'Email inválido.' }, { status: 400 })
+    }
+    if (!EMAIL_REGEX.test(email.trim())) {
+      return NextResponse.json({ error: 'Email inválido.' }, { status: 400 })
+    }
+
+    // Validação de interests — aceitar apenas valores conhecidos
+    let validInterests: string[] = []
+    if (Array.isArray(interests)) {
+      validInterests = interests
+        .filter((i): i is string => typeof i === 'string')
+        .filter(i => VALID_INTERESTS.includes(i))
+        .slice(0, 10) // máximo 10 interesses
     }
 
     const list = readList()
@@ -92,25 +143,25 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Este email já está na lista de espera.' }, { status: 409 })
     }
 
-    // Salva localmente
+    // Salva localmente com file locking
     list.push({
-      name: name.trim(),
+      name: name.trim().slice(0, MAX_NAME_LENGTH),
       email: emailNorm,
-      interests: interests ?? [],
+      interests: validInterests,
       createdAt: new Date().toISOString(),
     })
-    writeList(list)
+    await writeListSafe(list)
 
     // Emails (best-effort — não quebra o fluxo se falhar)
-    if (process.env.RESEND_API_KEY) {
+    const notifyEmail = process.env.RESEND_NOTIFY_EMAIL
+    if (process.env.RESEND_API_KEY && notifyEmail) {
       const firstName   = name.trim().split(' ')[0]
-      const notifyEmail = process.env.RESEND_NOTIFY_EMAIL || 'casagrande_mauricio@hotmail.com'
-      const interestsTxt = Array.isArray(interests) && interests.length > 0
-        ? interests.join(', ')
+      const interestsTxt = validInterests.length > 0
+        ? validInterests.join(', ')
         : 'Não informado'
       const submittedAt = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
 
-      // 1️⃣  Notificação para Mauricio
+      // 1 — Notificação para admin
       const notifyHtml = `
         <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #D0DCF0">
           <div style="background:#0D1B3E;padding:20px 24px">
@@ -119,16 +170,16 @@ export async function POST(req: NextRequest) {
           </div>
           <div style="padding:24px">
             <table style="width:100%;border-collapse:collapse;font-size:13px">
-              <tr><td style="padding:8px 0;border-bottom:1px solid #EEF4FF;color:#5A6A80;width:110px">Nome</td><td style="padding:8px 0;border-bottom:1px solid #EEF4FF;font-weight:600;color:#0D1B3E">${name.trim()}</td></tr>
-              <tr><td style="padding:8px 0;border-bottom:1px solid #EEF4FF;color:#5A6A80">Email</td><td style="padding:8px 0;border-bottom:1px solid #EEF4FF;color:#1A56DB">${emailNorm}</td></tr>
-              <tr><td style="padding:8px 0;border-bottom:1px solid #EEF4FF;color:#5A6A80">Interesses</td><td style="padding:8px 0;border-bottom:1px solid #EEF4FF;color:#0D1B3E">${interestsTxt}</td></tr>
+              <tr><td style="padding:8px 0;border-bottom:1px solid #EEF4FF;color:#5A6A80;width:110px">Nome</td><td style="padding:8px 0;border-bottom:1px solid #EEF4FF;font-weight:600;color:#0D1B3E">${escapeHtml(name.trim())}</td></tr>
+              <tr><td style="padding:8px 0;border-bottom:1px solid #EEF4FF;color:#5A6A80">Email</td><td style="padding:8px 0;border-bottom:1px solid #EEF4FF;color:#1A56DB">${escapeHtml(emailNorm)}</td></tr>
+              <tr><td style="padding:8px 0;border-bottom:1px solid #EEF4FF;color:#5A6A80">Interesses</td><td style="padding:8px 0;border-bottom:1px solid #EEF4FF;color:#0D1B3E">${escapeHtml(interestsTxt)}</td></tr>
               <tr><td style="padding:8px 0;color:#5A6A80">Cadastrado em</td><td style="padding:8px 0;color:#0D1B3E">${submittedAt} (BRT)</td></tr>
             </table>
             <p style="margin:20px 0 0;font-size:12px;color:#5A6A80">Total na lista: <strong>${list.length}</strong> inscritos</p>
           </div>
         </div>`
 
-      // 2️⃣  Confirmação para o usuário
+      // 2 — Confirmação para o usuário
       const confirmHtml = `
         <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #D0DCF0">
           <div style="background:#0D1B3E;padding:32px 28px;text-align:center">
@@ -136,8 +187,7 @@ export async function POST(req: NextRequest) {
             <div style="font-size:11px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:2px;margin-top:4px">Vá mais longe por menos</div>
           </div>
           <div style="padding:36px 28px;text-align:center">
-            <div style="font-size:40px;margin-bottom:16px">✓</div>
-            <h2 style="margin:0 0 12px;font-size:20px;color:#0D1B3E">Você está na lista, ${firstName}!</h2>
+            <h2 style="margin:0 0 12px;font-size:20px;color:#0D1B3E">Você está na lista, ${escapeHtml(firstName)}!</h2>
             <p style="margin:0 0 24px;font-size:14px;color:#5A6A80;line-height:1.7">
               Obrigado por se cadastrar. Você será um dos primeiros a saber quando a Go Livoo abrir — e vai ter acesso especial antes de todo mundo.
             </p>
@@ -156,20 +206,30 @@ export async function POST(req: NextRequest) {
 
       // Dispara em paralelo, sem bloquear a resposta
       Promise.all([
-        sendEmail(notifyEmail, `[Livoo Waitlist] ${name.trim()} — ${emailNorm}`, notifyHtml),
+        sendEmail(notifyEmail, `[Livoo Waitlist] ${escapeHtml(name.trim())} — ${emailNorm}`, notifyHtml),
         sendEmail(emailNorm, 'Você está na lista da Livoo!', confirmHtml),
       ]).catch(err => console.warn('[waitlist] Falha ao enviar emails:', err))
     }
 
     return NextResponse.json({ ok: true })
   } catch (err) {
-    console.error('[waitlist] Erro:', err)
+    console.error('[waitlist] Erro inesperado')
+    if (err instanceof SyntaxError) {
+      return NextResponse.json({ error: 'Corpo da requisição inválido.' }, { status: 400 })
+    }
     return NextResponse.json({ error: 'Erro interno. Tente novamente.' }, { status: 500 })
   }
 }
 
-// GET — lista inscritos (uso interno)
-export async function GET() {
-  const entries = readList()
-  return NextResponse.json({ total: entries.length, entries })
+// GET removido — dados de waitlist não devem ser expostos publicamente.
+// Para acesso admin, use: npm run db:studio
+
+// ── Helpers ───────────────────────────────────────────
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
 }
