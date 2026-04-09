@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import BirdSVG from './BirdSVG'
 
 const navLinks = [
@@ -89,14 +90,41 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* CTA buttons */}
+        {/* Auth buttons — desktop */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }} className="hidden-mobile">
-          <Link href="/entrar" className="btn-outline" style={{ fontSize: '0.82rem', padding: '8px 18px' }}>
-            Entrar
-          </Link>
-          <Link href="/#acesso-antecipado" className="btn-gold" style={{ fontSize: '0.82rem', padding: '8px 18px' }}>
-            Acesso Antecipado
-          </Link>
+
+          {/* Usuário não logado */}
+          <SignedOut>
+            <SignInButton mode="modal">
+              <button className="btn-outline" style={{ fontSize: '0.82rem', padding: '8px 18px' }}>
+                Entrar
+              </button>
+            </SignInButton>
+            <SignUpButton mode="modal">
+              <button className="btn-gold" style={{ fontSize: '0.82rem', padding: '8px 18px' }}>
+                Criar conta
+              </button>
+            </SignUpButton>
+          </SignedOut>
+
+          {/* Usuário logado */}
+          <SignedIn>
+            <Link
+              href="/#acesso-antecipado"
+              className="btn-primary"
+              style={{ fontSize: '0.82rem', padding: '8px 18px' }}
+            >
+              Meus Roteiros
+            </Link>
+            <UserButton
+              afterSignOutUrl="/"
+              appearance={{
+                elements: {
+                  avatarBox: { width: 36, height: 36 },
+                },
+              }}
+            />
+          </SignedIn>
         </div>
 
         {/* Mobile burger */}
@@ -148,12 +176,17 @@ export default function Navbar() {
             </Link>
           ))}
           <div style={{ display: 'flex', gap: 12, marginTop: 16 }}>
-            <Link href="/entrar" className="btn-outline" style={{ flex: 1, justifyContent: 'center' }}>
-              Entrar
-            </Link>
-            <Link href="/#acesso-antecipado" className="btn-gold" style={{ flex: 1, justifyContent: 'center' }}>
-              Acesso Antecipado
-            </Link>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="btn-outline" style={{ flex: 1 }}>Entrar</button>
+              </SignInButton>
+              <SignUpButton mode="modal">
+                <button className="btn-gold" style={{ flex: 1 }}>Criar conta</button>
+              </SignUpButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
           </div>
         </div>
       )}
