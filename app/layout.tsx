@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { ClerkProvider } from '@clerk/nextjs'
-import { ptBR } from '@clerk/localizations'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import '@/styles/globals.css'
@@ -34,7 +33,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ClerkProvider localization={ptBR}>
+    <ClerkProvider>
       <html lang="pt-BR">
         <head>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
