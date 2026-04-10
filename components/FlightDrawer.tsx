@@ -76,7 +76,7 @@ export default function FlightDrawer({ flight, passengers, onClose }: FlightDraw
             <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', marginBottom: 4 }}>
               Resumo do voo selecionado
             </p>
-            <h2 style={{ fontFamily: 'Fraunces, serif', color: '#fff', fontSize: '1.25rem', margin: 0 }}>
+            <h2 style={{ fontFamily: 'Playfair Display, serif', color: '#fff', fontSize: '1.25rem', margin: 0 }}>
               {flight.origin} → {flight.destination}
             </h2>
           </div>
@@ -121,7 +121,7 @@ export default function FlightDrawer({ flight, passengers, onClose }: FlightDraw
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <div style={{ textAlign: 'center' }}>
-                <p style={{ fontFamily: 'Fraunces, serif', fontSize: '1.6rem', fontWeight: 700, color: '#0D1B3E', margin: 0 }}>
+                <p style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.6rem', fontWeight: 700, color: '#0D1B3E', margin: 0 }}>
                   {flight.departureTime || '—'}
                 </p>
                 <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.82rem', fontWeight: 600, color: '#5A6A80', margin: 0 }}>
@@ -146,7 +146,7 @@ export default function FlightDrawer({ flight, passengers, onClose }: FlightDraw
               </div>
 
               <div style={{ textAlign: 'center' }}>
-                <p style={{ fontFamily: 'Fraunces, serif', fontSize: '1.6rem', fontWeight: 700, color: '#0D1B3E', margin: 0 }}>
+                <p style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.6rem', fontWeight: 700, color: '#0D1B3E', margin: 0 }}>
                   {flight.arrivalTime || '—'}
                 </p>
                 <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.82rem', fontWeight: 600, color: '#5A6A80', margin: 0 }}>
@@ -172,10 +172,10 @@ export default function FlightDrawer({ flight, passengers, onClose }: FlightDraw
             </div>
 
             <div style={{ borderTop: '1px solid #D0DCF0', paddingTop: 10, marginTop: 4, display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ fontFamily: 'Fraunces, serif', fontSize: '1rem', fontWeight: 700, color: '#0D1B3E' }}>
+              <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '1rem', fontWeight: 700, color: '#0D1B3E' }}>
                 Total estimado
               </span>
-              <span style={{ fontFamily: 'Fraunces, serif', fontSize: '1.1rem', fontWeight: 700, color: '#1A56DB' }}>
+              <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.1rem', fontWeight: 700, color: '#1A56DB' }}>
                 {formatPrice(total, flight.currency)}
               </span>
             </div>

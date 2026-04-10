@@ -48,7 +48,7 @@ export default function HotelCard({
       {/* Content */}
       <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
         <div style={{ flex: 1 }}>
-          <h3 style={{ fontFamily: 'Fraunces, serif', fontSize: '1.05rem', color: '#0D1B3E', marginBottom: 4 }}>
+          <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.05rem', color: '#0D1B3E', marginBottom: 4 }}>
             {name}
           </h3>
           <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.82rem', color: '#5A6A80', marginBottom: 8 }}>
@@ -80,7 +80,7 @@ export default function HotelCard({
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 16 }}>
           <div>
-            <p style={{ fontFamily: 'Fraunces, serif', fontSize: '1.2rem', fontWeight: 700, color: '#0D1B3E' }}>
+            <p style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.2rem', fontWeight: 700, color: '#0D1B3E' }}>
               {formatPrice(pricePerNight, currency)}
             </p>
             <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.72rem', color: '#5A6A80' }}>

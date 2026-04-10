@@ -60,7 +60,7 @@ export default function FlightCard({ flight, onSelect }: FlightCardProps) {
       {/* Route */}
       <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 16 }}>
         <div style={{ textAlign: 'center' }}>
-          <p style={{ fontFamily: 'Fraunces, serif', fontSize: '1.3rem', fontWeight: 700, color: '#0D1B3E' }}>
+          <p style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.3rem', fontWeight: 700, color: '#0D1B3E' }}>
             {departureTime || '—'}
           </p>
           <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.82rem', color: '#5A6A80', fontWeight: 600 }}>
@@ -91,7 +91,7 @@ export default function FlightCard({ flight, onSelect }: FlightCardProps) {
         </div>
 
         <div style={{ textAlign: 'center' }}>
-          <p style={{ fontFamily: 'Fraunces, serif', fontSize: '1.3rem', fontWeight: 700, color: '#0D1B3E' }}>
+          <p style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.3rem', fontWeight: 700, color: '#0D1B3E' }}>
             {arrivalTime || '—'}
           </p>
           <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.82rem', color: '#5A6A80', fontWeight: 600 }}>
@@ -102,7 +102,7 @@ export default function FlightCard({ flight, onSelect }: FlightCardProps) {
 
       {/* Price + CTA */}
       <div style={{ textAlign: 'right', minWidth: 140 }}>
-        <p style={{ fontFamily: 'Fraunces, serif', fontSize: '1.5rem', fontWeight: 700, color: '#0D1B3E', marginBottom: 4 }}>
+        <p style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.5rem', fontWeight: 700, color: '#0D1B3E', marginBottom: 4 }}>
           {formatPrice(price, currency)}
         </p>
         <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.72rem', color: '#5A6A80', marginBottom: 12 }}>

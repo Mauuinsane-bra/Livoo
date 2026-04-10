@@ -134,7 +134,7 @@ function RoteiroContent() {
               { label: 'Duração sugerida', value: parsed.suggestedDuration },
               { label: 'Categoria', value: parsed.experienceCategory },
               parsed.estimatedBudgetBRL ? { label: 'Orçamento estimado', value: `R$ ${parsed.estimatedBudgetBRL.toLocaleString('pt-BR')}` } : null,
-              { label: 'Documentação', value: 'Verificar via Livoo Prep' },
+              { label: 'Documentação', value: 'Verificar via Documentação' },
             ].filter(Boolean).map((item) => item && (
               <div key={item.label} style={{
                 background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)',
@@ -192,7 +192,7 @@ function RoteiroContent() {
                 num: '01',
                 title: 'Verificar documentação',
                 desc: `Antes de comprar qualquer coisa, confira se você precisa de visto para ${parsed.destination}.`,
-                cta: 'Verificar no Livoo Prep',
+                cta: 'Verificar Documentação',
                 href: `/prep?destination=${parsed.destinationIATA}&destinationName=${encodeURIComponent(parsed.destination)}`,
                 color: '#1A56DB',
               },

@@ -13,7 +13,25 @@ const interestOptions = [
   'Viagem corporativa',
 ]
 
+const DISPOSABLE_DOMAINS = [
+  'tempmail.com', 'guerrillamail.com', '10minutemail.com', 'mailinator.com',
+  'maildrop.cc', 'sharklasers.com', 'spam4.me', 'trashmail.com', 'throwaway.email',
+  'temp-mail.org', 'yopmail.com', 'fakeinbox.com', 'ethereal.email',
+]
+
 type Status = 'idle' | 'loading' | 'success' | 'error'
+
+function validateEmail(email: string): { valid: boolean; error?: string } {
+  if (!email) return { valid: false }
+  if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+    return { valid: false, error: 'Email inválido' }
+  }
+  const domain = email.split('@')[1].toLowerCase()
+  if (DISPOSABLE_DOMAINS.includes(domain)) {
+    return { valid: false, error: 'Email descartável não permitido' }
+  }
+  return { valid: true }
+}
 
 export default function WaitlistForm() {
   const [name, setName] = useState('')
@@ -22,6 +40,7 @@ export default function WaitlistForm() {
   const [consent, setConsent] = useState(false)
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  const [emailValid, setEmailValid] = useState<boolean | null>(null)
 
   const toggleInterest = (interest: string) => {
     setInterests(prev =>
@@ -29,10 +48,26 @@ export default function WaitlistForm() {
     )
   }
 
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newEmail = e.target.value
+    setEmail(newEmail)
+    if (newEmail) {
+      const validation = validateEmail(newEmail)
+      setEmailValid(validation.valid)
+    } else {
+      setEmailValid(null)
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!consent) {
       setErrorMsg('Você precisa aceitar a política de privacidade para continuar.')
+      return
+    }
+    const emailValidation = validateEmail(email)
+    if (!emailValidation.valid) {
+      setErrorMsg(emailValidation.error || 'Email inválido.')
       return
     }
     setStatus('loading')
@@ -66,10 +101,10 @@ export default function WaitlistForm() {
         textAlign: 'center',
       }}>
         <div style={{ fontSize: 48, marginBottom: 12 }}>✓</div>
-        <h3 style={{ fontFamily: 'Fraunces, serif', color: '#F5A623', fontSize: '1.4rem', marginBottom: 8 }}>
+        <h3 style={{ fontFamily: 'Playfair Display, serif', color: '#F5A623', fontSize: '1.4rem', marginBottom: 8 }}>
           Você está na lista!
         </h3>
-        <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: 'rgba(255,255,255,0.65)', fontSize: '0.9rem' }}>
+        <p style={{ fontFamily: 'Inter, sans-serif', color: 'rgba(255,255,255,0.65)', fontSize: '0.9rem' }}>
           Você será um dos primeiros a saber quando a Livoo abrir. Fique de olho no email <strong style={{ color: '#fff' }}>{email}</strong>.
         </p>
       </div>
@@ -89,19 +124,50 @@ export default function WaitlistForm() {
           className="input-field"
           style={{ background: 'rgba(255,255,255,0.07)', color: '#fff', borderColor: 'rgba(255,255,255,0.15)' }}
         />
-        <input
-          type="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          placeholder="Seu email"
-          required
-          className="input-field"
-          style={{ background: 'rgba(255,255,255,0.07)', color: '#fff', borderColor: 'rgba(255,255,255,0.15)' }}
-        />
+        <div style={{ position: 'relative' }}>
+          <input
+            type="email"
+            value={email}
+            onChange={handleEmailChange}
+            placeholder="Seu email"
+            required
+            className="input-field"
+            style={{
+              background: 'rgba(255,255,255,0.07)',
+              color: '#fff',
+              borderColor: emailValid === true ? 'rgba(16, 185, 129, 0.5)' : emailValid === false ? 'rgba(220, 38, 38, 0.5)' : 'rgba(255,255,255,0.15)',
+              paddingRight: '36px',
+            }}
+          />
+          {emailValid === true && (
+            <span style={{
+              position: 'absolute',
+              right: 12,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: '#10b981',
+              fontSize: '1.2rem',
+            }}>
+              ✓
+            </span>
+          )}
+          {emailValid === false && (
+            <span style={{
+              position: 'absolute',
+              right: 12,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: '#dc2626',
+              fontSize: '1.2rem',
+            }}>
+              ✕
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Interesses */}
-      <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.82rem', color: 'rgba(255,255,255,0.55)', marginBottom: 10 }}>
+      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: 'rgba(255,255,255,0.55)', marginBottom: 10 }}>
         O que você mais gosta de viver nas viagens? (opcional)
       </p>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20 }}>
@@ -116,7 +182,7 @@ export default function WaitlistForm() {
               border: `1.5px solid ${interests.includes(opt) ? '#F5A623' : 'rgba(255,255,255,0.2)'}`,
               background: interests.includes(opt) ? 'rgba(245,166,35,0.15)' : 'transparent',
               color: interests.includes(opt) ? '#F5A623' : 'rgba(255,255,255,0.55)',
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
+              fontFamily: 'Inter, sans-serif',
               fontSize: '0.8rem',
               fontWeight: 500,
               cursor: 'pointer',
@@ -143,7 +209,7 @@ export default function WaitlistForm() {
           onChange={e => setConsent(e.target.checked)}
           style={{ marginTop: 3, accentColor: '#F5A623', width: 15, height: 15, flexShrink: 0 }}
         />
-        <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.5 }}>
+        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.5 }}>
           Concordo com a{' '}
           <a href="/privacidade" style={{ color: '#F5A623', textDecoration: 'underline' }}>
             Política de Privacidade
@@ -161,7 +227,7 @@ export default function WaitlistForm() {
           color: '#fca5a5',
           fontSize: '0.85rem',
           marginBottom: 16,
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
+          fontFamily: 'Inter, sans-serif',
         }}>
           {errorMsg}
         </p>

@@ -61,3 +61,21 @@ model PriceAlert {
 
   @@map("price_alerts")
 }
+
+// Perfil de usuário — dados adicionais além do Clerk
+model UserProfile {
+  id              String    @id @default(cuid())
+  clerkId         String    @unique // ID do Clerk
+  nomeCompleto    String
+  cpf             String    @unique // 000.000.000-00
+  rg              String?   // RG (opcional)
+  email           String    @unique
+  username        String    @unique
+  endereco        String    // Rua, Número, Complemento, Bairro, Cidade, Estado
+  cep             String    // 00000-000
+  profileComplete Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("user_profiles")
+}

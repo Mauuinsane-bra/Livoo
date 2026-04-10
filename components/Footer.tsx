@@ -46,7 +46,7 @@ export default function Footer() {
               <BirdSVG variant="footer" size={32} />
               <div>
                 <span style={{
-                  fontFamily: 'Fraunces, serif',
+                  fontFamily: 'Playfair Display, serif',
                   fontSize: '1.5rem',
                   fontWeight: 700,
                   color: '#F5A623',

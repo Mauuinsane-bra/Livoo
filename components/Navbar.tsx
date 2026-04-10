@@ -13,7 +13,7 @@ const navLinks = [
   { label: 'Carros',    href: '/carros' },
   { label: 'Ônibus',    href: '/onibus' },
   { label: 'Guias',     href: '/guias' },
-  { label: 'Prep',      href: '/prep' },
+  { label: 'Documentação', href: '/prep' },
   { label: 'Roteiro Completo', href: '/roteiro', highlight: true },
 ]
 

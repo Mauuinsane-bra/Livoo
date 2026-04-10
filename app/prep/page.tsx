@@ -183,7 +183,7 @@ function PrepContent() {
             marginBottom: 20,
             border: '1px solid rgba(245,166,35,0.3)',
           }}>
-            Livoo Prep
+            Documentação Viagem
           </span>
           <h1 style={{
             fontFamily: 'Fraunces, serif',
@@ -191,7 +191,7 @@ function PrepContent() {
             color: '#fff',
             margin: '0 0 14px',
           }}>
-            Documentação para sua viagem
+            Tudo em ordem antes de viajar
           </h1>
           <p style={{
             fontFamily: 'Plus Jakarta Sans, sans-serif',
@@ -543,7 +543,7 @@ function PrepContent() {
               </div>
             )}
 
-            {/* Upgrade Livoo Prep */}
+            {/* Upgrade Documentação */}
             <div style={{
               background: 'linear-gradient(135deg, #0D1B3E 0%, #1A3A6E 100%)',
               borderRadius: 16,
@@ -568,7 +568,7 @@ function PrepContent() {
                         display: 'block',
                         marginBottom: 2,
                       }}>
-                        Livoo Prep ativo
+                        Documentação Ativada
                       </strong>
                       <p style={{
                         fontFamily: 'Plus Jakarta Sans, sans-serif',
@@ -643,7 +643,7 @@ function PrepContent() {
                   </button>
                 </div>
               ) : (
-                // Estado free — upsell Livoo Prep
+                // Estado free — upsell Documentação
                 <div>
                   <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 20 }}>
                     <div>
@@ -654,7 +654,7 @@ function PrepContent() {
                         display: 'block',
                         marginBottom: 8,
                       }}>
-                        Livoo Prep — Checklist Completo
+                        Documentação Completa — Seu Checklist Personalizado
                       </strong>
                       <p style={{
                         fontFamily: 'Plus Jakarta Sans, sans-serif',
@@ -737,7 +737,7 @@ function PrepContent() {
                       opacity: checkoutLoading ? 0.7 : 1,
                     }}
                   >
-                    {checkoutLoading ? 'Redirecionando...' : 'Ativar Livoo Prep — R$ 39'}
+                    {checkoutLoading ? 'Redirecionando...' : 'Ativar Documentação Completa — R$ 39'}
                   </button>
 
                   <p style={{
@@ -857,7 +857,7 @@ function PrepContent() {
 
 export default function PrepPage() {
   return (
-    <Suspense>
+    <Suspense fallback={<div style={{ padding: '40px', textAlign: 'center', color: '#5A6A80' }}>Carregando...</div>}>
       <PrepContent />
     </Suspense>
   )

@@ -56,13 +56,20 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ hotels, fallbackUrl })
 
   } catch (error: unknown) {
-    console.error('Erro ao buscar hotéis')
-    const errMsg = error instanceof Error ? error.message : ''
+    const errMsg = error instanceof Error ? error.message : String(error)
+    console.error('Erro ao buscar hotéis:', errMsg)
 
     if (errMsg.includes('401') || errMsg.includes('403')) {
       return NextResponse.json(
         { error: 'Erro de autenticação na API de hotéis.' },
         { status: 401 }
+      )
+    }
+
+    if (errMsg.includes('TRAVELPAYOUTS_TOKEN')) {
+      return NextResponse.json(
+        { error: 'API de hotéis não configurada. Adicione TRAVELPAYOUTS_TOKEN no .env.local.' },
+        { status: 503 }
       )
     }
 

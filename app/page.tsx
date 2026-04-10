@@ -68,7 +68,7 @@ const steps = [
   {
     num: '03',
     title: 'Verificamos toda a documentação',
-    desc: 'Visto, passaporte, vacinas, restrições de entrada — tudo verificado pelo Livoo Prep antes de você comprar.',
+    desc: 'Visto, passaporte, vacinas, restrições de entrada — tudo verificado pela Documentação antes de você comprar.',
   },
   {
     num: '04',
@@ -143,13 +143,13 @@ export default function Home() {
           <p style={{
             fontFamily: 'Plus Jakarta Sans, sans-serif',
             fontSize: '1.1rem',
-            color: 'rgba(255,255,255,0.75)',
-            maxWidth: 580,
+            color: 'rgba(255,255,255,0.8)',
+            maxWidth: 620,
             margin: '0 auto 48px',
-            lineHeight: 1.7,
+            lineHeight: 1.8,
           }}>
-            Diga o que quer viver — um rally na Geórgia, um festival no Japão,
-            um GP em Mônaco. A Go Livoo monta voo, hotel, guia e documentação.
+            Descreva a <span style={{ color: '#F5A623', fontWeight: 600 }}>experiência que você sonha</span> — um rally em offroad na Geórgia, o caos controlado do Lolla, a velocidade máxima do GP de Mônaco. <br/><br/>
+            <span style={{ color: '#fff', fontWeight: 500 }}>A Go Livoo resolve tudo: voo, hotel, transferência, ingresso, guia local, seguro e documentação verificada em tempo real.</span> Você só relaxa e aproveita.
           </p>
 
           {/* Widget de busca */}
@@ -293,11 +293,11 @@ export default function Home() {
                   padding: '4px 12px',
                   borderRadius: 50,
                 }}>
-                  Livoo Prep
+                  Documentação
                 </span>
               </div>
               <h3 style={{ fontFamily: 'Fraunces, serif', fontSize: '1.5rem', margin: '12px 0 8px' }}>
-                Documentação da sua viagem
+                Visto, vacina, tudo checado
               </h3>
               <p style={{ fontSize: '0.88rem', color: 'rgba(255,255,255,0.65)', marginBottom: 24, lineHeight: 1.6 }}>
                 Verifique visto, passaporte, vacinas e restrições de entrada — antes de comprar.
@@ -403,7 +403,7 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Livoo Prep */}
+            {/* Documentação */}
             <div className="card" style={{ background: '#0D1B3E', border: 'none', display: 'flex', flexDirection: 'column', gap: 20 }}>
               <div>
                 <span style={{
@@ -428,7 +428,7 @@ export default function Home() {
 
               <div>
                 <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.92rem', color: 'rgba(255,255,255,0.8)', fontWeight: 600, marginBottom: 12 }}>
-                  Livoo Prep — Documentação da viagem
+                  Documentação Completa — Checklist de Viagem
                 </p>
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 12, flex: 1 }}>
                   {[

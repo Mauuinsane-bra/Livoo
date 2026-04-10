@@ -94,9 +94,11 @@ export default function SearchWidget() {
   const [carsDropoff,  setCarsDropoff]  = useState('')
 
   // Ônibus
+  const [busTripType,   setBusTripType]   = useState<'oneway' | 'roundtrip'>('oneway')
   const [busFrom,       setBusFrom]       = useState('')
   const [busTo,         setBusTo]         = useState('')
   const [busDate,       setBusDate]       = useState('')
+  const [busReturnDate, setBusReturnDate] = useState('')
   const [busPassengers, setBusPassengers] = useState('1')
 
   // Guias
@@ -148,7 +150,7 @@ export default function SearchWidget() {
   function handleHotelSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!hotelCity || !hotelCheckin) return
-    const params = new URLSearchParams({ city: hotelCity, checkin: hotelCheckin, checkout: hotelCheckout, guests: hotelGuests })
+    const params = new URLSearchParams({ location: hotelCity, checkIn: hotelCheckin, checkOut: hotelCheckout, adults: hotelGuests })
     router.push(`/hoteis?${params}`)
   }
 
@@ -164,7 +166,16 @@ export default function SearchWidget() {
   function handleOnibusSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!busFrom || !busTo || !busDate) return
-    const params = new URLSearchParams({ from: busFrom, to: busTo, date: busDate, passengers: busPassengers })
+    const params = new URLSearchParams({
+      from: busFrom,
+      to: busTo,
+      date: busDate,
+      tripType: busTripType,
+      passengers: busPassengers
+    })
+    if (busTripType === 'roundtrip' && busReturnDate) {
+      params.set('returnDate', busReturnDate)
+    }
     router.push(`/onibus?${params}`)
   }
 
@@ -498,12 +509,12 @@ export default function SearchWidget() {
                 <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
                   Destino
                 </label>
-                <input
-                  type="text" placeholder="Cidade, hotel ou região"
-                  value={hotelCity} onChange={e => setHotelCity(e.target.value)}
-                  style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #D0DCF0', borderRadius: 10, fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.9rem', outline: 'none' }}
-                  onFocus={e => (e.target.style.borderColor = '#1A56DB')}
-                  onBlur={e => (e.target.style.borderColor = '#D0DCF0')}
+                <CitySearch
+                  value={hotelCity}
+                  onChange={setHotelCity}
+                  placeholder="Cidade ou destino"
+                  dark={false}
+                  required
                 />
               </div>
               <DatePicker label="Check-in" value={hotelCheckin} onChange={setHotelCheckin} />
@@ -564,6 +575,34 @@ export default function SearchWidget() {
         {/* ══ ÔNIBUS ══ */}
         {activeTab === 'onibus' && (
           <form onSubmit={handleOnibusSubmit}>
+            {/* Seletor tipo de viagem */}
+            <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
+              {([
+                { id: 'oneway',   label: 'Só ida' },
+                { id: 'roundtrip', label: 'Ida e volta' },
+              ] as { id: 'oneway' | 'roundtrip'; label: string }[]).map(opt => (
+                <button
+                  key={opt.id}
+                  type="button"
+                  onClick={() => setBusTripType(opt.id)}
+                  style={{
+                    padding: '6px 14px',
+                    borderRadius: 50,
+                    border: `1.5px solid ${busTripType === opt.id ? '#1A56DB' : '#D0DCF0'}`,
+                    background: busTripType === opt.id ? '#EEF4FF' : '#fff',
+                    color: busTripType === opt.id ? '#1A56DB' : '#5A6A80',
+                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                    fontSize: '0.8rem',
+                    fontWeight: busTripType === opt.id ? 700 : 500,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                  }}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
               <div>
                 <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
@@ -578,7 +617,11 @@ export default function SearchWidget() {
                 <CitySearch value={busTo} onChange={setBusTo} placeholder="Ex: Rio de Janeiro" required />
               </div>
               <DatePicker label="Data de ida" value={busDate} onChange={setBusDate} />
-              <div>
+              {busTripType === 'roundtrip'
+                ? <DatePicker label="Data de volta" value={busReturnDate} onChange={setBusReturnDate} min={busDate || undefined} />
+                : <div />
+              }
+              <div style={{ gridColumn: '1 / -1' }}>
                 <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
                   Passageiros
                 </label>
@@ -593,9 +636,9 @@ export default function SearchWidget() {
             </div>
             <button
               type="submit"
-              disabled={!busFrom || !busTo || !busDate}
+              disabled={!busFrom || !busTo || !busDate || (busTripType === 'roundtrip' && !busReturnDate)}
               className="btn-primary"
-              style={{ width: '100%', justifyContent: 'center', padding: 14, opacity: (!busFrom || !busTo || !busDate) ? 0.5 : 1 }}
+              style={{ width: '100%', justifyContent: 'center', padding: 14, opacity: (!busFrom || !busTo || !busDate || (busTripType === 'roundtrip' && !busReturnDate)) ? 0.5 : 1 }}
             >
               Buscar passagens de ônibus →
             </button>

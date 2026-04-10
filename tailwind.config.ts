@@ -22,8 +22,8 @@ const config: Config = {
         'bg-alt':     '#F4F7FF',
       },
       fontFamily: {
-        fraunces:  ['Fraunces', 'serif'],
-        jakarta:   ['Plus Jakarta Sans', 'sans-serif'],
+        playfair: ['Playfair Display', 'serif'],
+        inter:    ['Inter', 'sans-serif'],
       },
       borderRadius: {
         DEFAULT: '12px',

@@ -6,6 +6,33 @@ import CitySearch from '@/components/CitySearch'
 
 // ── Helpers ────────────────────────────────────────────────
 
+// European cities set for international route detection
+const EUROPEAN_CITIES = new Set([
+  'veneza', 'venezia', 'paris', 'lyon', 'marseille', 'toulouse', 'nice', 'nantes',
+  'strasbourg', 'bordeaux', 'lille', 'rennes', 'reims', 'havre', 'grenoble',
+  'montpellier', 'dijon', 'angers', 'nimes', 'clermont-ferrand', 'madrid', 'barcelona',
+  'bilbao', 'sevilla', 'valencia', 'malaga', 'lisbon', 'porto', 'berlin', 'hamburg',
+  'cologne', 'frankfurt', 'munich', 'vienna', 'budapest', 'prague', 'warsaw',
+  'amsterdam', 'rotterdam', 'brussels', 'zurich', 'geneva', 'bern', 'london',
+  'manchester', 'edinburgh', 'dublin', 'moscow', 'st petersburg', 'istanbul',
+  'athens', 'rome', 'milan', 'genoa', 'naples', 'florence', 'venice', 'stockholm',
+  'oslo', 'copenhagen', 'helsinki', 'krakow', 'bucharest', 'sofia', 'belgrade',
+  'zagreb', 'split', 'dubrovnik', 'athens', 'corfu', 'mykonos', 'santorini',
+  'crete', 'rhodes', 'malta', 'palermo', 'florence', 'pisa', 'venice', 'verona',
+  'innsbruck', 'salzburg', 'graz', 'basel', 'lucerne', 'geneva', 'montreux',
+  'interlaken', 'zermatt', 'chamonix', 'annecy', 'avignon', 'toulouse', 'nice',
+  'cannes', 'antibes', 'monaco', 'menton'
+])
+
+function isInternational(city: string): boolean {
+  const normalized = city
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim()
+  return EUROPEAN_CITIES.has(normalized)
+}
+
 function slugify(city: string): string {
   return city
     .normalize('NFD')
@@ -35,12 +62,31 @@ interface Provider {
   name:        string
   description: string
   color:       string
-  logo:        string   // emoji como placeholder — substituir por <Image> futuramente
+  logo:        string
   badge?:      string
-  buildUrl: (from: string, to: string, date: string, passengers: number) => string
+  availability: 'domestic' | 'international' | 'both'
+  buildUrl: (from: string, to: string, date: string, passengers: number, returnDate?: string) => string
 }
 
 const PROVIDERS: Provider[] = [
+  {
+    id:          'flixbus',
+    name:        'FlixBus',
+    description: 'Rede internacional com rotas para Europa e principais cidades sul-americanas.',
+    color:       '#73D700',
+    logo:        '🟢',
+    badge:       'Internacional',
+    availability: 'international',
+    buildUrl:    (from, to, _date, pax, _returnDate) => {
+      const qs = new URLSearchParams({
+        departureCity: from,
+        arrivalCity:   to,
+        adult:         String(pax),
+        _locale:       'pt_BR',
+      })
+      return `https://global.flixbus.com/bus-routes?${qs}`
+    },
+  },
   {
     id:          'clickbus',
     name:        'Clickbus',
@@ -48,6 +94,7 @@ const PROVIDERS: Provider[] = [
     color:       '#E8003D',
     logo:        '🚌',
     badge:       'Mais opções',
+    availability: 'domestic',
     buildUrl:    (from, to, date, pax) =>
       `https://www.clickbus.com.br/passagens-de-onibus/${slugify(from)}/${slugify(to)}/${formatDateClickbus(date)}/${pax}/`,
   },
@@ -58,6 +105,7 @@ const PROVIDERS: Provider[] = [
     color:       '#6C2BD9',
     logo:        '🟣',
     badge:       'Mais barato',
+    availability: 'domestic',
     buildUrl:    (from, to, date, pax) => {
       const qs = new URLSearchParams({
         from,
@@ -68,36 +116,27 @@ const PROVIDERS: Provider[] = [
       return `https://app.buser.com.br/busca?${qs}`
     },
   },
-  {
-    id:          'flixbus',
-    name:        'FlixBus',
-    description: 'Rede internacional com rotas entre grandes cidades brasileiras e destinos sul-americanos.',
-    color:       '#73D700',
-    logo:        '🟢',
-    buildUrl:    (from, to, _date, pax) => {
-      const qs = new URLSearchParams({
-        departureCity: from,
-        arrivalCity:   to,
-        adult:         String(pax),
-        _locale:       'pt_BR',
-      })
-      return `https://global.flixbus.com/bus-routes?${qs}`
-    },
-  },
 ]
 
 // ── Provider Card ──────────────────────────────────────────
 
 function ProviderCard({
-  provider, from, to, date, passengers,
+  provider, from, to, date, passengers, returnDate, isInternationalRoute,
 }: {
   provider:   Provider
   from:       string
   to:         string
   date:       string
   passengers: number
+  returnDate?: string
+  isInternationalRoute: boolean
 }) {
-  const url = provider.buildUrl(from, to, date, passengers)
+  // Filter providers based on route type
+  if (isInternationalRoute && provider.availability === 'domestic') {
+    return null // Hide domestic-only providers for international routes
+  }
+
+  const url = provider.buildUrl(from, to, date, passengers, returnDate)
 
   return (
     <div className="card" style={{ padding: '24px 28px', display: 'flex', alignItems: 'center', gap: 20 }}>
@@ -169,23 +208,28 @@ function ProviderCard({
 // ── Formulário de busca ────────────────────────────────────
 
 function SearchForm({
-  defaultFrom, defaultTo, defaultDate, defaultPassengers, onSearch,
+  defaultFrom, defaultTo, defaultDate, defaultReturnDate, defaultPassengers, defaultTripType, onSearch,
 }: {
   defaultFrom:       string
   defaultTo:         string
   defaultDate:       string
+  defaultReturnDate: string
   defaultPassengers: number
-  onSearch: (from: string, to: string, date: string, passengers: number) => void
+  defaultTripType:   string
+  onSearch: (from: string, to: string, date: string, returnDate: string, passengers: number, tripType: string) => void
 }) {
   const [from,       setFrom]       = useState(defaultFrom)
   const [to,         setTo]         = useState(defaultTo)
   const [date,       setDate]       = useState(defaultDate)
+  const [returnDate, setReturnDate] = useState(defaultReturnDate)
   const [passengers, setPassengers] = useState(defaultPassengers)
+  const [tripType,   setTripType]   = useState<'oneway' | 'roundtrip'>(defaultTripType === 'roundtrip' ? 'roundtrip' : 'oneway')
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!from || !to || !date) return
-    onSearch(from, to, date, passengers)
+    if (tripType === 'roundtrip' && !returnDate) return
+    onSearch(from, to, date, returnDate, passengers, tripType)
   }
 
   const inputStyle: React.CSSProperties = {
@@ -212,8 +256,37 @@ function SearchForm({
         }}>
           Buscar passagens de ônibus
         </h1>
+
+        {/* Seletor tipo de viagem */}
+        <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
+          {([
+            { id: 'oneway',   label: 'Só ida' },
+            { id: 'roundtrip', label: 'Ida e volta' },
+          ] as { id: 'oneway' | 'roundtrip'; label: string }[]).map(opt => (
+            <button
+              key={opt.id}
+              type="button"
+              onClick={() => setTripType(opt.id)}
+              style={{
+                padding: '6px 14px',
+                borderRadius: 50,
+                border: `1.5px solid ${tripType === opt.id ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.2)'}`,
+                background: tripType === opt.id ? 'rgba(255,255,255,0.15)' : 'transparent',
+                color: '#fff',
+                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontSize: '0.8rem',
+                fontWeight: tripType === opt.id ? 700 : 500,
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+              }}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+
         <form onSubmit={handleSubmit}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 80px', gap: 12, alignItems: 'end' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: tripType === 'roundtrip' ? '1fr 1fr 1fr 1fr' : '1fr 1fr 1fr 80px', gap: 12, alignItems: 'end' }}>
             {/* Origem */}
             <div>
               <label style={labelStyle}>Origem</label>
@@ -238,7 +311,7 @@ function SearchForm({
               />
             </div>
 
-            {/* Data */}
+            {/* Data de ida */}
             <div>
               <label style={labelStyle}>Data de ida</label>
               <input
@@ -250,17 +323,46 @@ function SearchForm({
               />
             </div>
 
+            {/* Data de volta (apenas roundtrip) */}
+            {tripType === 'roundtrip' && (
+              <div>
+                <label style={labelStyle}>Data de volta</label>
+                <input
+                  type="date"
+                  style={inputStyle}
+                  value={returnDate}
+                  onChange={e => setReturnDate(e.target.value)}
+                  min={date || undefined}
+                  required
+                />
+              </div>
+            )}
+
             {/* Passageiros */}
-            <div>
-              <label style={labelStyle}>Pessoas</label>
+            {tripType === 'oneway' && (
+              <div>
+                <label style={labelStyle}>Pessoas</label>
+                <input
+                  type="number" min={1} max={10}
+                  style={inputStyle}
+                  value={passengers}
+                  onChange={e => setPassengers(parseInt(e.target.value) || 1)}
+                />
+              </div>
+            )}
+          </div>
+
+          {tripType === 'roundtrip' && (
+            <div style={{ marginTop: 12 }}>
+              <label style={labelStyle}>Passageiros</label>
               <input
                 type="number" min={1} max={10}
-                style={inputStyle}
+                style={{ ...inputStyle, width: '100%' }}
                 value={passengers}
                 onChange={e => setPassengers(parseInt(e.target.value) || 1)}
               />
             </div>
-          </div>
+          )}
 
           <button
             type="submit"
@@ -284,7 +386,9 @@ function OnibusContent() {
   const initialFrom       = searchParams.get('from')       || ''
   const initialTo         = searchParams.get('to')         || ''
   const initialDate       = searchParams.get('date')       || ''
+  const initialReturnDate = searchParams.get('returnDate') || ''
   const initialPassengers = parseInt(searchParams.get('passengers') ?? '1')
+  const initialTripType   = searchParams.get('tripType')   || 'oneway'
 
   const [searched, setSearched] = useState(
     Boolean(initialFrom && initialTo && initialDate)
@@ -293,13 +397,20 @@ function OnibusContent() {
     from:       initialFrom,
     to:         initialTo,
     date:       initialDate,
+    returnDate: initialReturnDate,
     passengers: initialPassengers,
+    tripType:   initialTripType,
   })
 
-  function handleSearch(from: string, to: string, date: string, passengers: number) {
-    const qs = new URLSearchParams({ from, to, date, passengers: String(passengers) })
+  const isInternationalRoute = isInternational(current.from) || isInternational(current.to)
+
+  function handleSearch(from: string, to: string, date: string, returnDate: string, passengers: number, tripType: string) {
+    const qs = new URLSearchParams({ from, to, date, tripType, passengers: String(passengers) })
+    if (returnDate) {
+      qs.set('returnDate', returnDate)
+    }
     router.replace(`/onibus?${qs}`, { scroll: false })
-    setCurrent({ from, to, date, passengers })
+    setCurrent({ from, to, date, returnDate, passengers, tripType })
     setSearched(true)
   }
 
@@ -309,7 +420,9 @@ function OnibusContent() {
         defaultFrom={initialFrom}
         defaultTo={initialTo}
         defaultDate={initialDate}
+        defaultReturnDate={initialReturnDate}
         defaultPassengers={initialPassengers}
+        defaultTripType={initialTripType}
         onSearch={handleSearch}
       />
 
@@ -330,22 +443,27 @@ function OnibusContent() {
                 fontFamily: 'Plus Jakarta Sans, sans-serif',
                 fontSize: '0.85rem', color: '#5A6A80',
               }}>
-                {formatDateDisplay(current.date)} · {current.passengers} passageiro{current.passengers !== 1 ? 's' : ''}
+                {formatDateDisplay(current.date)} {current.returnDate && `→ ${formatDateDisplay(current.returnDate)}`} · {current.passengers} passageiro{current.passengers !== 1 ? 's' : ''}
               </p>
             </div>
 
             {/* Banner informativo */}
             <div style={{
-              background: '#EEF4FF', borderRadius: 12,
+              background: isInternationalRoute ? '#FEF3C7' : '#EEF4FF',
+              borderRadius: 12,
               padding: '14px 20px', marginBottom: 20,
               display: 'flex', alignItems: 'center', gap: 12,
             }}>
               <span style={{ fontSize: 18 }}>ℹ️</span>
               <p style={{
                 fontFamily: 'Plus Jakarta Sans, sans-serif',
-                fontSize: '0.82rem', color: '#1A56DB', margin: 0,
+                fontSize: '0.82rem',
+                color: isInternationalRoute ? '#92400E' : '#1A56DB',
+                margin: 0,
               }}>
-                Encontramos as principais plataformas para essa rota. Clique em cada uma para comparar preços e horários em tempo real.
+                {isInternationalRoute
+                  ? 'Esta é uma rota internacional. FlixBus oferece as melhores conexões para Europa.'
+                  : 'Encontramos as principais plataformas para essa rota. Clique em cada uma para comparar preços e horários em tempo real.'}
               </p>
             </div>
 
@@ -358,7 +476,9 @@ function OnibusContent() {
                   from={current.from}
                   to={current.to}
                   date={current.date}
+                  returnDate={current.returnDate}
                   passengers={current.passengers}
+                  isInternationalRoute={isInternationalRoute}
                 />
               ))}
             </div>
@@ -372,9 +492,9 @@ function OnibusContent() {
                 fontFamily: 'Plus Jakarta Sans, sans-serif',
                 fontSize: '0.83rem', color: '#5A6A80', margin: 0,
               }}>
-                <strong style={{ color: '#D48A0A' }}>Dica Go Livoo:</strong> O Clickbus agrega várias
-                empresas (Comfortbus, Itapemirim, Catarinense e outras) e costuma ter o maior número
-                de horários. O Buser pode ser mais barato em rotas concorridas como SP → RJ e SP → BH.
+                <strong style={{ color: '#D48A0A' }}>Dica Go Livoo:</strong> {isInternationalRoute
+                  ? 'FlixBus é a principal rede internacional de ônibus para Europa e América do Sul. Oferece ótimos preços e muitas rotas.'
+                  : 'O Clickbus agrega várias empresas (Comfortbus, Itapemirim, Catarinense e outras) e costuma ter o maior número de horários. O Buser pode ser mais barato em rotas concorridas como SP → RJ e SP → BH.'}
               </p>
             </div>
 

@@ -1,6 +1,6 @@
 // app/api/prep/checkout/route.ts
 // POST /api/prep/checkout
-// Cria uma sessão de checkout Stripe para o Livoo Prep (R$39/viagem)
+// Cria uma sessão de checkout Stripe para Documentação Completa (R$39/viagem)
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createRateLimiter, isValidCountryCode, sanitizeString } from '@/lib/rate-limit'
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
           price_data: {
             currency: 'brl',
             product_data: {
-              name:        'Livoo Prep — Checklist Completo',
+              name:        'Documentação Completa — Checklist de Viagem',
               description: `Documentação completa: visto, passaporte, vacinas, restrições e checklist PDF personalizado.`,
               images:      [],
             },

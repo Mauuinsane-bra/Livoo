@@ -38,13 +38,13 @@ export async function searchHotels(params: SearchHotelsParams): Promise<HotelRes
   const marker = process.env.TRAVELPAYOUTS_MARKER || ''
 
   const qs = new URLSearchParams({
-    location:  params.location,
-    checkIn:   params.checkIn,
-    checkOut:  params.checkOut,
-    currency:  'usd',   // Hotellook suporta: usd, eur, rub (BRL não disponível na cache API)
+    location:      params.location,
+    checkInDate:   params.checkIn,    // API expects checkInDate not checkIn
+    checkOutDate:  params.checkOut,   // API expects checkOutDate not checkOut
+    currency:      'usd',             // Hotellook suporta: usd, eur, rub (BRL não disponível na cache API)
     token,
-    limit:     '12',
-    adults:    String(params.adults ?? 1),
+    limit:         '12',
+    adults:        String(params.adults ?? 1),
   })
 
   const url = `${API_URL}/cache.json?${qs}`
@@ -58,9 +58,20 @@ export async function searchHotels(params: SearchHotelsParams): Promise<HotelRes
 
   const data = await res.json()
 
-  if (!Array.isArray(data) || data.length === 0) return []
+  // API pode retornar um array diretamente ou um objeto com array dentro
+  let hotels: HotellookRaw[] = []
+  if (Array.isArray(data)) {
+    hotels = data
+  } else if (data && typeof data === 'object' && Array.isArray(data.hotels)) {
+    hotels = data.hotels
+  } else if (data && typeof data === 'object') {
+    // Se for um objeto com hotéis no nível superior
+    hotels = Object.values(data).filter(item => item && typeof item === 'object') as HotellookRaw[]
+  }
 
-  return data
+  if (hotels.length === 0) return []
+
+  return hotels
     .filter((h: HotellookRaw) => h.hotelId && h.priceFrom)
     .map((h: HotellookRaw) => ({
       id:            String(h.hotelId),

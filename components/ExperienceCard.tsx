@@ -82,7 +82,7 @@ export default function ExperienceCard({
         </div>
 
         <h3 style={{
-          fontFamily: 'Fraunces, serif',
+          fontFamily: 'Playfair Display, serif',
           fontSize: '1.1rem',
           color: '#0D1B3E',
           marginBottom: 8,
@@ -111,7 +111,7 @@ export default function ExperienceCard({
           justifyContent: 'space-between',
         }}>
           <span style={{
-            fontFamily: 'Fraunces, serif',
+            fontFamily: 'Playfair Display, serif',
             fontSize: '1rem',
             fontWeight: 700,
             color: '#0D1B3E',
