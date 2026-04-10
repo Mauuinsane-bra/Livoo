@@ -114,12 +114,12 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Salvar no banco local
+    // Salvar roteiro no Supabase
     try {
-      const { saveItinerary } = await import('@/lib/db')
-      await saveItinerary({ prompt, parsedData: { ...parsed, includes: safeIncludes, flights } })
+      const { saveItinerary } = await import('@/lib/supabase')
+      await saveItinerary({ prompt, parsed_data: { ...parsed, includes: safeIncludes, flights } })
     } catch {
-      // Não falhar se não salvar
+      // Não falhar se não salvar (Supabase pode não estar configurado em dev)
     }
 
     return NextResponse.json({ success: true, parsed, flights })

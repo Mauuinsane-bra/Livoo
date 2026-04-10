@@ -62,17 +62,17 @@ export async function GET(req: NextRequest) {
     const { checkEntryRequirements } = await import('@/lib/sherpa')
     const requirements = await checkEntryRequirements(nationality, destination)
 
-    // Salvar no banco local
+    // Salvar no Supabase
     try {
-      const { savePrepCheck } = await import('@/lib/db')
+      const { savePrepCheck } = await import('@/lib/supabase')
       await savePrepCheck({
         nationality,
         destination,
-        destinationName: destinationName ?? undefined,
+        destination_name: destinationName ?? undefined,
         result: requirements as unknown as Record<string, unknown>,
       })
     } catch {
-      // Não falhar se não salvar
+      // Não falhar se não salvar (Supabase pode não estar configurado em dev)
     }
 
     return NextResponse.json({ requirements })

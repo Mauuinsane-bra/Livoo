@@ -1,6 +1,6 @@
-// lib/supabase.ts — DEPRECATED. Substituído por lib/db.ts (Prisma + SQLite).
-// Mantido apenas como referência histórica.
-// @ts-nocheck
+// lib/supabase.ts — Cliente Supabase principal (PostgreSQL via Vercel).
+// Usar este arquivo para todas as operações de banco de dados.
+// lib/db.ts (Prisma) foi descontinuado — não adicionar novas referências.
 
 import { createClient } from '@supabase/supabase-js'
 
