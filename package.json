@@ -11,7 +11,7 @@
     "db:studio": "npx prisma studio"
   },
   "dependencies": {
-    "@clerk/nextjs": "^5.2.4",
+    "@clerk/nextjs": "^6",
     "@prisma/client": "^5.14.0",
     "amadeus": "^9.0.0",
     "clsx": "^2.1.1",
@@ -28,7 +28,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.19",
-    "eslint": "^8",
+    "eslint": "^9",
     "eslint-config-next": "^16.2.3",
     "postcss": "^8",
     "prisma": "^5.14.0",
