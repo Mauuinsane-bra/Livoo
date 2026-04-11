@@ -108,7 +108,7 @@ function buildHotellookLink(params: SearchHotelsParams, marker: string): string 
 // Usado quando a API não retorna resultados
 
 export function buildBookingFallbackUrl(params: SearchHotelsParams): string {
-  const aid = process.env.BOOKING_AFFILIATE_ID || '304142' // ID padrão Travelpayouts
+  const aid = process.env.BOOKING_AFFILIATE_ID || '2849997' // Go Livoo affiliate ID
   const qs = new URLSearchParams({
     ss:           params.location,
     checkin:      params.checkIn,
