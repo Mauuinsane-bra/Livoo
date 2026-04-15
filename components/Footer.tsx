@@ -11,10 +11,10 @@ const footerLinks = {
     { label: 'Livoo Prep',      href: '/prep' },
   ],
   Empresa: [
-    { label: 'Sobre a Livoo',   href: '/sobre' },
-    { label: 'Blog de viagens', href: '/blog' },
-    { label: 'Parceiros',       href: '/parceiros' },
-    { label: 'Contato',         href: '/contato' },
+    { label: 'Sobre a Go Livoo', href: '/sobre' },
+    { label: 'Como funciona',    href: '/como-funciona' },
+    { label: 'Blog de viagens',  href: '/blog' },
+    { label: 'Contato',          href: '/contato' },
   ],
   Legal: [
     { label: 'Política de Privacidade', href: '/privacidade' },

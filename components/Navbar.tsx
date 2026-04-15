@@ -14,6 +14,7 @@ const navLinks = [
   { label: 'Ônibus',    href: '/onibus' },
   { label: 'Guias',     href: '/guias' },
   { label: 'Documentação', href: '/prep' },
+  { label: 'Blog',          href: '/blog' },
   { label: 'Roteiro Completo', href: '/roteiro', highlight: true },
 ]
 
