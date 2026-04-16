@@ -58,24 +58,26 @@ function formatDateDisplay(date: string): string {
 // ── Links de cada plataforma ───────────────────────────────
 
 interface Provider {
-  id:          string
-  name:        string
-  description: string
-  color:       string
-  logo:        string
-  badge?:      string
+  id:           string
+  name:         string
+  description:  string
+  color:        string
+  logo:         string
+  badge?:       string
+  priceRange:   string  // faixa estimada para exibição antes do redirecionamento
   availability: 'domestic' | 'international' | 'both'
   buildUrl: (from: string, to: string, date: string, passengers: number, returnDate?: string) => string
 }
 
 const PROVIDERS: Provider[] = [
   {
-    id:          'flixbus',
-    name:        'FlixBus',
-    description: 'Rede internacional com rotas para Europa e principais cidades sul-americanas.',
-    color:       '#73D700',
-    logo:        '🟢',
-    badge:       'Internacional',
+    id:           'flixbus',
+    name:         'FlixBus',
+    description:  'Rede internacional com rotas para Europa e principais cidades sul-americanas.',
+    color:        '#73D700',
+    logo:         '🟢',
+    badge:        'Internacional',
+    priceRange:   'a partir de €9 (≈ R$ 54)',
     availability: 'international',
     buildUrl:    (from, to, _date, pax, _returnDate) => {
       const qs = new URLSearchParams({
@@ -88,23 +90,25 @@ const PROVIDERS: Provider[] = [
     },
   },
   {
-    id:          'clickbus',
-    name:        'Clickbus',
-    description: 'Maior plataforma de passagens rodoviárias do Brasil. Compara preços de diversas empresas.',
-    color:       '#E8003D',
-    logo:        '🚌',
-    badge:       'Mais opções',
+    id:           'clickbus',
+    name:         'Clickbus',
+    description:  'Maior plataforma de passagens rodoviárias do Brasil. Compara preços de diversas empresas em uma busca.',
+    color:        '#E8003D',
+    logo:         '🚌',
+    badge:        'Mais opções',
+    priceRange:   'a partir de R$ 45 (trechos curtos)',
     availability: 'domestic',
     buildUrl:    (from, to, date, pax) =>
       `https://www.clickbus.com.br/passagens-de-onibus/${slugify(from)}/${slugify(to)}/${formatDateClickbus(date)}/${pax}/`,
   },
   {
-    id:          'buser',
-    name:        'Buser',
-    description: 'Fretamento coletivo com preços até 50% mais baratos em rotas selecionadas.',
-    color:       '#6C2BD9',
-    logo:        '🟣',
-    badge:       'Mais barato',
+    id:           'buser',
+    name:         'Buser',
+    description:  'Fretamento coletivo com preços até 50% mais baratos em rotas selecionadas como SP → RJ e SP → BH.',
+    color:        '#6C2BD9',
+    logo:         '🟣',
+    badge:        'Mais barato',
+    priceRange:   'até 50% mais barato que o convencional',
     availability: 'domestic',
     buildUrl:    (from, to, date, pax) => {
       const qs = new URLSearchParams({
@@ -121,20 +125,18 @@ const PROVIDERS: Provider[] = [
 // ── Provider Card ──────────────────────────────────────────
 
 function ProviderCard({
-  provider, from, to, date, passengers, returnDate, isInternationalRoute,
+  provider, from, to, date, passengers, returnDate, isInternationalRoute, onRedirect,
 }: {
-  provider:   Provider
-  from:       string
-  to:         string
-  date:       string
-  passengers: number
-  returnDate?: string
+  provider:             Provider
+  from:                 string
+  to:                   string
+  date:                 string
+  passengers:           number
+  returnDate?:          string
   isInternationalRoute: boolean
+  onRedirect:           (name: string) => void
 }) {
-  // Filter providers based on route type
-  if (isInternationalRoute && provider.availability === 'domestic') {
-    return null // Hide domestic-only providers for international routes
-  }
+  if (isInternationalRoute && provider.availability === 'domestic') return null
 
   const url = provider.buildUrl(from, to, date, passengers, returnDate)
 
@@ -174,9 +176,16 @@ function ProviderCard({
         </div>
         <p style={{
           fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.83rem',
-          color: '#5A6A80', margin: 0,
+          color: '#5A6A80', margin: '0 0 4px',
         }}>
           {provider.description}
+        </p>
+        {/* Faixa de preço estimada */}
+        <p style={{
+          fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.78rem',
+          color: provider.color, fontWeight: 600, margin: 0,
+        }}>
+          Estimativa: {provider.priceRange}
         </p>
       </div>
 
@@ -185,6 +194,7 @@ function ProviderCard({
         href={url}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() => onRedirect(provider.name)}
         style={{
           display: 'inline-block',
           background: provider.color,
@@ -390,10 +400,8 @@ function OnibusContent() {
   const initialPassengers = parseInt(searchParams.get('passengers') ?? '1')
   const initialTripType   = searchParams.get('tripType')   || 'oneway'
 
-  const [searched, setSearched] = useState(
-    Boolean(initialFrom && initialTo && initialDate)
-  )
-  const [current, setCurrent] = useState({
+  const [searched,     setSearched]     = useState(Boolean(initialFrom && initialTo && initialDate))
+  const [current,      setCurrent]      = useState({
     from:       initialFrom,
     to:         initialTo,
     date:       initialDate,
@@ -401,17 +409,22 @@ function OnibusContent() {
     passengers: initialPassengers,
     tripType:   initialTripType,
   })
+  const [notification, setNotification] = useState<string | null>(null)
 
   const isInternationalRoute = isInternational(current.from) || isInternational(current.to)
 
   function handleSearch(from: string, to: string, date: string, returnDate: string, passengers: number, tripType: string) {
     const qs = new URLSearchParams({ from, to, date, tripType, passengers: String(passengers) })
-    if (returnDate) {
-      qs.set('returnDate', returnDate)
-    }
+    if (returnDate) qs.set('returnDate', returnDate)
     router.replace(`/onibus?${qs}`, { scroll: false })
     setCurrent({ from, to, date, returnDate, passengers, tripType })
     setSearched(true)
+    setNotification(null)
+  }
+
+  function handleRedirect(providerName: string) {
+    setNotification(providerName)
+    setTimeout(() => setNotification(null), 5000)
   }
 
   return (
@@ -447,6 +460,23 @@ function OnibusContent() {
               </p>
             </div>
 
+            {/* Notificação de redirecionamento */}
+            {notification && (
+              <div style={{
+                background: '#ECFDF5', border: '1px solid #6EE7B7',
+                borderRadius: 12, padding: '14px 20px', marginBottom: 12,
+                display: 'flex', alignItems: 'center', gap: 12,
+              }}>
+                <span style={{ fontSize: 18 }}>✓</span>
+                <p style={{
+                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontSize: '0.85rem', color: '#065F46', margin: 0, fontWeight: 600,
+                }}>
+                  Abrindo {notification} com sua rota já preenchida — {current.from} → {current.to} na data selecionada.
+                </p>
+              </div>
+            )}
+
             {/* Banner informativo */}
             <div style={{
               background: isInternationalRoute ? '#FEF3C7' : '#EEF4FF',
@@ -463,7 +493,7 @@ function OnibusContent() {
               }}>
                 {isInternationalRoute
                   ? 'Esta é uma rota internacional. FlixBus oferece as melhores conexões para Europa.'
-                  : 'Encontramos as principais plataformas para essa rota. Clique em cada uma para comparar preços e horários em tempo real.'}
+                  : `Clique em cada plataforma — sua rota (${current.from} → ${current.to}) é enviada automaticamente.`}
               </p>
             </div>
 
@@ -479,6 +509,7 @@ function OnibusContent() {
                   returnDate={current.returnDate}
                   passengers={current.passengers}
                   isInternationalRoute={isInternationalRoute}
+                  onRedirect={handleRedirect}
                 />
               ))}
             </div>

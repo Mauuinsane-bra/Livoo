@@ -12,6 +12,13 @@ function formatDateDisplay(date: string): string {
   return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })
 }
 
+/** YYYY-MM-DD → DD/MM/YYYY (formato aceito pelos sites BR de locadoras) */
+function formatDateBR(date: string): string {
+  if (!date) return ''
+  const [y, m, d] = date.split('-')
+  return `${d}/${m}/${y}`
+}
+
 function calcDays(pickupDate: string, returnDate: string): number {
   if (!pickupDate || !returnDate) return 1
   const diff = (new Date(returnDate).getTime() - new Date(pickupDate).getTime()) / 86_400_000
@@ -27,6 +34,7 @@ interface CarProvider {
   color:       string
   logo:        string
   badge?:      string
+  priceRange:  string   // faixa estimada para exibição antes do redirecionamento
   buildUrl: (location: string, pickup: string, ret: string) => string
 }
 
@@ -34,18 +42,20 @@ const CAR_PROVIDERS: CarProvider[] = [
   {
     id:          'rentcars',
     name:        'Rentcars',
-    description: 'Maior agregador de aluguel de carros do Brasil. Compara Localiza, Unidas, Movida, Hertz e mais.',
+    description: 'Maior agregador de aluguel de carros do Brasil. Compara Localiza, Unidas, Movida, Hertz e mais — em uma única busca.',
     color:       '#0050FF',
     logo:        '🔵',
     badge:       'Mais opções',
+    priceRange:  'a partir de R$ 79/dia',
     buildUrl:    (location, pickup, ret) => {
+      // Rentcars aceita YYYY-MM-DD (site internacionalizado)
       const qs = new URLSearchParams({
-        pickUpLocation:   location,
-        dropOffLocation:  location,
-        pickUpDate:       pickup,
-        dropOffDate:      ret,
-        pickUpTime:       '10:00',
-        dropOffTime:      '10:00',
+        pickUpLocation:  location,
+        dropOffLocation: location,
+        pickUpDate:      pickup,
+        dropOffDate:     ret,
+        pickUpTime:      '10:00',
+        dropOffTime:     '10:00',
       })
       return `https://www.rentcars.com/pt-br/carros?${qs}`
     },
@@ -56,14 +66,16 @@ const CAR_PROVIDERS: CarProvider[] = [
     description: 'Maior rede de aluguel de carros da América Latina, com mais de 600 agências no Brasil.',
     color:       '#009A44',
     logo:        '🟢',
+    priceRange:  'a partir de R$ 89/dia',
     buildUrl:    (location, pickup, ret) => {
+      // Localiza usa DD/MM/YYYY nos parâmetros
       const qs = new URLSearchParams({
-        retirada:         location,
-        devolucao:        location,
-        dataRetirada:     pickup,
-        dataDevolucao:    ret,
-        horaRetirada:     '10:00',
-        horaDevolucao:    '10:00',
+        retirada:      location,
+        devolucao:     location,
+        dataRetirada:  formatDateBR(pickup),
+        dataDevolucao: formatDateBR(ret),
+        horaRetirada:  '10:00',
+        horaDevolucao: '10:00',
       })
       return `https://www.localiza.com/brasil/pt-br/resultado?${qs}`
     },
@@ -74,11 +86,13 @@ const CAR_PROVIDERS: CarProvider[] = [
     description: 'Segunda maior locadora do Brasil, com boa cobertura em aeroportos e centros urbanos.',
     color:       '#E30613',
     logo:        '🔴',
+    priceRange:  'a partir de R$ 85/dia',
     buildUrl:    (location, pickup, ret) => {
+      // Movida usa DD/MM/YYYY nos parâmetros
       const qs = new URLSearchParams({
         local:   location,
-        entrada: pickup,
-        saida:   ret,
+        entrada: formatDateBR(pickup),
+        saida:   formatDateBR(ret),
       })
       return `https://www.movida.com.br/aluguel-de-carros?${qs}`
     },
@@ -89,11 +103,13 @@ const CAR_PROVIDERS: CarProvider[] = [
     description: 'Forte presença em aeroportos e opções de carros executivos para viagens corporativas.',
     color:       '#FF6600',
     logo:        '🟠',
+    priceRange:  'a partir de R$ 92/dia',
     buildUrl:    (location, pickup, ret) => {
+      // Unidas usa DD/MM/YYYY nos parâmetros
       const qs = new URLSearchParams({
         cidade:      location,
-        dataEntrada: pickup,
-        dataSaida:   ret,
+        dataEntrada: formatDateBR(pickup),
+        dataSaida:   formatDateBR(ret),
       })
       return `https://www.unidas.com.br/aluguel-de-carros?${qs}`
     },
@@ -103,12 +119,13 @@ const CAR_PROVIDERS: CarProvider[] = [
 // ── Provider Card ──────────────────────────────────────────
 
 function CarProviderCard({
-  provider, location, pickupDate, returnDate,
+  provider, location, pickupDate, returnDate, onRedirect,
 }: {
-  provider:   CarProvider
-  location:   string
-  pickupDate: string
-  returnDate: string
+  provider:    CarProvider
+  location:    string
+  pickupDate:  string
+  returnDate:  string
+  onRedirect:  (name: string) => void
 }) {
   const url  = provider.buildUrl(location, pickupDate, returnDate)
   const days = calcDays(pickupDate, returnDate)
@@ -149,9 +166,16 @@ function CarProviderCard({
         </div>
         <p style={{
           fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.83rem',
-          color: '#5A6A80', margin: 0,
+          color: '#5A6A80', margin: '0 0 4px',
         }}>
           {provider.description}
+        </p>
+        {/* Faixa de preço estimada */}
+        <p style={{
+          fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.78rem',
+          color: provider.color, fontWeight: 600, margin: 0,
+        }}>
+          Estimativa: {provider.priceRange}
         </p>
       </div>
 
@@ -167,6 +191,7 @@ function CarProviderCard({
           href={url}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => onRedirect(provider.name)}
           style={{
             display: 'inline-block',
             background: provider.color, color: '#fff',
@@ -299,20 +324,21 @@ function CarrosContent() {
   const initialPickup   = searchParams.get('pickup')   || ''
   const initialReturn   = searchParams.get('return')   || ''
 
-  const [searched, setSearched] = useState(
-    Boolean(initialLocation && initialPickup && initialReturn)
-  )
-  const [current, setCurrent] = useState({
-    location: initialLocation,
-    pickup:   initialPickup,
-    return:   initialReturn,
-  })
+  const [searched,      setSearched]      = useState(Boolean(initialLocation && initialPickup && initialReturn))
+  const [current,       setCurrent]       = useState({ location: initialLocation, pickup: initialPickup, return: initialReturn })
+  const [notification,  setNotification]  = useState<string | null>(null)
 
   function handleSearch(location: string, pickup: string, ret: string) {
     const qs = new URLSearchParams({ location, pickup, return: ret })
     router.replace(`/carros?${qs}`, { scroll: false })
     setCurrent({ location, pickup, return: ret })
     setSearched(true)
+    setNotification(null)
+  }
+
+  function handleRedirect(providerName: string) {
+    setNotification(providerName)
+    setTimeout(() => setNotification(null), 5000)
   }
 
   const days = calcDays(current.pickup, current.return)
@@ -346,7 +372,24 @@ function CarrosContent() {
               </p>
             </div>
 
-            {/* Banner */}
+            {/* Notificação de redirecionamento */}
+            {notification && (
+              <div style={{
+                background: '#ECFDF5', border: '1px solid #6EE7B7',
+                borderRadius: 12, padding: '14px 20px', marginBottom: 12,
+                display: 'flex', alignItems: 'center', gap: 12,
+              }}>
+                <span style={{ fontSize: 18 }}>✓</span>
+                <p style={{
+                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontSize: '0.85rem', color: '#065F46', margin: 0, fontWeight: 600,
+                }}>
+                  Abrindo {notification} com seus dados preenchidos — cidade, data de retirada e devolução já enviados.
+                </p>
+              </div>
+            )}
+
+            {/* Banner informativo */}
             <div style={{
               background: '#EEF4FF', borderRadius: 12,
               padding: '14px 20px', marginBottom: 20,
@@ -357,7 +400,7 @@ function CarrosContent() {
                 fontFamily: 'Plus Jakarta Sans, sans-serif',
                 fontSize: '0.82rem', color: '#1A56DB', margin: 0,
               }}>
-                Clique em cada locadora para ver modelos disponíveis, categorias e preços em tempo real para {current.location}.
+                Clique em cada locadora — seus dados ({current.location}, {formatDateDisplay(current.pickup)} → {formatDateDisplay(current.return)}) são enviados automaticamente.
               </p>
             </div>
 
@@ -370,6 +413,7 @@ function CarrosContent() {
                   location={current.location}
                   pickupDate={current.pickup}
                   returnDate={current.return}
+                  onRedirect={handleRedirect}
                 />
               ))}
             </div>
