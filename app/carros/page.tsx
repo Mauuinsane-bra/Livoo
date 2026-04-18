@@ -47,21 +47,11 @@ const CAR_PROVIDERS: CarProvider[] = [
     logo:        '🔵',
     badge:       'Mais opções',
     priceRange:  'a partir de R$ 79/dia',
-    buildUrl:    (location, pickup, ret) => {
-      // Rentcars aceita YYYY-MM-DD (site internacionalizado)
-      // requestorid=10582 — ID de afiliado Go Livoo (rastreamento de comissão)
-      const qs = new URLSearchParams({
-        pickUpLocation:  location,
-        dropOffLocation: location,
-        pickUpDate:      pickup,
-        dropOffDate:     ret,
-        pickUpTime:      '10:00',
-        dropOffTime:     '10:00',
-        requestorid:     '10582',
-        utm_source:      'www.golivoo.com.br',
-        utm_medium:      'afiliado-link',
-      })
-      return `https://www.rentcars.com/pt-br/carros?${qs}`
+    buildUrl:    (_location, _pickup, _ret) => {
+      // Rentcars não aceita parâmetros de busca via deep link externo.
+      // Usamos a URL exata gerada pelo painel de afiliados — define o cookie
+      // requestorid=10582 e garante a atribuição da comissão.
+      return 'https://www.rentcars.com/pt-br/?requestorid=10582&utm_source=www.golivoo.com.br&utm_medium=afiliado-link'
     },
   },
   {
