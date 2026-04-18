@@ -23,6 +23,14 @@ function StopsLabel({ stops }: { stops: number }) {
   return <span style={{ color: '#64748B', fontSize: 11, fontFamily: 'Inter, sans-serif' }}>{stops} {stops === 1 ? 'parada' : 'paradas'}</span>
 }
 
+function formatDepartDate(dateStr: string): string {
+  if (!dateStr) return ''
+  const [year, month, day] = dateStr.split('-')
+  const months = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez']
+  const m = parseInt(month, 10) - 1
+  return `${parseInt(day, 10)} ${months[m] ?? ''} · ${year}`
+}
+
 function FlightCard({ flight }: { flight: CheapFlight }) {
   const [imgError, setImgError] = useState(false)
 
@@ -146,6 +154,20 @@ function FlightCard({ flight }: { flight: CheapFlight }) {
             </div>
           </div>
         </div>
+
+        {/* Data de partida */}
+        {flight.departDate && (
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 5,
+            fontFamily: 'Inter, sans-serif', fontSize: 11, color: '#64748B',
+          }}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <path d="M16 2v4M8 2v4M3 10h18"/>
+            </svg>
+            Saída: {formatDepartDate(flight.departDate)}
+          </div>
+        )}
 
         {/* Botão CTA */}
         <div style={{

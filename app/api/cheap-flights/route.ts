@@ -83,6 +83,7 @@ export interface CheapFlight {
   airline:             string
   airlineCode:         string
   stops:               number
+  departDate:          string  // YYYY-MM-DD — data do voo mais barato
   link:                string
 }
 
@@ -99,11 +100,13 @@ function getAirlineName(code: string): string {
 
 // Formato correto Aviasales: /?params={ORIGIN}{DEST}1
 // Confirmado manualmente: GRU → CWB gera https://www.aviasales.com/?params=GRUCWB1
-function buildAviasalesLink(origin: string, dest: string): string {
+// depart_date (YYYY-MM-DD) direciona para o mesmo voo que gerou o preço exibido no card
+function buildAviasalesLink(origin: string, dest: string, departDate?: string): string {
   const marker = process.env.TRAVELPAYOUTS_MARKER
-  const base = `https://www.aviasales.com/?params=${origin}${dest}1`
-  if (marker) return `${base}&marker=${marker}&currency=BRL`
-  return `${base}&currency=BRL`
+  let base = `https://www.aviasales.com/?params=${origin}${dest}1`
+  if (departDate) base += `&depart_date=${departDate}`
+  if (marker) return `${base}&marker=${marker}`
+  return base
 }
 
 export async function GET(req: NextRequest) {
@@ -138,17 +141,20 @@ export async function GET(req: NextRequest) {
     const [d1, d2] = await Promise.all([r1.json(), r2.json()])
 
     // Mescla resultados, mantendo menor preço por destino
-    const priceMap: Record<string, { price: number; airline: string; stops: number }> = {}
+    const priceMap: Record<string, { price: number; airline: string; stops: number; departDate: string }> = {}
 
     for (const dataset of [d1, d2]) {
       if (!dataset.success || !dataset.data) continue
-      for (const [dest, flights] of Object.entries(dataset.data as Record<string, Record<string, { price: number; airline: string; number_of_changes: number }>>)) {
+      for (const [dest, flights] of Object.entries(dataset.data as Record<string, Record<string, { price: number; airline: string; number_of_changes: number; departure_at?: string }>>)) {
         for (const flight of Object.values(flights)) {
           if (!priceMap[dest] || flight.price < priceMap[dest].price) {
+            // departure_at vem como ISO string (ex: "2026-06-15T00:00:00") — extrai só YYYY-MM-DD
+            const departDate = flight.departure_at ? flight.departure_at.substring(0, 10) : ''
             priceMap[dest] = {
-              price:   flight.price,
-              airline: flight.airline,
-              stops:   flight.number_of_changes ?? 0,
+              price:      flight.price,
+              airline:    flight.airline,
+              stops:      flight.number_of_changes ?? 0,
+              departDate,
             }
           }
         }
@@ -172,7 +178,8 @@ export async function GET(req: NextRequest) {
           airline:            getAirlineName(info.airline),
           airlineCode:        info.airline,
           stops:              info.stops,
-          link:               buildAviasalesLink(origin, dest),
+          departDate:         info.departDate,
+          link:               buildAviasalesLink(origin, dest, info.departDate),
         }
       })
       .sort((a, b) => a.price - b.price)
