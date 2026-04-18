@@ -113,23 +113,29 @@ function getAirlineName(code: string): string {
 
 // Formato Aviasales com data: /search/{ORIGIN}{DDMM}{DEST}{PAX}
 // Ex: GRU → CWB em 20/05 → /search/GRU2005CWB1
-// Sem data: /?params={ORIGIN}{DEST}1 (busca genérica)
+//
+// Com TRAVELPAYOUTS_MARKER configurado: redireciona via tp.media com locale=pt&currency=brl
+//   → garante Português + Real independente de IP
+// Sem marker: link direto ao Aviasales (idioma determinado por geolocalização de IP)
 function buildAviasalesLink(origin: string, dest: string, departDate?: string): string {
   const marker = process.env.TRAVELPAYOUTS_MARKER
-  let url: string
 
+  let aviasalesUrl: string
   if (departDate && departDate.length === 10) {
     // YYYY-MM-DD → DDMM (ex: "2026-05-20" → "2005")
     const parts = departDate.split('-')
     const ddmm = `${parts[2]}${parts[1]}`
-    url = `https://www.aviasales.com/search/${origin}${ddmm}${dest}1`
-    if (marker) url += `?marker=${marker}`
+    aviasalesUrl = `https://www.aviasales.com/search/${origin}${ddmm}${dest}1?locale=pt&currency=brl`
   } else {
-    url = `https://www.aviasales.com/?params=${origin}${dest}1`
-    if (marker) url += `&marker=${marker}`
+    aviasalesUrl = `https://www.aviasales.com/?params=${origin}${dest}1&locale=pt&currency=brl`
   }
 
-  return url
+  if (marker) {
+    // Redirect via Travelpayouts: força PT-BR + BRL e registra comissão
+    return `https://tp.media/r?marker=${marker}&p=4114&u=${encodeURIComponent(aviasalesUrl)}`
+  }
+
+  return aviasalesUrl
 }
 
 export async function GET(req: NextRequest) {
