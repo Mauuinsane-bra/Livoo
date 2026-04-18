@@ -129,7 +129,7 @@ function FlightCard({ flight }: { flight: CheapFlight }) {
               fontFamily: 'Nunito, sans-serif', fontWeight: 900,
               fontSize: 28, color: '#1A82D8', lineHeight: 1,
             }}>
-              <span style={{ fontSize: 14, fontWeight: 700, verticalAlign: 'super', lineHeight: 0, fontSize: 13 }}>R$</span>
+              <span style={{ fontSize: 13, fontWeight: 700, verticalAlign: 'super', lineHeight: 0 }}>R$</span>
               {' '}{formatPrice(flight.price)}
             </div>
           </div>
