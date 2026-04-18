@@ -97,12 +97,13 @@ function getAirlineName(code: string): string {
   return map[code] || code
 }
 
-// Formato correto Aviasales: {ORIGIN}1{DESTINATION} (1 adulto, sem data → busca flexível)
+// Formato correto Aviasales: /?params={ORIGIN}{DEST}1
+// Confirmado manualmente: GRU → CWB gera https://www.aviasales.com/?params=GRUCWB1
 function buildAviasalesLink(origin: string, dest: string): string {
   const marker = process.env.TRAVELPAYOUTS_MARKER
-  const base = `https://www.aviasales.com/search/${origin}1${dest}`
-  if (marker) return `${base}?marker=${marker}&currency=BRL`
-  return `${base}?currency=BRL`
+  const base = `https://www.aviasales.com/?params=${origin}${dest}1`
+  if (marker) return `${base}&marker=${marker}&currency=BRL`
+  return `${base}&currency=BRL`
 }
 
 export async function GET(req: NextRequest) {
