@@ -237,3 +237,187 @@ h1, h2, h3, h4 {
 ::-webkit-scrollbar-track { background: var(--bg-alt); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gray); }
+
+/* ── Promo strip ──────────────────────────────────────── */
+.promo-strip {
+  background: var(--gold);
+  padding: 11px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.promo-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--navy);
+}
+.promo-sep { color: rgba(15,35,64,.3); }
+
+/* ── Event cards (foto) ───────────────────────────────── */
+.ev-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,.07);
+  transition: transform .2s, box-shadow .2s;
+}
+.ev-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(26,130,216,.15); }
+.ev-img {
+  height: 175px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  padding: 12px;
+}
+.ev-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.52) 0%, transparent 55%);
+}
+.ev-badge {
+  background: var(--gold);
+  color: var(--navy);
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 100px;
+  position: relative;
+  z-index: 1;
+  letter-spacing: .4px;
+}
+.ev-body { padding: 14px 16px 16px; }
+.ev-title { font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; color: var(--navy); margin-bottom: 3px; }
+.ev-local { font-size: 12px; color: var(--gray); margin-bottom: 12px; display: flex; align-items: center; gap: 4px; }
+.ev-price-row { display: flex; align-items: center; justify-content: space-between; }
+.ev-from { font-size: 10px; color: #94A3B8; font-weight: 600; display: block; }
+.ev-price { font-family: 'Nunito', sans-serif; font-size: 20px; font-weight: 900; color: var(--primary); line-height: 1; }
+.ev-price small { font-size: 12px; font-weight: 700; }
+.ev-btn {
+  background: var(--light);
+  color: var(--primary);
+  border: none;
+  border-radius: 8px;
+  padding: 7px 14px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  transition: .15s;
+  text-decoration: none;
+}
+.ev-btn:hover { background: var(--primary); color: #fff; }
+
+/* ── Destination cards ────────────────────────────────── */
+.dest-card {
+  border-radius: 13px;
+  overflow: hidden;
+  height: 145px;
+  position: relative;
+  cursor: pointer;
+  transition: transform .2s;
+  text-decoration: none;
+}
+.dest-card:hover { transform: scale(1.03); }
+.dest-bg { position: absolute; inset: 0; background-size: cover; background-position: center; }
+.dest-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.62) 0%, rgba(0,0,0,.08) 55%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12px;
+}
+.dest-name { color: #fff; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; }
+.dest-count { color: rgba(255,255,255,.7); font-size: 11px; font-weight: 500; }
+
+/* ── Diferenciais ─────────────────────────────────────── */
+.difs-row {
+  background: #fff;
+  border-radius: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.dif-item {
+  padding: 30px 28px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  border-right: 1px solid var(--border);
+}
+.dif-item:last-child { border-right: none; }
+.dif-ico {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  background: var(--light);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dif-title { font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; margin-bottom: 6px; color: var(--navy); }
+.dif-desc { font-size: 13px; color: var(--gray); line-height: 1.65; }
+
+/* ── Section header row ───────────────────────────────── */
+.section-header-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.section-title-main { font-family: 'Nunito', sans-serif; font-size: 22px; font-weight: 800; color: var(--navy); }
+.section-link-all { font-size: 13px; font-weight: 700; color: var(--primary); text-decoration: none; }
+.section-link-all:hover { text-decoration: underline; }
+
+/* ── Category nav tabs ────────────────────────────────── */
+.cat-nav { background: #fff; border-top: 1px solid var(--border); }
+.cat-nav-inner {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  overflow-x: auto;
+}
+.cat-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 8px 17px;
+  text-decoration: none;
+  color: var(--gray);
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  border-bottom: 2.5px solid transparent;
+  transition: .15s;
+  cursor: pointer;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-family: 'Inter', sans-serif;
+}
+.cat-tab:hover { color: var(--primary); }
+.cat-tab svg { width: 19px; height: 19px; }
+
+@media (max-width: 768px) {
+  .section { padding: 48px 0; }
+  .difs-row { grid-template-columns: 1fr; }
+  .dif-item { border-right: none; border-bottom: 1px solid var(--border); }
+  .dif-item:last-child { border-bottom: none; }
+  .cat-nav-inner { padding: 0 12px; }
+}
