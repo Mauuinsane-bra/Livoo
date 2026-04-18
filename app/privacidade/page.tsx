@@ -9,7 +9,7 @@ export default function PrivacidadePage() {
   const lastUpdate = '30 de março de 2026'
 
   return (
-    <div style={{ background: '#F4F7FF', minHeight: '100vh', padding: '60px 0' }}>
+    <div style={{ background: '#F4F6F9', minHeight: '100vh', padding: '60px 0' }}>
       <div style={{ maxWidth: 760, margin: '0 auto', padding: '0 24px' }}>
         {/* Header */}
         <div style={{
@@ -21,8 +21,8 @@ export default function PrivacidadePage() {
         }}>
           <span style={{
             display: 'inline-block',
-            background: '#EEF4FF',
-            color: '#1A56DB',
+            background: '#E6F3FF',
+            color: '#1A82D8',
             fontSize: '0.72rem',
             fontWeight: 700,
             letterSpacing: '1.5px',
@@ -34,17 +34,17 @@ export default function PrivacidadePage() {
             Jurídico
           </span>
           <h1 style={{
-            fontFamily: 'Fraunces, serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: '2rem',
-            color: '#0D1B3E',
+            color: '#0F2340',
             marginBottom: 12,
           }}>
             Política de Privacidade
           </h1>
           <p style={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             fontSize: '0.88rem',
-            color: '#5A6A80',
+            color: '#64748B',
           }}>
             Última atualização: {lastUpdate} · Em conformidade com a LGPD (Lei nº 13.709/2018)
           </p>
@@ -59,7 +59,7 @@ export default function PrivacidadePage() {
         }}>
           <Section title="1. Quem somos">
             <p>A <strong>Livoo</strong> é uma plataforma de soluções para viajantes, empresa em constituição no Brasil. Esta Política de Privacidade descreve como coletamos, usamos e protegemos seus dados pessoais, em total conformidade com a Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018).</p>
-            <p>Para dúvidas ou solicitações relacionadas a esta política, entre em contato: <a href="mailto:privacidade@golivoo.com.br" style={{ color: '#1A56DB' }}>privacidade@golivoo.com.br</a></p>
+            <p>Para dúvidas ou solicitações relacionadas a esta política, entre em contato: <a href="mailto:privacidade@golivoo.com.br" style={{ color: '#1A82D8' }}>privacidade@golivoo.com.br</a></p>
           </Section>
 
           <Section title="2. Dados que coletamos">
@@ -117,7 +117,7 @@ export default function PrivacidadePage() {
               <li><strong>Revogação do consentimento:</strong> cancelar sua inscrição na lista de espera a qualquer momento.</li>
               <li><strong>Oposição:</strong> opor-se ao tratamento realizado com base em interesse legítimo.</li>
             </ul>
-            <p>Para exercer qualquer um destes direitos, envie um email para: <a href="mailto:privacidade@golivoo.com.br" style={{ color: '#1A56DB' }}>privacidade@golivoo.com.br</a></p>
+            <p>Para exercer qualquer um destes direitos, envie um email para: <a href="mailto:privacidade@golivoo.com.br" style={{ color: '#1A82D8' }}>privacidade@golivoo.com.br</a></p>
           </Section>
 
           <Section title="7. Cookies e rastreamento">
@@ -139,24 +139,24 @@ export default function PrivacidadePage() {
           </Section>
 
           <Section title="11. Encarregado de Proteção de Dados (DPO)">
-            <p>Enquanto a empresa está em constituição, as solicitações relacionadas a dados pessoais devem ser enviadas para: <a href="mailto:privacidade@golivoo.com.br" style={{ color: '#1A56DB' }}>privacidade@golivoo.com.br</a></p>
+            <p>Enquanto a empresa está em constituição, as solicitações relacionadas a dados pessoais devem ser enviadas para: <a href="mailto:privacidade@golivoo.com.br" style={{ color: '#1A82D8' }}>privacidade@golivoo.com.br</a></p>
             <p>Respondemos a todas as solicitações em até 15 dias úteis.</p>
           </Section>
 
           <div style={{
             marginTop: 40,
             padding: '20px 24px',
-            background: '#F4F7FF',
+            background: '#F4F6F9',
             borderRadius: 12,
-            borderLeft: '4px solid #1A56DB',
+            borderLeft: '4px solid #1A82D8',
           }}>
             <p style={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
+              fontFamily: 'Inter, sans-serif',
               fontSize: '0.85rem',
-              color: '#5A6A80',
+              color: '#64748B',
               margin: 0,
             }}>
-              Esta política foi elaborada em conformidade com a <strong>Lei Geral de Proteção de Dados (Lei nº 13.709/2018)</strong> e com os princípios de privacidade desde o design (Privacy by Design). Para denúncias ou reclamações, você também pode acionar a <strong>Autoridade Nacional de Proteção de Dados (ANPD)</strong> em <a href="https://www.gov.br/anpd" target="_blank" rel="noopener noreferrer" style={{ color: '#1A56DB' }}>gov.br/anpd</a>.
+              Esta política foi elaborada em conformidade com a <strong>Lei Geral de Proteção de Dados (Lei nº 13.709/2018)</strong> e com os princípios de privacidade desde o design (Privacy by Design). Para denúncias ou reclamações, você também pode acionar a <strong>Autoridade Nacional de Proteção de Dados (ANPD)</strong> em <a href="https://www.gov.br/anpd" target="_blank" rel="noopener noreferrer" style={{ color: '#1A82D8' }}>gov.br/anpd</a>.
             </p>
           </div>
         </div>
@@ -169,19 +169,19 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <div style={{ marginBottom: 36 }}>
       <h2 style={{
-        fontFamily: 'Fraunces, serif',
+        fontFamily: 'Nunito, sans-serif',
         fontSize: '1.15rem',
-        color: '#0D1B3E',
+        color: '#0F2340',
         marginBottom: 14,
         paddingBottom: 10,
-        borderBottom: '1px solid #D0DCF0',
+        borderBottom: '1px solid #E2E8F0',
       }}>
         {title}
       </h2>
       <div style={{
-        fontFamily: 'Plus Jakarta Sans, sans-serif',
+        fontFamily: 'Inter, sans-serif',
         fontSize: '0.92rem',
-        color: '#5A6A80',
+        color: '#64748B',
         lineHeight: 1.75,
         display: 'flex',
         flexDirection: 'column',

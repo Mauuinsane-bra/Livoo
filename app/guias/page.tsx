@@ -40,7 +40,7 @@ function ExperienceCard({ exp }: { exp: Experience }) {
         {/* Imagem */}
         <div style={{
           width: 180, flexShrink: 0,
-          background: '#EEF4FF',
+          background: '#E6F3FF',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: 36, minHeight: 140,
         }}>
@@ -64,29 +64,29 @@ function ExperienceCard({ exp }: { exp: Experience }) {
         <div style={{ padding: '20px 24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
           {/* Categoria */}
           <span style={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.7rem',
-            fontWeight: 700, color: '#1A56DB', textTransform: 'uppercase',
+            fontFamily: 'Inter, sans-serif', fontSize: '0.7rem',
+            fontWeight: 700, color: '#1A82D8', textTransform: 'uppercase',
             letterSpacing: '0.8px', marginBottom: 6, display: 'block',
           }}>
             {exp.category}
           </span>
 
           <h3 style={{
-            fontFamily: 'Fraunces, serif', fontSize: '1rem',
-            color: '#0D1B3E', margin: '0 0 6px',
+            fontFamily: 'Nunito, sans-serif', fontSize: '1rem',
+            color: '#0F2340', margin: '0 0 6px',
           }}>
             {exp.title}
           </h3>
 
           <div style={{ display: 'flex', gap: 16, marginBottom: 12, alignItems: 'center' }}>
             <span style={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.8rem', color: '#5A6A80',
+              fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#64748B',
             }}>
               📍 {exp.location}
             </span>
             {exp.duration && (
               <span style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.8rem', color: '#5A6A80',
+                fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#64748B',
               }}>
                 ⏱ {exp.duration}
               </span>
@@ -96,15 +96,15 @@ function ExperienceCard({ exp }: { exp: Experience }) {
           {/* Avaliação */}
           {exp.rating > 0 && (
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
-              <span style={{ color: '#F5A623', fontSize: '0.85rem' }}>★</span>
+              <span style={{ color: '#F5A800', fontSize: '0.85rem' }}>★</span>
               <span style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 700,
-                fontSize: '0.85rem', color: '#0D1B3E',
+                fontFamily: 'Inter, sans-serif', fontWeight: 700,
+                fontSize: '0.85rem', color: '#0F2340',
               }}>
                 {exp.rating.toFixed(1)}
               </span>
               <span style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.78rem', color: '#5A6A80',
+                fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#64748B',
               }}>
                 ({exp.reviewCount.toLocaleString('pt-BR')} avaliações)
               </span>
@@ -114,8 +114,8 @@ function ExperienceCard({ exp }: { exp: Experience }) {
           <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
               <p style={{
-                fontFamily: 'Fraunces, serif', fontSize: '1.15rem',
-                fontWeight: 700, color: '#0D1B3E', margin: 0,
+                fontFamily: 'Nunito, sans-serif', fontSize: '1.15rem',
+                fontWeight: 700, color: '#0F2340', margin: 0,
               }}>
                 {new Intl.NumberFormat('pt-BR', {
                   style: 'currency', currency: exp.currency === 'EUR' ? 'EUR' : 'BRL',
@@ -123,8 +123,8 @@ function ExperienceCard({ exp }: { exp: Experience }) {
                 }).format(exp.price)}
               </p>
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.72rem',
-                color: '#5A6A80', margin: '2px 0 0',
+                fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
+                color: '#64748B', margin: '2px 0 0',
               }}>
                 por pessoa
               </p>
@@ -177,30 +177,30 @@ function SearchForm({
 
   const inputStyle: React.CSSProperties = {
     width: '100%', padding: '12px 14px',
-    fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.92rem',
+    fontFamily: 'Inter, sans-serif', fontSize: '0.92rem',
     background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.25)',
     borderRadius: 10, color: '#fff', outline: 'none',
     boxSizing: 'border-box',
   }
 
   const labelStyle: React.CSSProperties = {
-    fontFamily: 'Plus Jakarta Sans, sans-serif',
+    fontFamily: 'Inter, sans-serif',
     fontSize: '0.72rem', fontWeight: 600,
     color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase',
     letterSpacing: '0.8px', display: 'block', marginBottom: 6,
   }
 
   return (
-    <div style={{ background: 'linear-gradient(135deg, #0D1B3E 0%, #1A3A6E 100%)', padding: '36px 0 48px' }}>
+    <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A3A6E 100%)', padding: '36px 0 48px' }}>
       <div style={{ maxWidth: 960, margin: '0 auto', padding: '0 24px' }}>
         <h1 style={{
-          fontFamily: 'Fraunces, serif', fontSize: '1.8rem',
+          fontFamily: 'Nunito, sans-serif', fontSize: '1.8rem',
           color: '#fff', marginBottom: 6,
         }}>
           Guias e experiências
         </h1>
         <p style={{
-          fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.88rem',
+          fontFamily: 'Inter, sans-serif', fontSize: '0.88rem',
           color: 'rgba(255,255,255,0.6)', marginBottom: 28,
         }}>
           Tours, aventuras, gastronomia e atividades no seu destino.
@@ -240,7 +240,7 @@ function SearchForm({
                 onChange={e => setCategory(e.target.value)}
               >
                 {CATEGORIES.map(c => (
-                  <option key={c.value} value={c.value} style={{ background: '#0D1B3E' }}>
+                  <option key={c.value} value={c.value} style={{ background: '#0F2340' }}>
                     {c.label}
                   </option>
                 ))}
@@ -337,11 +337,11 @@ function GuiasContent() {
         {status === 'loading' && (
           <div style={{ textAlign: 'center', padding: 80 }}>
             <div style={{
-              width: 40, height: 40, border: '3px solid #EEF4FF',
-              borderTop: '3px solid #1A56DB', borderRadius: '50%',
+              width: 40, height: 40, border: '3px solid #E6F3FF',
+              borderTop: '3px solid #1A82D8', borderRadius: '50%',
               animation: 'spin 0.8s linear infinite', margin: '0 auto 16px',
             }} />
-            <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#5A6A80' }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}>
               Buscando experiências em {current.destination}...
             </p>
           </div>
@@ -352,10 +352,10 @@ function GuiasContent() {
           <div>
             {/* Cabeçalho */}
             <div style={{ marginBottom: 20 }}>
-              <h2 style={{ fontFamily: 'Fraunces, serif', fontSize: '1.2rem', color: '#0D1B3E', marginBottom: 4 }}>
+              <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.2rem', color: '#0F2340', marginBottom: 4 }}>
                 Experiências em {current.destination}
               </h2>
-              <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.85rem', color: '#5A6A80' }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#64748B' }}>
                 Redirecionando para GetYourGuide — maior plataforma de experiências do mundo
               </p>
             </div>
@@ -363,11 +363,11 @@ function GuiasContent() {
             {/* Card de redirect */}
             <div style={{
               background: '#fff', borderRadius: 16, overflow: 'hidden',
-              boxShadow: '0 4px 20px rgba(13,27,62,0.08)', border: '1px solid #D0DCF0',
+              boxShadow: '0 4px 20px rgba(13,27,62,0.08)', border: '1px solid #E2E8F0',
             }}>
               {/* Header colorido */}
               <div style={{
-                background: 'linear-gradient(135deg, #0D1B3E 0%, #1E3A6E 100%)',
+                background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)',
                 padding: '32px 40px', display: 'flex', alignItems: 'center', gap: 24,
               }}>
                 <div style={{
@@ -380,16 +380,16 @@ function GuiasContent() {
                 </div>
                 <div>
                   <p style={{
-                    fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.72rem',
+                    fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
                     color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase',
                     letterSpacing: '1.5px', marginBottom: 6,
                   }}>
                     Parceiro verificado
                   </p>
-                  <h3 style={{ fontFamily: 'Fraunces, serif', fontSize: '1.4rem', color: '#fff', margin: 0 }}>
+                  <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.4rem', color: '#fff', margin: 0 }}>
                     GetYourGuide — {current.destination}
                   </h3>
-                  <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.85rem', color: 'rgba(255,255,255,0.65)', marginTop: 4, marginBottom: 0 }}>
+                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: 'rgba(255,255,255,0.65)', marginTop: 4, marginBottom: 0 }}>
                     Tours, experiências, guias locais e atividades para a sua viagem
                   </p>
                 </div>
@@ -408,13 +408,13 @@ function GuiasContent() {
                     { icon: '💬', label: 'Suporte em português', desc: 'Atendimento disponível em PT-BR' },
                   ].map(item => (
                     <div key={item.label} style={{
-                      background: '#F4F7FF', borderRadius: 12, padding: '16px 18px',
+                      background: '#F4F6F9', borderRadius: 12, padding: '16px 18px',
                     }}>
                       <span style={{ fontSize: 20, display: 'block', marginBottom: 8 }}>{item.icon}</span>
-                      <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.82rem', fontWeight: 700, color: '#0D1B3E', margin: '0 0 4px' }}>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', fontWeight: 700, color: '#0F2340', margin: '0 0 4px' }}>
                         {item.label}
                       </p>
-                      <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.75rem', color: '#5A6A80', margin: 0 }}>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#64748B', margin: 0 }}>
                         {item.desc}
                       </p>
                     </div>
@@ -431,8 +431,8 @@ function GuiasContent() {
                   Ver experiências em {current.destination} no GetYourGuide →
                 </a>
                 <p style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.75rem',
-                  color: '#5A6A80', textAlign: 'center', marginTop: 10,
+                  fontFamily: 'Inter, sans-serif', fontSize: '0.75rem',
+                  color: '#64748B', textAlign: 'center', marginTop: 10,
                 }}>
                   A Go Livoo recebe uma comissão quando você reserva — sem custo adicional para você.
                 </p>
@@ -447,7 +447,7 @@ function GuiasContent() {
             background: '#fff', borderRadius: 14, padding: 48,
             textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)',
           }}>
-            <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#5A6A80', fontSize: '0.9rem', marginBottom: 20 }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', fontSize: '0.9rem', marginBottom: 20 }}>
               Não foi possível carregar as experiências. Tente novamente.
             </p>
             <a href={`https://www.getyourguide.com/s/?q=${encodeURIComponent(current.destination)}`}
@@ -467,13 +467,13 @@ function GuiasContent() {
             }}>
               <div>
                 <h2 style={{
-                  fontFamily: 'Fraunces, serif', fontSize: '1.2rem',
-                  color: '#0D1B3E', marginBottom: 4,
+                  fontFamily: 'Nunito, sans-serif', fontSize: '1.2rem',
+                  color: '#0F2340', marginBottom: 4,
                 }}>
                   {current.destination}
                 </h2>
                 <p style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.85rem', color: '#5A6A80',
+                  fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#64748B',
                 }}>
                   {experiences.length} experiência{experiences.length !== 1 ? 's' : ''} encontrada{experiences.length !== 1 ? 's' : ''}
                   {current.date ? ` · ${formatDateDisplay(current.date)}` : ''}
@@ -484,8 +484,8 @@ function GuiasContent() {
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.8rem',
-                  color: '#1A56DB', fontWeight: 600, textDecoration: 'none',
+                  fontFamily: 'Inter, sans-serif', fontSize: '0.8rem',
+                  color: '#1A82D8', fontWeight: 600, textDecoration: 'none',
                 }}
               >
                 Ver mais no GetYourGuide →
@@ -507,11 +507,11 @@ function GuiasContent() {
             textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)',
           }}>
             <span style={{ fontSize: 40, display: 'block', marginBottom: 12 }}>🗺️</span>
-            <h3 style={{ fontFamily: 'Fraunces, serif', color: '#0D1B3E', marginBottom: 8 }}>
+            <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 8 }}>
               Nenhuma experiência encontrada
             </h3>
             <p style={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#5A6A80',
+              fontFamily: 'Inter, sans-serif', color: '#64748B',
               fontSize: '0.9rem', maxWidth: 440, margin: '0 auto 28px',
             }}>
               Não encontramos experiências para esse destino na nossa base. Veja o que está disponível diretamente no GetYourGuide.
@@ -532,8 +532,8 @@ function GuiasContent() {
         {status === 'idle' && (
           <div style={{ textAlign: 'center', padding: '60px 0' }}>
             <p style={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
-              color: '#5A6A80', fontSize: '0.95rem',
+              fontFamily: 'Inter, sans-serif',
+              color: '#64748B', fontSize: '0.95rem',
             }}>
               Digite o destino para encontrar tours, guias e experiências locais.
             </p>
@@ -545,7 +545,7 @@ function GuiasContent() {
         @keyframes spin { to { transform: rotate(360deg); } }
         input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.6; }
         input::placeholder { color: rgba(255,255,255,0.45) !important; }
-        select option { background: #0D1B3E; color: #fff; }
+        select option { background: #0F2340; color: #fff; }
       `}</style>
     </>
   )

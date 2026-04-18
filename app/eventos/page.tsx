@@ -96,7 +96,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     flag: '🇦🇷',
     category: 'futebol',
     tag: 'Em alta',
-    tagColor: '#F5A623',
+    tagColor: '#F5A800',
     imageUrl: 'https://images.unsplash.com/photo-1551958219-acbc82e6e25b?w=600',
     ticketUrl: 'https://www.conmebol.com/pt/',
     ticketLabel: 'Ingressos — CONMEBOL',
@@ -132,7 +132,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     flag: '🇧🇷',
     category: 'automobilismo',
     tag: 'Em alta',
-    tagColor: '#F5A623',
+    tagColor: '#F5A800',
     imageUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600',
     ticketUrl: 'https://www.formula1.com/en/racing/2025/brazil/tickets.html',
     ticketLabel: 'Ingressos oficiais — Formula1.com',
@@ -186,7 +186,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     flag: '🇧🇷',
     category: 'shows',
     tag: 'Em alta',
-    tagColor: '#F5A623',
+    tagColor: '#F5A800',
     imageUrl: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=600',
     ticketUrl: 'https://www.lollapaloozabr.com/',
     ticketLabel: 'Ingressos — lollapaloozabr.com',
@@ -222,7 +222,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     flag: '🇧🇷',
     category: 'cultura',
     tag: 'Ícone',
-    tagColor: '#F5A623',
+    tagColor: '#F5A800',
     imageUrl: 'https://images.unsplash.com/photo-1518623489648-a173ef7824f3?w=600',
     ticketUrl: 'https://www.liesa.com.br/',
     ticketLabel: 'Ingressos — liesa.com.br',
@@ -240,7 +240,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     flag: '🇯🇵',
     category: 'cultura',
     tag: 'Em alta',
-    tagColor: '#F5A623',
+    tagColor: '#F5A800',
     imageUrl: 'https://images.unsplash.com/photo-1522383225653-ed111181a951?w=600',
     ticketUrl: 'https://www.japan.travel/pt/',
     ticketLabel: 'Guia de viagem — japan.travel',
@@ -271,7 +271,7 @@ function EventCard({ event }: { event: AnyEvent }) {
         background: '#fff',
         borderRadius: 16,
         overflow: 'hidden',
-        border: '1px solid #D0DCF0',
+        border: '1px solid #E2E8F0',
         boxShadow: '0 2px 12px rgba(13,27,62,0.06)',
         display: 'flex',
         flexDirection: 'column',
@@ -287,7 +287,7 @@ function EventCard({ event }: { event: AnyEvent }) {
       }}
     >
       {/* Imagem */}
-      <div style={{ position: 'relative', height: 200, overflow: 'hidden', background: '#0D1B3E' }}>
+      <div style={{ position: 'relative', height: 200, overflow: 'hidden', background: '#0F2340' }}>
         {event.imageUrl ? (
           <img
             src={event.imageUrl}
@@ -321,7 +321,7 @@ function EventCard({ event }: { event: AnyEvent }) {
           textTransform: 'uppercase',
           padding: '4px 10px',
           borderRadius: 50,
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
+          fontFamily: 'Inter, sans-serif',
         }}>
           {event.tag}
         </span>
@@ -337,7 +337,7 @@ function EventCard({ event }: { event: AnyEvent }) {
             fontWeight: 700,
             padding: '3px 8px',
             borderRadius: 50,
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             letterSpacing: '0.5px',
           }}>
             AO VIVO
@@ -349,7 +349,7 @@ function EventCard({ event }: { event: AnyEvent }) {
           position: 'absolute',
           bottom: 12, left: 14,
           color: '#fff',
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
+          fontFamily: 'Inter, sans-serif',
           fontSize: '0.8rem',
           fontWeight: 500,
         }}>
@@ -362,28 +362,28 @@ function EventCard({ event }: { event: AnyEvent }) {
         <div style={{
           fontSize: '0.72rem',
           fontWeight: 600,
-          color: '#1A56DB',
+          color: '#1A82D8',
           textTransform: 'uppercase',
           letterSpacing: '1px',
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
+          fontFamily: 'Inter, sans-serif',
           marginBottom: 8,
         }}>
           {event.date}
         </div>
         <h3 style={{
-          fontFamily: 'Fraunces, serif',
+          fontFamily: 'Nunito, sans-serif',
           fontSize: '1.1rem',
           fontWeight: 700,
-          color: '#0D1B3E',
+          color: '#0F2340',
           margin: '0 0 10px',
           lineHeight: 1.3,
         }}>
           {event.title}
         </h3>
         <p style={{
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
+          fontFamily: 'Inter, sans-serif',
           fontSize: '0.85rem',
-          color: '#5A6A80',
+          color: '#64748B',
           lineHeight: 1.6,
           margin: '0 0 16px',
         }}>
@@ -394,24 +394,24 @@ function EventCard({ event }: { event: AnyEvent }) {
       {/* Preços + ações */}
       <div style={{ padding: '0 20px 20px' }}>
         <div style={{
-          background: '#F4F7FF',
+          background: '#F4F6F9',
           borderRadius: 10,
           padding: '12px 14px',
           marginBottom: 14,
         }}>
           <div style={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             fontSize: '0.78rem',
-            color: '#5A6A80',
+            color: '#64748B',
             marginBottom: 4,
           }}>
             {event.priceEstimate}
           </div>
           {'flightFrom' in event && event.flightFrom && (
             <div style={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
+              fontFamily: 'Inter, sans-serif',
               fontSize: '0.78rem',
-              color: '#1A56DB',
+              color: '#1A82D8',
               fontWeight: 600,
             }}>
               {event.flightFrom}
@@ -426,9 +426,9 @@ function EventCard({ event }: { event: AnyEvent }) {
             rel="noopener noreferrer"
             style={{
               display: 'block',
-              background: '#0D1B3E',
+              background: '#0F2340',
               color: '#fff',
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
+              fontFamily: 'Inter, sans-serif',
               fontWeight: 600,
               fontSize: '0.82rem',
               padding: '10px 16px',
@@ -444,15 +444,15 @@ function EventCard({ event }: { event: AnyEvent }) {
             style={{
               display: 'block',
               background: 'transparent',
-              color: '#1A56DB',
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
+              color: '#1A82D8',
+              fontFamily: 'Inter, sans-serif',
               fontWeight: 600,
               fontSize: '0.82rem',
               padding: '10px 16px',
               borderRadius: 8,
               textDecoration: 'none',
               textAlign: 'center',
-              border: '2px solid #1A56DB',
+              border: '2px solid #1A82D8',
             }}
           >
             Montar pacote completo
@@ -460,9 +460,9 @@ function EventCard({ event }: { event: AnyEvent }) {
         </div>
 
         <p style={{
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
+          fontFamily: 'Inter, sans-serif',
           fontSize: '0.68rem',
-          color: '#5A6A80',
+          color: '#64748B',
           margin: '10px 0 0',
           textAlign: 'center',
         }}>
@@ -481,14 +481,14 @@ function SkeletonCard() {
       background: '#fff',
       borderRadius: 16,
       overflow: 'hidden',
-      border: '1px solid #D0DCF0',
+      border: '1px solid #E2E8F0',
     }}>
-      <div style={{ height: 200, background: '#EEF4FF' }} />
+      <div style={{ height: 200, background: '#E6F3FF' }} />
       <div style={{ padding: 20 }}>
-        <div style={{ height: 12, background: '#EEF4FF', borderRadius: 6, marginBottom: 12, width: '40%' }} />
-        <div style={{ height: 20, background: '#EEF4FF', borderRadius: 6, marginBottom: 10 }} />
-        <div style={{ height: 14, background: '#EEF4FF', borderRadius: 6, marginBottom: 6, width: '80%' }} />
-        <div style={{ height: 14, background: '#EEF4FF', borderRadius: 6, width: '65%' }} />
+        <div style={{ height: 12, background: '#E6F3FF', borderRadius: 6, marginBottom: 12, width: '40%' }} />
+        <div style={{ height: 20, background: '#E6F3FF', borderRadius: 6, marginBottom: 10 }} />
+        <div style={{ height: 14, background: '#E6F3FF', borderRadius: 6, marginBottom: 6, width: '80%' }} />
+        <div style={{ height: 14, background: '#E6F3FF', borderRadius: 6, width: '65%' }} />
       </div>
     </div>
   )
@@ -554,18 +554,18 @@ export default function EventosPage() {
     : [...filteredStatic, ...uniqueLive]
 
   return (
-    <div style={{ background: '#F4F7FF', minHeight: '100vh' }}>
+    <div style={{ background: '#F4F6F9', minHeight: '100vh' }}>
 
       {/* ── HEADER ── */}
       <section style={{
-        background: 'linear-gradient(135deg, #0D1B3E 0%, #1A3A6E 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #1A3A6E 100%)',
         padding: '64px 0 48px',
       }}>
         <div className="container" style={{ textAlign: 'center' }}>
           <span style={{
             display: 'inline-block',
             background: 'rgba(245,166,35,0.15)',
-            color: '#F5A623',
+            color: '#F5A800',
             fontSize: '0.7rem',
             fontWeight: 700,
             letterSpacing: '2px',
@@ -578,7 +578,7 @@ export default function EventosPage() {
             Experiências Reais
           </span>
           <h1 style={{
-            fontFamily: 'Fraunces, serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: 'clamp(2rem, 5vw, 3rem)',
             fontWeight: 700,
             color: '#fff',
@@ -587,7 +587,7 @@ export default function EventosPage() {
             Eventos & Experiências
           </h1>
           <p style={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             fontSize: '1.05rem',
             color: 'rgba(255,255,255,0.7)',
             maxWidth: 540,
@@ -617,7 +617,7 @@ export default function EventosPage() {
                 border: '1.5px solid rgba(255,255,255,0.25)',
                 borderRadius: 12,
                 color: '#fff',
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '0.9rem',
                 outline: 'none',
                 boxSizing: 'border-box',
@@ -635,11 +635,11 @@ export default function EventosPage() {
                   padding: '8px 20px',
                   borderRadius: 50,
                   border: activeCategory === cat.value
-                    ? '2px solid #F5A623'
+                    ? '2px solid #F5A800'
                     : '2px solid rgba(255,255,255,0.2)',
-                  background: activeCategory === cat.value ? '#F5A623' : 'transparent',
-                  color: activeCategory === cat.value ? '#0D1B3E' : '#fff',
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  background: activeCategory === cat.value ? '#F5A800' : 'transparent',
+                  color: activeCategory === cat.value ? '#0F2340' : '#fff',
+                  fontFamily: 'Inter, sans-serif',
                   fontWeight: 600,
                   fontSize: '0.85rem',
                   cursor: 'pointer',
@@ -661,7 +661,7 @@ export default function EventosPage() {
           {!isDemoMode && uniqueLive.length > 0 && (
             <div style={{
               background: '#fff',
-              border: '1px solid #D0DCF0',
+              border: '1px solid #E2E8F0',
               borderRadius: 12,
               padding: '14px 20px',
               marginBottom: 28,
@@ -672,7 +672,7 @@ export default function EventosPage() {
               <span style={{
                 background: '#dc2626',
                 color: '#fff',
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontFamily: 'Inter, sans-serif',
                 fontWeight: 700,
                 fontSize: '0.65rem',
                 padding: '3px 8px',
@@ -682,9 +682,9 @@ export default function EventosPage() {
                 AO VIVO
               </span>
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '0.82rem',
-                color: '#0D1B3E',
+                color: '#0F2340',
                 margin: 0,
               }}>
                 <strong>{uniqueLive.length} evento{uniqueLive.length !== 1 ? 's' : ''}</strong> encontrado{uniqueLive.length !== 1 ? 's' : ''} ao vivo via Ticketmaster
@@ -722,19 +722,19 @@ export default function EventosPage() {
             <div style={{
               textAlign: 'center',
               padding: '60px 0',
-              color: '#5A6A80',
+              color: '#64748B',
             }}>
               <div style={{ fontSize: 40, marginBottom: 16 }}>🔍</div>
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '1rem',
-                color: '#5A6A80',
+                color: '#64748B',
                 marginBottom: 12,
               }}>
                 Nenhum evento encontrado para &ldquo;{keyword}&rdquo;
               </p>
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '0.85rem',
                 color: '#8A9AB5',
               }}>
@@ -757,7 +757,7 @@ export default function EventosPage() {
             }}>
               <span style={{ fontSize: 18 }}>ℹ️</span>
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '0.82rem',
                 color: '#D48A0A',
                 margin: 0,
@@ -773,13 +773,13 @@ export default function EventosPage() {
 
       {/* ── CTA ROTEIRO ── */}
       <section style={{
-        background: '#0D1B3E',
+        background: '#0F2340',
         padding: '56px 0',
         textAlign: 'center',
       }}>
         <div className="container">
           <h2 style={{
-            fontFamily: 'Fraunces, serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: 'clamp(1.5rem, 3vw, 2rem)',
             color: '#fff',
             margin: '0 0 12px',
@@ -787,7 +787,7 @@ export default function EventosPage() {
             Não achou o evento que procura?
           </h2>
           <p style={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             fontSize: '1rem',
             color: 'rgba(255,255,255,0.65)',
             margin: '0 0 28px',
@@ -796,9 +796,9 @@ export default function EventosPage() {
           </p>
           <Link href="/" style={{
             display: 'inline-block',
-            background: '#F5A623',
-            color: '#0D1B3E',
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            background: '#F5A800',
+            color: '#0F2340',
+            fontFamily: 'Inter, sans-serif',
             fontWeight: 700,
             fontSize: '0.95rem',
             padding: '14px 32px',
@@ -813,7 +813,7 @@ export default function EventosPage() {
       <style>{`
         input::placeholder { color: rgba(255,255,255,0.4) !important; }
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
-        div[style*="background: #EEF4FF"] { animation: pulse 1.5s ease-in-out infinite; }
+        div[style*="background: #E6F3FF"] { animation: pulse 1.5s ease-in-out infinite; }
       `}</style>
     </div>
   )

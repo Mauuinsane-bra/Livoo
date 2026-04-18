@@ -32,7 +32,7 @@ export default function Navbar() {
     }}>
       {/* Top bar */}
       <div style={{
-        background: '#0D1B3E',
+        background: '#0F2340',
         color: '#fff',
         fontSize: '0.75rem',
         textAlign: 'center',
@@ -78,7 +78,7 @@ export default function Navbar() {
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '0.82rem',
                 fontWeight: link.highlight ? 700 : 500,
-                color: link.highlight ? '#1A82D8' : '#5A6A80',
+                color: link.highlight ? '#1A82D8' : '#64748B',
                 textDecoration: 'none',
                 padding: '6px 10px',
                 borderRadius: 8,
@@ -170,10 +170,10 @@ export default function Navbar() {
           className="show-mobile"
           aria-label="Menu"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="#0D1B3E">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#0F2340">
             {mobileOpen
-              ? <path d="M18 6L6 18M6 6l12 12" stroke="#0D1B3E" strokeWidth="2" strokeLinecap="round"/>
-              : <path d="M3 6h18M3 12h18M3 18h18" stroke="#0D1B3E" strokeWidth="2" strokeLinecap="round"/>
+              ? <path d="M18 6L6 18M6 6l12 12" stroke="#0F2340" strokeWidth="2" strokeLinecap="round"/>
+              : <path d="M3 6h18M3 12h18M3 18h18" stroke="#0F2340" strokeWidth="2" strokeLinecap="round"/>
             }
           </svg>
         </button>
@@ -197,7 +197,7 @@ export default function Navbar() {
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '0.95rem',
                 fontWeight: link.highlight ? 700 : 500,
-                color: link.highlight ? '#1A82D8' : '#0D1B3E',
+                color: link.highlight ? '#1A82D8' : '#0F2340',
                 textDecoration: 'none',
                 borderBottom: '1px solid #E6F3FF',
               }}

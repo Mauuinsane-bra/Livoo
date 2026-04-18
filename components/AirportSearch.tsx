@@ -87,10 +87,10 @@ export default function AirportSearch({ placeholder = 'Cidade ou aeroporto', val
       {label && (
         <label style={{
           display: 'block',
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
+          fontFamily: 'Inter, sans-serif',
           fontSize: '0.78rem',
           fontWeight: 600,
-          color: '#5A6A80',
+          color: '#64748B',
           marginBottom: 6,
         }}>
           {label}
@@ -112,11 +112,11 @@ export default function AirportSearch({ placeholder = 'Cidade ou aeroporto', val
           style={{
             width: '100%',
             padding: '11px 36px 11px 14px',
-            border: `1.5px solid ${focused ? '#1A56DB' : '#D0DCF0'}`,
+            border: `1.5px solid ${focused ? '#1A82D8' : '#E2E8F0'}`,
             borderRadius: 10,
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             fontSize: '0.9rem',
-            color: '#0D1B3E',
+            color: '#0F2340',
             background: '#fff',
             outline: 'none',
             transition: 'border-color 0.2s',
@@ -129,13 +129,13 @@ export default function AirportSearch({ placeholder = 'Cidade ou aeroporto', val
           right: 12,
           top: '50%',
           transform: 'translateY(-50%)',
-          color: value ? '#1A56DB' : '#5A6A80',
+          color: value ? '#1A82D8' : '#64748B',
           pointerEvents: 'none',
           display: 'flex',
           alignItems: 'center',
         }}>
           {loading
-            ? <span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid #D0DCF0', borderTop: '2px solid #1A56DB', borderRadius: '50%', animation: 'spinAirport 0.6s linear infinite' }} />
+            ? <span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid #E2E8F0', borderTop: '2px solid #1A82D8', borderRadius: '50%', animation: 'spinAirport 0.6s linear infinite' }} />
             : <span style={{ fontSize: '1rem' }}>&#9992;</span>
           }
         </span>
@@ -149,7 +149,7 @@ export default function AirportSearch({ placeholder = 'Cidade ou aeroporto', val
           left: 0,
           right: 0,
           background: '#fff',
-          border: '1.5px solid #D0DCF0',
+          border: '1.5px solid #E2E8F0',
           borderRadius: 10,
           boxShadow: '0 8px 32px rgba(13,27,62,0.12)',
           zIndex: 200,
@@ -170,20 +170,20 @@ export default function AirportSearch({ placeholder = 'Cidade ou aeroporto', val
                 padding: '10px 14px',
                 background: 'none',
                 border: 'none',
-                borderBottom: i < results.length - 1 ? '1px solid #F4F7FF' : 'none',
+                borderBottom: i < results.length - 1 ? '1px solid #F4F6F9' : 'none',
                 cursor: 'pointer',
                 textAlign: 'left',
                 transition: 'background 0.15s',
               }}
-              onMouseEnter={e => (e.currentTarget.style.background = '#F4F7FF')}
+              onMouseEnter={e => (e.currentTarget.style.background = '#F4F6F9')}
               onMouseLeave={e => (e.currentTarget.style.background = 'none')}
             >
               {/* IATA badge */}
               <span style={{
                 minWidth: 40,
-                background: '#EEF4FF',
-                color: '#1A56DB',
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                background: '#E6F3FF',
+                color: '#1A82D8',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '0.75rem',
                 fontWeight: 700,
                 padding: '3px 6px',
@@ -196,10 +196,10 @@ export default function AirportSearch({ placeholder = 'Cidade ou aeroporto', val
               <span style={{ flex: 1, minWidth: 0 }}>
                 <span style={{
                   display: 'block',
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '0.88rem',
                   fontWeight: 600,
-                  color: '#0D1B3E',
+                  color: '#0F2340',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
@@ -208,9 +208,9 @@ export default function AirportSearch({ placeholder = 'Cidade ou aeroporto', val
                 </span>
                 <span style={{
                   display: 'block',
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '0.75rem',
-                  color: '#5A6A80',
+                  color: '#64748B',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',

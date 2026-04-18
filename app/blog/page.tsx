@@ -18,18 +18,18 @@ export default function BlogPage() {
   const rest = BLOG_POSTS.filter(p => !p.featured)
 
   return (
-    <div style={{ background: '#F4F7FF', minHeight: '100vh' }}>
+    <div style={{ background: '#F4F6F9', minHeight: '100vh' }}>
 
       {/* Hero */}
       <div style={{
-        background: 'linear-gradient(135deg, #0D1B3E 0%, #1E3A6E 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)',
         padding: '72px 24px 80px',
         textAlign: 'center',
       }}>
         <span style={{
           display: 'inline-block',
           background: 'rgba(245,166,35,0.15)',
-          color: '#F5A623',
+          color: '#F5A800',
           fontSize: '0.72rem',
           fontWeight: 700,
           letterSpacing: '2px',
@@ -42,7 +42,7 @@ export default function BlogPage() {
           Guias e dicas
         </span>
         <h1 style={{
-          fontFamily: 'Fraunces, serif',
+          fontFamily: 'Nunito, sans-serif',
           fontSize: 'clamp(2rem, 4vw, 3rem)',
           color: '#fff',
           marginBottom: 16,
@@ -51,7 +51,7 @@ export default function BlogPage() {
           Viaje com mais inteligência
         </h1>
         <p style={{
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
+          fontFamily: 'Inter, sans-serif',
           fontSize: '1rem',
           color: 'rgba(255,255,255,0.65)',
           maxWidth: 560,
@@ -69,9 +69,9 @@ export default function BlogPage() {
         {featured.length > 0 && (
           <>
             <h2 style={{
-              fontFamily: 'Fraunces, serif',
+              fontFamily: 'Nunito, sans-serif',
               fontSize: '1.5rem',
-              color: '#0D1B3E',
+              color: '#0F2340',
               marginBottom: 28,
             }}>
               Em destaque
@@ -93,7 +93,7 @@ export default function BlogPage() {
                     borderRadius: 20,
                     overflow: 'hidden',
                     boxShadow: '0 4px 24px rgba(13,27,62,0.08)',
-                    border: '1px solid #D0DCF0',
+                    border: '1px solid #E2E8F0',
                     transition: 'transform 0.15s, box-shadow 0.15s',
                     height: '100%',
                     display: 'flex',
@@ -114,7 +114,7 @@ export default function BlogPage() {
                       }} />
                       <span style={{
                         position: 'absolute', top: 14, left: 14,
-                        fontFamily: 'Plus Jakarta Sans, sans-serif',
+                        fontFamily: 'Inter, sans-serif',
                         fontSize: '0.7rem', fontWeight: 700,
                         color: '#fff',
                         background: post.categoryColor,
@@ -126,18 +126,18 @@ export default function BlogPage() {
                     </div>
                     <div style={{ padding: '24px 28px', flex: 1, display: 'flex', flexDirection: 'column' }}>
                       <h3 style={{
-                        fontFamily: 'Fraunces, serif',
+                        fontFamily: 'Nunito, sans-serif',
                         fontSize: '1.1rem',
-                        color: '#0D1B3E',
+                        color: '#0F2340',
                         marginBottom: 10,
                         lineHeight: 1.35,
                       }}>
                         {post.title}
                       </h3>
                       <p style={{
-                        fontFamily: 'Plus Jakarta Sans, sans-serif',
+                        fontFamily: 'Inter, sans-serif',
                         fontSize: '0.85rem',
-                        color: '#5A6A80',
+                        color: '#64748B',
                         lineHeight: 1.65,
                         flex: 1,
                         marginBottom: 16,
@@ -150,17 +150,17 @@ export default function BlogPage() {
                         justifyContent: 'space-between',
                       }}>
                         <span style={{
-                          fontFamily: 'Plus Jakarta Sans, sans-serif',
+                          fontFamily: 'Inter, sans-serif',
                           fontSize: '0.75rem',
                           color: '#9AAABB',
                         }}>
                           {formatDate(post.date)} · {post.readTime} min
                         </span>
                         <span style={{
-                          fontFamily: 'Plus Jakarta Sans, sans-serif',
+                          fontFamily: 'Inter, sans-serif',
                           fontSize: '0.82rem',
                           fontWeight: 700,
-                          color: '#1A56DB',
+                          color: '#1A82D8',
                         }}>
                           Ler artigo →
                         </span>
@@ -177,9 +177,9 @@ export default function BlogPage() {
         {rest.length > 0 && (
           <>
             <h2 style={{
-              fontFamily: 'Fraunces, serif',
+              fontFamily: 'Nunito, sans-serif',
               fontSize: '1.5rem',
-              color: '#0D1B3E',
+              color: '#0F2340',
               marginBottom: 28,
             }}>
               Mais artigos
@@ -195,7 +195,7 @@ export default function BlogPage() {
                     background: '#fff',
                     borderRadius: 16,
                     padding: '24px 28px',
-                    border: '1px solid #D0DCF0',
+                    border: '1px solid #E2E8F0',
                     display: 'flex',
                     gap: 24,
                     alignItems: 'center',
@@ -218,7 +218,7 @@ export default function BlogPage() {
                     </div>
                     <div style={{ flex: 1 }}>
                       <span style={{
-                        fontFamily: 'Plus Jakarta Sans, sans-serif',
+                        fontFamily: 'Inter, sans-serif',
                         fontSize: '0.7rem', fontWeight: 700,
                         color: post.categoryColor,
                         textTransform: 'uppercase',
@@ -227,9 +227,9 @@ export default function BlogPage() {
                         {post.category}
                       </span>
                       <h3 style={{
-                        fontFamily: 'Fraunces, serif',
+                        fontFamily: 'Nunito, sans-serif',
                         fontSize: '1.05rem',
-                        color: '#0D1B3E',
+                        color: '#0F2340',
                         margin: '6px 0 8px',
                         lineHeight: 1.3,
                       }}>
@@ -237,17 +237,17 @@ export default function BlogPage() {
                       </h3>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <span style={{
-                          fontFamily: 'Plus Jakarta Sans, sans-serif',
+                          fontFamily: 'Inter, sans-serif',
                           fontSize: '0.75rem',
                           color: '#9AAABB',
                         }}>
                           {formatDate(post.date)} · {post.readTime} min de leitura
                         </span>
                         <span style={{
-                          fontFamily: 'Plus Jakarta Sans, sans-serif',
+                          fontFamily: 'Inter, sans-serif',
                           fontSize: '0.82rem',
                           fontWeight: 700,
-                          color: '#1A56DB',
+                          color: '#1A82D8',
                         }}>
                           Ler →
                         </span>
@@ -263,13 +263,13 @@ export default function BlogPage() {
         {/* CTA */}
         <div style={{
           marginTop: 56,
-          background: 'linear-gradient(135deg, #0D1B3E 0%, #1E3A6E 100%)',
+          background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)',
           borderRadius: 20,
           padding: '44px 48px',
           textAlign: 'center',
         }}>
           <h3 style={{
-            fontFamily: 'Fraunces, serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: '1.5rem',
             color: '#fff',
             marginBottom: 12,
@@ -277,7 +277,7 @@ export default function BlogPage() {
             Pronto para montar sua viagem?
           </h3>
           <p style={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             fontSize: '0.95rem',
             color: 'rgba(255,255,255,0.65)',
             maxWidth: 500,

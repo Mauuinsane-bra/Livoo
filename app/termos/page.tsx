@@ -10,12 +10,12 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <section style={{ marginBottom: 40 }}>
       <h2 style={{
-        fontFamily: 'Fraunces, serif',
+        fontFamily: 'Nunito, sans-serif',
         fontSize: '1.2rem',
-        color: '#0D1B3E',
+        color: '#0F2340',
         marginBottom: 16,
         paddingBottom: 12,
-        borderBottom: '1px solid #EEF4FF',
+        borderBottom: '1px solid #E6F3FF',
       }}>
         {title}
       </h2>
@@ -27,9 +27,9 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function P({ children }: { children: React.ReactNode }) {
   return (
     <p style={{
-      fontFamily: 'Plus Jakarta Sans, sans-serif',
+      fontFamily: 'Inter, sans-serif',
       fontSize: '0.92rem',
-      color: '#5A6A80',
+      color: '#64748B',
       lineHeight: 1.8,
       marginBottom: 14,
     }}>
@@ -40,16 +40,16 @@ function P({ children }: { children: React.ReactNode }) {
 
 export default function TermosPage() {
   return (
-    <div style={{ background: '#F4F7FF', minHeight: '100vh' }}>
+    <div style={{ background: '#F4F6F9', minHeight: '100vh' }}>
 
       {/* Hero */}
       <div style={{
-        background: 'linear-gradient(135deg, #0D1B3E 0%, #1E3A6E 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)',
         padding: '72px 24px 80px',
         textAlign: 'center',
       }}>
         <h1 style={{
-          fontFamily: 'Fraunces, serif',
+          fontFamily: 'Nunito, sans-serif',
           fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
           color: '#fff',
           marginBottom: 12,
@@ -57,7 +57,7 @@ export default function TermosPage() {
           Termos de Uso
         </h1>
         <p style={{
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
+          fontFamily: 'Inter, sans-serif',
           fontSize: '0.9rem',
           color: 'rgba(255,255,255,0.55)',
         }}>
@@ -74,7 +74,7 @@ export default function TermosPage() {
           marginBottom: 40,
         }}>
           <p style={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             fontSize: '0.88rem',
             color: '#8A6000',
             margin: 0,
@@ -89,7 +89,7 @@ export default function TermosPage() {
           borderRadius: 20,
           padding: '48px 52px',
           boxShadow: '0 4px 24px rgba(13,27,62,0.07)',
-          border: '1px solid #D0DCF0',
+          border: '1px solid #E2E8F0',
         }}>
 
           <Section title="1. Sobre a Go Livoo">
@@ -100,7 +100,7 @@ export default function TermosPage() {
             </P>
             <P>
               O site principal está disponível em <strong>www.golivoo.com.br</strong>. Para dúvidas, entre em contato pelo email{' '}
-              <Link href="mailto:contato@golivoo.com.br" style={{ color: '#1A56DB' }}>contato@golivoo.com.br</Link>.
+              <Link href="mailto:contato@golivoo.com.br" style={{ color: '#1A82D8' }}>contato@golivoo.com.br</Link>.
             </P>
           </Section>
 
@@ -193,9 +193,9 @@ export default function TermosPage() {
                 'Criar múltiplas contas com o objetivo de burlar limitações do sistema',
               ].map((item, i) => (
                 <li key={i} style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '0.9rem',
-                  color: '#5A6A80',
+                  color: '#64748B',
                   lineHeight: 1.7,
                   marginBottom: 8,
                 }}>
@@ -229,7 +229,7 @@ export default function TermosPage() {
           <Section title="11. Privacidade">
             <P>
               O tratamento de dados pessoais dos usuários é regido pela nossa{' '}
-              <Link href="/privacidade" style={{ color: '#1A56DB', fontWeight: 600 }}>Política de Privacidade</Link>,
+              <Link href="/privacidade" style={{ color: '#1A82D8', fontWeight: 600 }}>Política de Privacidade</Link>,
               em conformidade com a Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018).
             </P>
           </Section>
@@ -245,9 +245,9 @@ export default function TermosPage() {
           <Section title="13. Contato">
             <P>
               Para dúvidas sobre estes termos, entre em contato pelo email{' '}
-              <Link href="mailto:contato@golivoo.com.br" style={{ color: '#1A56DB' }}>contato@golivoo.com.br</Link>{' '}
+              <Link href="mailto:contato@golivoo.com.br" style={{ color: '#1A82D8' }}>contato@golivoo.com.br</Link>{' '}
               ou pela nossa{' '}
-              <Link href="/contato" style={{ color: '#1A56DB', fontWeight: 600 }}>página de contato</Link>.
+              <Link href="/contato" style={{ color: '#1A82D8', fontWeight: 600 }}>página de contato</Link>.
             </P>
           </Section>
 

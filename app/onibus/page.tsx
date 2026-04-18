@@ -157,14 +157,14 @@ function ProviderCard({
       <div style={{ flex: 1 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
           <h3 style={{
-            fontFamily: 'Fraunces, serif', fontSize: '1.05rem',
-            color: '#0D1B3E', margin: 0,
+            fontFamily: 'Nunito, sans-serif', fontSize: '1.05rem',
+            color: '#0F2340', margin: 0,
           }}>
             {provider.name}
           </h3>
           {provider.badge && (
             <span style={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.68rem',
+              fontFamily: 'Inter, sans-serif', fontSize: '0.68rem',
               fontWeight: 700, color: provider.color,
               background: provider.color + '15',
               padding: '2px 8px', borderRadius: 20,
@@ -175,14 +175,14 @@ function ProviderCard({
           )}
         </div>
         <p style={{
-          fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.83rem',
-          color: '#5A6A80', margin: '0 0 4px',
+          fontFamily: 'Inter, sans-serif', fontSize: '0.83rem',
+          color: '#64748B', margin: '0 0 4px',
         }}>
           {provider.description}
         </p>
         {/* Faixa de preço estimada */}
         <p style={{
-          fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.78rem',
+          fontFamily: 'Inter, sans-serif', fontSize: '0.78rem',
           color: provider.color, fontWeight: 600, margin: 0,
         }}>
           Estimativa: {provider.priceRange}
@@ -199,7 +199,7 @@ function ProviderCard({
           display: 'inline-block',
           background: provider.color,
           color: '#fff',
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
+          fontFamily: 'Inter, sans-serif',
           fontWeight: 700, fontSize: '0.85rem',
           padding: '10px 20px', borderRadius: 10,
           textDecoration: 'none', whiteSpace: 'nowrap',
@@ -244,24 +244,24 @@ function SearchForm({
 
   const inputStyle: React.CSSProperties = {
     width: '100%', padding: '12px 14px',
-    fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.92rem',
+    fontFamily: 'Inter, sans-serif', fontSize: '0.92rem',
     background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.25)',
     borderRadius: 10, color: '#fff', outline: 'none',
     boxSizing: 'border-box',
   }
 
   const labelStyle: React.CSSProperties = {
-    fontFamily: 'Plus Jakarta Sans, sans-serif',
+    fontFamily: 'Inter, sans-serif',
     fontSize: '0.72rem', fontWeight: 600,
     color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase',
     letterSpacing: '0.8px', display: 'block', marginBottom: 6,
   }
 
   return (
-    <div style={{ background: 'linear-gradient(135deg, #0D1B3E 0%, #1A3A6E 100%)', padding: '36px 0 48px' }}>
+    <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A3A6E 100%)', padding: '36px 0 48px' }}>
       <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
         <h1 style={{
-          fontFamily: 'Fraunces, serif', fontSize: '1.8rem',
+          fontFamily: 'Nunito, sans-serif', fontSize: '1.8rem',
           color: '#fff', marginBottom: 28,
         }}>
           Buscar passagens de ônibus
@@ -283,7 +283,7 @@ function SearchForm({
                 border: `1.5px solid ${tripType === opt.id ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.2)'}`,
                 background: tripType === opt.id ? 'rgba(255,255,255,0.15)' : 'transparent',
                 color: '#fff',
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '0.8rem',
                 fontWeight: tripType === opt.id ? 700 : 500,
                 cursor: 'pointer',
@@ -447,14 +447,14 @@ function OnibusContent() {
             {/* Cabeçalho da busca */}
             <div style={{ marginBottom: 24 }}>
               <h2 style={{
-                fontFamily: 'Fraunces, serif', fontSize: '1.2rem',
-                color: '#0D1B3E', marginBottom: 4,
+                fontFamily: 'Nunito, sans-serif', fontSize: '1.2rem',
+                color: '#0F2340', marginBottom: 4,
               }}>
                 {current.from} → {current.to}
               </h2>
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-                fontSize: '0.85rem', color: '#5A6A80',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '0.85rem', color: '#64748B',
               }}>
                 {formatDateDisplay(current.date)} {current.returnDate && `→ ${formatDateDisplay(current.returnDate)}`} · {current.passengers} passageiro{current.passengers !== 1 ? 's' : ''}
               </p>
@@ -469,7 +469,7 @@ function OnibusContent() {
               }}>
                 <span style={{ fontSize: 18 }}>✓</span>
                 <p style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '0.85rem', color: '#065F46', margin: 0, fontWeight: 600,
                 }}>
                   Abrindo {notification} com sua rota já preenchida — {current.from} → {current.to} na data selecionada.
@@ -479,16 +479,16 @@ function OnibusContent() {
 
             {/* Banner informativo */}
             <div style={{
-              background: isInternationalRoute ? '#FEF3C7' : '#EEF4FF',
+              background: isInternationalRoute ? '#FEF3C7' : '#E6F3FF',
               borderRadius: 12,
               padding: '14px 20px', marginBottom: 20,
               display: 'flex', alignItems: 'center', gap: 12,
             }}>
               <span style={{ fontSize: 18 }}>ℹ️</span>
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '0.82rem',
-                color: isInternationalRoute ? '#92400E' : '#1A56DB',
+                color: isInternationalRoute ? '#92400E' : '#1A82D8',
                 margin: 0,
               }}>
                 {isInternationalRoute
@@ -516,12 +516,12 @@ function OnibusContent() {
 
             {/* Dica */}
             <div style={{
-              marginTop: 32, background: '#FFF8EC', border: '1px solid #F5A62340',
+              marginTop: 32, background: '#FFF8EC', border: '1px solid #F5A80040',
               borderRadius: 12, padding: '20px 24px',
             }}>
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-                fontSize: '0.83rem', color: '#5A6A80', margin: 0,
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '0.83rem', color: '#64748B', margin: 0,
               }}>
                 <strong style={{ color: '#D48A0A' }}>Dica Go Livoo:</strong> {isInternationalRoute
                   ? 'FlixBus é a principal rede internacional de ônibus para Europa e América do Sul. Oferece ótimos preços e muitas rotas.'
@@ -531,20 +531,20 @@ function OnibusContent() {
 
             {/* CTA roteiro */}
             <div style={{
-              marginTop: 16, background: '#F4F7FF', borderRadius: 12,
+              marginTop: 16, background: '#F4F6F9', borderRadius: 12,
               padding: '20px 24px', textAlign: 'center',
             }}>
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-                fontSize: '0.85rem', color: '#5A6A80', marginBottom: 10,
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '0.85rem', color: '#64748B', marginBottom: 10,
               }}>
                 Quer combinar ônibus + hotel + ingresso em um único roteiro?
               </p>
               <a
                 href="/roteiro"
                 style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 600,
-                  fontSize: '0.88rem', color: '#1A56DB', textDecoration: 'none',
+                  fontFamily: 'Inter, sans-serif', fontWeight: 600,
+                  fontSize: '0.88rem', color: '#1A82D8', textDecoration: 'none',
                 }}
               >
                 Criar roteiro completo →
@@ -557,8 +557,8 @@ function OnibusContent() {
         {!searched && (
           <div>
             <p style={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
-              fontSize: '0.85rem', color: '#5A6A80',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '0.85rem', color: '#64748B',
               marginBottom: 20, textAlign: 'center',
             }}>
               Preencha origem, destino e data — os links abaixo serão ativados com seus dados.
@@ -576,12 +576,12 @@ function OnibusContent() {
                   </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                      <h3 style={{ fontFamily: 'Fraunces, serif', fontSize: '1.05rem', color: '#0D1B3E', margin: 0 }}>
+                      <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.05rem', color: '#0F2340', margin: 0 }}>
                         {provider.name}
                       </h3>
                       {provider.badge && (
                         <span style={{
-                          fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.68rem',
+                          fontFamily: 'Inter, sans-serif', fontSize: '0.68rem',
                           fontWeight: 700, color: provider.color, background: provider.color + '15',
                           padding: '2px 8px', borderRadius: 20, textTransform: 'uppercase', letterSpacing: '0.5px',
                         }}>
@@ -589,13 +589,13 @@ function OnibusContent() {
                         </span>
                       )}
                     </div>
-                    <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.83rem', color: '#5A6A80', margin: 0 }}>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.83rem', color: '#64748B', margin: 0 }}>
                       {provider.description}
                     </p>
                   </div>
                   <div style={{
-                    background: '#D0DCF0', color: '#fff',
-                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                    background: '#E2E8F0', color: '#fff',
+                    fontFamily: 'Inter, sans-serif',
                     fontWeight: 700, fontSize: '0.85rem',
                     padding: '10px 20px', borderRadius: 10,
                     whiteSpace: 'nowrap', flexShrink: 0,

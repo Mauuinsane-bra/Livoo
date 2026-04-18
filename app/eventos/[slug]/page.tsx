@@ -43,14 +43,14 @@ export default function EventoSlugPage({ params }: Props) {
             {/* Breadcrumb */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
               <Link href="/eventos" style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.8rem',
+                fontFamily: 'Inter, sans-serif', fontSize: '0.8rem',
                 color: 'rgba(255,255,255,0.6)', textDecoration: 'none',
               }}>
                 Eventos
               </Link>
               <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem' }}>›</span>
               <span style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.8rem',
+                fontFamily: 'Inter, sans-serif', fontSize: '0.8rem',
                 color: 'rgba(255,255,255,0.6)',
               }}>
                 {event.category.charAt(0).toUpperCase() + event.category.slice(1)}
@@ -62,7 +62,7 @@ export default function EventoSlugPage({ params }: Props) {
               display: 'inline-block',
               background: event.tagColor,
               color: '#fff',
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
+              fontFamily: 'Inter, sans-serif',
               fontSize: '0.72rem', fontWeight: 700,
               padding: '3px 10px', borderRadius: 20,
               textTransform: 'uppercase', letterSpacing: '0.5px',
@@ -72,7 +72,7 @@ export default function EventoSlugPage({ params }: Props) {
             </span>
 
             <h1 style={{
-              fontFamily: 'Fraunces, serif', fontSize: '2rem',
+              fontFamily: 'Nunito, sans-serif', fontSize: '2rem',
               color: '#fff', margin: '0 0 8px', lineHeight: 1.2,
             }}>
               {event.title}
@@ -80,13 +80,13 @@ export default function EventoSlugPage({ params }: Props) {
 
             <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
               <span style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.88rem',
+                fontFamily: 'Inter, sans-serif', fontSize: '0.88rem',
                 color: 'rgba(255,255,255,0.8)',
               }}>
                 📅 {event.date}
               </span>
               <span style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.88rem',
+                fontFamily: 'Inter, sans-serif', fontSize: '0.88rem',
                 color: 'rgba(255,255,255,0.8)',
               }}>
                 📍 {event.venue} · {event.location}
@@ -104,13 +104,13 @@ export default function EventoSlugPage({ params }: Props) {
           <div>
             {/* Descrição */}
             <h2 style={{
-              fontFamily: 'Fraunces, serif', fontSize: '1.3rem',
-              color: '#0D1B3E', marginBottom: 14,
+              fontFamily: 'Nunito, sans-serif', fontSize: '1.3rem',
+              color: '#0F2340', marginBottom: 14,
             }}>
               Sobre o evento
             </h2>
             <p style={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.93rem',
+              fontFamily: 'Inter, sans-serif', fontSize: '0.93rem',
               color: '#374151', lineHeight: 1.7, marginBottom: 32,
             }}>
               {event.longDesc}
@@ -118,26 +118,26 @@ export default function EventoSlugPage({ params }: Props) {
 
             {/* Ingressos — CTA principal */}
             <div style={{
-              background: '#0D1B3E', borderRadius: 14,
+              background: '#0F2340', borderRadius: 14,
               padding: '24px 28px', marginBottom: 32,
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
                 <div>
                   <p style={{
-                    fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.75rem',
-                    fontWeight: 700, color: '#F5A623', textTransform: 'uppercase',
+                    fontFamily: 'Inter, sans-serif', fontSize: '0.75rem',
+                    fontWeight: 700, color: '#F5A800', textTransform: 'uppercase',
                     letterSpacing: '0.8px', marginBottom: 4,
                   }}>
                     Ingressos
                   </p>
                   <p style={{
-                    fontFamily: 'Fraunces, serif', fontSize: '1.15rem',
+                    fontFamily: 'Nunito, sans-serif', fontSize: '1.15rem',
                     color: '#fff', margin: '0 0 4px',
                   }}>
                     {event.priceEstimate}
                   </p>
                   <p style={{
-                    fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.8rem',
+                    fontFamily: 'Inter, sans-serif', fontSize: '0.8rem',
                     color: 'rgba(255,255,255,0.55)', margin: 0,
                   }}>
                     Site oficial — compra segura
@@ -149,8 +149,8 @@ export default function EventoSlugPage({ params }: Props) {
                   rel="noopener noreferrer"
                   style={{
                     display: 'inline-block',
-                    background: '#F5A623', color: '#0D1B3E',
-                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                    background: '#F5A800', color: '#0F2340',
+                    fontFamily: 'Inter, sans-serif',
                     fontWeight: 800, fontSize: '0.9rem',
                     padding: '12px 28px', borderRadius: 10,
                     textDecoration: 'none', whiteSpace: 'nowrap',
@@ -163,8 +163,8 @@ export default function EventoSlugPage({ params }: Props) {
 
             {/* Dicas práticas */}
             <h2 style={{
-              fontFamily: 'Fraunces, serif', fontSize: '1.1rem',
-              color: '#0D1B3E', marginBottom: 14,
+              fontFamily: 'Nunito, sans-serif', fontSize: '1.1rem',
+              color: '#0F2340', marginBottom: 14,
             }}>
               Dicas para a viagem
             </h2>
@@ -172,14 +172,14 @@ export default function EventoSlugPage({ params }: Props) {
               {event.tips.map((tip, i) => (
                 <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
                   <span style={{
-                    fontFamily: 'Fraunces, serif', fontSize: '1rem',
-                    fontWeight: 700, color: '#F5A623',
+                    fontFamily: 'Nunito, sans-serif', fontSize: '1rem',
+                    fontWeight: 700, color: '#F5A800',
                     minWidth: 24, marginTop: 1,
                   }}>
                     {String(i + 1).padStart(2, '0')}
                   </span>
                   <p style={{
-                    fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.87rem',
+                    fontFamily: 'Inter, sans-serif', fontSize: '0.87rem',
                     color: '#374151', margin: 0, lineHeight: 1.6,
                   }}>
                     {tip}
@@ -192,8 +192,8 @@ export default function EventoSlugPage({ params }: Props) {
             {related.length > 0 && (
               <>
                 <h2 style={{
-                  fontFamily: 'Fraunces, serif', fontSize: '1.1rem',
-                  color: '#0D1B3E', marginBottom: 16,
+                  fontFamily: 'Nunito, sans-serif', fontSize: '1.1rem',
+                  color: '#0F2340', marginBottom: 16,
                 }}>
                   Eventos relacionados
                 </h2>
@@ -204,7 +204,7 @@ export default function EventoSlugPage({ params }: Props) {
                       href={`/eventos/${r.id}`}
                       style={{
                         display: 'flex', gap: 14, alignItems: 'center',
-                        background: '#F4F7FF', borderRadius: 12, padding: '14px 16px',
+                        background: '#F4F6F9', borderRadius: 12, padding: '14px 16px',
                         textDecoration: 'none',
                       }}
                     >
@@ -213,19 +213,19 @@ export default function EventoSlugPage({ params }: Props) {
                       </div>
                       <div>
                         <p style={{
-                          fontFamily: 'Fraunces, serif', fontSize: '0.9rem',
-                          color: '#0D1B3E', margin: '0 0 3px',
+                          fontFamily: 'Nunito, sans-serif', fontSize: '0.9rem',
+                          color: '#0F2340', margin: '0 0 3px',
                         }}>
                           {r.title}
                         </p>
                         <p style={{
-                          fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.75rem',
-                          color: '#5A6A80', margin: 0,
+                          fontFamily: 'Inter, sans-serif', fontSize: '0.75rem',
+                          color: '#64748B', margin: 0,
                         }}>
                           {r.flag} {r.location} · {r.date}
                         </p>
                       </div>
-                      <span style={{ marginLeft: 'auto', color: '#1A56DB', fontSize: '1rem' }}>›</span>
+                      <span style={{ marginLeft: 'auto', color: '#1A82D8', fontSize: '1rem' }}>›</span>
                     </Link>
                   ))}
                 </div>
@@ -238,13 +238,13 @@ export default function EventoSlugPage({ params }: Props) {
 
             {/* Badge de preço de voo */}
             <div style={{
-              background: '#EEF4FF', borderRadius: 10,
+              background: '#E6F3FF', borderRadius: 10,
               padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 8,
             }}>
               <span style={{ fontSize: 16 }}>✈️</span>
               <span style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.8rem',
-                color: '#1A56DB', fontWeight: 600,
+                fontFamily: 'Inter, sans-serif', fontSize: '0.8rem',
+                color: '#1A82D8', fontWeight: 600,
               }}>
                 {event.flightFrom}
               </span>
@@ -270,9 +270,9 @@ export default function EventoSlugPage({ params }: Props) {
               style={{
                 display: 'block', textAlign: 'center',
                 background: 'transparent',
-                border: '2px solid #1A56DB',
-                color: '#1A56DB',
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                border: '2px solid #1A82D8',
+                color: '#1A82D8',
+                fontFamily: 'Inter, sans-serif',
                 fontWeight: 700, fontSize: '0.88rem',
                 padding: '12px', borderRadius: 10,
                 textDecoration: 'none',

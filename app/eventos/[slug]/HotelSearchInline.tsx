@@ -27,17 +27,17 @@ export default function HotelSearchInline({ city, suggestedCheckIn, suggestedChe
   }
 
   const labelStyle: React.CSSProperties = {
-    fontFamily: 'Plus Jakarta Sans, sans-serif',
+    fontFamily: 'Inter, sans-serif',
     fontSize: '0.7rem', fontWeight: 700,
-    color: '#5A6A80', textTransform: 'uppercase',
+    color: '#64748B', textTransform: 'uppercase',
     letterSpacing: '0.8px', display: 'block', marginBottom: 5,
   }
 
   const inputStyle: React.CSSProperties = {
     width: '100%', padding: '10px 12px',
-    fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.88rem',
-    background: '#F4F7FF', border: '1.5px solid #D0DCF0',
-    borderRadius: 8, color: '#0D1B3E', outline: 'none',
+    fontFamily: 'Inter, sans-serif', fontSize: '0.88rem',
+    background: '#F4F6F9', border: '1.5px solid #E2E8F0',
+    borderRadius: 8, color: '#0F2340', outline: 'none',
     boxSizing: 'border-box',
   }
 
@@ -45,11 +45,11 @@ export default function HotelSearchInline({ city, suggestedCheckIn, suggestedChe
     <div style={{
       background: '#fff', borderRadius: 14, padding: '20px',
       boxShadow: '0 4px 20px rgba(13,27,62,0.08)',
-      border: '1px solid #D0DCF0',
+      border: '1px solid #E2E8F0',
     }}>
       <h3 style={{
-        fontFamily: 'Fraunces, serif', fontSize: '0.95rem',
-        color: '#0D1B3E', marginBottom: 16,
+        fontFamily: 'Nunito, sans-serif', fontSize: '0.95rem',
+        color: '#0F2340', marginBottom: 16,
         display: 'flex', alignItems: 'center', gap: 8,
       }}>
         🏨 Hotéis em {city}
@@ -61,7 +61,7 @@ export default function HotelSearchInline({ city, suggestedCheckIn, suggestedChe
           <label style={labelStyle}>Destino</label>
           <div style={{
             ...inputStyle,
-            background: '#EEF4FF', color: '#1A56DB', fontWeight: 600,
+            background: '#E6F3FF', color: '#1A82D8', fontWeight: 600,
             display: 'flex', alignItems: 'center', gap: 6,
           }}>
             <span>📍</span> {city}

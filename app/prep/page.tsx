@@ -79,7 +79,7 @@ const VISA_LABELS: Record<string, { label: string; color: string; bg: string }> 
   on_arrival:   { label: 'Visto na chegada',     color: '#ca8a04', bg: '#fef9c3' },
   e_visa:       { label: 'E-Visa (online)',       color: '#2563eb', bg: '#dbeafe' },
   embassy:      { label: 'Visto na embaixada',    color: '#dc2626', bg: '#fee2e2' },
-  unknown:      { label: 'Verificar com consulado', color: '#5A6A80', bg: '#F4F7FF' },
+  unknown:      { label: 'Verificar com consulado', color: '#64748B', bg: '#F4F6F9' },
 }
 
 // ── Componente principal ───────────────────────────────────
@@ -161,11 +161,11 @@ function PrepContent() {
   const natCountry  = getCountry(nationality)
 
   return (
-    <div style={{ background: '#F4F7FF', minHeight: '100vh' }}>
+    <div style={{ background: '#F4F6F9', minHeight: '100vh' }}>
 
       {/* ── HEADER ── */}
       <section style={{
-        background: 'linear-gradient(135deg, #0D1B3E 0%, #1A3A6E 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #1A3A6E 100%)',
         padding: '64px 0 48px',
         textAlign: 'center',
       }}>
@@ -173,7 +173,7 @@ function PrepContent() {
           <span style={{
             display: 'inline-block',
             background: 'rgba(245,166,35,0.15)',
-            color: '#F5A623',
+            color: '#F5A800',
             fontSize: '0.7rem',
             fontWeight: 700,
             letterSpacing: '2px',
@@ -186,7 +186,7 @@ function PrepContent() {
             Documentação Viagem
           </span>
           <h1 style={{
-            fontFamily: 'Fraunces, serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: 'clamp(2rem, 5vw, 2.8rem)',
             color: '#fff',
             margin: '0 0 14px',
@@ -194,7 +194,7 @@ function PrepContent() {
             Tudo em ordem antes de viajar
           </h1>
           <p style={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             fontSize: '1rem',
             color: 'rgba(255,255,255,0.7)',
             maxWidth: 520,
@@ -211,9 +211,9 @@ function PrepContent() {
         <div className="container" style={{ maxWidth: 720 }}>
           <div className="card" style={{ padding: 32 }}>
             <h2 style={{
-              fontFamily: 'Fraunces, serif',
+              fontFamily: 'Nunito, sans-serif',
               fontSize: '1.3rem',
-              color: '#0D1B3E',
+              color: '#0F2340',
               margin: '0 0 24px',
             }}>
               Verificar documentação
@@ -224,10 +224,10 @@ function PrepContent() {
               <div>
                 <label style={{
                   display: 'block',
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '0.78rem',
                   fontWeight: 600,
-                  color: '#5A6A80',
+                  color: '#64748B',
                   textTransform: 'uppercase',
                   letterSpacing: '0.8px',
                   marginBottom: 8,
@@ -240,12 +240,12 @@ function PrepContent() {
                   style={{
                     width: '100%',
                     padding: '12px 14px',
-                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                    fontFamily: 'Inter, sans-serif',
                     fontSize: '0.92rem',
                     background: '#fff',
-                    border: '1.5px solid #D0DCF0',
+                    border: '1.5px solid #E2E8F0',
                     borderRadius: 10,
-                    color: '#0D1B3E',
+                    color: '#0F2340',
                     outline: 'none',
                     cursor: 'pointer',
                     boxSizing: 'border-box',
@@ -263,10 +263,10 @@ function PrepContent() {
               <div>
                 <label style={{
                   display: 'block',
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '0.78rem',
                   fontWeight: 600,
-                  color: '#5A6A80',
+                  color: '#64748B',
                   textTransform: 'uppercase',
                   letterSpacing: '0.8px',
                   marginBottom: 8,
@@ -279,12 +279,12 @@ function PrepContent() {
                   style={{
                     width: '100%',
                     padding: '12px 14px',
-                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                    fontFamily: 'Inter, sans-serif',
                     fontSize: '0.92rem',
                     background: '#fff',
-                    border: '1.5px solid #D0DCF0',
+                    border: '1.5px solid #E2E8F0',
                     borderRadius: 10,
-                    color: destination ? '#0D1B3E' : '#8A9AB5',
+                    color: destination ? '#0F2340' : '#8A9AB5',
                     outline: 'none',
                     cursor: 'pointer',
                     boxSizing: 'border-box',
@@ -331,7 +331,7 @@ function PrepContent() {
               }}>
                 <span style={{ fontSize: 18 }}>ℹ️</span>
                 <p style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '0.82rem',
                   color: '#D48A0A',
                   margin: 0,
@@ -350,15 +350,15 @@ function PrepContent() {
                 </div>
                 <div>
                   <h2 style={{
-                    fontFamily: 'Fraunces, serif',
+                    fontFamily: 'Nunito, sans-serif',
                     fontSize: '1.25rem',
-                    color: '#0D1B3E',
+                    color: '#0F2340',
                     margin: '0 0 4px',
                   }}>
                     {natCountry?.name ?? nationality} → {destCountry?.name ?? destination}
                   </h2>
                   <p style={{
-                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                    fontFamily: 'Inter, sans-serif',
                     fontSize: '0.8rem',
                     color: '#8A9AB5',
                     margin: 0,
@@ -392,7 +392,7 @@ function PrepContent() {
                          result.visaType === 'embassy'      ? '🏛️' : 'ℹ️'}
                       </span>
                       <strong style={{
-                        fontFamily: 'Plus Jakarta Sans, sans-serif',
+                        fontFamily: 'Inter, sans-serif',
                         fontSize: '1rem',
                         color: visa.color,
                       }}>
@@ -400,7 +400,7 @@ function PrepContent() {
                       </strong>
                     </div>
                     <p style={{
-                      fontFamily: 'Plus Jakarta Sans, sans-serif',
+                      fontFamily: 'Inter, sans-serif',
                       fontSize: '0.85rem',
                       color: '#3D4B5C',
                       margin: 0,
@@ -418,23 +418,23 @@ function PrepContent() {
                 alignItems: 'flex-start',
                 gap: 12,
                 padding: '14px 0',
-                borderTop: '1px solid #EEF4FF',
+                borderTop: '1px solid #E6F3FF',
               }}>
                 <span style={{ fontSize: 20, marginTop: 2 }}>🛂</span>
                 <div>
                   <strong style={{
-                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                    fontFamily: 'Inter, sans-serif',
                     fontSize: '0.9rem',
-                    color: '#0D1B3E',
+                    color: '#0F2340',
                     display: 'block',
                     marginBottom: 4,
                   }}>
                     Validade do passaporte
                   </strong>
                   <p style={{
-                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                    fontFamily: 'Inter, sans-serif',
                     fontSize: '0.85rem',
-                    color: '#5A6A80',
+                    color: '#64748B',
                     margin: 0,
                   }}>
                     {result.passportValidity}
@@ -447,9 +447,9 @@ function PrepContent() {
             {(result.vaccinesRequired.length > 0 || result.vaccinesRecommended.length > 0) && (
               <div className="card" style={{ padding: '24px 28px', marginBottom: 16 }}>
                 <h3 style={{
-                  fontFamily: 'Fraunces, serif',
+                  fontFamily: 'Nunito, sans-serif',
                   fontSize: '1.05rem',
-                  color: '#0D1B3E',
+                  color: '#0F2340',
                   margin: '0 0 16px',
                   display: 'flex',
                   alignItems: 'center',
@@ -472,11 +472,11 @@ function PrepContent() {
                       OBRIGATÓRIA
                     </span>
                     <div>
-                      <strong style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.9rem', color: '#0D1B3E' }}>
+                      <strong style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: '#0F2340' }}>
                         {v.name}
                       </strong>
                       {v.details && (
-                        <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.82rem', color: '#5A6A80', margin: '4px 0 0' }}>
+                        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#64748B', margin: '4px 0 0' }}>
                           {v.details}
                         </p>
                       )}
@@ -498,11 +498,11 @@ function PrepContent() {
                       RECOMENDADA
                     </span>
                     <div>
-                      <strong style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.9rem', color: '#0D1B3E' }}>
+                      <strong style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: '#0F2340' }}>
                         {v.name}
                       </strong>
                       {v.details && (
-                        <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.82rem', color: '#5A6A80', margin: '4px 0 0' }}>
+                        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#64748B', margin: '4px 0 0' }}>
                           {v.details}
                         </p>
                       )}
@@ -516,9 +516,9 @@ function PrepContent() {
             {result.entryRestrictions.length > 0 && (
               <div className="card" style={{ padding: '24px 28px', marginBottom: 16 }}>
                 <h3 style={{
-                  fontFamily: 'Fraunces, serif',
+                  fontFamily: 'Nunito, sans-serif',
                   fontSize: '1.05rem',
-                  color: '#0D1B3E',
+                  color: '#0F2340',
                   margin: '0 0 16px',
                   display: 'flex',
                   alignItems: 'center',
@@ -532,10 +532,10 @@ function PrepContent() {
                     background: '#FFF8EC',
                     borderRadius: 8,
                     marginBottom: 8,
-                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                    fontFamily: 'Inter, sans-serif',
                     fontSize: '0.85rem',
-                    color: '#5A6A80',
-                    borderLeft: '3px solid #F5A623',
+                    color: '#64748B',
+                    borderLeft: '3px solid #F5A800',
                   }}>
                     {r}
                   </div>
@@ -545,7 +545,7 @@ function PrepContent() {
 
             {/* Upgrade Documentação */}
             <div style={{
-              background: 'linear-gradient(135deg, #0D1B3E 0%, #1A3A6E 100%)',
+              background: 'linear-gradient(135deg, #0F2340 0%, #1A3A6E 100%)',
               borderRadius: 16,
               padding: '28px 32px',
               marginBottom: 16,
@@ -562,16 +562,16 @@ function PrepContent() {
                     <span style={{ fontSize: 28 }}>✅</span>
                     <div>
                       <strong style={{
-                        fontFamily: 'Plus Jakarta Sans, sans-serif',
+                        fontFamily: 'Inter, sans-serif',
                         fontSize: '1rem',
-                        color: '#F5A623',
+                        color: '#F5A800',
                         display: 'block',
                         marginBottom: 2,
                       }}>
                         Documentação Ativada
                       </strong>
                       <p style={{
-                        fontFamily: 'Plus Jakarta Sans, sans-serif',
+                        fontFamily: 'Inter, sans-serif',
                         fontSize: '0.82rem',
                         color: 'rgba(255,255,255,0.65)',
                         margin: 0,
@@ -589,7 +589,7 @@ function PrepContent() {
                     marginBottom: 16,
                   }}>
                     <p style={{
-                      fontFamily: 'Plus Jakarta Sans, sans-serif',
+                      fontFamily: 'Inter, sans-serif',
                       fontWeight: 700,
                       fontSize: '0.85rem',
                       color: '#fff',
@@ -613,7 +613,7 @@ function PrepContent() {
                         gap: 10,
                         padding: '8px 0',
                         borderBottom: '1px solid rgba(255,255,255,0.08)',
-                        fontFamily: 'Plus Jakarta Sans, sans-serif',
+                        fontFamily: 'Inter, sans-serif',
                         fontSize: '0.85rem',
                         color: item.done ? '#6ee7b7' : 'rgba(255,255,255,0.8)',
                       }}>
@@ -629,9 +629,9 @@ function PrepContent() {
                       display: 'block',
                       width: '100%',
                       padding: '12px',
-                      background: '#F5A623',
-                      color: '#0D1B3E',
-                      fontFamily: 'Plus Jakarta Sans, sans-serif',
+                      background: '#F5A800',
+                      color: '#0F2340',
+                      fontFamily: 'Inter, sans-serif',
                       fontWeight: 700,
                       fontSize: '0.9rem',
                       border: 'none',
@@ -648,7 +648,7 @@ function PrepContent() {
                   <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 20 }}>
                     <div>
                       <strong style={{
-                        fontFamily: 'Fraunces, serif',
+                        fontFamily: 'Nunito, sans-serif',
                         fontSize: '1.2rem',
                         color: '#fff',
                         display: 'block',
@@ -657,7 +657,7 @@ function PrepContent() {
                         Documentação Completa — Seu Checklist Personalizado
                       </strong>
                       <p style={{
-                        fontFamily: 'Plus Jakarta Sans, sans-serif',
+                        fontFamily: 'Inter, sans-serif',
                         fontSize: '0.85rem',
                         color: 'rgba(255,255,255,0.65)',
                         margin: 0,
@@ -669,15 +669,15 @@ function PrepContent() {
                     <div style={{ textAlign: 'right', flexShrink: 0 }}>
                       <span style={{
                         display: 'block',
-                        fontFamily: 'Fraunces, serif',
+                        fontFamily: 'Nunito, sans-serif',
                         fontSize: '1.6rem',
-                        color: '#F5A623',
+                        color: '#F5A800',
                         lineHeight: 1,
                       }}>
                         R$39
                       </span>
                       <span style={{
-                        fontFamily: 'Plus Jakarta Sans, sans-serif',
+                        fontFamily: 'Inter, sans-serif',
                         fontSize: '0.7rem',
                         color: 'rgba(255,255,255,0.5)',
                       }}>
@@ -699,7 +699,7 @@ function PrepContent() {
                       '🔒 Dados protegidos (LGPD)',
                     ].map((item, i) => (
                       <div key={i} style={{
-                        fontFamily: 'Plus Jakarta Sans, sans-serif',
+                        fontFamily: 'Inter, sans-serif',
                         fontSize: '0.78rem',
                         color: 'rgba(255,255,255,0.8)',
                       }}>
@@ -710,7 +710,7 @@ function PrepContent() {
 
                   {checkoutError && (
                     <p style={{
-                      fontFamily: 'Plus Jakarta Sans, sans-serif',
+                      fontFamily: 'Inter, sans-serif',
                       fontSize: '0.82rem',
                       color: '#fca5a5',
                       marginBottom: 12,
@@ -726,9 +726,9 @@ function PrepContent() {
                       display: 'block',
                       width: '100%',
                       padding: '14px',
-                      background: '#F5A623',
-                      color: '#0D1B3E',
-                      fontFamily: 'Plus Jakarta Sans, sans-serif',
+                      background: '#F5A800',
+                      color: '#0F2340',
+                      fontFamily: 'Inter, sans-serif',
                       fontWeight: 700,
                       fontSize: '0.95rem',
                       border: 'none',
@@ -741,7 +741,7 @@ function PrepContent() {
                   </button>
 
                   <p style={{
-                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                    fontFamily: 'Inter, sans-serif',
                     fontSize: '0.72rem',
                     color: 'rgba(255,255,255,0.4)',
                     margin: '10px 0 0',
@@ -756,15 +756,15 @@ function PrepContent() {
             {/* CTA roteiro */}
             <div style={{
               background: '#fff',
-              border: '1px solid #D0DCF0',
+              border: '1px solid #E2E8F0',
               borderRadius: 12,
               padding: '20px 24px',
               textAlign: 'center',
             }}>
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '0.85rem',
-                color: '#5A6A80',
+                color: '#64748B',
                 marginBottom: 12,
               }}>
                 Quer montar o roteiro completo para {destCountry?.name ?? destination}?
@@ -772,10 +772,10 @@ function PrepContent() {
               <Link
                 href={`/?destino=${encodeURIComponent(destCountry?.name ?? destination)}`}
                 style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontWeight: 600,
                   fontSize: '0.88rem',
-                  color: '#1A56DB',
+                  color: '#1A82D8',
                   textDecoration: 'none',
                 }}
               >
@@ -792,10 +792,10 @@ function PrepContent() {
           <div className="container" style={{ maxWidth: 720 }}>
             <div className="card" style={{ padding: 32, textAlign: 'center' }}>
               <div style={{ fontSize: 40, marginBottom: 16 }}>⚠️</div>
-              <h3 style={{ fontFamily: 'Fraunces, serif', color: '#0D1B3E', margin: '0 0 8px' }}>
+              <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', margin: '0 0 8px' }}>
                 Erro ao verificar documentação
               </h3>
-              <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.85rem', color: '#5A6A80' }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#64748B' }}>
                 Não foi possível buscar os dados. Verifique sua conexão e tente novamente.
               </p>
               <button
@@ -828,18 +828,18 @@ function PrepContent() {
                 <div key={i} className="card" style={{ padding: '20px', textAlign: 'center' }}>
                   <div style={{ fontSize: 32, marginBottom: 12 }}>{item.icon}</div>
                   <strong style={{
-                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                    fontFamily: 'Inter, sans-serif',
                     fontSize: '0.9rem',
-                    color: '#0D1B3E',
+                    color: '#0F2340',
                     display: 'block',
                     marginBottom: 6,
                   }}>
                     {item.title}
                   </strong>
                   <p style={{
-                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                    fontFamily: 'Inter, sans-serif',
                     fontSize: '0.78rem',
-                    color: '#5A6A80',
+                    color: '#64748B',
                     margin: 0,
                     lineHeight: 1.5,
                   }}>
@@ -857,7 +857,7 @@ function PrepContent() {
 
 export default function PrepPage() {
   return (
-    <Suspense fallback={<div style={{ padding: '40px', textAlign: 'center', color: '#5A6A80' }}>Carregando...</div>}>
+    <Suspense fallback={<div style={{ padding: '40px', textAlign: 'center', color: '#64748B' }}>Carregando...</div>}>
       <PrepContent />
     </Suspense>
   )

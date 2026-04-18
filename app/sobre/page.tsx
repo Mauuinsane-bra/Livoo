@@ -8,18 +8,18 @@ export const metadata: Metadata = {
 
 export default function SobrePage() {
   return (
-    <div style={{ background: '#F4F7FF', minHeight: '100vh' }}>
+    <div style={{ background: '#F4F6F9', minHeight: '100vh' }}>
 
       {/* Hero */}
       <div style={{
-        background: 'linear-gradient(135deg, #0D1B3E 0%, #1E3A6E 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)',
         padding: '80px 24px 88px',
         textAlign: 'center',
       }}>
         <span style={{
           display: 'inline-block',
           background: 'rgba(245,166,35,0.15)',
-          color: '#F5A623',
+          color: '#F5A800',
           fontSize: '0.72rem',
           fontWeight: 700,
           letterSpacing: '2px',
@@ -32,7 +32,7 @@ export default function SobrePage() {
           Quem somos
         </span>
         <h1 style={{
-          fontFamily: 'Fraunces, serif',
+          fontFamily: 'Nunito, sans-serif',
           fontSize: 'clamp(2rem, 4vw, 3rem)',
           color: '#fff',
           marginBottom: 16,
@@ -42,7 +42,7 @@ export default function SobrePage() {
           quer a experiência, não a logística.
         </h1>
         <p style={{
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
+          fontFamily: 'Inter, sans-serif',
           fontSize: '1.05rem',
           color: 'rgba(255,255,255,0.65)',
           maxWidth: 600,
@@ -62,21 +62,21 @@ export default function SobrePage() {
           borderRadius: 20,
           padding: '48px 52px',
           boxShadow: '0 4px 24px rgba(13,27,62,0.07)',
-          border: '1px solid #D0DCF0',
+          border: '1px solid #E2E8F0',
           marginBottom: 40,
         }}>
           <h2 style={{
-            fontFamily: 'Fraunces, serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: '1.8rem',
-            color: '#0D1B3E',
+            color: '#0F2340',
             marginBottom: 24,
           }}>
             A origem da ideia
           </h2>
           <p style={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             fontSize: '1rem',
-            color: '#5A6A80',
+            color: '#64748B',
             lineHeight: 1.8,
             marginBottom: 20,
           }}>
@@ -86,9 +86,9 @@ export default function SobrePage() {
             com riscos de incompatibilidade.
           </p>
           <p style={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             fontSize: '1rem',
-            color: '#5A6A80',
+            color: '#64748B',
             lineHeight: 1.8,
             marginBottom: 20,
           }}>
@@ -98,9 +98,9 @@ export default function SobrePage() {
             ingressos e verificação de documentação.
           </p>
           <p style={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             fontSize: '1rem',
-            color: '#5A6A80',
+            color: '#64748B',
             lineHeight: 1.8,
           }}>
             Você quer a experiência. A Go Livoo resolve o resto.
@@ -141,30 +141,30 @@ export default function SobrePage() {
               borderRadius: 16,
               padding: '32px 28px',
               boxShadow: '0 2px 12px rgba(13,27,62,0.06)',
-              border: '1px solid #D0DCF0',
+              border: '1px solid #E2E8F0',
             }}>
               <span style={{
                 display: 'inline-block',
-                fontFamily: 'Fraunces, serif',
+                fontFamily: 'Nunito, sans-serif',
                 fontSize: '2rem',
                 fontWeight: 700,
-                color: '#F5A623',
+                color: '#F5A800',
                 marginBottom: 16,
               }}>
                 {item.num}
               </span>
               <h3 style={{
-                fontFamily: 'Fraunces, serif',
+                fontFamily: 'Nunito, sans-serif',
                 fontSize: '1.15rem',
-                color: '#0D1B3E',
+                color: '#0F2340',
                 marginBottom: 10,
               }}>
                 {item.title}
               </h3>
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '0.88rem',
-                color: '#5A6A80',
+                color: '#64748B',
                 lineHeight: 1.7,
                 margin: 0,
               }}>
@@ -176,14 +176,14 @@ export default function SobrePage() {
 
         {/* Como funciona resumo */}
         <div style={{
-          background: 'linear-gradient(135deg, #0D1B3E 0%, #1E3A6E 100%)',
+          background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)',
           borderRadius: 20,
           padding: '48px 52px',
           marginBottom: 40,
           textAlign: 'center',
         }}>
           <h2 style={{
-            fontFamily: 'Fraunces, serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: '1.6rem',
             color: '#fff',
             marginBottom: 12,
@@ -191,7 +191,7 @@ export default function SobrePage() {
             Nosso modelo é diferente
           </h2>
           <p style={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             fontSize: '0.95rem',
             color: 'rgba(255,255,255,0.7)',
             maxWidth: 560,
@@ -216,13 +216,13 @@ export default function SobrePage() {
           background: '#fff',
           borderRadius: 16,
           padding: '36px 40px',
-          border: '1px solid #D0DCF0',
+          border: '1px solid #E2E8F0',
         }}>
           <h3 style={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             fontSize: '0.75rem',
             fontWeight: 700,
-            color: '#0D1B3E',
+            color: '#0F2340',
             textTransform: 'uppercase',
             letterSpacing: '1.5px',
             marginBottom: 20,
@@ -247,13 +247,13 @@ export default function SobrePage() {
               'Supabase (banco de dados)',
             ].map(p => (
               <span key={p} style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '0.82rem',
-                color: '#5A6A80',
-                background: '#F4F7FF',
+                color: '#64748B',
+                background: '#F4F6F9',
                 padding: '6px 14px',
                 borderRadius: 50,
-                border: '1px solid #D0DCF0',
+                border: '1px solid #E2E8F0',
               }}>
                 {p}
               </span>

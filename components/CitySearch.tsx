@@ -108,16 +108,16 @@ export default function CitySearch({
 
   const baseInput: React.CSSProperties = dark ? {
     width: '100%', padding: '12px 14px',
-    fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.92rem',
+    fontFamily: 'Inter, sans-serif', fontSize: '0.92rem',
     background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.25)',
     borderRadius: 10, color: '#fff', outline: 'none',
     boxSizing: 'border-box',
     ...inputStyle,
   } : {
     width: '100%', padding: '12px 14px',
-    fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.92rem',
-    background: '#fff', border: '1.5px solid #D0DCF0',
-    borderRadius: 10, color: '#0D1B3E', outline: 'none',
+    fontFamily: 'Inter, sans-serif', fontSize: '0.92rem',
+    background: '#fff', border: '1.5px solid #E2E8F0',
+    borderRadius: 10, color: '#0F2340', outline: 'none',
     boxSizing: 'border-box',
     ...inputStyle,
   }
@@ -140,8 +140,8 @@ export default function CitySearch({
       {loading && (
         <span style={{
           position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)',
-          fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.7rem',
-          color: dark ? 'rgba(255,255,255,0.5)' : '#5A6A80',
+          fontFamily: 'Inter, sans-serif', fontSize: '0.7rem',
+          color: dark ? 'rgba(255,255,255,0.5)' : '#64748B',
         }}>
           ...
         </span>
@@ -151,7 +151,7 @@ export default function CitySearch({
       {open && options.length > 0 && (
         <ul style={{
           position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, zIndex: 100,
-          background: '#fff', border: '1px solid #D0DCF0',
+          background: '#fff', border: '1px solid #E2E8F0',
           borderRadius: 10, boxShadow: '0 8px 24px rgba(13,27,62,0.12)',
           listStyle: 'none', margin: 0, padding: 4,
           maxHeight: 280, overflowY: 'auto',
@@ -163,19 +163,19 @@ export default function CitySearch({
               style={{
                 display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                 padding: '10px 14px', borderRadius: 8, cursor: 'pointer',
-                background: highlighted === i ? '#EEF4FF' : 'transparent',
+                background: highlighted === i ? '#E6F3FF' : 'transparent',
               }}
               onMouseEnter={() => setHighlighted(i)}
             >
               <span style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-                fontSize: '0.9rem', color: '#0D1B3E', fontWeight: 500,
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '0.9rem', color: '#0F2340', fontWeight: 500,
               }}>
                 {opt.city}
               </span>
               <span style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-                fontSize: '0.78rem', color: '#5A6A80',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '0.78rem', color: '#64748B',
               }}>
                 {opt.country}
               </span>

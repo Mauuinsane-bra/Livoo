@@ -14,7 +14,7 @@ interface ExperienceCardProps {
 }
 
 const tagColors: Record<string, { bg: string; color: string }> = {
-  'Em alta':   { bg: '#EEF4FF', color: '#1A56DB' },
+  'Em alta':   { bg: '#E6F3FF', color: '#1A82D8' },
   'Exclusivo': { bg: '#FFF8EC', color: '#D48A0A' },
   'Esgotando': { bg: '#FFF0F0', color: '#DC2626' },
 }
@@ -22,7 +22,7 @@ const tagColors: Record<string, { bg: string; color: string }> = {
 export default function ExperienceCard({
   id, title, description, date, location, price, category, imageUrl, tag,
 }: ExperienceCardProps) {
-  const tagStyle = tag ? tagColors[tag] ?? { bg: '#F4F7FF', color: '#5A6A80' } : null
+  const tagStyle = tag ? tagColors[tag] ?? { bg: '#F4F6F9', color: '#64748B' } : null
 
   return (
     <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
@@ -72,9 +72,9 @@ export default function ExperienceCard({
           alignItems: 'center',
           gap: 6,
           marginBottom: 8,
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
+          fontFamily: 'Inter, sans-serif',
           fontSize: '0.78rem',
-          color: '#5A6A80',
+          color: '#64748B',
         }}>
           <span>{location}</span>
           <span>·</span>
@@ -82,9 +82,9 @@ export default function ExperienceCard({
         </div>
 
         <h3 style={{
-          fontFamily: 'Playfair Display, serif',
+          fontFamily: 'Nunito, sans-serif',
           fontSize: '1.1rem',
-          color: '#0D1B3E',
+          color: '#0F2340',
           marginBottom: 8,
           lineHeight: 1.3,
         }}>
@@ -92,9 +92,9 @@ export default function ExperienceCard({
         </h3>
 
         <p style={{
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
+          fontFamily: 'Inter, sans-serif',
           fontSize: '0.85rem',
-          color: '#5A6A80',
+          color: '#64748B',
           lineHeight: 1.55,
           marginBottom: 16,
           display: '-webkit-box',
@@ -111,13 +111,13 @@ export default function ExperienceCard({
           justifyContent: 'space-between',
         }}>
           <span style={{
-            fontFamily: 'Playfair Display, serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: '1rem',
             fontWeight: 700,
-            color: '#0D1B3E',
+            color: '#0F2340',
           }}>
             {price}
-            <small style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.72rem', color: '#5A6A80', fontWeight: 400, marginLeft: 2 }}>
+            <small style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', color: '#64748B', fontWeight: 400, marginLeft: 2 }}>
               *estimado
             </small>
           </span>

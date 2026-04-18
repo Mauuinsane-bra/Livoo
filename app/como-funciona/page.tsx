@@ -8,18 +8,18 @@ export const metadata: Metadata = {
 
 export default function ComoFuncionaPage() {
   return (
-    <div style={{ background: '#F4F7FF', minHeight: '100vh' }}>
+    <div style={{ background: '#F4F6F9', minHeight: '100vh' }}>
 
       {/* Hero */}
       <div style={{
-        background: 'linear-gradient(135deg, #0D1B3E 0%, #1E3A6E 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)',
         padding: '80px 24px 88px',
         textAlign: 'center',
       }}>
         <span style={{
           display: 'inline-block',
           background: 'rgba(245,166,35,0.15)',
-          color: '#F5A623',
+          color: '#F5A800',
           fontSize: '0.72rem',
           fontWeight: 700,
           letterSpacing: '2px',
@@ -32,7 +32,7 @@ export default function ComoFuncionaPage() {
           Plataforma gratuita
         </span>
         <h1 style={{
-          fontFamily: 'Fraunces, serif',
+          fontFamily: 'Nunito, sans-serif',
           fontSize: 'clamp(2rem, 4vw, 3rem)',
           color: '#fff',
           marginBottom: 16,
@@ -41,7 +41,7 @@ export default function ComoFuncionaPage() {
           Simples. Completo. Gratuito.
         </h1>
         <p style={{
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
+          fontFamily: 'Inter, sans-serif',
           fontSize: '1.05rem',
           color: 'rgba(255,255,255,0.65)',
           maxWidth: 580,
@@ -56,9 +56,9 @@ export default function ComoFuncionaPage() {
 
         {/* Passos */}
         <h2 style={{
-          fontFamily: 'Fraunces, serif',
+          fontFamily: 'Nunito, sans-serif',
           fontSize: '1.6rem',
-          color: '#0D1B3E',
+          color: '#0F2340',
           textAlign: 'center',
           marginBottom: 48,
         }}>
@@ -72,7 +72,7 @@ export default function ComoFuncionaPage() {
               title: 'Você descreve a experiência',
               desc: 'No campo "Roteiro Completo", descreva o que quer fazer: ver um jogo, ir a um festival, assistir a uma corrida. Pode ser vago — nossa IA entende o contexto e faz as perguntas certas.',
               detail: 'Exemplos: "Quero ir ao GP de F1 em Mônaco em maio", "Rock in Rio 2026 com voo saindo de São Paulo", "Hanami no Japão em março".',
-              color: '#1A56DB',
+              color: '#1A82D8',
               link: null,
             },
             {
@@ -88,7 +88,7 @@ export default function ComoFuncionaPage() {
               title: 'Verifique sua documentação',
               desc: 'Antes de comprar qualquer coisa, o Livoo Prep verifica se seu passaporte, visto e vacinas estão em ordem para o destino escolhido. Evite surpresas desagradáveis na fronteira.',
               detail: 'O Livoo Prep cobre mais de 60 países com informações atualizadas via API Sherpa. Disponível por R$39/viagem.',
-              color: '#F5A623',
+              color: '#F5A800',
               link: '/prep',
             },
             {
@@ -107,7 +107,7 @@ export default function ComoFuncionaPage() {
               borderRadius: 20,
               padding: '32px 36px',
               boxShadow: '0 2px 12px rgba(13,27,62,0.06)',
-              border: '1px solid #D0DCF0',
+              border: '1px solid #E2E8F0',
               alignItems: 'flex-start',
             }}>
               <div style={{
@@ -118,7 +118,7 @@ export default function ComoFuncionaPage() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontFamily: 'Fraunces, serif',
+                fontFamily: 'Nunito, sans-serif',
                 fontSize: '1.2rem',
                 fontWeight: 700,
                 color: '#fff',
@@ -127,24 +127,24 @@ export default function ComoFuncionaPage() {
               </div>
               <div style={{ flex: 1 }}>
                 <h3 style={{
-                  fontFamily: 'Fraunces, serif',
+                  fontFamily: 'Nunito, sans-serif',
                   fontSize: '1.2rem',
-                  color: '#0D1B3E',
+                  color: '#0F2340',
                   marginBottom: 10,
                 }}>
                   {item.title}
                 </h3>
                 <p style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '0.92rem',
-                  color: '#5A6A80',
+                  color: '#64748B',
                   lineHeight: 1.7,
                   marginBottom: 10,
                 }}>
                   {item.desc}
                 </p>
                 <p style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '0.82rem',
                   color: '#8A9AB0',
                   lineHeight: 1.65,
@@ -159,7 +159,7 @@ export default function ComoFuncionaPage() {
                     style={{
                       display: 'inline-block',
                       marginTop: 14,
-                      fontFamily: 'Plus Jakarta Sans, sans-serif',
+                      fontFamily: 'Inter, sans-serif',
                       fontSize: '0.83rem',
                       fontWeight: 700,
                       color: item.color,
@@ -179,21 +179,21 @@ export default function ComoFuncionaPage() {
           background: '#fff',
           borderRadius: 20,
           padding: '40px 44px',
-          border: '1px solid #D0DCF0',
+          border: '1px solid #E2E8F0',
           marginBottom: 40,
         }}>
           <h2 style={{
-            fontFamily: 'Fraunces, serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: '1.4rem',
-            color: '#0D1B3E',
+            color: '#0F2340',
             marginBottom: 20,
           }}>
             Como a Go Livoo ganha dinheiro?
           </h2>
           <p style={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             fontSize: '0.92rem',
-            color: '#5A6A80',
+            color: '#64748B',
             lineHeight: 1.75,
             marginBottom: 24,
           }}>
@@ -213,16 +213,16 @@ export default function ComoFuncionaPage() {
               { label: 'Documentação', value: 'Livoo Prep', comissao: 'R$39 por consulta' },
             ].map(item => (
               <div key={item.label} style={{
-                background: '#F4F7FF',
+                background: '#F4F6F9',
                 borderRadius: 12,
                 padding: '16px 18px',
                 border: '1px solid #E8EFF8',
               }}>
                 <p style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '0.75rem',
                   fontWeight: 700,
-                  color: '#0D1B3E',
+                  color: '#0F2340',
                   textTransform: 'uppercase',
                   letterSpacing: '1px',
                   margin: '0 0 4px',
@@ -230,17 +230,17 @@ export default function ComoFuncionaPage() {
                   {item.label}
                 </p>
                 <p style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '0.85rem',
-                  color: '#5A6A80',
+                  color: '#64748B',
                   margin: '0 0 6px',
                 }}>
                   {item.value}
                 </p>
                 <p style={{
-                  fontFamily: 'Fraunces, serif',
+                  fontFamily: 'Nunito, sans-serif',
                   fontSize: '0.88rem',
-                  color: '#1A56DB',
+                  color: '#1A82D8',
                   fontWeight: 600,
                   margin: 0,
                 }}>
@@ -256,13 +256,13 @@ export default function ComoFuncionaPage() {
           background: '#fff',
           borderRadius: 20,
           padding: '40px 44px',
-          border: '1px solid #D0DCF0',
+          border: '1px solid #E2E8F0',
           marginBottom: 40,
         }}>
           <h2 style={{
-            fontFamily: 'Fraunces, serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: '1.4rem',
-            color: '#0D1B3E',
+            color: '#0F2340',
             marginBottom: 28,
           }}>
             Perguntas frequentes
@@ -292,21 +292,21 @@ export default function ComoFuncionaPage() {
             ].map((item, i) => (
               <div key={i} style={{
                 paddingBottom: i < 4 ? 24 : 0,
-                borderBottom: i < 4 ? '1px solid #EEF4FF' : 'none',
+                borderBottom: i < 4 ? '1px solid #E6F3FF' : 'none',
               }}>
                 <h3 style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '0.95rem',
                   fontWeight: 700,
-                  color: '#0D1B3E',
+                  color: '#0F2340',
                   marginBottom: 8,
                 }}>
                   {item.q}
                 </h3>
                 <p style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '0.88rem',
-                  color: '#5A6A80',
+                  color: '#64748B',
                   lineHeight: 1.7,
                   margin: 0,
                 }}>
@@ -319,13 +319,13 @@ export default function ComoFuncionaPage() {
 
         {/* CTA */}
         <div style={{
-          background: 'linear-gradient(135deg, #0D1B3E 0%, #1E3A6E 100%)',
+          background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)',
           borderRadius: 20,
           padding: '48px 52px',
           textAlign: 'center',
         }}>
           <h2 style={{
-            fontFamily: 'Fraunces, serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: '1.6rem',
             color: '#fff',
             marginBottom: 12,
@@ -333,7 +333,7 @@ export default function ComoFuncionaPage() {
             Pronto para começar?
           </h2>
           <p style={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             fontSize: '0.95rem',
             color: 'rgba(255,255,255,0.65)',
             maxWidth: 480,

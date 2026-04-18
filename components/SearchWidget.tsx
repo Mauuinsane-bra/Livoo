@@ -190,13 +190,13 @@ export default function SearchWidget() {
   const tabStyle = (id: Tab) => ({
     flex: id === 'roteiro' ? '0 0 auto' : '1',
     padding: '13px 14px',
-    fontFamily: 'Plus Jakarta Sans, sans-serif',
+    fontFamily: 'Inter, sans-serif',
     fontSize: '0.82rem',
     fontWeight: activeTab === id ? 700 : 500,
-    color: activeTab === id ? (id === 'roteiro' ? '#1A56DB' : '#0D1B3E') : '#5A6A80',
-    background: activeTab === id ? (id === 'roteiro' ? '#EEF4FF' : '#F4F7FF') : 'transparent',
+    color: activeTab === id ? (id === 'roteiro' ? '#1A82D8' : '#0F2340') : '#64748B',
+    background: activeTab === id ? (id === 'roteiro' ? '#E6F3FF' : '#F4F6F9') : 'transparent',
     border: 'none',
-    borderBottom: activeTab === id ? `2px solid ${id === 'roteiro' ? '#1A56DB' : '#1A56DB'}` : '2px solid transparent',
+    borderBottom: activeTab === id ? `2px solid ${id === 'roteiro' ? '#1A82D8' : '#1A82D8'}` : '2px solid transparent',
     cursor: 'pointer',
     whiteSpace: 'nowrap' as const,
     transition: 'all 0.2s',
@@ -206,7 +206,7 @@ export default function SearchWidget() {
     <div style={{ background: '#fff', borderRadius: 16, boxShadow: '0 20px 60px rgba(13,27,62,0.18)', overflow: 'hidden' }}>
 
       {/* Tab bar */}
-      <div style={{ display: 'flex', borderBottom: '1px solid #D0DCF0', overflowX: 'auto' }}>
+      <div style={{ display: 'flex', borderBottom: '1px solid #E2E8F0', overflowX: 'auto' }}>
         {tabs.map(tab => (
           <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={tabStyle(tab.id)}>
             {tab.label}
@@ -220,7 +220,7 @@ export default function SearchWidget() {
         {activeTab === 'roteiro' && (
           <form onSubmit={handleRoteiroSubmit}>
 
-            <label style={{ display: 'block', fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.82rem', fontWeight: 600, color: '#5A6A80', marginBottom: 8 }}>
+            <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', fontWeight: 600, color: '#64748B', marginBottom: 8 }}>
               O que você quer viver?
             </label>
             <textarea
@@ -230,13 +230,13 @@ export default function SearchWidget() {
               rows={3}
               style={{
                 width: '100%', padding: '12px 14px',
-                border: '1.5px solid #D0DCF0', borderRadius: 10,
-                fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.9rem',
-                color: '#0D1B3E', resize: 'vertical', outline: 'none', marginBottom: 16,
+                border: '1.5px solid #E2E8F0', borderRadius: 10,
+                fontFamily: 'Inter, sans-serif', fontSize: '0.9rem',
+                color: '#0F2340', resize: 'vertical', outline: 'none', marginBottom: 16,
                 transition: 'border-color 0.2s',
               }}
-              onFocus={e => (e.target.style.borderColor = '#1A56DB')}
-              onBlur={e => (e.target.style.borderColor = '#D0DCF0')}
+              onFocus={e => (e.target.style.borderColor = '#1A82D8')}
+              onBlur={e => (e.target.style.borderColor = '#E2E8F0')}
             />
 
             {/* Chips de experiência */}
@@ -244,10 +244,10 @@ export default function SearchWidget() {
               {experienceChips.map(chip => (
                 <button key={chip} type="button" onClick={() => toggleChip(chip)} style={{
                   padding: '5px 12px', borderRadius: 50, cursor: 'pointer', transition: 'all 0.2s',
-                  border: `1.5px solid ${selectedChips.includes(chip) ? '#1A56DB' : '#D0DCF0'}`,
-                  background: selectedChips.includes(chip) ? '#EEF4FF' : '#fff',
-                  color: selectedChips.includes(chip) ? '#1A56DB' : '#5A6A80',
-                  fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.8rem', fontWeight: 500,
+                  border: `1.5px solid ${selectedChips.includes(chip) ? '#1A82D8' : '#E2E8F0'}`,
+                  background: selectedChips.includes(chip) ? '#E6F3FF' : '#fff',
+                  color: selectedChips.includes(chip) ? '#1A82D8' : '#64748B',
+                  fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 500,
                 }}>
                   {chip}
                 </button>
@@ -265,54 +265,54 @@ export default function SearchWidget() {
                 />
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#64748B', marginBottom: 6, fontFamily: 'Inter, sans-serif' }}>
                   Duração (dias)
                 </label>
                 <input
                   type="number" min={1} max={60} placeholder="Ex: 7"
                   value={duration} onChange={e => setDuration(e.target.value)}
-                  style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #D0DCF0', borderRadius: 10, fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.9rem', outline: 'none' }}
-                  onFocus={e => (e.target.style.borderColor = '#1A56DB')}
-                  onBlur={e => (e.target.style.borderColor = '#D0DCF0')}
+                  style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #E2E8F0', borderRadius: 10, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', outline: 'none' }}
+                  onFocus={e => (e.target.style.borderColor = '#1A82D8')}
+                  onBlur={e => (e.target.style.borderColor = '#E2E8F0')}
                 />
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#64748B', marginBottom: 6, fontFamily: 'Inter, sans-serif' }}>
                   Orçamento total (R$)
                 </label>
                 <input
                   type="text" placeholder="Ex: R$ 15.000"
                   value={budget} onChange={e => setBudget(e.target.value)}
-                  style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #D0DCF0', borderRadius: 10, fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.9rem', outline: 'none' }}
-                  onFocus={e => (e.target.style.borderColor = '#1A56DB')}
-                  onBlur={e => (e.target.style.borderColor = '#D0DCF0')}
+                  style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #E2E8F0', borderRadius: 10, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', outline: 'none' }}
+                  onFocus={e => (e.target.style.borderColor = '#1A82D8')}
+                  onBlur={e => (e.target.style.borderColor = '#E2E8F0')}
                 />
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#64748B', marginBottom: 6, fontFamily: 'Inter, sans-serif' }}>
                   Pessoas
                 </label>
                 <input
                   type="number" min={1} max={20}
                   value={people} onChange={e => setPeople(e.target.value)}
-                  style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #D0DCF0', borderRadius: 10, fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.9rem', outline: 'none' }}
-                  onFocus={e => (e.target.style.borderColor = '#1A56DB')}
-                  onBlur={e => (e.target.style.borderColor = '#D0DCF0')}
+                  style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #E2E8F0', borderRadius: 10, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', outline: 'none' }}
+                  onFocus={e => (e.target.style.borderColor = '#1A82D8')}
+                  onBlur={e => (e.target.style.borderColor = '#E2E8F0')}
                 />
               </div>
             </div>
 
             {/* Checkboxes de inclusão */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 20, alignItems: 'center' }}>
-              <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.8rem', fontWeight: 600, color: '#5A6A80' }}>
+              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 600, color: '#64748B' }}>
                 Incluir:
               </span>
               {(Object.keys(includes) as Array<keyof Includes>).map(key => (
-                <label key={key} style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.82rem', color: '#0D1B3E', fontWeight: 500 }}>
+                <label key={key} style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#0F2340', fontWeight: 500 }}>
                   <input
                     type="checkbox" checked={includes[key]}
                     onChange={() => setIncludes(p => ({ ...p, [key]: !p[key] }))}
-                    style={{ accentColor: '#1A56DB', width: 15, height: 15 }}
+                    style={{ accentColor: '#1A82D8', width: 15, height: 15 }}
                   />
                   {key.charAt(0).toUpperCase() + key.slice(1)}
                 </label>
@@ -343,10 +343,10 @@ export default function SearchWidget() {
                   style={{
                     padding: '6px 14px',
                     borderRadius: 50,
-                    border: `1.5px solid ${tripType === opt.id ? '#1A56DB' : '#D0DCF0'}`,
-                    background: tripType === opt.id ? '#EEF4FF' : '#fff',
-                    color: tripType === opt.id ? '#1A56DB' : '#5A6A80',
-                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                    border: `1.5px solid ${tripType === opt.id ? '#1A82D8' : '#E2E8F0'}`,
+                    background: tripType === opt.id ? '#E6F3FF' : '#fff',
+                    color: tripType === opt.id ? '#1A82D8' : '#64748B',
+                    fontFamily: 'Inter, sans-serif',
                     fontSize: '0.8rem',
                     fontWeight: tripType === opt.id ? 700 : 500,
                     cursor: 'pointer',
@@ -369,15 +369,15 @@ export default function SearchWidget() {
                   : <div />
                 }
                 <div style={{ gridColumn: '1 / -1' }}>
-                  <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                  <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#64748B', marginBottom: 6, fontFamily: 'Inter, sans-serif' }}>
                     Passageiros
                   </label>
                   <input
                     type="number" min={1} max={9}
                     value={passengers} onChange={e => setPassengers(e.target.value)}
-                    style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #D0DCF0', borderRadius: 10, fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.9rem', outline: 'none' }}
-                    onFocus={e => (e.target.style.borderColor = '#1A56DB')}
-                    onBlur={e => (e.target.style.borderColor = '#D0DCF0')}
+                    style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #E2E8F0', borderRadius: 10, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', outline: 'none' }}
+                    onFocus={e => (e.target.style.borderColor = '#1A82D8')}
+                    onBlur={e => (e.target.style.borderColor = '#E2E8F0')}
                   />
                 </div>
               </div>
@@ -394,13 +394,13 @@ export default function SearchWidget() {
                     {/* Número do trecho */}
                     <div style={{ gridColumn: '1 / -1', display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
                       <span style={{
-                        background: '#0D1B3E', color: '#fff', borderRadius: '50%',
+                        background: '#0F2340', color: '#fff', borderRadius: '50%',
                         width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.72rem', fontWeight: 700, flexShrink: 0,
+                        fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, flexShrink: 0,
                       }}>
                         {idx + 1}
                       </span>
-                      <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80' }}>
+                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 600, color: '#64748B' }}>
                         Trecho {idx + 1}
                       </span>
                       {legs.length > 2 && (
@@ -410,7 +410,7 @@ export default function SearchWidget() {
                           style={{
                             marginLeft: 'auto', background: 'none', border: 'none',
                             color: '#D48A0A', cursor: 'pointer',
-                            fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.75rem', fontWeight: 600,
+                            fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', fontWeight: 600,
                           }}
                         >
                           Remover
@@ -451,29 +451,29 @@ export default function SearchWidget() {
                     onClick={addLeg}
                     style={{
                       display: 'flex', alignItems: 'center', gap: 6,
-                      background: 'none', border: '1.5px dashed #D0DCF0',
+                      background: 'none', border: '1.5px dashed #E2E8F0',
                       borderRadius: 10, padding: '10px 16px', cursor: 'pointer',
-                      fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.82rem',
-                      fontWeight: 600, color: '#1A56DB', width: '100%',
+                      fontFamily: 'Inter, sans-serif', fontSize: '0.82rem',
+                      fontWeight: 600, color: '#1A82D8', width: '100%',
                       justifyContent: 'center', marginTop: 4, transition: 'border-color 0.2s',
                     }}
-                    onMouseEnter={e => (e.currentTarget.style.borderColor = '#1A56DB')}
-                    onMouseLeave={e => (e.currentTarget.style.borderColor = '#D0DCF0')}
+                    onMouseEnter={e => (e.currentTarget.style.borderColor = '#1A82D8')}
+                    onMouseLeave={e => (e.currentTarget.style.borderColor = '#E2E8F0')}
                   >
                     + Adicionar trecho
                   </button>
                 )}
 
                 <div style={{ marginTop: 14 }}>
-                  <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                  <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#64748B', marginBottom: 6, fontFamily: 'Inter, sans-serif' }}>
                     Passageiros
                   </label>
                   <input
                     type="number" min={1} max={9}
                     value={passengers} onChange={e => setPassengers(e.target.value)}
-                    style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #D0DCF0', borderRadius: 10, fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.9rem', outline: 'none' }}
-                    onFocus={e => (e.target.style.borderColor = '#1A56DB')}
-                    onBlur={e => (e.target.style.borderColor = '#D0DCF0')}
+                    style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #E2E8F0', borderRadius: 10, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', outline: 'none' }}
+                    onFocus={e => (e.target.style.borderColor = '#1A82D8')}
+                    onBlur={e => (e.target.style.borderColor = '#E2E8F0')}
                   />
                 </div>
               </div>
@@ -506,7 +506,7 @@ export default function SearchWidget() {
           <form onSubmit={handleHotelSubmit}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
               <div style={{ gridColumn: '1 / -1' }}>
-                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#64748B', marginBottom: 6, fontFamily: 'Inter, sans-serif' }}>
                   Destino
                 </label>
                 <CitySearch
@@ -520,15 +520,15 @@ export default function SearchWidget() {
               <DatePicker label="Check-in" value={hotelCheckin} onChange={setHotelCheckin} />
               <DatePicker label="Check-out" value={hotelCheckout} onChange={setHotelCheckout} min={hotelCheckin || undefined} />
               <div style={{ gridColumn: '1 / -1' }}>
-                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#64748B', marginBottom: 6, fontFamily: 'Inter, sans-serif' }}>
                   Hóspedes
                 </label>
                 <input
                   type="number" min={1} max={10}
                   value={hotelGuests} onChange={e => setHotelGuests(e.target.value)}
-                  style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #D0DCF0', borderRadius: 10, fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.9rem', outline: 'none' }}
-                  onFocus={e => (e.target.style.borderColor = '#1A56DB')}
-                  onBlur={e => (e.target.style.borderColor = '#D0DCF0')}
+                  style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #E2E8F0', borderRadius: 10, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', outline: 'none' }}
+                  onFocus={e => (e.target.style.borderColor = '#1A82D8')}
+                  onBlur={e => (e.target.style.borderColor = '#E2E8F0')}
                 />
               </div>
             </div>
@@ -548,7 +548,7 @@ export default function SearchWidget() {
           <form onSubmit={handleCarrosSubmit}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
               <div style={{ gridColumn: '1 / -1' }}>
-                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#64748B', marginBottom: 6, fontFamily: 'Inter, sans-serif' }}>
                   Cidade de retirada
                 </label>
                 <CitySearch
@@ -588,10 +588,10 @@ export default function SearchWidget() {
                   style={{
                     padding: '6px 14px',
                     borderRadius: 50,
-                    border: `1.5px solid ${busTripType === opt.id ? '#1A56DB' : '#D0DCF0'}`,
-                    background: busTripType === opt.id ? '#EEF4FF' : '#fff',
-                    color: busTripType === opt.id ? '#1A56DB' : '#5A6A80',
-                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                    border: `1.5px solid ${busTripType === opt.id ? '#1A82D8' : '#E2E8F0'}`,
+                    background: busTripType === opt.id ? '#E6F3FF' : '#fff',
+                    color: busTripType === opt.id ? '#1A82D8' : '#64748B',
+                    fontFamily: 'Inter, sans-serif',
                     fontSize: '0.8rem',
                     fontWeight: busTripType === opt.id ? 700 : 500,
                     cursor: 'pointer',
@@ -605,13 +605,13 @@ export default function SearchWidget() {
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
               <div>
-                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#64748B', marginBottom: 6, fontFamily: 'Inter, sans-serif' }}>
                   Origem
                 </label>
                 <CitySearch value={busFrom} onChange={setBusFrom} placeholder="Ex: São Paulo" required />
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#64748B', marginBottom: 6, fontFamily: 'Inter, sans-serif' }}>
                   Destino
                 </label>
                 <CitySearch value={busTo} onChange={setBusTo} placeholder="Ex: Rio de Janeiro" required />
@@ -622,15 +622,15 @@ export default function SearchWidget() {
                 : <div />
               }
               <div style={{ gridColumn: '1 / -1' }}>
-                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#64748B', marginBottom: 6, fontFamily: 'Inter, sans-serif' }}>
                   Passageiros
                 </label>
                 <input
                   type="number" min={1} max={10}
                   value={busPassengers} onChange={e => setBusPassengers(e.target.value)}
-                  style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #D0DCF0', borderRadius: 10, fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.9rem', outline: 'none' }}
-                  onFocus={e => (e.target.style.borderColor = '#1A56DB')}
-                  onBlur={e => (e.target.style.borderColor = '#D0DCF0')}
+                  style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #E2E8F0', borderRadius: 10, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', outline: 'none' }}
+                  onFocus={e => (e.target.style.borderColor = '#1A82D8')}
+                  onBlur={e => (e.target.style.borderColor = '#E2E8F0')}
                 />
               </div>
             </div>
@@ -649,7 +649,7 @@ export default function SearchWidget() {
         {activeTab === 'guias' && (
           <form onSubmit={handleGuiasSubmit}>
             <div style={{ marginBottom: 16 }}>
-              <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#5A6A80', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+              <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#64748B', marginBottom: 6, fontFamily: 'Inter, sans-serif' }}>
                 Destino
               </label>
               <CitySearch
@@ -659,7 +659,7 @@ export default function SearchWidget() {
                 required
               />
             </div>
-            <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.8rem', color: '#8A9AB5', marginBottom: 16 }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#8A9AB5', marginBottom: 16 }}>
               Encontramos guias locais, passeios e experiências via GetYourGuide — mais de 300 mil atividades no mundo.
             </p>
             <button

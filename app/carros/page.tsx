@@ -141,14 +141,14 @@ function CarProviderCard({
       <div style={{ flex: 1 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
           <h3 style={{
-            fontFamily: 'Fraunces, serif', fontSize: '1.05rem',
-            color: '#0D1B3E', margin: 0,
+            fontFamily: 'Nunito, sans-serif', fontSize: '1.05rem',
+            color: '#0F2340', margin: 0,
           }}>
             {provider.name}
           </h3>
           {provider.badge && (
             <span style={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.68rem',
+              fontFamily: 'Inter, sans-serif', fontSize: '0.68rem',
               fontWeight: 700, color: provider.color,
               background: provider.color + '15',
               padding: '2px 8px', borderRadius: 20,
@@ -159,14 +159,14 @@ function CarProviderCard({
           )}
         </div>
         <p style={{
-          fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.83rem',
-          color: '#5A6A80', margin: '0 0 4px',
+          fontFamily: 'Inter, sans-serif', fontSize: '0.83rem',
+          color: '#64748B', margin: '0 0 4px',
         }}>
           {provider.description}
         </p>
         {/* Faixa de preço estimada */}
         <p style={{
-          fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.78rem',
+          fontFamily: 'Inter, sans-serif', fontSize: '0.78rem',
           color: provider.color, fontWeight: 600, margin: 0,
         }}>
           Estimativa: {provider.priceRange}
@@ -176,8 +176,8 @@ function CarProviderCard({
       {/* Diárias + CTA */}
       <div style={{ textAlign: 'right', flexShrink: 0 }}>
         <p style={{
-          fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.75rem',
-          color: '#5A6A80', marginBottom: 8,
+          fontFamily: 'Inter, sans-serif', fontSize: '0.75rem',
+          color: '#64748B', marginBottom: 8,
         }}>
           {days} diária{days !== 1 ? 's' : ''}
         </p>
@@ -189,7 +189,7 @@ function CarProviderCard({
           style={{
             display: 'inline-block',
             background: provider.color, color: '#fff',
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             fontWeight: 700, fontSize: '0.85rem',
             padding: '10px 20px', borderRadius: 10,
             textDecoration: 'none', whiteSpace: 'nowrap',
@@ -227,30 +227,30 @@ function SearchForm({
 
   const inputStyle: React.CSSProperties = {
     width: '100%', padding: '12px 14px',
-    fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.92rem',
+    fontFamily: 'Inter, sans-serif', fontSize: '0.92rem',
     background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.25)',
     borderRadius: 10, color: '#fff', outline: 'none',
     boxSizing: 'border-box',
   }
 
   const labelStyle: React.CSSProperties = {
-    fontFamily: 'Plus Jakarta Sans, sans-serif',
+    fontFamily: 'Inter, sans-serif',
     fontSize: '0.72rem', fontWeight: 600,
     color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase',
     letterSpacing: '0.8px', display: 'block', marginBottom: 6,
   }
 
   return (
-    <div style={{ background: 'linear-gradient(135deg, #0D1B3E 0%, #1A3A6E 100%)', padding: '36px 0 48px' }}>
+    <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A3A6E 100%)', padding: '36px 0 48px' }}>
       <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
         <h1 style={{
-          fontFamily: 'Fraunces, serif', fontSize: '1.8rem',
+          fontFamily: 'Nunito, sans-serif', fontSize: '1.8rem',
           color: '#fff', marginBottom: 8,
         }}>
           Alugar carro
         </h1>
         <p style={{
-          fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.88rem',
+          fontFamily: 'Inter, sans-serif', fontSize: '0.88rem',
           color: 'rgba(255,255,255,0.6)', marginBottom: 28,
         }}>
           Compare Localiza, Movida, Unidas e mais — tudo em um lugar.
@@ -353,14 +353,14 @@ function CarrosContent() {
             {/* Cabeçalho */}
             <div style={{ marginBottom: 24 }}>
               <h2 style={{
-                fontFamily: 'Fraunces, serif', fontSize: '1.2rem',
-                color: '#0D1B3E', marginBottom: 4,
+                fontFamily: 'Nunito, sans-serif', fontSize: '1.2rem',
+                color: '#0F2340', marginBottom: 4,
               }}>
                 Carros em {current.location}
               </h2>
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-                fontSize: '0.85rem', color: '#5A6A80',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '0.85rem', color: '#64748B',
               }}>
                 {formatDateDisplay(current.pickup)} → {formatDateDisplay(current.return)} · {days} diária{days !== 1 ? 's' : ''}
               </p>
@@ -375,7 +375,7 @@ function CarrosContent() {
               }}>
                 <span style={{ fontSize: 18 }}>✓</span>
                 <p style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '0.85rem', color: '#065F46', margin: 0, fontWeight: 600,
                 }}>
                   Abrindo {notification} com seus dados preenchidos — cidade, data de retirada e devolução já enviados.
@@ -385,14 +385,14 @@ function CarrosContent() {
 
             {/* Banner informativo */}
             <div style={{
-              background: '#EEF4FF', borderRadius: 12,
+              background: '#E6F3FF', borderRadius: 12,
               padding: '14px 20px', marginBottom: 20,
               display: 'flex', alignItems: 'center', gap: 12,
             }}>
               <span style={{ fontSize: 18 }}>ℹ️</span>
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-                fontSize: '0.82rem', color: '#1A56DB', margin: 0,
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '0.82rem', color: '#1A82D8', margin: 0,
               }}>
                 Clique em cada locadora — seus dados ({current.location}, {formatDateDisplay(current.pickup)} → {formatDateDisplay(current.return)}) são enviados automaticamente.
               </p>
@@ -415,12 +415,12 @@ function CarrosContent() {
             {/* Dica */}
             <div style={{
               marginTop: 32, background: '#FFF8EC',
-              border: '1px solid #F5A62340', borderRadius: 12,
+              border: '1px solid #F5A80040', borderRadius: 12,
               padding: '20px 24px',
             }}>
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-                fontSize: '0.83rem', color: '#5A6A80', margin: 0,
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '0.83rem', color: '#64748B', margin: 0,
               }}>
                 <strong style={{ color: '#D48A0A' }}>Dica Go Livoo:</strong> O Rentcars compara todas as locadoras ao mesmo tempo e costuma ter o melhor preço final.
                 Para retiradas em aeroportos, verifique se o seguro básico já está incluso no valor exibido.
@@ -429,20 +429,20 @@ function CarrosContent() {
 
             {/* CTA roteiro */}
             <div style={{
-              marginTop: 16, background: '#F4F7FF', borderRadius: 12,
+              marginTop: 16, background: '#F4F6F9', borderRadius: 12,
               padding: '20px 24px', textAlign: 'center',
             }}>
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-                fontSize: '0.85rem', color: '#5A6A80', marginBottom: 10,
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '0.85rem', color: '#64748B', marginBottom: 10,
               }}>
                 Quer montar um roteiro completo com carro + voo + hotel?
               </p>
               <a
                 href="/roteiro"
                 style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 600,
-                  fontSize: '0.88rem', color: '#1A56DB', textDecoration: 'none',
+                  fontFamily: 'Inter, sans-serif', fontWeight: 600,
+                  fontSize: '0.88rem', color: '#1A82D8', textDecoration: 'none',
                 }}
               >
                 Criar roteiro completo →
@@ -454,8 +454,8 @@ function CarrosContent() {
         {!searched && (
           <div>
             <p style={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
-              fontSize: '0.85rem', color: '#5A6A80',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '0.85rem', color: '#64748B',
               marginBottom: 20, textAlign: 'center',
             }}>
               Preencha o local e as datas — os links abaixo serão ativados com seus dados.
@@ -473,12 +473,12 @@ function CarrosContent() {
                   </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                      <h3 style={{ fontFamily: 'Fraunces, serif', fontSize: '1.05rem', color: '#0D1B3E', margin: 0 }}>
+                      <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.05rem', color: '#0F2340', margin: 0 }}>
                         {provider.name}
                       </h3>
                       {provider.badge && (
                         <span style={{
-                          fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.68rem',
+                          fontFamily: 'Inter, sans-serif', fontSize: '0.68rem',
                           fontWeight: 700, color: provider.color, background: provider.color + '15',
                           padding: '2px 8px', borderRadius: 20, textTransform: 'uppercase',
                         }}>
@@ -486,13 +486,13 @@ function CarrosContent() {
                         </span>
                       )}
                     </div>
-                    <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.83rem', color: '#5A6A80', margin: 0 }}>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.83rem', color: '#64748B', margin: 0 }}>
                       {provider.description}
                     </p>
                   </div>
                   <div style={{
-                    background: '#D0DCF0', color: '#fff',
-                    fontFamily: 'Plus Jakarta Sans, sans-serif',
+                    background: '#E2E8F0', color: '#fff',
+                    fontFamily: 'Inter, sans-serif',
                     fontWeight: 700, fontSize: '0.85rem',
                     padding: '10px 20px', borderRadius: 10,
                     whiteSpace: 'nowrap', flexShrink: 0,

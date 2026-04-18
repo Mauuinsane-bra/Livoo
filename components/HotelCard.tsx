@@ -23,7 +23,7 @@ function formatPrice(price: number, currency: string) {
 
 function StarRating({ rating }: { rating: number }) {
   return (
-    <span style={{ color: '#F5A623', fontSize: '0.85rem' }}>
+    <span style={{ color: '#F5A800', fontSize: '0.85rem' }}>
       {'★'.repeat(Math.floor(rating))}{'☆'.repeat(5 - Math.floor(rating))}
     </span>
   )
@@ -48,15 +48,15 @@ export default function HotelCard({
       {/* Content */}
       <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
         <div style={{ flex: 1 }}>
-          <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.05rem', color: '#0D1B3E', marginBottom: 4 }}>
+          <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.05rem', color: '#0F2340', marginBottom: 4 }}>
             {name}
           </h3>
-          <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.82rem', color: '#5A6A80', marginBottom: 8 }}>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#64748B', marginBottom: 8 }}>
             {location}
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
             <StarRating rating={rating} />
-            <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.78rem', color: '#5A6A80' }}>
+            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#64748B' }}>
               ({reviewCount.toLocaleString('pt-BR')} avaliações)
             </span>
           </div>
@@ -64,10 +64,10 @@ export default function HotelCard({
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
               {amenities.slice(0, 3).map((a) => (
                 <span key={a} style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '0.72rem',
-                  background: '#F4F7FF',
-                  color: '#5A6A80',
+                  background: '#F4F6F9',
+                  color: '#64748B',
                   padding: '3px 8px',
                   borderRadius: 50,
                 }}>
@@ -80,10 +80,10 @@ export default function HotelCard({
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 16 }}>
           <div>
-            <p style={{ fontFamily: 'Playfair Display, serif', fontSize: '1.2rem', fontWeight: 700, color: '#0D1B3E' }}>
+            <p style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.2rem', fontWeight: 700, color: '#0F2340' }}>
               {formatPrice(pricePerNight, currency)}
             </p>
-            <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.72rem', color: '#5A6A80' }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', color: '#64748B' }}>
               por noite
             </p>
           </div>

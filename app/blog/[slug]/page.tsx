@@ -40,7 +40,7 @@ export default function BlogPostPage({ params }: Props) {
   const related = BLOG_POSTS.filter(p => p.slug !== post.slug).slice(0, 3)
 
   return (
-    <div style={{ background: '#F4F7FF', minHeight: '100vh' }}>
+    <div style={{ background: '#F4F6F9', minHeight: '100vh' }}>
 
       {/* Hero com imagem */}
       <div style={{ position: 'relative', height: 420, overflow: 'hidden' }}>
@@ -68,7 +68,7 @@ export default function BlogPostPage({ params }: Props) {
           transform: 'translateX(-50%)',
         }}>
           <Link href="/blog" style={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             fontSize: '0.8rem',
             fontWeight: 700,
             color: 'rgba(255,255,255,0.7)',
@@ -96,7 +96,7 @@ export default function BlogPostPage({ params }: Props) {
             {post.category}
           </span>
           <h1 style={{
-            fontFamily: 'Fraunces, serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: 'clamp(1.6rem, 4vw, 2.5rem)',
             color: '#fff',
             lineHeight: 1.2,
@@ -106,7 +106,7 @@ export default function BlogPostPage({ params }: Props) {
           </h1>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <span style={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
+              fontFamily: 'Inter, sans-serif',
               fontSize: '0.82rem',
               color: 'rgba(255,255,255,0.65)',
             }}>
@@ -114,7 +114,7 @@ export default function BlogPostPage({ params }: Props) {
             </span>
             <span style={{ color: 'rgba(255,255,255,0.35)' }}>·</span>
             <span style={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
+              fontFamily: 'Inter, sans-serif',
               fontSize: '0.82rem',
               color: 'rgba(255,255,255,0.65)',
             }}>
@@ -135,14 +135,14 @@ export default function BlogPostPage({ params }: Props) {
               background: '#fff',
               borderRadius: 16,
               padding: '24px 28px',
-              border: '1px solid #D0DCF0',
+              border: '1px solid #E2E8F0',
               marginBottom: 32,
               borderLeft: `4px solid ${post.categoryColor}`,
             }}>
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '1rem',
-                color: '#0D1B3E',
+                color: '#0F2340',
                 fontWeight: 600,
                 lineHeight: 1.7,
                 margin: 0,
@@ -158,7 +158,7 @@ export default function BlogPostPage({ params }: Props) {
                 borderRadius: 20,
                 padding: '40px 44px',
                 boxShadow: '0 4px 24px rgba(13,27,62,0.07)',
-                border: '1px solid #D0DCF0',
+                border: '1px solid #E2E8F0',
               }}
               dangerouslySetInnerHTML={{ __html: post.content }}
               className="blog-content"
@@ -168,11 +168,11 @@ export default function BlogPostPage({ params }: Props) {
             <div style={{ marginTop: 28, display: 'flex', flexWrap: 'wrap', gap: 8 }}>
               {post.tags.map(tag => (
                 <span key={tag} style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '0.75rem',
-                  color: '#5A6A80',
+                  color: '#64748B',
                   background: '#fff',
-                  border: '1px solid #D0DCF0',
+                  border: '1px solid #E2E8F0',
                   padding: '4px 12px',
                   borderRadius: 50,
                 }}>
@@ -186,14 +186,14 @@ export default function BlogPostPage({ params }: Props) {
           <aside style={{ position: 'sticky', top: 100 }}>
             {/* CTA Livoo Prep */}
             <div style={{
-              background: 'linear-gradient(135deg, #0D1B3E 0%, #1E3A6E 100%)',
+              background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)',
               borderRadius: 16,
               padding: '28px 24px',
               marginBottom: 24,
               textAlign: 'center',
             }}>
               <h3 style={{
-                fontFamily: 'Fraunces, serif',
+                fontFamily: 'Nunito, sans-serif',
                 fontSize: '1.1rem',
                 color: '#fff',
                 marginBottom: 10,
@@ -201,7 +201,7 @@ export default function BlogPostPage({ params }: Props) {
                 Precisa de visto?
               </h3>
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '0.82rem',
                 color: 'rgba(255,255,255,0.7)',
                 lineHeight: 1.65,
@@ -219,21 +219,21 @@ export default function BlogPostPage({ params }: Props) {
               background: '#fff',
               borderRadius: 16,
               padding: '24px',
-              border: '1px solid #D0DCF0',
+              border: '1px solid #E2E8F0',
               marginBottom: 24,
             }}>
               <h3 style={{
-                fontFamily: 'Fraunces, serif',
+                fontFamily: 'Nunito, sans-serif',
                 fontSize: '1rem',
-                color: '#0D1B3E',
+                color: '#0F2340',
                 marginBottom: 8,
               }}>
                 Monte seu roteiro
               </h3>
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '0.82rem',
-                color: '#5A6A80',
+                color: '#64748B',
                 lineHeight: 1.6,
                 marginBottom: 14,
               }}>
@@ -250,13 +250,13 @@ export default function BlogPostPage({ params }: Props) {
                 background: '#fff',
                 borderRadius: 16,
                 padding: '24px',
-                border: '1px solid #D0DCF0',
+                border: '1px solid #E2E8F0',
               }}>
                 <h3 style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '0.75rem',
                   fontWeight: 700,
-                  color: '#0D1B3E',
+                  color: '#0F2340',
                   textTransform: 'uppercase',
                   letterSpacing: '1.2px',
                   marginBottom: 16,
@@ -276,9 +276,9 @@ export default function BlogPostPage({ params }: Props) {
                           <Image src={r.imageUrl} alt={r.title} fill style={{ objectFit: 'cover' }} unoptimized />
                         </div>
                         <p style={{
-                          fontFamily: 'Plus Jakarta Sans, sans-serif',
+                          fontFamily: 'Inter, sans-serif',
                           fontSize: '0.8rem',
-                          color: '#0D1B3E',
+                          color: '#0F2340',
                           fontWeight: 600,
                           lineHeight: 1.4,
                           margin: 0,
@@ -298,27 +298,27 @@ export default function BlogPostPage({ params }: Props) {
       {/* Estilos do blog content */}
       <style>{`
         .blog-content h2 {
-          font-family: Fraunces, serif;
+          font-family: Nunito, sans-serif;
           font-size: 1.35rem;
-          color: #0D1B3E;
+          color: #0F2340;
           margin: 32px 0 14px;
           line-height: 1.3;
         }
         .blog-content h3 {
-          font-family: Fraunces, serif;
+          font-family: Nunito, sans-serif;
           font-size: 1.1rem;
-          color: #0D1B3E;
+          color: #0F2340;
           margin: 24px 0 10px;
         }
         .blog-content p {
-          font-family: 'Plus Jakarta Sans', sans-serif;
+          font-family: 'Inter', sans-serif;
           font-size: 0.95rem;
           color: #4A5A70;
           line-height: 1.8;
           margin-bottom: 16px;
         }
         .blog-content ul, .blog-content ol {
-          font-family: 'Plus Jakarta Sans', sans-serif;
+          font-family: 'Inter', sans-serif;
           font-size: 0.92rem;
           color: #4A5A70;
           line-height: 1.75;
@@ -326,9 +326,9 @@ export default function BlogPostPage({ params }: Props) {
           margin-bottom: 16px;
         }
         .blog-content li { margin-bottom: 6px; }
-        .blog-content strong { color: #0D1B3E; font-weight: 700; }
-        .blog-content em { color: #1A56DB; font-style: italic; }
-        .blog-content a { color: #1A56DB; font-weight: 600; text-decoration: underline; }
+        .blog-content strong { color: #0F2340; font-weight: 700; }
+        .blog-content em { color: #1A82D8; font-style: italic; }
+        .blog-content a { color: #1A82D8; font-weight: 600; text-decoration: underline; }
       `}</style>
     </div>
   )

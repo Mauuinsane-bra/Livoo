@@ -51,14 +51,14 @@ function FlightSection({
       }}>
         <span style={{ fontSize: '1.1rem' }}>{title.includes('Ida') ? '✈️' : '🔄'}</span>
         <h3 style={{
-          fontFamily: 'Fraunces, serif', color: '#0D1B3E',
+          fontFamily: 'Nunito, sans-serif', color: '#0F2340',
           fontSize: '1.05rem', margin: 0,
         }}>
           {title}
         </h3>
         <span style={{
-          fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.75rem',
-          color: '#5A6A80', marginLeft: 4,
+          fontFamily: 'Inter, sans-serif', fontSize: '0.75rem',
+          color: '#64748B', marginLeft: 4,
         }}>
           {filtered.length} opção{filtered.length !== 1 ? 'ões' : ''} encontrada{filtered.length !== 1 ? 's' : ''}
         </span>
@@ -240,12 +240,12 @@ function PassagensContent() {
   const hasParams = isMultiDestination || (params.get('origin') && params.get('destination'))
 
   return (
-    <div style={{ background: '#F4F7FF', minHeight: '100vh' }}>
+    <div style={{ background: '#F4F6F9', minHeight: '100vh' }}>
 
       {/* ── Barra de busca ─────────────────────────────── */}
-      <div style={{ background: 'linear-gradient(135deg, #0D1B3E 0%, #1E3A6E 100%)', padding: '32px 24px 48px' }}>
+      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)', padding: '32px 24px 48px' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
-          <h1 style={{ fontFamily: 'Fraunces, serif', color: '#fff', fontSize: '1.6rem', marginBottom: 24 }}>
+          <h1 style={{ fontFamily: 'Nunito, sans-serif', color: '#fff', fontSize: '1.6rem', marginBottom: 24 }}>
             {isMultiDestination ? 'Voos — múltiplos destinos' : 'Buscar passagens'}
           </h1>
 
@@ -258,14 +258,14 @@ function PassagensContent() {
                     background: 'rgba(255,255,255,0.15)', color: '#fff',
                     borderRadius: '50%', width: 24, height: 24,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.72rem', fontWeight: 700, flexShrink: 0,
+                    fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, flexShrink: 0,
                   }}>
                     {idx + 1}
                   </span>
-                  <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.9rem', color: '#fff', fontWeight: 600 }}>
+                  <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: '#fff', fontWeight: 600 }}>
                     {leg.o} → {leg.d}
                   </span>
-                  <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.8rem', color: 'rgba(255,255,255,0.55)' }}>
+                  <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: 'rgba(255,255,255,0.55)' }}>
                     {leg.date}
                   </span>
                 </div>
@@ -275,7 +275,7 @@ function PassagensContent() {
                 style={{
                   marginTop: 8, background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
                   borderRadius: 8, padding: '7px 14px', cursor: 'pointer',
-                  fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.8rem', fontWeight: 600,
+                  fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 600,
                   color: '#fff', width: 'fit-content',
                 }}
               >
@@ -292,13 +292,13 @@ function PassagensContent() {
               </div>
               <div style={{ display: 'flex', gap: 12, alignItems: 'flex-end' }}>
                 <div style={{ flex: '0 0 120px' }}>
-                  <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255,255,255,0.6)', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                  <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255,255,255,0.6)', marginBottom: 6, fontFamily: 'Inter, sans-serif' }}>
                     Passageiros
                   </label>
                   <input
                     type="number" min={1} max={9}
                     value={passengers} onChange={e => setPassengers(e.target.value)}
-                    style={{ width: '100%', padding: '11px 14px', border: '1.5px solid rgba(255,255,255,0.2)', borderRadius: 10, fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.9rem', background: 'rgba(255,255,255,0.08)', color: '#fff', outline: 'none' }}
+                    style={{ width: '100%', padding: '11px 14px', border: '1.5px solid rgba(255,255,255,0.2)', borderRadius: 10, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', background: 'rgba(255,255,255,0.08)', color: '#fff', outline: 'none' }}
                   />
                 </div>
                 <button
@@ -325,25 +325,25 @@ function PassagensContent() {
             display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap',
             marginBottom: 20,
           }}>
-            <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.8rem', fontWeight: 600, color: '#5A6A80' }}>
+            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 600, color: '#64748B' }}>
               {totalFound} voo{totalFound !== 1 ? 's' : ''} encontrado{totalFound !== 1 ? 's' : ''}
               {isRoundTrip && !isMultiDestination && ' (ida + volta)'}
               {isMultiDestination && ` em ${parsedLegs.length} trechos`}
             </span>
             <div style={{ display: 'flex', gap: 8, marginLeft: 'auto', flexWrap: 'wrap' }}>
-              <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.8rem', color: '#5A6A80', alignSelf: 'center' }}>Ordenar:</span>
+              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#64748B', alignSelf: 'center' }}>Ordenar:</span>
               {(['price', 'stops', 'duration'] as SortKey[]).map(key => (
                 <button key={key} onClick={() => setSortBy(key)} style={{
                   padding: '5px 12px', borderRadius: 8, border: 'none', cursor: 'pointer',
-                  fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.8rem', fontWeight: 500,
-                  background: sortBy === key ? '#1A56DB' : '#F4F7FF',
-                  color: sortBy === key ? '#fff' : '#5A6A80', transition: 'all 0.2s',
+                  fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 500,
+                  background: sortBy === key ? '#1A82D8' : '#F4F6F9',
+                  color: sortBy === key ? '#fff' : '#64748B', transition: 'all 0.2s',
                 }}>
                   {key === 'price' ? 'Menor preço' : key === 'stops' ? 'Menos escalas' : 'Menor duração'}
                 </button>
               ))}
-              <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.8rem', color: '#5A6A80', cursor: 'pointer' }}>
-                <input type="checkbox" checked={onlyDirect} onChange={e => setOnlyDirect(e.target.checked)} style={{ accentColor: '#1A56DB' }} />
+              <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#64748B', cursor: 'pointer' }}>
+                <input type="checkbox" checked={onlyDirect} onChange={e => setOnlyDirect(e.target.checked)} style={{ accentColor: '#1A82D8' }} />
                 Só direto
               </label>
             </div>
@@ -353,8 +353,8 @@ function PassagensContent() {
         {/* ── Loading ──────────────────────────────────── */}
         {status === 'loading' && (
           <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
-            <div style={{ width: 48, height: 48, border: '4px solid #EEF4FF', borderTop: '4px solid #1A56DB', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 16px' }} />
-            <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#5A6A80' }}>
+            <div style={{ width: 48, height: 48, border: '4px solid #E6F3FF', borderTop: '4px solid #1A82D8', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 16px' }} />
+            <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}>
               {isMultiDestination
                 ? `Buscando voos para ${parsedLegs.length} trechos...`
                 : dateTo ? 'Buscando voos de ida e volta...' : 'Buscando os melhores voos...'}
@@ -367,11 +367,11 @@ function PassagensContent() {
         {status === 'error' && (
           <div style={{ background: '#fff', borderRadius: 14, padding: 40, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
             <span style={{ fontSize: 40, display: 'block', marginBottom: 16 }}>⚠️</span>
-            <h3 style={{ fontFamily: 'Fraunces, serif', color: '#0D1B3E', marginBottom: 10 }}>Não foi possível buscar os voos</h3>
-            <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#5A6A80', marginBottom: 20, fontSize: '0.9rem' }}>{errorMsg}</p>
+            <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 10 }}>Não foi possível buscar os voos</h3>
+            <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', marginBottom: 20, fontSize: '0.9rem' }}>{errorMsg}</p>
             {errorMsg.includes('TRAVELPAYOUTS') || errorMsg.includes('configurad') ? (
               <div style={{ background: '#FFF8EC', border: '1px solid rgba(245,166,35,0.3)', borderRadius: 10, padding: 16, textAlign: 'left', maxWidth: 480, margin: '0 auto' }}>
-                <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.85rem', color: '#92400e', margin: 0 }}>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#92400e', margin: 0 }}>
                   <strong>API de voos não configurada.</strong><br />
                   Adicione <code>TRAVELPAYOUTS_TOKEN</code> no arquivo <code>.env.local</code>.<br />
                   Cadastre-se gratuitamente em <strong>travelpayouts.com</strong> → Developers → API.
@@ -398,10 +398,10 @@ function PassagensContent() {
           return (
             <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
               <span style={{ fontSize: 40, display: 'block', marginBottom: 12 }}>✈️</span>
-              <h3 style={{ fontFamily: 'Fraunces, serif', color: '#0D1B3E', marginBottom: 8 }}>
+              <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 8 }}>
                 Não encontramos voos em nossa base para essa rota
               </h3>
-              <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#5A6A80', fontSize: '0.9rem', marginBottom: 28, maxWidth: 460, margin: '0 auto 28px' }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', fontSize: '0.9rem', marginBottom: 28, maxWidth: 460, margin: '0 auto 28px' }}>
                 Nossa base de preços é atualizada periodicamente e pode não ter dados para rotas menos frequentes.
                 Encontramos a rota no Aviasales com preços em tempo real.
               </p>
@@ -411,9 +411,9 @@ function PassagensContent() {
                 rel="noopener noreferrer"
                 style={{
                   display: 'inline-block',
-                  background: '#1A56DB',
+                  background: '#1A82D8',
                   color: '#fff',
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontWeight: 700,
                   fontSize: '0.95rem',
                   padding: '14px 32px',
@@ -424,7 +424,7 @@ function PassagensContent() {
               >
                 Ver voos {orig} → {dest} no Aviasales
               </a>
-              <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.75rem', color: '#9BA8B8', margin: '12px 0 0' }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#9BA8B8', margin: '12px 0 0' }}>
                 Você será redirecionado para o Aviasales com a sua busca já preenchida
               </p>
             </div>
@@ -452,7 +452,7 @@ function PassagensContent() {
               />
             )}
 
-            <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.78rem', color: '#5A6A80', textAlign: 'center', marginTop: 8 }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#64748B', textAlign: 'center', marginTop: 8 }}>
               Preços em R$ (BRL) · Via Aviasales/Travelpayouts · Sem markup · Sujeito a disponibilidade
             </p>
           </>
@@ -473,7 +473,7 @@ function PassagensContent() {
                 />
               )
             ))}
-            <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.78rem', color: '#5A6A80', textAlign: 'center', marginTop: 8 }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#64748B', textAlign: 'center', marginTop: 8 }}>
               Preços em R$ (BRL) · Via Aviasales/Travelpayouts · Sem markup · Sujeito a disponibilidade
             </p>
           </>
@@ -483,8 +483,8 @@ function PassagensContent() {
         {status === 'idle' && !hasParams && (
           <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
             <span style={{ fontSize: 48, display: 'block', marginBottom: 16 }}>✈️</span>
-            <h3 style={{ fontFamily: 'Fraunces, serif', color: '#0D1B3E', marginBottom: 8 }}>Pronto para decolar</h3>
-            <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#5A6A80', fontSize: '0.9rem' }}>
+            <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 8 }}>Pronto para decolar</h3>
+            <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', fontSize: '0.9rem' }}>
               Preencha origem, destino e data acima para buscar os melhores voos.
             </p>
           </div>
@@ -505,7 +505,7 @@ export default function PassagensPage() {
   return (
     <Suspense fallback={
       <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#5A6A80' }}>Carregando...</p>
+        <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}>Carregando...</p>
       </div>
     }>
       <PassagensContent />

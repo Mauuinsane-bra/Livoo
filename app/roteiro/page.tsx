@@ -64,11 +64,11 @@ function RoteiroContent() {
     return (
       <div style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20 }}>
         <div style={{
-          width: 56, height: 56, border: '4px solid #EEF4FF',
-          borderTop: '4px solid #1A56DB', borderRadius: '50%',
+          width: 56, height: 56, border: '4px solid #E6F3FF',
+          borderTop: '4px solid #1A82D8', borderRadius: '50%',
           animation: 'spin 0.8s linear infinite',
         }} />
-        <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#5A6A80', fontSize: '0.95rem' }}>
+        <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', fontSize: '0.95rem' }}>
           Analisando sua experiência e montando o roteiro...
         </p>
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
@@ -81,8 +81,8 @@ function RoteiroContent() {
     return (
       <div style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16, textAlign: 'center', padding: 24 }}>
         <span style={{ fontSize: 48 }}>⚠️</span>
-        <h2 style={{ fontFamily: 'Fraunces, serif', color: '#0D1B3E' }}>Algo deu errado</h2>
-        <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#5A6A80' }}>
+        <h2 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340' }}>Algo deu errado</h2>
+        <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}>
           {result?.error ?? 'Não foi possível processar o roteiro. Tente novamente.'}
         </p>
         <Link href="/" className="btn-primary">Voltar ao início</Link>
@@ -95,10 +95,10 @@ function RoteiroContent() {
   if (!parsed) return null
 
   return (
-    <div style={{ background: '#F4F7FF', minHeight: '100vh', paddingBottom: 80 }}>
+    <div style={{ background: '#F4F6F9', minHeight: '100vh', paddingBottom: 80 }}>
 
       {/* Hero do resultado */}
-      <div style={{ background: 'linear-gradient(135deg, #0D1B3E 0%, #1E3A6E 100%)', padding: '48px 24px 64px' }}>
+      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)', padding: '48px 24px 64px' }}>
         <div style={{ maxWidth: 860, margin: '0 auto' }}>
 
           {/* Aviso modo demo */}
@@ -106,7 +106,7 @@ function RoteiroContent() {
             <div style={{
               background: 'rgba(245,166,35,0.15)', border: '1px solid rgba(245,166,35,0.4)',
               borderRadius: 10, padding: '12px 16px', marginBottom: 24,
-              fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.85rem', color: '#F5A623',
+              fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#F5A800',
             }}>
               <strong>Modo demonstração</strong> — Configure <code>OPENAI_API_KEY</code> no <code>.env.local</code> para ativar a IA real de roteiros.
             </div>
@@ -115,13 +115,13 @@ function RoteiroContent() {
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, flexWrap: 'wrap' }}>
             <span style={{ fontSize: 48 }}>{categoryEmoji[parsed.experienceCategory] ?? '✈'}</span>
             <div style={{ flex: 1 }}>
-              <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: 8 }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: 8 }}>
                 Roteiro identificado
               </p>
-              <h1 style={{ fontFamily: 'Fraunces, serif', fontSize: 'clamp(1.6rem, 4vw, 2.4rem)', color: '#fff', marginBottom: 8, lineHeight: 1.2 }}>
+              <h1 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 'clamp(1.6rem, 4vw, 2.4rem)', color: '#fff', marginBottom: 8, lineHeight: 1.2 }}>
                 {parsed.event}
               </h1>
-              <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '1rem', color: 'rgba(255,255,255,0.7)', marginBottom: 0 }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '1rem', color: 'rgba(255,255,255,0.7)', marginBottom: 0 }}>
                 {parsed.destination}
                 {parsed.eventDate ? ` · ${parsed.eventDate}` : ''}
               </p>
@@ -140,8 +140,8 @@ function RoteiroContent() {
                 background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)',
                 borderRadius: 10, padding: '10px 16px',
               }}>
-                <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.7rem', color: 'rgba(255,255,255,0.5)', margin: '0 0 2px', textTransform: 'uppercase', letterSpacing: '1px' }}>{item.label}</p>
-                <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.9rem', color: '#fff', margin: 0, fontWeight: 600 }}>{item.value}</p>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', color: 'rgba(255,255,255,0.5)', margin: '0 0 2px', textTransform: 'uppercase', letterSpacing: '1px' }}>{item.label}</p>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: '#fff', margin: 0, fontWeight: 600 }}>{item.value}</p>
               </div>
             ))}
           </div>
@@ -155,10 +155,10 @@ function RoteiroContent() {
           background: '#fff', borderRadius: 14, padding: 24,
           boxShadow: '0 4px 20px rgba(13,27,62,0.07)', marginBottom: 20,
         }}>
-          <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.75rem', fontWeight: 700, color: '#5A6A80', textTransform: 'uppercase', letterSpacing: '1.2px', marginBottom: 10 }}>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '1.2px', marginBottom: 10 }}>
             Seu pedido
           </p>
-          <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.95rem', color: '#0D1B3E', lineHeight: 1.65, margin: 0 }}>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.95rem', color: '#0F2340', lineHeight: 1.65, margin: 0 }}>
             "{prompt}"
           </p>
         </div>
@@ -169,10 +169,10 @@ function RoteiroContent() {
             background: '#FFF8EC', border: '1px solid rgba(245,166,35,0.3)',
             borderRadius: 14, padding: 20, marginBottom: 20,
           }}>
-            <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.75rem', fontWeight: 700, color: '#D48A0A', textTransform: 'uppercase', letterSpacing: '1.2px', marginBottom: 8 }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', fontWeight: 700, color: '#D48A0A', textTransform: 'uppercase', letterSpacing: '1.2px', marginBottom: 8 }}>
               Observações importantes
             </p>
-            <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.9rem', color: '#0D1B3E', lineHeight: 1.65, margin: 0 }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: '#0F2340', lineHeight: 1.65, margin: 0 }}>
               {parsed.notes}
             </p>
           </div>
@@ -183,7 +183,7 @@ function RoteiroContent() {
           background: '#fff', borderRadius: 14, padding: 28,
           boxShadow: '0 4px 20px rgba(13,27,62,0.07)', marginBottom: 20,
         }}>
-          <h2 style={{ fontFamily: 'Fraunces, serif', fontSize: '1.2rem', color: '#0D1B3E', marginBottom: 20 }}>
+          <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.2rem', color: '#0F2340', marginBottom: 20 }}>
             Próximos passos
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -194,7 +194,7 @@ function RoteiroContent() {
                 desc: `Antes de comprar qualquer coisa, confira se você precisa de visto para ${parsed.destination}.`,
                 cta: 'Verificar Documentação',
                 href: `/prep?destination=${parsed.destinationIATA}&destinationName=${encodeURIComponent(parsed.destination)}`,
-                color: '#1A56DB',
+                color: '#1A82D8',
               },
               {
                 num: '02',
@@ -206,7 +206,7 @@ function RoteiroContent() {
                 href: includes.includes('voo')
                   ? `/passagens?${origin ? `origin=${origin}&` : ''}destination=${parsed.destinationIATA}${parsed.eventDate ? `&date=${parsed.eventDate}` : ''}`
                   : null,
-                color: '#1A56DB',
+                color: '#1A82D8',
               },
               {
                 num: '03',
@@ -216,7 +216,7 @@ function RoteiroContent() {
                   : 'Você não incluiu hospedagem neste roteiro.',
                 cta: includes.includes('hotel') ? 'Buscar hotéis' : null,
                 href: includes.includes('hotel') ? `/hoteis?city=${encodeURIComponent(parsed.destination)}` : null,
-                color: '#1A56DB',
+                color: '#1A82D8',
               },
               {
                 num: '04',
@@ -224,25 +224,25 @@ function RoteiroContent() {
                 desc: `Experiências e guias especializados em ${parsed.destination} via GetYourGuide.`,
                 cta: 'Ver experiências',
                 href: `/guias?q=${encodeURIComponent(parsed.searchQuery)}`,
-                color: '#1A56DB',
+                color: '#1A82D8',
               },
             ].map(step => (
               <div key={step.num} style={{
                 display: 'flex', gap: 16, padding: '16px 0',
-                borderBottom: '1px solid #EEF4FF',
+                borderBottom: '1px solid #E6F3FF',
               }}>
                 <div style={{
-                  width: 44, height: 44, borderRadius: 12, background: '#0D1B3E',
-                  color: '#fff', fontFamily: 'Fraunces, serif', fontSize: '0.85rem',
+                  width: 44, height: 44, borderRadius: 12, background: '#0F2340',
+                  color: '#fff', fontFamily: 'Nunito, sans-serif', fontSize: '0.85rem',
                   fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                 }}>
                   {step.num}
                 </div>
                 <div style={{ flex: 1 }}>
-                  <h3 style={{ fontFamily: 'Fraunces, serif', fontSize: '1rem', color: '#0D1B3E', marginBottom: 4 }}>
+                  <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1rem', color: '#0F2340', marginBottom: 4 }}>
                     {step.title}
                   </h3>
-                  <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.85rem', color: '#5A6A80', margin: step.cta ? '0 0 10px' : 0 }}>
+                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#64748B', margin: step.cta ? '0 0 10px' : 0 }}>
                     {step.desc}
                   </p>
                   {step.cta && step.href && (
@@ -258,13 +258,13 @@ function RoteiroContent() {
 
         {/* CTA acesso antecipado */}
         <div style={{
-          background: 'linear-gradient(135deg, #0D1B3E 0%, #1E3A6E 100%)',
+          background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)',
           borderRadius: 14, padding: 32, textAlign: 'center',
         }}>
-          <h3 style={{ fontFamily: 'Fraunces, serif', color: '#fff', fontSize: '1.3rem', marginBottom: 10 }}>
+          <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#fff', fontSize: '1.3rem', marginBottom: 10 }}>
             Quer que a Go Livoo monte tudo por você?
           </h3>
-          <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: 'rgba(255,255,255,0.65)', fontSize: '0.9rem', marginBottom: 24 }}>
+          <p style={{ fontFamily: 'Inter, sans-serif', color: 'rgba(255,255,255,0.65)', fontSize: '0.9rem', marginBottom: 24 }}>
             Estamos construindo a versão completa — voo + hotel + guia + documentação em um clique.
             Entre na lista e seja um dos primeiros.
           </p>
@@ -281,7 +281,7 @@ export default function RoteiroPage() {
   return (
     <Suspense fallback={
       <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#5A6A80' }}>Carregando...</p>
+        <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}>Carregando...</p>
       </div>
     }>
       <RoteiroContent />

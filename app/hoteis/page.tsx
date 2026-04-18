@@ -24,7 +24,7 @@ interface HotelResult {
 function StarRating({ stars }: { stars: number }) {
   if (!stars) return null
   return (
-    <span style={{ color: '#F5A623', fontSize: '0.85rem', letterSpacing: 1 }}>
+    <span style={{ color: '#F5A800', fontSize: '0.85rem', letterSpacing: 1 }}>
       {'★'.repeat(Math.min(stars, 5))}
       {'☆'.repeat(Math.max(0, 5 - stars))}
     </span>
@@ -46,7 +46,7 @@ function HotelCard({ hotel, nights }: { hotel: HotelResult; nights: number }) {
   return (
     <div className="card" style={{ padding: 0, overflow: 'hidden', display: 'flex', gap: 0 }}>
       {/* Imagem */}
-      <div style={{ position: 'relative', width: 200, flexShrink: 0, background: '#EEF4FF' }}>
+      <div style={{ position: 'relative', width: 200, flexShrink: 0, background: '#E6F3FF' }}>
         {!imgError ? (
           <Image
             src={hotel.imageUrl}
@@ -60,7 +60,7 @@ function HotelCard({ hotel, nights }: { hotel: HotelResult; nights: number }) {
           <div style={{
             width: '100%', height: '100%', display: 'flex',
             alignItems: 'center', justifyContent: 'center',
-            fontSize: 32, color: '#1A56DB',
+            fontSize: 32, color: '#1A82D8',
           }}>
             🏨
           </div>
@@ -72,14 +72,14 @@ function HotelCard({ hotel, nights }: { hotel: HotelResult; nights: number }) {
         <div style={{ flex: 1 }}>
           <StarRating stars={hotel.stars} />
           <h3 style={{
-            fontFamily: 'Fraunces, serif', fontSize: '1.05rem',
-            color: '#0D1B3E', margin: '6px 0 4px',
+            fontFamily: 'Nunito, sans-serif', fontSize: '1.05rem',
+            color: '#0F2340', margin: '6px 0 4px',
           }}>
             {hotel.name}
           </h3>
           <p style={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
-            fontSize: '0.82rem', color: '#5A6A80', margin: 0,
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '0.82rem', color: '#64748B', margin: 0,
           }}>
             {hotel.location}{hotel.country ? `, ${hotel.country}` : ''}
           </p>
@@ -91,22 +91,22 @@ function HotelCard({ hotel, nights }: { hotel: HotelResult; nights: number }) {
         }}>
           <div>
             <p style={{
-              fontFamily: 'Fraunces, serif', fontSize: '1.3rem',
-              fontWeight: 700, color: '#0D1B3E', margin: 0,
+              fontFamily: 'Nunito, sans-serif', fontSize: '1.3rem',
+              fontWeight: 700, color: '#0F2340', margin: 0,
             }}>
               {fmt(hotel.pricePerNight)}
               <span style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '0.72rem', fontWeight: 400,
-                color: '#5A6A80', marginLeft: 4,
+                color: '#64748B', marginLeft: 4,
               }}>
                 / noite
               </span>
             </p>
             {nights > 1 && (
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-                fontSize: '0.78rem', color: '#5A6A80', margin: '2px 0 0',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '0.78rem', color: '#64748B', margin: '2px 0 0',
               }}>
                 {fmt(total)} total ({nights} noite{nights !== 1 ? 's' : ''})
               </p>
@@ -151,24 +151,24 @@ function SearchForm({
 
   const inputStyle: React.CSSProperties = {
     width: '100%', padding: '12px 14px',
-    fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.92rem',
+    fontFamily: 'Inter, sans-serif', fontSize: '0.92rem',
     background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.25)',
     borderRadius: 10, color: '#fff', outline: 'none',
     boxSizing: 'border-box',
   }
 
   const labelStyle: React.CSSProperties = {
-    fontFamily: 'Plus Jakarta Sans, sans-serif',
+    fontFamily: 'Inter, sans-serif',
     fontSize: '0.72rem', fontWeight: 600,
     color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase',
     letterSpacing: '0.8px', display: 'block', marginBottom: 6,
   }
 
   return (
-    <div style={{ background: 'linear-gradient(135deg, #0D1B3E 0%, #1A3A6E 100%)', padding: '36px 0 48px' }}>
+    <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A3A6E 100%)', padding: '36px 0 48px' }}>
       <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
         <h1 style={{
-          fontFamily: 'Fraunces, serif', fontSize: '1.8rem',
+          fontFamily: 'Nunito, sans-serif', fontSize: '1.8rem',
           color: '#fff', marginBottom: 28,
         }}>
           Buscar hotéis
@@ -322,11 +322,11 @@ function HoteisContent() {
         {status === 'loading' && (
           <div style={{ textAlign: 'center', padding: 80 }}>
             <div style={{
-              width: 40, height: 40, border: '3px solid #EEF4FF',
-              borderTop: '3px solid #1A56DB', borderRadius: '50%',
+              width: 40, height: 40, border: '3px solid #E6F3FF',
+              borderTop: '3px solid #1A82D8', borderRadius: '50%',
               animation: 'spin 0.8s linear infinite', margin: '0 auto 16px',
             }} />
-            <p style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#5A6A80' }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}>
               Buscando hotéis em {currentParams.location}...
             </p>
           </div>
@@ -339,11 +339,11 @@ function HoteisContent() {
             textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)',
           }}>
             <span style={{ fontSize: 40, display: 'block', marginBottom: 12 }}>🏨</span>
-            <h3 style={{ fontFamily: 'Fraunces, serif', color: '#0D1B3E', marginBottom: 8 }}>
+            <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 8 }}>
               Busca em configuração
             </h3>
             <p style={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#5A6A80',
+              fontFamily: 'Inter, sans-serif', color: '#64748B',
               fontSize: '0.9rem', maxWidth: 440, margin: '0 auto 28px',
             }}>
               {error.includes('não configurada')
@@ -372,15 +372,15 @@ function HoteisContent() {
               justifyContent: 'space-between', marginBottom: 20,
             }}>
               <p style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
-                color: '#5A6A80', fontSize: '0.88rem',
+                fontFamily: 'Inter, sans-serif',
+                color: '#64748B', fontSize: '0.88rem',
               }}>
-                <strong style={{ color: '#0D1B3E' }}>{hotels.length} hotéis</strong> encontrados
+                <strong style={{ color: '#0F2340' }}>{hotels.length} hotéis</strong> encontrados
                 em {currentParams.location} · {nights} noite{nights !== 1 ? 's' : ''}
               </p>
               <span style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.72rem',
-                color: '#5A6A80', background: '#F4F7FF',
+                fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
+                color: '#64748B', background: '#F4F6F9',
                 padding: '4px 10px', borderRadius: 20,
               }}>
                 Preços em USD · via Hotellook
@@ -396,12 +396,12 @@ function HoteisContent() {
             {/* Fallback Booking.com no rodapé dos resultados */}
             {fallbackUrl && (
               <div style={{
-                marginTop: 28, background: '#F4F7FF', borderRadius: 12,
+                marginTop: 28, background: '#F4F6F9', borderRadius: 12,
                 padding: '20px 24px', textAlign: 'center',
               }}>
                 <p style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.85rem',
-                  color: '#5A6A80', marginBottom: 12,
+                  fontFamily: 'Inter, sans-serif', fontSize: '0.85rem',
+                  color: '#64748B', marginBottom: 12,
                 }}>
                   Quer ver mais opções ou filtrar por avaliações?
                 </p>
@@ -410,8 +410,8 @@ function HoteisContent() {
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
-                    fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 600,
-                    fontSize: '0.88rem', color: '#1A56DB', textDecoration: 'none',
+                    fontFamily: 'Inter, sans-serif', fontWeight: 600,
+                    fontSize: '0.88rem', color: '#1A82D8', textDecoration: 'none',
                   }}
                 >
                   Ver todos os hotéis no Booking.com →
@@ -428,11 +428,11 @@ function HoteisContent() {
             textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)',
           }}>
             <span style={{ fontSize: 40, display: 'block', marginBottom: 12 }}>🏨</span>
-            <h3 style={{ fontFamily: 'Fraunces, serif', color: '#0D1B3E', marginBottom: 8 }}>
+            <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 8 }}>
               Não encontramos hotéis em nossa base para esse destino
             </h3>
             <p style={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#5A6A80',
+              fontFamily: 'Inter, sans-serif', color: '#64748B',
               fontSize: '0.9rem', maxWidth: 440, margin: '0 auto 28px',
             }}>
               Nossa base pode não ter dados para esse destino ainda. Encontramos opções diretamente no Booking.com.
@@ -455,8 +455,8 @@ function HoteisContent() {
         {status === 'idle' && (
           <div style={{ textAlign: 'center', padding: '60px 0' }}>
             <p style={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
-              color: '#5A6A80', fontSize: '0.95rem',
+              fontFamily: 'Inter, sans-serif',
+              color: '#64748B', fontSize: '0.95rem',
             }}>
               Digite um destino e as datas para buscar hotéis.
             </p>
