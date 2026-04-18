@@ -49,6 +49,7 @@ const CAR_PROVIDERS: CarProvider[] = [
     priceRange:  'a partir de R$ 79/dia',
     buildUrl:    (location, pickup, ret) => {
       // Rentcars aceita YYYY-MM-DD (site internacionalizado)
+      // requestorid=10582 — ID de afiliado Go Livoo (rastreamento de comissão)
       const qs = new URLSearchParams({
         pickUpLocation:  location,
         dropOffLocation: location,
@@ -56,6 +57,9 @@ const CAR_PROVIDERS: CarProvider[] = [
         dropOffDate:     ret,
         pickUpTime:      '10:00',
         dropOffTime:     '10:00',
+        requestorid:     '10582',
+        utm_source:      'www.golivoo.com.br',
+        utm_medium:      'afiliado-link',
       })
       return `https://www.rentcars.com/pt-br/carros?${qs}`
     },
