@@ -243,7 +243,7 @@ function PassagensContent() {
     <div style={{ background: '#F4F6F9', minHeight: '100vh' }}>
 
       {/* ── Barra de busca ─────────────────────────────── */}
-      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)', padding: '32px 24px 48px' }}>
+      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #2B9FEE 100%)', padding: '32px 24px 48px' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <h1 style={{ fontFamily: 'Nunito, sans-serif', color: '#fff', fontSize: '1.6rem', marginBottom: 24 }}>
             {isMultiDestination ? 'Voos — múltiplos destinos' : 'Buscar passagens'}
@@ -334,7 +334,7 @@ function PassagensContent() {
               <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#64748B', alignSelf: 'center' }}>Ordenar:</span>
               {(['price', 'stops', 'duration'] as SortKey[]).map(key => (
                 <button key={key} onClick={() => setSortBy(key)} style={{
-                  padding: '5px 12px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                  padding: '5px 14px', borderRadius: 100, border: 'none', cursor: 'pointer',
                   fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 500,
                   background: sortBy === key ? '#1A82D8' : '#F4F6F9',
                   color: sortBy === key ? '#fff' : '#64748B', transition: 'all 0.2s',
@@ -411,13 +411,13 @@ function PassagensContent() {
                 rel="noopener noreferrer"
                 style={{
                   display: 'inline-block',
-                  background: '#1A82D8',
+                  background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
                   color: '#fff',
                   fontFamily: 'Inter, sans-serif',
                   fontWeight: 700,
                   fontSize: '0.95rem',
                   padding: '14px 32px',
-                  borderRadius: 10,
+                  borderRadius: 100,
                   textDecoration: 'none',
                   marginBottom: 16,
                 }}

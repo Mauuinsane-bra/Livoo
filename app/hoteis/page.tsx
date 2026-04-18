@@ -165,7 +165,7 @@ function SearchForm({
   }
 
   return (
-    <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A3A6E 100%)', padding: '36px 0 48px' }}>
+    <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #2B9FEE 100%)', padding: '36px 0 48px' }}>
       <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
         <h1 style={{
           fontFamily: 'Nunito, sans-serif', fontSize: '1.8rem',

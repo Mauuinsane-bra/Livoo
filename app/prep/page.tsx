@@ -165,7 +165,7 @@ function PrepContent() {
 
       {/* ── HEADER ── */}
       <section style={{
-        background: 'linear-gradient(135deg, #0F2340 0%, #1A3A6E 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #2B9FEE 100%)',
         padding: '64px 0 48px',
         textAlign: 'center',
       }}>

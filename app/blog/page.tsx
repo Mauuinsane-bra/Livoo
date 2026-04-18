@@ -22,7 +22,7 @@ export default function BlogPage() {
 
       {/* Hero */}
       <div style={{
-        background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #2B9FEE 100%)',
         padding: '72px 24px 80px',
         textAlign: 'center',
       }}>

@@ -114,7 +114,7 @@ function buildPackages(): Package[] {
 function PackageHero() {
   return (
     <div style={{
-      background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)',
+      background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #2B9FEE 100%)',
       padding: '72px 24px 80px',
       textAlign: 'center',
     }}>
@@ -268,7 +268,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
             fontFamily: 'Inter, sans-serif',
             fontSize: '0.82rem', fontWeight: 600,
             color: '#1A82D8',
-            background: 'rgba(26,86,219,0.08)',
+            background: 'rgba(26,130,216,0.08)',
             padding: '6px 14px', borderRadius: 50,
           }}>
             {pkg.duration}

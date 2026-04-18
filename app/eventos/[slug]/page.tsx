@@ -31,7 +31,7 @@ export default function EventoSlugPage({ params }: Props) {
         {/* Overlay escuro */}
         <div style={{
           position: 'absolute', inset: 0,
-          background: 'linear-gradient(to bottom, rgba(13,27,62,0.5) 0%, rgba(13,27,62,0.85) 100%)',
+          background: 'linear-gradient(to bottom, rgba(15,35,64,0.5) 0%, rgba(15,35,64,0.85) 100%)',
         }} />
         {/* Conteúdo do hero */}
         <div style={{
@@ -152,7 +152,7 @@ export default function EventoSlugPage({ params }: Props) {
                     background: '#F5A800', color: '#0F2340',
                     fontFamily: 'Inter, sans-serif',
                     fontWeight: 800, fontSize: '0.9rem',
-                    padding: '12px 28px', borderRadius: 10,
+                    padding: '12px 28px', borderRadius: 100,
                     textDecoration: 'none', whiteSpace: 'nowrap',
                   }}
                 >
@@ -270,11 +270,11 @@ export default function EventoSlugPage({ params }: Props) {
               style={{
                 display: 'block', textAlign: 'center',
                 background: 'transparent',
-                border: '2px solid #1A82D8',
+                border: '1.5px solid #1A82D8',
                 color: '#1A82D8',
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 700, fontSize: '0.88rem',
-                padding: '12px', borderRadius: 10,
+                padding: '12px', borderRadius: 100,
                 textDecoration: 'none',
               }}
             >

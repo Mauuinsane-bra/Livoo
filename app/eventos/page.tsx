@@ -426,13 +426,13 @@ function EventCard({ event }: { event: AnyEvent }) {
             rel="noopener noreferrer"
             style={{
               display: 'block',
-              background: '#0F2340',
+              background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
               color: '#fff',
               fontFamily: 'Inter, sans-serif',
               fontWeight: 600,
               fontSize: '0.82rem',
               padding: '10px 16px',
-              borderRadius: 8,
+              borderRadius: 100,
               textDecoration: 'none',
               textAlign: 'center',
             }}
@@ -449,10 +449,10 @@ function EventCard({ event }: { event: AnyEvent }) {
               fontWeight: 600,
               fontSize: '0.82rem',
               padding: '10px 16px',
-              borderRadius: 8,
+              borderRadius: 100,
               textDecoration: 'none',
               textAlign: 'center',
-              border: '2px solid #1A82D8',
+              border: '1.5px solid #1A82D8',
             }}
           >
             Montar pacote completo
@@ -558,7 +558,7 @@ export default function EventosPage() {
 
       {/* ── HEADER ── */}
       <section style={{
-        background: 'linear-gradient(135deg, #0F2340 0%, #1A3A6E 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #2B9FEE 100%)',
         padding: '64px 0 48px',
       }}>
         <div className="container" style={{ textAlign: 'center' }}>
@@ -802,7 +802,7 @@ export default function EventosPage() {
             fontWeight: 700,
             fontSize: '0.95rem',
             padding: '14px 32px',
-            borderRadius: 10,
+            borderRadius: 100,
             textDecoration: 'none',
           }}>
             Criar roteiro personalizado

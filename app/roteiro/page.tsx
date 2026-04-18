@@ -98,7 +98,7 @@ function RoteiroContent() {
     <div style={{ background: '#F4F6F9', minHeight: '100vh', paddingBottom: 80 }}>
 
       {/* Hero do resultado */}
-      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)', padding: '48px 24px 64px' }}>
+      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #2B9FEE 100%)', padding: '48px 24px 64px' }}>
         <div style={{ maxWidth: 860, margin: '0 auto' }}>
 
           {/* Aviso modo demo */}
