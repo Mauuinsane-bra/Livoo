@@ -137,10 +137,10 @@ export default function Navbar() {
 
           {/* Instagram */}
           <a
-            href="https://www.instagram.com/golivootravel"
+            href="https://www.instagram.com/livoo_travel"
             target="_blank"
             rel="noopener noreferrer"
-            title="@golivootravel"
+            title="@livoo_travel"
             style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               width: 34, height: 34, borderRadius: '50%',

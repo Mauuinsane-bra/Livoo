@@ -63,7 +63,15 @@ const DESTINATIONS: Record<string, { city: string; country: string; flag: string
   CGB: { city: 'Cuiabá',           country: 'Brasil',          flag: '🇧🇷', photo: U('1598568536940-ce8d1bc05b1a') },
   CGR: { city: 'Campo Grande',     country: 'Brasil',          flag: '🇧🇷', photo: U('1598568536940-ce8d1bc05b1a') },
   PMW: { city: 'Palmas',           country: 'Brasil',          flag: '🇧🇷', photo: U('1625426078245-6911839409dd') },
+  // Brasil — destinos extras que a API Travelpayouts retorna
+  RIO: { city: 'Rio de Janeiro',   country: 'Brasil',          flag: '🇧🇷', photo: U('1483729558449-99ef09a8c325') }, // código metro RJ
+  JOI: { city: 'Joinville',        country: 'Brasil',          flag: '🇧🇷', photo: U('1702693177338-0fb78ad59b9f') },
+  SJP: { city: 'S. J. Rio Preto',  country: 'Brasil',          flag: '🇧🇷', photo: U('1554168848-228452c09d60') },    // SP interior
+  JDO: { city: 'Juazeiro do Norte', country: 'Brasil',         flag: '🇧🇷', photo: U('1560971923-16c232d1ee89') },    // Cariri CE
+  PNZ: { city: 'Petrolina',        country: 'Brasil',          flag: '🇧🇷', photo: U('1563455227142-d0f82238d6f8') }, // Sertão PE
+  IOS: { city: 'Ilhéus',           country: 'Brasil',          flag: '🇧🇷', photo: U('1682152572654-6c0ec46f4aa4') },
   // Internacional — América do Sul
+  SRZ: { city: 'Santa Cruz',       country: 'Bolívia',         flag: '🇧🇴', photo: U('1672676935367-68dde281958d') },
   EZE: { city: 'Buenos Aires',     country: 'Argentina',       flag: '🇦🇷', photo: U('1589909202802-8f4aadce1849') },
   BUE: { city: 'Buenos Aires',     country: 'Argentina',       flag: '🇦🇷', photo: U('1589909202802-8f4aadce1849') },
   SCL: { city: 'Santiago',         country: 'Chile',           flag: '🇨🇱', photo: U('1689850543263-01a52ccc6943') },
@@ -103,16 +111,25 @@ function getAirlineName(code: string): string {
   return map[code] || code
 }
 
-// Formato correto Aviasales: /?params={ORIGIN}{DEST}1
-// Confirmado manualmente: GRU → CWB gera https://www.aviasales.com/?params=GRUCWB1
-// depart_date (YYYY-MM-DD) direciona para o mesmo voo que gerou o preço exibido no card
-// market=br é melhor esforço — exibição de moeda depende de geolocalização de IP no Aviasales
+// Formato Aviasales com data: /search/{ORIGIN}{DDMM}{DEST}{PAX}
+// Ex: GRU → CWB em 20/05 → /search/GRU2005CWB1
+// Sem data: /?params={ORIGIN}{DEST}1 (busca genérica)
 function buildAviasalesLink(origin: string, dest: string, departDate?: string): string {
   const marker = process.env.TRAVELPAYOUTS_MARKER
-  let base = `https://www.aviasales.com/?params=${origin}${dest}1&market=br`
-  if (departDate) base += `&depart_date=${departDate}`
-  if (marker) return `${base}&marker=${marker}`
-  return base
+  let url: string
+
+  if (departDate && departDate.length === 10) {
+    // YYYY-MM-DD → DDMM (ex: "2026-05-20" → "2005")
+    const parts = departDate.split('-')
+    const ddmm = `${parts[2]}${parts[1]}`
+    url = `https://www.aviasales.com/search/${origin}${ddmm}${dest}1`
+    if (marker) url += `?marker=${marker}`
+  } else {
+    url = `https://www.aviasales.com/?params=${origin}${dest}1`
+    if (marker) url += `&marker=${marker}`
+  }
+
+  return url
 }
 
 export async function GET(req: NextRequest) {
