@@ -131,7 +131,7 @@ export default function Home() {
         <span className="promo-sep">|</span>
         <div className="promo-item">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-          Suporte em português
+          Zero taxa de serviço
         </div>
         <span className="promo-sep">|</span>
         <div className="promo-item">

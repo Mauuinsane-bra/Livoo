@@ -43,8 +43,8 @@ const catTabs = [
     icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>,
   },
   {
-    label: 'Roteiro IA', href: '/roteiro',
-    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
+    label: 'Seguro Viagem', href: '/prep',
+    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
   },
 ]
 
@@ -107,7 +107,24 @@ export default function Navbar() {
         </div>
 
         {/* Ações */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 'auto' }} className="hidden-mobile">
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginLeft: 'auto' }} className="hidden-mobile">
+
+          {/* Voos baratos CTA */}
+          <Link href="/voos-baratos" style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            background: '#FFF8EC', border: '1.5px solid #F5A800',
+            color: '#B87A00', textDecoration: 'none',
+            fontFamily: 'Inter, sans-serif', fontSize: 12, fontWeight: 700,
+            padding: '7px 14px', borderRadius: 100,
+            whiteSpace: 'nowrap',
+          }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            Voos Baratos
+          </Link>
+
+          {/* Divisor */}
+          <div style={{ width: 1, height: 24, background: '#E2E8F0', margin: '0 2px' }} />
+
           {/* Instagram */}
           <a
             href="https://www.instagram.com/golivootravel"
@@ -116,56 +133,69 @@ export default function Navbar() {
             title="@golivootravel"
             style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              width: 36, height: 36, borderRadius: '50%',
-              border: '1.5px solid #E2E8F0', color: '#0F2340',
-              textDecoration: 'none', transition: 'border-color .15s, color .15s',
+              width: 34, height: 34, borderRadius: '50%',
+              border: '1.5px solid #E2E8F0', color: '#64748B',
+              textDecoration: 'none', transition: 'border-color .15s, color .15s, background .15s',
+              flexShrink: 0,
             }}
             onMouseOver={e => {
-              ;(e.currentTarget as HTMLAnchorElement).style.borderColor = '#C13584'
-              ;(e.currentTarget as HTMLAnchorElement).style.color = '#C13584'
+              const el = e.currentTarget as HTMLAnchorElement
+              el.style.borderColor = '#C13584'
+              el.style.color = '#C13584'
+              el.style.background = '#FFF0F8'
             }}
             onMouseOut={e => {
-              ;(e.currentTarget as HTMLAnchorElement).style.borderColor = '#E2E8F0'
-              ;(e.currentTarget as HTMLAnchorElement).style.color = '#0F2340'
+              const el = e.currentTarget as HTMLAnchorElement
+              el.style.borderColor = '#E2E8F0'
+              el.style.color = '#64748B'
+              el.style.background = 'transparent'
             }}
           >
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
               <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
               <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
             </svg>
           </a>
 
+          {/* Divisor */}
+          <div style={{ width: 1, height: 24, background: '#E2E8F0', margin: '0 2px' }} />
+
           <SignedOut>
             <SignInButton mode="modal">
               <button style={{
-                background: 'transparent', border: '1.5px solid #E2E8F0',
+                background: 'transparent', border: '1.5px solid #CBD5E1',
                 color: '#0F2340', fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 600,
-                padding: '8px 18px', borderRadius: 100, cursor: 'pointer',
+                padding: '8px 16px', borderRadius: 100, cursor: 'pointer',
+                transition: 'border-color .15s',
               }}>
                 Entrar
               </button>
             </SignInButton>
             <SignUpButton mode="modal">
               <button style={{
-                background: '#1A82D8', border: 'none', color: '#fff',
+                background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
+                border: 'none', color: '#fff',
                 fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 700,
                 padding: '9px 20px', borderRadius: 100, cursor: 'pointer',
+                boxShadow: '0 2px 8px rgba(26,130,216,0.35)',
               }}>
-                Cadastrar
+                Criar conta grátis
               </button>
             </SignUpButton>
           </SignedOut>
 
           <SignedIn>
             <Link href="/meus-roteiros" style={{
-              background: '#1A82D8', color: '#fff', textDecoration: 'none',
+              background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
+              color: '#fff', textDecoration: 'none',
               fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 700,
               padding: '9px 20px', borderRadius: 100,
+              boxShadow: '0 2px 8px rgba(26,130,216,0.35)',
             }}>
               Meus Roteiros
             </Link>
-            <UserButton afterSignOutUrl="/" appearance={{ elements: { avatarBox: { width: 36, height: 36 } } }} />
+            <UserButton afterSignOutUrl="/" appearance={{ elements: { avatarBox: { width: 34, height: 34 } } }} />
           </SignedIn>
         </div>
 
