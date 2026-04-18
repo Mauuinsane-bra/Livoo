@@ -27,7 +27,7 @@ export default function Navbar() {
       top: 0,
       zIndex: 100,
       background: '#fff',
-      borderBottom: '1px solid #D0DCF0',
+      borderBottom: '1px solid #E2E8F0',
       boxShadow: '0 2px 12px rgba(13,27,62,0.06)',
     }}>
       {/* Top bar */}
@@ -75,15 +75,15 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '0.82rem',
                 fontWeight: link.highlight ? 700 : 500,
-                color: link.highlight ? '#1A56DB' : '#5A6A80',
+                color: link.highlight ? '#1A82D8' : '#5A6A80',
                 textDecoration: 'none',
                 padding: '6px 10px',
                 borderRadius: 8,
                 transition: 'color 0.2s, background 0.2s',
-                background: link.highlight ? '#EEF4FF' : 'transparent',
+                background: link.highlight ? '#E6F3FF' : 'transparent',
                 whiteSpace: 'nowrap',
               }}
             >
@@ -94,6 +94,34 @@ export default function Navbar() {
 
         {/* Auth buttons — desktop */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }} className="hidden-mobile">
+
+          {/* Instagram */}
+          <a
+            href="https://www.instagram.com/golivootravel"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Siga no Instagram"
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              width: 36, height: 36, borderRadius: '50%',
+              border: '1.5px solid #E2E8F0', color: '#0F2340',
+              textDecoration: 'none', transition: 'border-color .15s, color .15s',
+            }}
+            onMouseOver={e => {
+              (e.currentTarget as HTMLAnchorElement).style.borderColor = '#C13584'
+              ;(e.currentTarget as HTMLAnchorElement).style.color = '#C13584'
+            }}
+            onMouseOut={e => {
+              (e.currentTarget as HTMLAnchorElement).style.borderColor = '#E2E8F0'
+              ;(e.currentTarget as HTMLAnchorElement).style.color = '#0F2340'
+            }}
+          >
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </a>
 
           {/* Usuário não logado */}
           <SignedOut>
@@ -155,7 +183,7 @@ export default function Navbar() {
       {mobileOpen && (
         <div style={{
           background: '#fff',
-          borderTop: '1px solid #D0DCF0',
+          borderTop: '1px solid #E2E8F0',
           padding: '16px 24px 24px',
         }}>
           {navLinks.map((link) => (
@@ -166,12 +194,12 @@ export default function Navbar() {
               style={{
                 display: 'block',
                 padding: '12px 0',
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '0.95rem',
                 fontWeight: link.highlight ? 700 : 500,
-                color: link.highlight ? '#1A56DB' : '#0D1B3E',
+                color: link.highlight ? '#1A82D8' : '#0D1B3E',
                 textDecoration: 'none',
-                borderBottom: '1px solid #EEF4FF',
+                borderBottom: '1px solid #E6F3FF',
               }}
             >
               {link.label}

@@ -26,7 +26,7 @@ const footerLinks = {
 export default function Footer() {
   return (
     <footer style={{
-      background: '#0D1B3E',
+      background: '#0F2340',
       color: '#fff',
       padding: '64px 0 32px',
     }}>
@@ -46,16 +46,16 @@ export default function Footer() {
               <BirdSVG variant="footer" size={32} />
               <div>
                 <span style={{
-                  fontFamily: 'Playfair Display, serif',
+                  fontFamily: 'Nunito, sans-serif',
                   fontSize: '1.5rem',
                   fontWeight: 700,
-                  color: '#F5A623',
+                  color: '#F5A800',
                   display: 'block',
                 }}>
                   Go Livoo.
                 </span>
                 <small style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '0.6rem',
                   color: 'rgba(255,255,255,0.5)',
                   letterSpacing: '1.2px',
@@ -66,7 +66,7 @@ export default function Footer() {
               </div>
             </Link>
             <p style={{
-              fontFamily: 'Plus Jakarta Sans, sans-serif',
+              fontFamily: 'Inter, sans-serif',
               fontSize: '0.88rem',
               color: 'rgba(255,255,255,0.6)',
               lineHeight: 1.7,
@@ -81,7 +81,7 @@ export default function Footer() {
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
               <h4 style={{
-                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '0.78rem',
                 fontWeight: 700,
                 letterSpacing: '1.5px',
@@ -97,7 +97,7 @@ export default function Footer() {
                     <Link
                       href={link.href}
                       style={{
-                        fontFamily: 'Plus Jakarta Sans, sans-serif',
+                        fontFamily: 'Inter, sans-serif',
                         fontSize: '0.88rem',
                         color: 'rgba(255,255,255,0.7)',
                         textDecoration: 'none',
@@ -123,30 +123,33 @@ export default function Footer() {
           gap: 16,
         }}>
           <p style={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontFamily: 'Inter, sans-serif',
             fontSize: '0.8rem',
             color: 'rgba(255,255,255,0.4)',
           }}>
             © {new Date().getFullYear()} Go Livoo. Empresa em constituição.
           </p>
-          <div style={{ display: 'flex', gap: 20 }}>
-            {['Instagram', 'LinkedIn', 'TikTok'].map((social) => (
-              <a
-                key={social}
-                href={`https://${social.toLowerCase()}.com`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  fontFamily: 'Plus Jakarta Sans, sans-serif',
-                  fontSize: '0.8rem',
-                  color: 'rgba(255,255,255,0.4)',
-                  textDecoration: 'none',
-                  transition: 'color 0.2s',
-                }}
-              >
-                {social}
-              </a>
-            ))}
+          <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
+            <a
+              href="https://www.instagram.com/golivootravel"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '0.8rem',
+                color: 'rgba(255,255,255,0.5)',
+                textDecoration: 'none',
+                transition: 'color 0.2s',
+              }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+              @golivootravel
+            </a>
           </div>
         </div>
       </div>

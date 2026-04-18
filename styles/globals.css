@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,17 +6,17 @@
 
 /* ── Design Tokens ────────────────────────────────────── */
 :root {
-  --primary:      #1A56DB;
-  --primary-dark: #1040B0;
-  --gold:         #F5A623;
+  --primary:      #1A82D8;
+  --primary-dark: #1260A8;
+  --gold:         #F5A800;
   --gold-dark:    #D48A0A;
-  --navy:         #0D1B3E;
+  --navy:         #0F2340;
   --navy-mid:     #1E3A6E;
-  --light:        #EEF4FF;
+  --light:        #E6F3FF;
   --light-gold:   #FFF8EC;
-  --gray:         #5A6A80;
-  --border:       #D0DCF0;
-  --bg-alt:       #F4F7FF;
+  --gray:         #64748B;
+  --border:       #E2E8F0;
+  --bg-alt:       #F4F6F9;
   --radius:       12px;
 }
 
@@ -34,60 +34,44 @@ body {
 }
 
 h1, h2, h3, h4 {
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
   line-height: 1.2;
 }
 
 /* ── Andorinha — Animações ────────────────────────────── */
-@keyframes birdFly {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-7px); }
-}
+@keyframes bird-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3.5px)} }
+@keyframes bird-flap-top  { 0%,100%{transform:rotate(-14deg)} 50%{transform:rotate(20deg)} }
+@keyframes bird-flap-bot  { 0%,100%{transform:rotate(12deg)}  50%{transform:rotate(-16deg)} }
+@keyframes bird-tail-sway { 0%,100%{transform:rotate(-7deg)}  50%{transform:rotate(7deg)} }
+@keyframes bird-blink     { 0%,90%,100%{transform:scaleY(1)}  95%{transform:scaleY(0.1)} }
 
-@keyframes wingL {
-  from { transform: rotate(6deg);  }
-  to   { transform: rotate(-10deg); }
-}
-
-@keyframes wingR {
-  from { transform: rotate(-6deg); }
-  to   { transform: rotate(10deg); }
-}
-
-/* Aplicado diretamente na tag svg pelo className */
-.livoo-bird {
-  display: block;
-  animation: birdFly 3s ease-in-out infinite;
-}
-
-.wing-left  {
-  animation: wingL 0.7s ease-in-out infinite alternate;
-  transform-origin: 50% 55%;
-}
-
-.wing-right {
-  animation: wingR 0.7s ease-in-out infinite alternate;
-  transform-origin: 50% 55%;
-}
+.livoo-bird       { display:block; }
+.bird-float       { animation: bird-float    1.3s ease-in-out infinite; }
+.bird-wing-t      { animation: bird-flap-top 0.52s ease-in-out infinite; transform-origin: 26px 24px; }
+.bird-wing-b      { animation: bird-flap-bot 0.52s ease-in-out infinite; transform-origin: 26px 28px; }
+.bird-tail        { animation: bird-tail-sway 1.3s ease-in-out infinite; transform-origin: 19px 28px; }
+.bird-eye-blink   { animation: bird-blink    3.5s ease-in-out infinite; transform-origin: 40px 20px; }
 
 /* ── Logo ─────────────────────────────────────────────── */
 .logo-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.65rem;
-  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
   color: var(--navy);
-  letter-spacing: -0.5px;
+  letter-spacing: -0.3px;
+  line-height: 1;
 }
 .logo-dot { color: var(--primary); }
 .logo-tagline {
   font-family: 'Inter', sans-serif;
-  font-size: 0.6rem;
-  font-weight: 500;
+  font-size: 0.58rem;
+  font-weight: 600;
   color: var(--gray);
-  letter-spacing: 1.2px;
+  letter-spacing: 0.6px;
   text-transform: uppercase;
   display: block;
+  margin-top: 2px;
 }
 
 /* ── Botões ───────────────────────────────────────────── */
@@ -224,9 +208,9 @@ h1, h2, h3, h4 {
   border-radius: 14px;
   background: var(--navy);
   color: #fff;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 1.1rem;
-  font-weight: 700;
+  font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
