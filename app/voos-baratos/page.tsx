@@ -37,6 +37,8 @@ function FlightCard({ flight }: { flight: CheapFlight }) {
   return (
     <a
       href={flight.link}
+      target="_blank"
+      rel="noopener noreferrer"
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -178,7 +180,7 @@ function FlightCard({ flight }: { flight: CheapFlight }) {
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
           </svg>
-          Ver passagem em R$
+          Ver passagem no Decolar
         </div>
       </div>
     </a>
@@ -384,9 +386,9 @@ export default function VoosBaratosPage() {
             fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#94A3B8',
             textAlign: 'center', marginTop: 48, lineHeight: 1.7, maxWidth: 600, margin: '48px auto 0',
           }}>
-            Preços baseados no menor valor disponível para os próximos 2 meses.
-            Valores finais podem variar no momento da compra. Busca exibida em Português e Reais (R$).
-            A Go Livoo recebe comissão de afiliado sem custo adicional para você.
+            Preços baseados no menor valor disponível para os próximos 2 meses via Travelpayouts.
+            Valores finais podem variar. A busca abre no Decolar.com em Português e Reais (R$),
+            sem custo adicional para você.
           </p>
         )}
       </div>

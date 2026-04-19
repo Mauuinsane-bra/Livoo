@@ -111,16 +111,16 @@ function getAirlineName(code: string): string {
   return map[code] || code
 }
 
-// Link para a página interna /buscar-voo que:
-// 1. Embute o widget Travelpayouts com locale=pt + currency=brl (SEMPRE em PT/BRL independente de IP)
-// 2. Faz o rastreamento de afiliado via marker configurado no widget
-// 3. Tem fallback de link direto ao Aviasales via tp.media
-function buildAviasalesLink(origin: string, dest: string, departDate?: string): string {
-  let url = `/buscar-voo?origin=${origin}&dest=${dest}`
+// Decolar.com (OTA brasileira) — SEMPRE abre em Português e BRL, independente do IP do usuário.
+// Formato: /passagens-aereas/buscador/{ORIGIN}/{DEST}/IDA/{YYYYMMDD}/1/0/0
+// Sem IP detection, sem redirect, sem página intermediária — experiência limpa para o usuário.
+function buildFlightLink(origin: string, dest: string, departDate?: string): string {
+  // Data: YYYY-MM-DD → YYYYMMDD (ex: "2026-05-20" → "20260520")
+  let dateSlug = 'FLEXIVEL'
   if (departDate && departDate.length === 10) {
-    url += `&date=${departDate}`
+    dateSlug = departDate.replace(/-/g, '')
   }
-  return url
+  return `https://www.decolar.com/passagens-aereas/buscador/${origin}/${dest}/IDA/${dateSlug}/1/0/0`
 }
 
 export async function GET(req: NextRequest) {
@@ -193,7 +193,7 @@ export async function GET(req: NextRequest) {
           airlineCode:        info.airline,
           stops:              info.stops,
           departDate:         info.departDate,
-          link:               buildAviasalesLink(origin, dest, info.departDate),
+          link:               buildFlightLink(origin, dest, info.departDate),
         }
       })
       .sort((a, b) => a.price - b.price)
