@@ -111,24 +111,36 @@ function getAirlineName(code: string): string {
   return map[code] || code
 }
 
-// Aviasales via Travelpayouts — deeplink com data embutida no path + marker de afiliado
-// Formato: /search/{ORIGIN}{DDMM}{DEST}{PAX}  ex: GRU2005CWB1
+// Trip.com (br.trip.com) — deeplink em Português com preços em BRL
+// Aceita códigos IATA em lowercase (ex: gru, cwb, lhr)
+// Travelpayouts program ID: 121 — requer aprovação do programa para tracking via tp.media
+// Para ativar comissão: conectar ao programa Trip.com em app.travelpayouts.com/programs/121
+// e então envolver a URL com: https://tp.media/r?marker={MARKER}&p=121&u={encoded_url}
 function buildFlightLink(origin: string, dest: string, departDate?: string): string {
-  const marker = process.env.TRAVELPAYOUTS_MARKER
+  const o = origin.toLowerCase()
+  const d = dest.toLowerCase()
 
-  let aviasalesUrl: string
+  const baseUrl = 'https://br.trip.com/flights/showfarefirst'
+  const params = new URLSearchParams({
+    dcity:    o,
+    acity:    d,
+    triptype: 'ow',
+    class:    'y',
+    quantity: '1',
+    locale:   'pt-BR',
+    curr:     'BRL',
+  })
   if (departDate && departDate.length === 10) {
-    const parts = departDate.split('-')
-    const ddmm  = `${parts[2]}${parts[1]}`
-    aviasalesUrl = `https://www.aviasales.com/search/${origin}${ddmm}${dest}1`
-  } else {
-    aviasalesUrl = `https://www.aviasales.com/?params=${origin}${dest}1`
+    params.set('ddate', departDate)
   }
 
-  if (marker) {
-    return `https://tp.media/r?marker=${marker}&p=4114&u=${encodeURIComponent(aviasalesUrl)}`
-  }
-  return aviasalesUrl
+  const tripUrl = `${baseUrl}?${params.toString()}`
+
+  // Quando o programa Trip.com for aprovado no Travelpayouts, descomentar:
+  // const marker = process.env.TRAVELPAYOUTS_MARKER
+  // if (marker) return `https://tp.media/r?marker=${marker}&p=121&u=${encodeURIComponent(tripUrl)}`
+
+  return tripUrl
 }
 
 export async function GET(req: NextRequest) {
