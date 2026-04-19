@@ -111,16 +111,24 @@ function getAirlineName(code: string): string {
   return map[code] || code
 }
 
-// Decolar.com (OTA brasileira) — SEMPRE abre em Português e BRL, independente do IP do usuário.
-// Formato: /passagens-aereas/buscador/{ORIGIN}/{DEST}/IDA/{YYYYMMDD}/1/0/0
-// Sem IP detection, sem redirect, sem página intermediária — experiência limpa para o usuário.
+// Aviasales via Travelpayouts — deeplink com data embutida no path + marker de afiliado
+// Formato: /search/{ORIGIN}{DDMM}{DEST}{PAX}  ex: GRU2005CWB1
 function buildFlightLink(origin: string, dest: string, departDate?: string): string {
-  // Data: YYYY-MM-DD → YYYYMMDD (ex: "2026-05-20" → "20260520")
-  let dateSlug = 'FLEXIVEL'
+  const marker = process.env.TRAVELPAYOUTS_MARKER
+
+  let aviasalesUrl: string
   if (departDate && departDate.length === 10) {
-    dateSlug = departDate.replace(/-/g, '')
+    const parts = departDate.split('-')
+    const ddmm  = `${parts[2]}${parts[1]}`
+    aviasalesUrl = `https://www.aviasales.com/search/${origin}${ddmm}${dest}1`
+  } else {
+    aviasalesUrl = `https://www.aviasales.com/?params=${origin}${dest}1`
   }
-  return `https://www.decolar.com/passagens-aereas/buscador/${origin}/${dest}/IDA/${dateSlug}/1/0/0`
+
+  if (marker) {
+    return `https://tp.media/r?marker=${marker}&p=4114&u=${encodeURIComponent(aviasalesUrl)}`
+  }
+  return aviasalesUrl
 }
 
 export async function GET(req: NextRequest) {
