@@ -46,4 +46,6 @@ export const CATEGORY_COLORS: Record<string, string> = {
   'Gastronomia':   '#9333ea',
 }
 
-export function categoryColor(cat: string): string
+export function categoryColor(cat: string): string {
+  return CATEGORY_COLORS[cat] ?? '#1A82D8'
+}
