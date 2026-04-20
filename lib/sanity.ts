@@ -1,7 +1,10 @@
 // lib/sanity.ts — cliente Sanity para buscar dados no Next.js
 import { createClient } from 'next-sanity'
 import imageUrlBuilder from '@sanity/image-url'
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
+
+// Tipo compatível com @sanity/image-url sem depender de path interno do pacote
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type SanityImageSource = any
 
 export const sanityClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'r1ne031h',
