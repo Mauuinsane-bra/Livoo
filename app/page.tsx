@@ -442,10 +442,10 @@ export default async function HomePage() {
                 Receba curadoria de experiências + alertas de queda de preço diretamente no e-mail.
               </p>
             </div>
-            <form style={{ background: '#fff', borderRadius: 12, padding: 6, display: 'flex', gap: 6 }} onSubmit={e => e.preventDefault()}>
+            <div style={{ background: '#fff', borderRadius: 12, padding: 6, display: 'flex', gap: 6 }}>
               <input placeholder="seu@email.com" style={{ flex: 1, border: 0, padding: '12px 14px', fontSize: 14, fontFamily: 'inherit', color: '#0d0d0f', outline: 'none', background: 'transparent' }} />
-              <button type="submit" style={{ background: '#0d0d0f', color: '#fff', padding: '10px 18px', borderRadius: 8, fontWeight: 700, fontSize: 13, cursor: 'pointer', border: 0 }}>Receber</button>
-            </form>
+              <button type="button" style={{ background: '#0d0d0f', color: '#fff', padding: '10px 18px', borderRadius: 8, fontWeight: 700, fontSize: 13, cursor: 'pointer', border: 0 }}>Receber</button>
+            </div>
           </div>
         </div>
       </section>
