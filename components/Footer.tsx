@@ -4,11 +4,15 @@ import BirdSVG from './BirdSVG'
 const footerLinks = {
   Produto: [
     { label: 'Roteiro Completo', href: '/roteiro' },
-    { label: 'Busca de Voos',    href: '/passagens' },
+    { label: 'Passagens',        href: '/passagens' },
+    { label: 'Voos Baratos',     href: '/voos-baratos' },
     { label: 'Hotéis',          href: '/hoteis' },
+    { label: 'Eventos',          href: '/eventos' },
+    { label: 'Pacotes',          href: '/pacotes' },
+    { label: 'Carros',           href: '/carros' },
     { label: 'Ônibus',          href: '/onibus' },
-    { label: 'Guias Turísticos',href: '/guias' },
-    { label: 'Livoo Prep',      href: '/prep' },
+    { label: 'Guias',            href: '/guias' },
+    { label: 'Livoo Prep',       href: '/prep' },
   ],
   Empresa: [
     { label: 'Sobre a Go Livoo', href: '/sobre' },
@@ -19,7 +23,6 @@ const footerLinks = {
   Legal: [
     { label: 'Política de Privacidade', href: '/privacidade' },
     { label: 'Termos de Uso',           href: '/termos' },
-    { label: 'Política de Cookies',     href: '/cookies' },
   ],
 }
 

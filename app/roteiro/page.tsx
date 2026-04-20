@@ -26,9 +26,86 @@ interface RoteiroResult {
   error?: string
 }
 
-const categoryEmoji: Record<string, string> = {
-  esportes: '🏆', música: '🎸', gastronomia: '🍽', aventura: '🧗',
-  automobilismo: '🏎', cultura: '🏛', ecoturismo: '🌿', outro: '✈',
+// Ícone SVG por categoria de experiência — substitui os emojis antigos
+function CategoryIcon({ category, size = 48 }: { category: string; size?: number }) {
+  const stroke = '#F5A800'
+  const common = {
+    width: size, height: size, viewBox: '0 0 24 24',
+    fill: 'none', stroke, strokeWidth: 1.8,
+    strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const,
+  }
+  switch (category) {
+    case 'esportes':
+      return (
+        <svg {...common}>
+          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+          <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+          <path d="M4 22h16"/>
+          <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+          <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+          <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+        </svg>
+      )
+    case 'música':
+      return (
+        <svg {...common}>
+          <path d="M9 18V5l12-2v13"/>
+          <circle cx="6" cy="18" r="3"/>
+          <circle cx="18" cy="16" r="3"/>
+        </svg>
+      )
+    case 'gastronomia':
+      return (
+        <svg {...common}>
+          <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
+          <line x1="7" y1="2" x2="7" y2="22"/>
+          <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Z"/>
+          <line x1="19" y1="15" x2="19" y2="22"/>
+        </svg>
+      )
+    case 'aventura':
+      return (
+        <svg {...common}>
+          <polygon points="12 2 22 20 2 20 12 2"/>
+          <polyline points="7 14 10 11 13 14 17 10"/>
+        </svg>
+      )
+    case 'automobilismo':
+      return (
+        <svg {...common}>
+          <path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/>
+          <circle cx="6.5" cy="16.5" r="2.5"/>
+          <circle cx="16.5" cy="16.5" r="2.5"/>
+        </svg>
+      )
+    case 'cultura':
+      return (
+        <svg {...common}>
+          <line x1="3" y1="21" x2="21" y2="21"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+          <polyline points="5 6 12 3 19 6"/>
+          <line x1="4" y1="10" x2="4" y2="21"/>
+          <line x1="20" y1="10" x2="20" y2="21"/>
+          <line x1="8" y1="14" x2="8" y2="17"/>
+          <line x1="12" y1="14" x2="12" y2="17"/>
+          <line x1="16" y1="14" x2="16" y2="17"/>
+        </svg>
+      )
+    case 'ecoturismo':
+      return (
+        <svg {...common}>
+          <path d="M7 17A6 6 0 1 0 19 9a6 6 0 0 0-12 0"/>
+          <path d="M13 21v-4"/>
+          <path d="M13 17l-4-4"/>
+        </svg>
+      )
+    default:
+      return (
+        <svg {...common}>
+          <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+        </svg>
+      )
+  }
 }
 
 function RoteiroContent() {
@@ -59,6 +136,13 @@ function RoteiroContent() {
       .catch(() => setStatus('error'))
   }, [prompt, includes, origin])
 
+  // Log no console (não na UI) quando a API responde em modo demo
+  useEffect(() => {
+    if (result?.isDemoMode) {
+      console.info('[Go Livoo] Modo demo do roteiro ativo (OPENAI_API_KEY não configurada).')
+    }
+  }, [result?.isDemoMode])
+
   // ── Loading ──────────────────────────────────────────
   if (status === 'loading') {
     return (
@@ -80,7 +164,11 @@ function RoteiroContent() {
   if (status === 'error' || !result?.success) {
     return (
       <div style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16, textAlign: 'center', padding: 24 }}>
-        <span style={{ fontSize: 48 }}>⚠️</span>
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#F5A800" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
         <h2 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340' }}>Algo deu errado</h2>
         <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}>
           {result?.error ?? 'Não foi possível processar o roteiro. Tente novamente.'}
@@ -101,19 +189,12 @@ function RoteiroContent() {
       <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #2B9FEE 100%)', padding: '48px 24px 64px' }}>
         <div style={{ maxWidth: 860, margin: '0 auto' }}>
 
-          {/* Aviso modo demo */}
-          {isDemoMode && (
-            <div style={{
-              background: 'rgba(245,166,35,0.15)', border: '1px solid rgba(245,166,35,0.4)',
-              borderRadius: 10, padding: '12px 16px', marginBottom: 24,
-              fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#F5A800',
-            }}>
-              <strong>Modo demonstração</strong> — Configure <code>OPENAI_API_KEY</code> no <code>.env.local</code> para ativar a IA real de roteiros.
-            </div>
-          )}
+          {/* Aviso modo demo removido do usuário final — log no console apenas via useEffect acima */}
 
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, flexWrap: 'wrap' }}>
-            <span style={{ fontSize: 48 }}>{categoryEmoji[parsed.experienceCategory] ?? '✈'}</span>
+            <span style={{ display: 'inline-flex', width: 48, height: 48, alignItems: 'center', justifyContent: 'center' }}>
+              <CategoryIcon category={parsed.experienceCategory} size={48} />
+            </span>
             <div style={{ flex: 1 }}>
               <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: 8 }}>
                 Roteiro identificado

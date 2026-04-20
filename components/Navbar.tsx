@@ -43,18 +43,13 @@ const catTabs = [
   },
   {
     // Passaporte
-    label: 'Documentação', href: '/prep',
+    label: 'Livoo Prep', href: '/prep',
     icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M4 7h16M4 17h16"/></svg>,
   },
   {
     // Seta descendo com cifrão — preço baixo
     label: 'Voos Baratos', href: '/voos-baratos',
     icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20M17 7H9.5a3.5 3.5 0 100 7H14a3.5 3.5 0 110 7H6"/></svg>,
-  },
-  {
-    // Escudo com check — seguro
-    label: 'Seguro Viagem', href: '/prep',
-    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>,
   },
 ]
 
@@ -196,14 +191,14 @@ export default function Navbar() {
           </SignedOut>
 
           <SignedIn>
-            <Link href="/meus-roteiros" style={{
+            <Link href="/roteiro" style={{
               background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
               color: '#fff', textDecoration: 'none',
               fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 700,
               padding: '9px 20px', borderRadius: 100,
               boxShadow: '0 2px 8px rgba(26,130,216,0.35)',
             }}>
-              Meus Roteiros
+              Novo Roteiro
             </Link>
             <UserButton afterSignOutUrl="/" appearance={{ elements: { avatarBox: { width: 34, height: 34 } } }} />
           </SignedIn>

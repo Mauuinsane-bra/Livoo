@@ -49,7 +49,17 @@ function FlightSection({
       <div style={{
         display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12,
       }}>
-        <span style={{ fontSize: '1.1rem' }}>{title.includes('Ida') ? '✈️' : '🔄'}</span>
+        {title.includes('Ida') ? (
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+          </svg>
+        ) : (
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="23 4 23 10 17 10"/>
+            <polyline points="1 20 1 14 7 14"/>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+          </svg>
+        )}
         <h3 style={{
           fontFamily: 'Nunito, sans-serif', color: '#0F2340',
           fontSize: '1.05rem', margin: 0,
@@ -366,7 +376,13 @@ function PassagensContent() {
         {/* ── Erro ─────────────────────────────────────── */}
         {status === 'error' && (
           <div style={{ background: '#fff', borderRadius: 14, padding: 40, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
-            <span style={{ fontSize: 40, display: 'block', marginBottom: 16 }}>⚠️</span>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#F5A800" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+            </div>
             <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 10 }}>Não foi possível buscar os voos</h3>
             <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', marginBottom: 20, fontSize: '0.9rem' }}>{errorMsg}</p>
             {errorMsg.includes('TRAVELPAYOUTS') || errorMsg.includes('configurad') ? (
@@ -390,23 +406,26 @@ function PassagensContent() {
           const orig = params.get('origin') ?? origin?.iata ?? ''
           const dest = params.get('destination') ?? destination?.iata ?? ''
           const date = params.get('date') ?? dateFrom
-          const [, month, day] = (date || '2026-01-01').split('-')
-          const aviasalesUrl = orig && dest && date
-            ? `https://www.aviasales.com/search/${orig}${day}${month}${dest}1?currency=BRL`
-            : 'https://www.aviasales.com'
+          const tripUrl = orig && dest
+            ? `https://br.trip.com/flights/showfarefirst?dcity=${orig.toLowerCase()}&acity=${dest.toLowerCase()}${date ? `&ddate=${date}` : ''}&triptype=ow&class=y&quantity=1&locale=pt-BR&curr=BRL`
+            : 'https://br.trip.com/flights'
 
           return (
             <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
-              <span style={{ fontSize: 40, display: 'block', marginBottom: 12 }}>✈️</span>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+                </svg>
+              </div>
               <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 8 }}>
                 Não encontramos voos em nossa base para essa rota
               </h3>
               <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', fontSize: '0.9rem', marginBottom: 28, maxWidth: 460, margin: '0 auto 28px' }}>
                 Nossa base de preços é atualizada periodicamente e pode não ter dados para rotas menos frequentes.
-                Encontramos a rota no Aviasales com preços em tempo real.
+                Continue sua busca no Trip.com com preços em tempo real, em Português e Reais.
               </p>
               <a
-                href={aviasalesUrl}
+                href={tripUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
@@ -422,10 +441,10 @@ function PassagensContent() {
                   marginBottom: 16,
                 }}
               >
-                Ver voos {orig} → {dest} no Aviasales
+                Ver voos {orig} → {dest} no Trip.com
               </a>
               <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#9BA8B8', margin: '12px 0 0' }}>
-                Você será redirecionado para o Aviasales com a sua busca já preenchida
+                Você será redirecionado para o Trip.com com a sua busca já preenchida
               </p>
             </div>
           )
@@ -453,7 +472,7 @@ function PassagensContent() {
             )}
 
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#64748B', textAlign: 'center', marginTop: 8 }}>
-              Preços em R$ (BRL) · Via Aviasales/Travelpayouts · Sem markup · Sujeito a disponibilidade
+              Preços em R$ (BRL) · Via Travelpayouts/Trip.com · Sem markup · Sujeito a disponibilidade
             </p>
           </>
         )}
@@ -474,7 +493,7 @@ function PassagensContent() {
               )
             ))}
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#64748B', textAlign: 'center', marginTop: 8 }}>
-              Preços em R$ (BRL) · Via Aviasales/Travelpayouts · Sem markup · Sujeito a disponibilidade
+              Preços em R$ (BRL) · Via Travelpayouts/Trip.com · Sem markup · Sujeito a disponibilidade
             </p>
           </>
         )}
@@ -482,7 +501,11 @@ function PassagensContent() {
         {/* ── Estado inicial ───────────────────────────── */}
         {status === 'idle' && !hasParams && (
           <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
-            <span style={{ fontSize: 48, display: 'block', marginBottom: 16 }}>✈️</span>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              </svg>
+            </div>
             <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 8 }}>Pronto para decolar</h3>
             <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', fontSize: '0.9rem' }}>
               Preencha origem, destino e data acima para buscar os melhores voos.

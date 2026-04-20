@@ -56,7 +56,11 @@ function ExperienceCard({ exp }: { exp: Experience }) {
               />
             </div>
           ) : (
-            <span>🗺️</span>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+              <line x1="8" y1="2" x2="8" y2="18"/>
+              <line x1="16" y1="6" x2="16" y2="22"/>
+            </svg>
           )}
         </div>
 
@@ -81,14 +85,24 @@ function ExperienceCard({ exp }: { exp: Experience }) {
           <div style={{ display: 'flex', gap: 16, marginBottom: 12, alignItems: 'center' }}>
             <span style={{
               fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#64748B',
+              display: 'inline-flex', alignItems: 'center', gap: 4,
             }}>
-              📍 {exp.location}
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              {exp.location}
             </span>
             {exp.duration && (
               <span style={{
                 fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#64748B',
+                display: 'inline-flex', alignItems: 'center', gap: 4,
               }}>
-                ⏱ {exp.duration}
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                {exp.duration}
               </span>
             )}
           </div>
@@ -96,7 +110,9 @@ function ExperienceCard({ exp }: { exp: Experience }) {
           {/* Avaliação */}
           {exp.rating > 0 && (
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
-              <span style={{ color: '#F5A800', fontSize: '0.85rem' }}>★</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#F5A800" stroke="#F5A800" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
               <span style={{
                 fontFamily: 'Inter, sans-serif', fontWeight: 700,
                 fontSize: '0.85rem', color: '#0F2340',
@@ -374,9 +390,12 @@ function GuiasContent() {
                   width: 64, height: 64, borderRadius: 16,
                   background: 'rgba(255,255,255,0.12)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 28, flexShrink: 0,
+                  flexShrink: 0,
                 }}>
-                  🧭
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#F5A800" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                  </svg>
                 </div>
                 <div>
                   <p style={{
@@ -402,15 +421,46 @@ function GuiasContent() {
                   gap: 16, marginBottom: 32,
                 }}>
                   {[
-                    { icon: '⭐', label: 'Avaliações verificadas', desc: 'Só quem fez a experiência avalia' },
-                    { icon: '🔒', label: 'Reserva segura', desc: 'Cancelamento grátis na maioria das atividades' },
-                    { icon: '🌍', label: '+300 mil atividades', desc: 'O maior catálogo global de experiências' },
-                    { icon: '💬', label: 'Suporte em português', desc: 'Atendimento disponível em PT-BR' },
+                    {
+                      icon: (
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#F5A800" stroke="#F5A800" strokeWidth="1.5" strokeLinejoin="round">
+                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                      ),
+                      label: 'Avaliações verificadas', desc: 'Só quem fez a experiência avalia',
+                    },
+                    {
+                      icon: (
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                      ),
+                      label: 'Reserva segura', desc: 'Cancelamento grátis na maioria das atividades',
+                    },
+                    {
+                      icon: (
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="12" cy="12" r="10"/>
+                          <line x1="2" y1="12" x2="22" y2="12"/>
+                          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        </svg>
+                      ),
+                      label: '+300 mil atividades', desc: 'O maior catálogo global de experiências',
+                    },
+                    {
+                      icon: (
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                      ),
+                      label: 'Suporte em português', desc: 'Atendimento disponível em PT-BR',
+                    },
                   ].map(item => (
                     <div key={item.label} style={{
                       background: '#F4F6F9', borderRadius: 12, padding: '16px 18px',
                     }}>
-                      <span style={{ fontSize: 20, display: 'block', marginBottom: 8 }}>{item.icon}</span>
+                      <span style={{ display: 'block', marginBottom: 8 }}>{item.icon}</span>
                       <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', fontWeight: 700, color: '#0F2340', margin: '0 0 4px' }}>
                         {item.label}
                       </p>
@@ -506,7 +556,13 @@ function GuiasContent() {
             background: '#fff', borderRadius: 14, padding: 48,
             textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)',
           }}>
-            <span style={{ fontSize: 40, display: 'block', marginBottom: 12 }}>🗺️</span>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+                <line x1="8" y1="2" x2="8" y2="18"/>
+                <line x1="16" y1="6" x2="16" y2="22"/>
+              </svg>
+            </div>
             <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 8 }}>
               Nenhuma experiência encontrada
             </h3>

@@ -62,7 +62,7 @@ interface Provider {
   name:         string
   description:  string
   color:        string
-  logo:         string
+  initials:     string  // 2 letras como logotipo (substitui emoji)
   badge?:       string
   priceRange:   string  // faixa estimada para exibição antes do redirecionamento
   availability: 'domestic' | 'international' | 'both'
@@ -75,7 +75,7 @@ const PROVIDERS: Provider[] = [
     name:         'FlixBus',
     description:  'Rede internacional com rotas para Europa e principais cidades sul-americanas.',
     color:        '#73D700',
-    logo:         '🟢',
+    initials:     'FB',
     badge:        'Internacional',
     priceRange:   'a partir de €9 (≈ R$ 54)',
     availability: 'international',
@@ -94,7 +94,7 @@ const PROVIDERS: Provider[] = [
     name:         'Clickbus',
     description:  'Maior plataforma de passagens rodoviárias do Brasil. Compara preços de diversas empresas em uma busca.',
     color:        '#E8003D',
-    logo:         '🚌',
+    initials:     'CB',
     badge:        'Mais opções',
     priceRange:   'a partir de R$ 45 (trechos curtos)',
     availability: 'domestic',
@@ -106,7 +106,7 @@ const PROVIDERS: Provider[] = [
     name:         'Buser',
     description:  'Fretamento coletivo com preços até 50% mais baratos em rotas selecionadas como SP → RJ e SP → BH.',
     color:        '#6C2BD9',
-    logo:         '🟣',
+    initials:     'BU',
     badge:        'Mais barato',
     priceRange:   'até 50% mais barato que o convencional',
     availability: 'domestic',
@@ -121,6 +121,22 @@ const PROVIDERS: Provider[] = [
     },
   },
 ]
+
+// SVG monogram logo (substitui o emoji de cor)
+function ProviderMonogram({ initials, color }: { initials: string; color: string }) {
+  return (
+    <div style={{
+      width: 56, height: 56, borderRadius: 14,
+      background: color, color: '#fff',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontFamily: 'Nunito, sans-serif', fontWeight: 800,
+      fontSize: 18, letterSpacing: '0.5px', flexShrink: 0,
+      boxShadow: `0 4px 12px ${color}40`,
+    }}>
+      {initials}
+    </div>
+  )
+}
 
 // ── Provider Card ──────────────────────────────────────────
 
@@ -142,16 +158,8 @@ function ProviderCard({
 
   return (
     <div className="card" style={{ padding: '24px 28px', display: 'flex', alignItems: 'center', gap: 20 }}>
-      {/* Logo / cor */}
-      <div style={{
-        width: 56, height: 56, borderRadius: 14,
-        background: provider.color + '18',
-        border: `2px solid ${provider.color}30`,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: 24, flexShrink: 0,
-      }}>
-        {provider.logo}
-      </div>
+      {/* Logo monograma */}
+      <ProviderMonogram initials={provider.initials} color={provider.color} />
 
       {/* Info */}
       <div style={{ flex: 1 }}>
@@ -467,7 +475,10 @@ function OnibusContent() {
                 borderRadius: 12, padding: '14px 20px', marginBottom: 12,
                 display: 'flex', alignItems: 'center', gap: 12,
               }}>
-                <span style={{ fontSize: 18 }}>✓</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="9 12 11 14 15 10"/>
+                </svg>
                 <p style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '0.85rem', color: '#065F46', margin: 0, fontWeight: 600,
@@ -484,7 +495,11 @@ function OnibusContent() {
               padding: '14px 20px', marginBottom: 20,
               display: 'flex', alignItems: 'center', gap: 12,
             }}>
-              <span style={{ fontSize: 18 }}>ℹ️</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={isInternationalRoute ? '#92400E' : '#1A82D8'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="16" x2="12" y2="12"/>
+                <line x1="12" y1="8" x2="12.01" y2="8"/>
+              </svg>
               <p style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '0.82rem',
@@ -566,14 +581,7 @@ function OnibusContent() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12, opacity: 0.5, pointerEvents: 'none' }}>
               {PROVIDERS.map(provider => (
                 <div key={provider.id} className="card" style={{ padding: '24px 28px', display: 'flex', alignItems: 'center', gap: 20 }}>
-                  <div style={{
-                    width: 56, height: 56, borderRadius: 14,
-                    background: provider.color + '18', border: `2px solid ${provider.color}30`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 24, flexShrink: 0,
-                  }}>
-                    {provider.logo}
-                  </div>
+                  <ProviderMonogram initials={provider.initials} color={provider.color} />
                   <div style={{ flex: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
                       <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.05rem', color: '#0F2340', margin: 0 }}>

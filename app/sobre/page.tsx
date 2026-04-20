@@ -237,14 +237,14 @@ export default function SobrePage() {
             justifyContent: 'center',
           }}>
             {[
-              'Travelpayouts (voos)',
-              'Booking.com Affiliate',
-              'GetYourGuide (experiências)',
-              'Sherpa (documentação)',
+              'Travelpayouts (voos e hot\u00e9is)',
+              'Trip.com (passagens internacionais)',
+              'Rentcars (aluguel de carros)',
               'Ticketmaster (eventos)',
               'Stripe (pagamentos)',
-              'OpenAI GPT-4o (roteiros)',
+              'Clerk (autentica\u00e7\u00e3o)',
               'Supabase (banco de dados)',
+              'Vercel (infraestrutura)',
             ].map(p => (
               <span key={p} style={{
                 fontFamily: 'Inter, sans-serif',

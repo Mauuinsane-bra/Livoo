@@ -111,6 +111,13 @@ function PrepContent() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // Log no console (não na UI) quando a API responde em modo demo
+  useEffect(() => {
+    if (isDemoMode) {
+      console.info('[Go Livoo] Prep em modo demo (SHERPA_API_KEY não configurada).')
+    }
+  }, [isDemoMode])
+
   async function handleCheck(dest?: string, nat?: string) {
     const d = dest ?? destination
     const n = nat  ?? nationality
@@ -317,30 +324,7 @@ function PrepContent() {
         <section style={{ padding: '0 0 64px' }}>
           <div className="container" style={{ maxWidth: 720 }}>
 
-            {/* Banner modo demo */}
-            {isDemoMode && (
-              <div style={{
-                background: '#FFF8EC',
-                border: '1px solid rgba(245,166,35,0.3)',
-                borderRadius: 12,
-                padding: '14px 20px',
-                marginBottom: 20,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 12,
-              }}>
-                <span style={{ fontSize: 18 }}>ℹ️</span>
-                <p style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '0.82rem',
-                  color: '#D48A0A',
-                  margin: 0,
-                }}>
-                  Modo demonstração — dados ilustrativos. Adicione{' '}
-                  <code style={{ fontSize: '0.78rem' }}>SHERPA_API_KEY</code> para dados reais em tempo real.
-                </p>
-              </div>
-            )}
+            {/* Banner modo demo \u2014 ocultado do usu\u00e1rio final; log via useEffect acima */}
 
             {/* Cabeçalho do resultado */}
             <div className="card" style={{ padding: '24px 28px', marginBottom: 16 }}>

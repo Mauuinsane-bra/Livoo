@@ -17,14 +17,12 @@ interface Package {
   description:    string
   category:       string
   categoryColor:  string
-  priceFrom:      string
   priceNote:      string
   duration:       string
   includes:       string[]
   highlights:     string[]
   events:         EventData[]
   imageUrl:       string
-  flag:           string
   badge?:         string
   badgeColor?:    string
 }
@@ -39,72 +37,64 @@ function buildPackages(): Package[] {
     {
       id:            'futebol-brasileiro',
       title:         'Futebol Brasileiro',
-      subtitle:      'Sinta a paixão do futebol nos maiores estádios do país',
-      description:   'Pacote completo para assistir ao Brasileirão nos estádios mais icônicos do Brasil: Maracanã, Neo Química Arena e Ligga Arena. Inclui voo, hotel próximo ao estádio, ingresso e guia de dicas locais.',
+      subtitle:      'Sinta a paix\u00e3o do futebol nos maiores est\u00e1dios do pa\u00eds',
+      description:   'Pacote completo para assistir ao Brasileir\u00e3o nos est\u00e1dios mais ic\u00f4nicos do Brasil: Maracan\u00e3, Neo Qu\u00edmica Arena e Ligga Arena. Inclui voo, hotel pr\u00f3ximo ao est\u00e1dio, ingresso e guia de dicas locais.',
       category:      'Esportes',
       categoryColor: '#16a34a',
-      priceFrom:     'R$ 890',
-      priceNote:     'por pessoa · voo + hotel + ingresso',
+      priceNote:     'Voo + hotel + ingresso \u00b7 valor calculado em tempo real',
       duration:      '3 dias / 2 noites',
-      includes:      ['Voo ida e volta', 'Hotel 3★ próximo ao estádio', 'Ingresso para o jogo', 'Transfer estádio (opcional)', 'Guia de dicas locais', 'Verificação de documentos'],
-      highlights:    ['Estádios modernos e acessíveis', 'Vários jogos por semana no Brasileirão', 'Custo acessível comparado a futebol europeu'],
+      includes:      ['Voo ida e volta', 'Hotel pr\u00f3ximo ao est\u00e1dio', 'Ingresso para o jogo', 'Transfer est\u00e1dio (opcional)', 'Guia de dicas locais', 'Verifica\u00e7\u00e3o de documentos'],
+      highlights:    ['Est\u00e1dios modernos e acess\u00edveis', 'V\u00e1rios jogos por semana no Brasileir\u00e3o', 'Custo acess\u00edvel comparado a futebol europeu'],
       events:        futEvents.filter(e => ['athletico-pr', 'flamengo', 'corinthians'].includes(e.id)),
       imageUrl:      'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800',
-      flag:          '🇧🇷',
-      badge:         'Mais vendido',
+      badge:         'Em destaque',
       badgeColor:    '#16a34a',
     },
     {
       id:            'formula-1',
-      title:         'Fórmula 1',
+      title:         'F\u00f3rmula 1',
       subtitle:      'Os circuitos mais emocionantes do mundo',
-      description:   'Viva a F1 de perto. Pacotes para o GP de Mônaco — o mais glamouroso — e o GP do Brasil em Interlagos — o mais emocionante. Voo, hotel, ingresso e acesso ao paddock quando disponível.',
+      description:   'Viva a F1 de perto. Pacotes para o GP de M\u00f4naco \u2014 o mais glamouroso \u2014 e o GP do Brasil em Interlagos \u2014 o mais emocionante. Voo, hotel, ingresso e acesso ao paddock quando dispon\u00edvel.',
       category:      'Automobilismo',
       categoryColor: '#7c3aed',
-      priceFrom:     'R$ 1.800',
-      priceNote:     'por pessoa · a partir de (GP Brasil)',
+      priceNote:     'Voo + hotel + ingresso \u00b7 valor calculado em tempo real',
       duration:      '4 dias / 3 noites',
-      includes:      ['Voo ida e volta', 'Hotel 3-4★ na região do circuito', 'Ingresso para o fim de semana', 'Transfer circuito', 'Guia do evento com horários e dicas', 'Verificação de documentos e visto'],
-      highlights:    ['GP Mônaco: o mais icônico do mundo', 'GP Brasil: eleito pelos pilotos como favorito', 'Acesso aos boxes em pacotes premium'],
+      includes:      ['Voo ida e volta', 'Hotel na regi\u00e3o do circuito', 'Ingresso para o fim de semana', 'Transfer circuito', 'Guia do evento com hor\u00e1rios e dicas', 'Verifica\u00e7\u00e3o de documentos e visto'],
+      highlights:    ['GP M\u00f4naco: o mais ic\u00f4nico do mundo', 'GP Brasil: eleito pelos pilotos como favorito', 'Acesso aos boxes em pacotes premium'],
       events:        autoEvents.filter(e => ['f1-monaco', 'f1-brasil'].includes(e.id)),
       imageUrl:      'https://images.unsplash.com/photo-1615483585256-a5e24a069ee1?w=800',
-      flag:          '🏎️',
       badge:         'Premium',
       badgeColor:    '#7c3aed',
     },
     {
       id:            'festivais-musica',
-      title:         'Festivais de Música',
+      title:         'Festivais de M\u00fasica',
       subtitle:      'Os maiores palcos do Brasil',
-      description:   'Lollapalooza e Rock in Rio — os dois maiores festivais de música do Brasil com artistas internacionais, múltiplos palcos e experiências gastronômicas. Pacote com voo, hotel e ingresso.',
+      description:   'Lollapalooza e Rock in Rio \u2014 os dois maiores festivais de m\u00fasica do Brasil com artistas internacionais, m\u00faltiplos palcos e experi\u00eancias gastron\u00f4micas. Pacote com voo, hotel e ingresso.',
       category:      'Shows',
       categoryColor: '#db2777',
-      priceFrom:     'R$ 1.200',
-      priceNote:     'por pessoa · voo + hotel + ingresso',
+      priceNote:     'Voo + hotel + ingresso \u00b7 valor calculado em tempo real',
       duration:      '4 dias / 3 noites',
-      includes:      ['Voo ida e volta', 'Hotel próximo ao transporte', 'Ingresso para o festival', 'Guia de dicas do festival', 'Opção de ingresso VIP', 'Verificação de documentos'],
-      highlights:    ['Artistas internacionais de primeira linha', 'Múltiplos dias e palcos', 'Experiência completa além da música'],
+      includes:      ['Voo ida e volta', 'Hotel pr\u00f3ximo ao transporte', 'Ingresso para o festival', 'Guia de dicas do festival', 'Op\u00e7\u00e3o de ingresso VIP', 'Verifica\u00e7\u00e3o de documentos'],
+      highlights:    ['Artistas internacionais de primeira linha', 'M\u00faltiplos dias e palcos', 'Experi\u00eancia completa al\u00e9m da m\u00fasica'],
       events:        showEvents,
       imageUrl:      'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800',
-      flag:          '🎸',
       badge:         'Em alta',
       badgeColor:    '#F5A800',
     },
     {
       id:            'cultura-internacional',
-      title:         'Cultura & Experiências',
+      title:         'Cultura & Experi\u00eancias',
       subtitle:      'Viagens que transformam',
-      description:   'Do Carnaval do Rio ao Hanami no Japão. Experiências culturais únicas com guia local, roteiro planejado e toda a documentação verificada antes de você comprar.',
+      description:   'Do Carnaval do Rio ao Hanami no Jap\u00e3o. Experi\u00eancias culturais \u00fanicas com guia local, roteiro planejado e toda a documenta\u00e7\u00e3o verificada antes de voc\u00ea comprar.',
       category:      'Cultura',
       categoryColor: '#0891b2',
-      priceFrom:     'R$ 980',
-      priceNote:     'por pessoa · Carnaval Rio (a partir de)',
+      priceNote:     'Voo + hotel + experi\u00eancias \u00b7 valor calculado em tempo real',
       duration:      '5-10 dias',
-      includes:      ['Voo ida e volta', 'Hotel bem localizado', 'Roteiro cultural planejado', 'Guia local especializado', 'Ingressos/reservas', 'Verificação de visto e documentos'],
-      highlights:    ['Carnaval do Rio: o maior espetáculo da Terra', 'Hanami no Japão: cerejeiras em flor', 'Rally da Geórgia: aventura no Cáucaso'],
+      includes:      ['Voo ida e volta', 'Hotel bem localizado', 'Roteiro cultural planejado', 'Guia local especializado', 'Ingressos/reservas', 'Verifica\u00e7\u00e3o de visto e documentos'],
+      highlights:    ['Carnaval do Rio: o maior espet\u00e1culo da Terra', 'Hanami no Jap\u00e3o: cerejeiras em flor', 'Rally da Ge\u00f3rgia: aventura no C\u00e1ucaso'],
       events:        [...cultEvents, ...autoEvents.filter(e => e.id === 'rally-georgia')],
       imageUrl:      'https://images.unsplash.com/photo-1518791841217-8f162f1912da?w=800',
-      flag:          '🌍',
     },
   ]
 }
@@ -195,14 +185,6 @@ function PackageCard({ pkg }: { pkg: Package }) {
           </span>
         )}
 
-        {/* Categoria + Flag */}
-        <div style={{
-          position: 'absolute', top: 16, right: 16,
-          fontSize: 28,
-        }}>
-          {pkg.flag}
-        </div>
-
         {/* Título sobre imagem */}
         <div style={{ position: 'absolute', bottom: 16, left: 20, right: 20 }}>
           <span style={{
@@ -243,23 +225,17 @@ function PackageCard({ pkg }: { pkg: Package }) {
           {pkg.description}
         </p>
 
-        {/* Preço + duração */}
+        {/* Dura\u00e7\u00e3o + nota de pre\u00e7o */}
         <div style={{
           display: 'flex', justifyContent: 'space-between',
-          alignItems: 'baseline', marginBottom: 20,
-          padding: '16px 20px', background: '#F4F6F9',
+          alignItems: 'center', marginBottom: 20, gap: 12,
+          padding: '14px 20px', background: '#F4F6F9',
           borderRadius: 12,
         }}>
-          <div>
-            <p style={{
-              fontFamily: 'Nunito, sans-serif', fontSize: '1.6rem',
-              fontWeight: 700, color: '#0F2340', margin: 0,
-            }}>
-              {pkg.priceFrom}
-            </p>
+          <div style={{ flex: 1 }}>
             <p style={{
               fontFamily: 'Inter, sans-serif',
-              fontSize: '0.75rem', color: '#64748B', margin: '2px 0 0',
+              fontSize: '0.78rem', color: '#64748B', margin: 0, lineHeight: 1.5,
             }}>
               {pkg.priceNote}
             </p>
@@ -270,6 +246,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
             color: '#1A82D8',
             background: 'rgba(26,130,216,0.08)',
             padding: '6px 14px', borderRadius: 50,
+            whiteSpace: 'nowrap',
           }}>
             {pkg.duration}
           </span>
@@ -295,7 +272,9 @@ function PackageCard({ pkg }: { pkg: Package }) {
                 fontSize: '0.82rem', color: '#64748B',
                 display: 'flex', alignItems: 'center', gap: 6,
               }}>
-                <span style={{ color: '#16a34a', fontWeight: 700, flexShrink: 0 }}>✓</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
                 {item}
               </span>
             ))}
@@ -308,14 +287,17 @@ function PackageCard({ pkg }: { pkg: Package }) {
           padding: '12px 16px', marginBottom: 20,
         }}>
           {pkg.highlights.map((h, i) => (
-            <span key={i} style={{
+            <div key={i} style={{
               fontFamily: 'Inter, sans-serif',
               fontSize: '0.78rem', color: '#D48A0A',
-              display: 'block',
-              marginBottom: i < pkg.highlights.length - 1 ? 4 : 0,
+              display: 'flex', alignItems: 'flex-start', gap: 8,
+              marginBottom: i < pkg.highlights.length - 1 ? 6 : 0,
             }}>
-              ★ {h}
-            </span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="#D48A0A" stroke="#D48A0A" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 3 }}>
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+              <span>{h}</span>
+            </div>
           ))}
         </div>
 
@@ -509,7 +491,11 @@ export default function PacotesPage() {
           gap: 20,
           alignItems: 'flex-start',
         }}>
-          <span style={{ fontSize: 24, flexShrink: 0 }}>ℹ️</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="16" x2="12" y2="12"/>
+            <line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
           <div>
             <h4 style={{
               fontFamily: 'Inter, sans-serif',
@@ -523,7 +509,7 @@ export default function PacotesPage() {
               fontSize: '0.83rem', color: '#64748B',
               margin: 0, lineHeight: 1.65,
             }}>
-              Os preços exibidos são estimativas baseadas em pesquisas recentes e podem variar conforme a data e disponibilidade. Ao clicar em "Montar este pacote", a Go Livoo busca em tempo real os melhores preços de voo, hotel e ingresso para a data escolhida. A plataforma é gratuita — a Go Livoo recebe uma comissão dos parceiros quando você reserva, sem custo adicional para você.
+              Os pacotes da Go Livoo s\u00e3o montados sob demanda \u2014 ao clicar em \u201cMontar este pacote\u201d, buscamos em tempo real os melhores pre\u00e7os de voo, hotel e ingresso para a data escolhida. A plataforma \u00e9 gratuita: a Go Livoo recebe uma comiss\u00e3o dos parceiros quando voc\u00ea reserva, sem custo adicional para voc\u00ea.
             </p>
           </div>
         </div>

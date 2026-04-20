@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useEffect, useRef } from 'react'
+import { Suspense, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
@@ -34,14 +34,27 @@ function formatDate(dateStr: string): string {
   return `${parseInt(day, 10)} de ${months[m] ?? ''} de ${year}`
 }
 
-// Travelpayouts affiliate marker (público — não é dado sensível)
-const TP_MARKER = '514088'
-// promo_id 4095 = widget de busca de voos (Aviasales/JetRadar)
-const TP_PROMO  = '4095'
+/**
+ * Monta a URL do Trip.com em PT-BR/BRL.
+ * Trip.com aceita códigos IATA em lowercase diretamente.
+ */
+function buildTripUrl(origin: string, dest: string, date: string): string {
+  const base = 'https://br.trip.com/flights/showfarefirst'
+  const params = new URLSearchParams({
+    dcity:    origin.toLowerCase(),
+    acity:    dest.toLowerCase(),
+    triptype: 'ow',
+    class:    'y',
+    quantity: '1',
+    locale:   'pt-BR',
+    curr:     'BRL',
+  })
+  if (date && date.length === 10) params.set('ddate', date)
+  return `${base}?${params.toString()}`
+}
 
 function FlightSearchContent() {
-  const searchParams  = useSearchParams()
-  const containerRef  = useRef<HTMLDivElement>(null)
+  const searchParams = useSearchParams()
 
   const origin = (searchParams.get('origin') || 'GRU').toUpperCase()
   const dest   = (searchParams.get('dest')   || '').toUpperCase()
@@ -50,50 +63,17 @@ function FlightSearchContent() {
   const originCity = CITY_NAMES[origin] || origin
   const destCity   = CITY_NAMES[dest]   || dest
 
-  // Deep link de fallback (tp.media com locale PT + BRL via marker)
-  const fallbackUrl = (() => {
-    let avUrl = 'https://www.aviasales.com/'
-    if (dest && date && date.length === 10) {
-      const parts = date.split('-')
-      const ddmm  = `${parts[2]}${parts[1]}`
-      avUrl = `https://www.aviasales.com/search/${origin}${ddmm}${dest}1`
-    } else if (dest) {
-      avUrl = `https://www.aviasales.com/?params=${origin}${dest}1`
-    }
-    return `https://tp.media/r?marker=${TP_MARKER}&p=4114&u=${encodeURIComponent(avUrl)}`
-  })()
+  const tripUrl = dest ? buildTripUrl(origin, dest, date) : ''
 
+  // Redireciona automaticamente para Trip.com quando há origem + destino definidos.
+  // Usuário vê a tela de transição por ~1.5s (mostra o que está acontecendo).
   useEffect(() => {
-    const el = containerRef.current
-    if (!el) return
-    el.innerHTML = ''
-
-    const params: Record<string, string> = {
-      trs:          TP_MARKER,
-      shmarker:     TP_MARKER,
-      locale:       'pt',
-      powered_by:   'true',
-      currency:     'brl',
-      host:         'golivoo.com.br',
-      origin,
-      one_way:      'false',
-      nt:           'false',
-      with_request: dest ? 'true' : 'false',
-      trip_class:   '0',
-      promo_id:     TP_PROMO,
-    }
-    if (dest)  params.destination  = dest
-    if (date)  params.depart_date  = date
-
-    const qs     = new URLSearchParams(params).toString()
-    const script = document.createElement('script')
-    script.src     = `https://tp.media/content?${qs}`
-    script.charset = 'utf-8'
-    script.async   = true
-    el.appendChild(script)
-
-    return () => { el.innerHTML = '' }
-  }, [origin, dest, date])
+    if (!tripUrl) return
+    const t = setTimeout(() => {
+      window.location.href = tripUrl
+    }, 1500)
+    return () => clearTimeout(t)
+  }, [tripUrl])
 
   return (
     <>
@@ -104,16 +84,13 @@ function FlightSearchContent() {
         position: 'relative',
         overflow: 'hidden',
       }}>
-        {/* Círculos decorativos */}
         <div style={{ position: 'absolute', top: -60, right: -80, width: 300, height: 300, borderRadius: '50%', background: 'rgba(255,255,255,.04)', pointerEvents: 'none' }} />
 
         <div style={{ maxWidth: 900, margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          {/* Breadcrumb */}
           <Link href="/voos-baratos" style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
             color: 'rgba(255,255,255,.65)', fontSize: 12, fontFamily: 'Inter, sans-serif',
             textDecoration: 'none', marginBottom: 20,
-            transition: 'color .15s',
           }}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <path d="M15 18l-6-6 6-6"/>
@@ -121,7 +98,6 @@ function FlightSearchContent() {
             Voltar para Voos Baratos
           </Link>
 
-          {/* Rota */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10, flexWrap: 'wrap' }}>
             <h1 style={{
               fontFamily: 'Nunito, sans-serif', fontWeight: 900, color: '#fff',
@@ -135,7 +111,6 @@ function FlightSearchContent() {
             </h1>
           </div>
 
-          {/* Data + instrução */}
           <p style={{
             color: 'rgba(255,255,255,.72)', fontFamily: 'Inter, sans-serif',
             fontSize: 14, lineHeight: 1.6, margin: 0,
@@ -146,55 +121,84 @@ function FlightSearchContent() {
         </div>
       </section>
 
-      {/* ── Área do widget ── */}
-      <div style={{ maxWidth: 920, margin: '0 auto', padding: '28px 20px 60px' }}>
-
-        {/* Caixa que receberá o script do Travelpayouts */}
-        <div ref={containerRef} style={{ minHeight: 200 }} />
-
-        {/* Separator */}
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: 12, margin: '36px 0 24px',
-        }}>
-          <div style={{ flex: 1, height: 1, background: '#E2E8F0' }} />
-          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#94A3B8', whiteSpace: 'nowrap' }}>
-            ou acesse diretamente
-          </span>
-          <div style={{ flex: 1, height: 1, background: '#E2E8F0' }} />
-        </div>
-
-        {/* Fallback: botão para Aviasales via tp.media */}
-        <div style={{ textAlign: 'center' }}>
-          <a
-            href={fallbackUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
+      {/* ── Conteúdo ── */}
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '48px 20px 80px', textAlign: 'center' }}>
+        {tripUrl ? (
+          <>
+            {/* Spinner de redirecionamento */}
+            <div style={{
+              width: 56, height: 56, margin: '0 auto 20px',
+              border: '3px solid #E2E8F0', borderTopColor: '#1A82D8',
+              borderRadius: '50%', animation: 'spin 0.8s linear infinite',
+            }} />
+            <h2 style={{
+              fontFamily: 'Nunito, sans-serif', fontSize: '1.4rem',
+              color: '#0F2340', marginBottom: 10,
+            }}>
+              Abrindo sua busca no Trip.com
+            </h2>
+            <p style={{
+              fontFamily: 'Inter, sans-serif', fontSize: 14,
+              color: '#64748B', lineHeight: 1.7, marginBottom: 28,
+            }}>
+              Você será redirecionado em instantes. A busca abre em{' '}
+              <strong style={{ color: '#0F2340' }}>Português</strong> com preços em{' '}
+              <strong style={{ color: '#0F2340' }}>Reais (R$)</strong>.
+            </p>
+            <a
+              href={tripUrl}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
+                color: '#fff', textDecoration: 'none', borderRadius: 12,
+                padding: '13px 28px',
+                fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: 14,
+                boxShadow: '0 4px 16px rgba(26,130,216,.3)',
+              }}
+            >
+              Abrir agora no Trip.com
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <path d="M5 12h14M13 5l7 7-7 7"/>
+              </svg>
+            </a>
+            <p style={{
+              fontFamily: 'Inter, sans-serif', fontSize: 11, color: '#94A3B8',
+              marginTop: 14, lineHeight: 1.6,
+            }}>
+              Sem custo adicional para você · Go Livoo pode receber comissão de afiliado
+            </p>
+          </>
+        ) : (
+          <>
+            <h2 style={{
+              fontFamily: 'Nunito, sans-serif', fontSize: '1.4rem',
+              color: '#0F2340', marginBottom: 10,
+            }}>
+              Escolha uma rota
+            </h2>
+            <p style={{
+              fontFamily: 'Inter, sans-serif', fontSize: 14,
+              color: '#64748B', lineHeight: 1.7, marginBottom: 24,
+            }}>
+              Vá até o monitor de preços, escolha um destino e o abriremos automaticamente para você em Português e Reais.
+            </p>
+            <Link href="/voos-baratos" style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
               background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
               color: '#fff', textDecoration: 'none', borderRadius: 12,
               padding: '13px 28px',
               fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: 14,
               boxShadow: '0 4px 16px rgba(26,130,216,.3)',
-              transition: 'opacity .15s',
-            }}
-            onMouseOver={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = '.88' }}
-            onMouseOut={e  => { (e.currentTarget as HTMLAnchorElement).style.opacity = '1' }}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
-            </svg>
-            Buscar no Aviasales
-          </a>
-          <p style={{
-            fontFamily: 'Inter, sans-serif', fontSize: 11, color: '#94A3B8',
-            marginTop: 10, lineHeight: 1.6,
-          }}>
-            Preços em Reais (R$) · sem custo adicional para você ·{' '}
-            <span style={{ color: '#1A82D8' }}>Go Livoo recebe comissão de afiliado</span>
-          </p>
-        </div>
+            }}>
+              Ver voos baratos
+            </Link>
+          </>
+        )}
       </div>
+
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+      `}</style>
     </>
   )
 }

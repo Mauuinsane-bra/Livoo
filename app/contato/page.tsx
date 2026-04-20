@@ -8,11 +8,42 @@ export default function ContatoPage() {
   const [sent, setSent] = useState(false)
   const [sending, setSending] = useState(false)
 
+  const ASSUNTO_LABEL: Record<string, string> = {
+    roteiro:  'D\u00favida sobre roteiro gerado',
+    prep:     'Problema com Livoo Prep',
+    evento:   'Sugest\u00e3o de evento',
+    parceria: 'Parceria comercial',
+    imprensa: 'Imprensa e m\u00eddia',
+    outro:    'Outro',
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setSending(true)
-    // Simula envio (integração com Resend pode ser adicionada depois)
-    await new Promise(r => setTimeout(r, 1200))
+
+    // Abre o cliente de email do usu\u00e1rio com a mensagem pronta para enviar.
+    // Isso garante que a mensagem realmente chegue ao destinat\u00e1rio
+    // (contato@golivoo.com.br) sem depender de backend ainda n\u00e3o configurado.
+    const assuntoLabel = ASSUNTO_LABEL[form.assunto] || form.assunto || 'Contato pelo site'
+    const subject = `[Go Livoo] ${assuntoLabel}`
+    const body = [
+      `Nome: ${form.nome}`,
+      `Email: ${form.email}`,
+      `Assunto: ${assuntoLabel}`,
+      '',
+      'Mensagem:',
+      form.mensagem,
+    ].join('\n')
+
+    const mailto = `mailto:contato@golivoo.com.br?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+
+    // Pequena pausa para o usu\u00e1rio ver o estado "enviando"
+    await new Promise(r => setTimeout(r, 400))
+
+    if (typeof window !== 'undefined') {
+      window.location.href = mailto
+    }
+
     setSent(true)
     setSending(false)
   }
@@ -178,9 +209,11 @@ export default function ContatoPage() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   margin: '0 auto 20px',
-                  fontSize: 28,
                 }}>
-                  ✓
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16A34A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="9 12 11 14 15 10"/>
+                  </svg>
                 </div>
                 <h3 style={{
                   fontFamily: 'Nunito, sans-serif',
@@ -188,7 +221,7 @@ export default function ContatoPage() {
                   color: '#0F2340',
                   marginBottom: 12,
                 }}>
-                  Mensagem enviada!
+                  Seu email foi preparado
                 </h3>
                 <p style={{
                   fontFamily: 'Inter, sans-serif',
@@ -197,7 +230,9 @@ export default function ContatoPage() {
                   lineHeight: 1.7,
                   marginBottom: 24,
                 }}>
-                  Recebemos sua mensagem e responderemos em até 48 horas no email informado.
+                  Abrimos seu cliente de email com a mensagem pronta para{' '}
+                  <strong style={{ color: '#0F2340' }}>contato@golivoo.com.br</strong>.
+                  Revise e clique em enviar — respondemos em at\u00e9 48 horas \u00fateis.
                 </p>
                 <button
                   onClick={() => { setSent(false); setForm({ nome: '', email: '', assunto: '', mensagem: '' }) }}
@@ -357,7 +392,7 @@ export default function ContatoPage() {
                     className="btn-primary"
                     style={{ fontSize: '0.92rem', padding: '13px 0', opacity: sending ? 0.7 : 1 }}
                   >
-                    {sending ? 'Enviando...' : 'Enviar mensagem'}
+                    {sending ? 'Preparando...' : 'Abrir no meu email'}
                   </button>
 
                   <p style={{

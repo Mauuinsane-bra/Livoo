@@ -535,6 +535,13 @@ export default function EventosPage() {
     fetchLive()
   }, [keyword, activeCategory])
 
+  // Log no console (não na UI) quando a API responde em modo demo
+  useEffect(() => {
+    if (isDemoMode && keyword) {
+      console.info('[Go Livoo] Busca de eventos em modo demo (TICKETMASTER_API_KEY não configurada).')
+    }
+  }, [isDemoMode, keyword])
+
   // Filtra estáticos por categoria + keyword
   const filteredStatic = STATIC_EVENTS.filter(e => {
     const matchCat = activeCategory === 'todos' || e.category === activeCategory
@@ -601,9 +608,13 @@ export default function EventosPage() {
           <div style={{ maxWidth: 480, margin: '0 auto 28px', position: 'relative' }}>
             <span style={{
               position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)',
-              fontSize: 16, color: 'rgba(255,255,255,0.5)', pointerEvents: 'none',
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              color: 'rgba(255,255,255,0.55)', pointerEvents: 'none',
             }}>
-              🔍
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
             </span>
             <input
               type="text"
@@ -724,7 +735,12 @@ export default function EventosPage() {
               padding: '60px 0',
               color: '#64748B',
             }}>
-              <div style={{ fontSize: 40, marginBottom: 16 }}>🔍</div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8"/>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+              </div>
               <p style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '1rem',
@@ -743,31 +759,7 @@ export default function EventosPage() {
             </div>
           )}
 
-          {/* Info demo mode */}
-          {isDemoMode && keyword && (
-            <div style={{
-              background: '#FFF8EC',
-              border: '1px solid rgba(245,166,35,0.3)',
-              borderRadius: 12,
-              padding: '14px 20px',
-              marginTop: 20,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 12,
-            }}>
-              <span style={{ fontSize: 18 }}>ℹ️</span>
-              <p style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '0.82rem',
-                color: '#D48A0A',
-                margin: 0,
-              }}>
-                Busca ao vivo não configurada — exibindo eventos curados. Adicione{' '}
-                <code style={{ fontSize: '0.78rem' }}>TICKETMASTER_API_KEY</code> no{' '}
-                <code style={{ fontSize: '0.78rem' }}>.env.local</code> para ativar.
-              </p>
-            </div>
-          )}
+          {/* Info demo mode removida do usu\u00e1rio final \u2014 log no console via useEffect acima */}
         </div>
       </section>
 
