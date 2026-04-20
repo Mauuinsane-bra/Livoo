@@ -79,7 +79,7 @@ function FlightSearchContent() {
     <>
       {/* ── Hero ── */}
       <section style={{
-        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #2B9FEE 100%)',
+        background: 'linear-gradient(135deg, #0d0d0f 0%, #ff5722 60%, #2B9FEE 100%)',
         padding: '40px 24px 36px',
         position: 'relative',
         overflow: 'hidden',
@@ -100,13 +100,13 @@ function FlightSearchContent() {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10, flexWrap: 'wrap' }}>
             <h1 style={{
-              fontFamily: 'Nunito, sans-serif', fontWeight: 900, color: '#fff',
+              fontFamily: 'Space Grotesk, sans-serif', fontWeight: 900, color: '#fff',
               fontSize: 'clamp(22px, 3vw, 38px)', lineHeight: 1.1, letterSpacing: '-.5px',
               margin: 0,
             }}>
               {dest
-                ? <>{originCity} <span style={{ color: '#F5A800', fontSize: '0.75em' }}>→</span> {destCity}</>
-                : <>Voos saindo de <span style={{ color: '#F5A800' }}>{originCity}</span></>
+                ? <>{originCity} <span style={{ color: '#ffd600', fontSize: '0.75em' }}>→</span> {destCity}</>
+                : <>Voos saindo de <span style={{ color: '#ffd600' }}>{originCity}</span></>
               }
             </h1>
           </div>
@@ -128,28 +128,28 @@ function FlightSearchContent() {
             {/* Spinner de redirecionamento */}
             <div style={{
               width: 56, height: 56, margin: '0 auto 20px',
-              border: '3px solid #E2E8F0', borderTopColor: '#1A82D8',
+              border: '3px solid #e7e6e0', borderTopColor: '#ff5722',
               borderRadius: '50%', animation: 'spin 0.8s linear infinite',
             }} />
             <h2 style={{
-              fontFamily: 'Nunito, sans-serif', fontSize: '1.4rem',
-              color: '#0F2340', marginBottom: 10,
+              fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.4rem',
+              color: '#0d0d0f', marginBottom: 10,
             }}>
               Abrindo sua busca no Trip.com
             </h2>
             <p style={{
               fontFamily: 'Inter, sans-serif', fontSize: 14,
-              color: '#64748B', lineHeight: 1.7, marginBottom: 28,
+              color: '#6d6d74', lineHeight: 1.7, marginBottom: 28,
             }}>
               Você será redirecionado em instantes. A busca abre em{' '}
-              <strong style={{ color: '#0F2340' }}>Português</strong> com preços em{' '}
-              <strong style={{ color: '#0F2340' }}>Reais (R$)</strong>.
+              <strong style={{ color: '#0d0d0f' }}>Português</strong> com preços em{' '}
+              <strong style={{ color: '#0d0d0f' }}>Reais (R$)</strong>.
             </p>
             <a
               href={tripUrl}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
-                background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
+                background: 'linear-gradient(135deg, #ff5722 0%, #e64e1e 100%)',
                 color: '#fff', textDecoration: 'none', borderRadius: 12,
                 padding: '13px 28px',
                 fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: 14,
@@ -162,7 +162,7 @@ function FlightSearchContent() {
               </svg>
             </a>
             <p style={{
-              fontFamily: 'Inter, sans-serif', fontSize: 11, color: '#94A3B8',
+              fontFamily: 'Inter, sans-serif', fontSize: 11, color: '#9aaabb',
               marginTop: 14, lineHeight: 1.6,
             }}>
               Sem custo adicional para você · Go Livoo pode receber comissão de afiliado
@@ -171,20 +171,20 @@ function FlightSearchContent() {
         ) : (
           <>
             <h2 style={{
-              fontFamily: 'Nunito, sans-serif', fontSize: '1.4rem',
-              color: '#0F2340', marginBottom: 10,
+              fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.4rem',
+              color: '#0d0d0f', marginBottom: 10,
             }}>
               Escolha uma rota
             </h2>
             <p style={{
               fontFamily: 'Inter, sans-serif', fontSize: 14,
-              color: '#64748B', lineHeight: 1.7, marginBottom: 24,
+              color: '#6d6d74', lineHeight: 1.7, marginBottom: 24,
             }}>
               Vá até o monitor de preços, escolha um destino e o abriremos automaticamente para você em Português e Reais.
             </p>
             <Link href="/voos-baratos" style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
-              background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
+              background: 'linear-gradient(135deg, #ff5722 0%, #e64e1e 100%)',
               color: '#fff', textDecoration: 'none', borderRadius: 12,
               padding: '13px 28px',
               fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: 14,
@@ -209,10 +209,10 @@ export default function BuscarVooPage() {
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         minHeight: '60vh',
-        fontFamily: 'Inter, sans-serif', fontSize: 15, color: '#64748B',
+        fontFamily: 'Inter, sans-serif', fontSize: 15, color: '#6d6d74',
         gap: 12,
       }}>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff5722" strokeWidth="2" strokeLinecap="round">
           <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
         </svg>
         Carregando busca de voos…

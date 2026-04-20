@@ -28,7 +28,7 @@ interface RoteiroResult {
 
 // Ícone SVG por categoria de experiência — substitui os emojis antigos
 function CategoryIcon({ category, size = 48 }: { category: string; size?: number }) {
-  const stroke = '#F5A800'
+  const stroke = '#ffd600'
   const common = {
     width: size, height: size, viewBox: '0 0 24 24',
     fill: 'none', stroke, strokeWidth: 1.8,
@@ -148,11 +148,11 @@ function RoteiroContent() {
     return (
       <div style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20 }}>
         <div style={{
-          width: 56, height: 56, border: '4px solid #E6F3FF',
-          borderTop: '4px solid #1A82D8', borderRadius: '50%',
+          width: 56, height: 56, border: '4px solid #fafaf7',
+          borderTop: '4px solid #ff5722', borderRadius: '50%',
           animation: 'spin 0.8s linear infinite',
         }} />
-        <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', fontSize: '0.95rem' }}>
+        <p style={{ fontFamily: 'Inter, sans-serif', color: '#6d6d74', fontSize: '0.95rem' }}>
           Analisando sua experiência e montando o roteiro...
         </p>
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
@@ -164,13 +164,13 @@ function RoteiroContent() {
   if (status === 'error' || !result?.success) {
     return (
       <div style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16, textAlign: 'center', padding: 24 }}>
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#F5A800" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ffd600" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
           <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
           <line x1="12" y1="9" x2="12" y2="13"/>
           <line x1="12" y1="17" x2="12.01" y2="17"/>
         </svg>
-        <h2 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340' }}>Algo deu errado</h2>
-        <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}>
+        <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', color: '#0d0d0f' }}>Algo deu errado</h2>
+        <p style={{ fontFamily: 'Inter, sans-serif', color: '#6d6d74' }}>
           {result?.error ?? 'Não foi possível processar o roteiro. Tente novamente.'}
         </p>
         <Link href="/" className="btn-primary">Voltar ao início</Link>
@@ -183,10 +183,10 @@ function RoteiroContent() {
   if (!parsed) return null
 
   return (
-    <div style={{ background: '#F4F6F9', minHeight: '100vh', paddingBottom: 80 }}>
+    <div style={{ background: '#fafaf7', minHeight: '100vh', paddingBottom: 80 }}>
 
       {/* Hero do resultado */}
-      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #2B9FEE 100%)', padding: '48px 24px 64px' }}>
+      <div style={{ background: 'linear-gradient(135deg, #0d0d0f 0%, #ff5722 60%, #2B9FEE 100%)', padding: '48px 24px 64px' }}>
         <div style={{ maxWidth: 860, margin: '0 auto' }}>
 
           {/* Aviso modo demo removido do usuário final — log no console apenas via useEffect acima */}
@@ -199,7 +199,7 @@ function RoteiroContent() {
               <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: 8 }}>
                 Roteiro identificado
               </p>
-              <h1 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 'clamp(1.6rem, 4vw, 2.4rem)', color: '#fff', marginBottom: 8, lineHeight: 1.2 }}>
+              <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(1.6rem, 4vw, 2.4rem)', color: '#fff', marginBottom: 8, lineHeight: 1.2 }}>
                 {parsed.event}
               </h1>
               <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '1rem', color: 'rgba(255,255,255,0.7)', marginBottom: 0 }}>
@@ -236,10 +236,10 @@ function RoteiroContent() {
           background: '#fff', borderRadius: 14, padding: 24,
           boxShadow: '0 4px 20px rgba(13,27,62,0.07)', marginBottom: 20,
         }}>
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '1.2px', marginBottom: 10 }}>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', fontWeight: 700, color: '#6d6d74', textTransform: 'uppercase', letterSpacing: '1.2px', marginBottom: 10 }}>
             Seu pedido
           </p>
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.95rem', color: '#0F2340', lineHeight: 1.65, margin: 0 }}>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.95rem', color: '#0d0d0f', lineHeight: 1.65, margin: 0 }}>
             "{prompt}"
           </p>
         </div>
@@ -247,13 +247,13 @@ function RoteiroContent() {
         {/* Observações da IA */}
         {parsed.notes && (
           <div style={{
-            background: '#FFF8EC', border: '1px solid rgba(245,166,35,0.3)',
+            background: '#fffbe6', border: '1px solid rgba(245,166,35,0.3)',
             borderRadius: 14, padding: 20, marginBottom: 20,
           }}>
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', fontWeight: 700, color: '#D48A0A', textTransform: 'uppercase', letterSpacing: '1.2px', marginBottom: 8 }}>
               Observações importantes
             </p>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: '#0F2340', lineHeight: 1.65, margin: 0 }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: '#0d0d0f', lineHeight: 1.65, margin: 0 }}>
               {parsed.notes}
             </p>
           </div>
@@ -264,7 +264,7 @@ function RoteiroContent() {
           background: '#fff', borderRadius: 14, padding: 28,
           boxShadow: '0 4px 20px rgba(13,27,62,0.07)', marginBottom: 20,
         }}>
-          <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.2rem', color: '#0F2340', marginBottom: 20 }}>
+          <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.2rem', color: '#0d0d0f', marginBottom: 20 }}>
             Próximos passos
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -275,7 +275,7 @@ function RoteiroContent() {
                 desc: `Antes de comprar qualquer coisa, confira se você precisa de visto para ${parsed.destination}.`,
                 cta: 'Verificar Documentação',
                 href: `/prep?destination=${parsed.destinationIATA}&destinationName=${encodeURIComponent(parsed.destination)}`,
-                color: '#1A82D8',
+                color: '#ff5722',
               },
               {
                 num: '02',
@@ -287,7 +287,7 @@ function RoteiroContent() {
                 href: includes.includes('voo')
                   ? `/passagens?${origin ? `origin=${origin}&` : ''}destination=${parsed.destinationIATA}${parsed.eventDate ? `&date=${parsed.eventDate}` : ''}`
                   : null,
-                color: '#1A82D8',
+                color: '#ff5722',
               },
               {
                 num: '03',
@@ -297,7 +297,7 @@ function RoteiroContent() {
                   : 'Você não incluiu hospedagem neste roteiro.',
                 cta: includes.includes('hotel') ? 'Buscar hotéis' : null,
                 href: includes.includes('hotel') ? `/hoteis?city=${encodeURIComponent(parsed.destination)}` : null,
-                color: '#1A82D8',
+                color: '#ff5722',
               },
               {
                 num: '04',
@@ -305,25 +305,25 @@ function RoteiroContent() {
                 desc: `Experiências e guias especializados em ${parsed.destination}.`,
                 cta: 'Ver experiências',
                 href: `/guias?q=${encodeURIComponent(parsed.searchQuery)}`,
-                color: '#1A82D8',
+                color: '#ff5722',
               },
             ].map(step => (
               <div key={step.num} style={{
                 display: 'flex', gap: 16, padding: '16px 0',
-                borderBottom: '1px solid #E6F3FF',
+                borderBottom: '1px solid #fafaf7',
               }}>
                 <div style={{
-                  width: 44, height: 44, borderRadius: 12, background: '#0F2340',
-                  color: '#fff', fontFamily: 'Nunito, sans-serif', fontSize: '0.85rem',
+                  width: 44, height: 44, borderRadius: 12, background: '#0d0d0f',
+                  color: '#fff', fontFamily: 'Space Grotesk, sans-serif', fontSize: '0.85rem',
                   fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                 }}>
                   {step.num}
                 </div>
                 <div style={{ flex: 1 }}>
-                  <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1rem', color: '#0F2340', marginBottom: 4 }}>
+                  <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1rem', color: '#0d0d0f', marginBottom: 4 }}>
                     {step.title}
                   </h3>
-                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#64748B', margin: step.cta ? '0 0 10px' : 0 }}>
+                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#6d6d74', margin: step.cta ? '0 0 10px' : 0 }}>
                     {step.desc}
                   </p>
                   {step.cta && step.href && (
@@ -339,10 +339,10 @@ function RoteiroContent() {
 
         {/* CTA acesso antecipado */}
         <div style={{
-          background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)',
+          background: 'linear-gradient(135deg, #0d0d0f 0%, #1a1a20 100%)',
           borderRadius: 14, padding: 32, textAlign: 'center',
         }}>
-          <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#fff', fontSize: '1.3rem', marginBottom: 10 }}>
+          <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', color: '#fff', fontSize: '1.3rem', marginBottom: 10 }}>
             Quer que a Go Livoo monte tudo por você?
           </h3>
           <p style={{ fontFamily: 'Inter, sans-serif', color: 'rgba(255,255,255,0.65)', fontSize: '0.9rem', marginBottom: 24 }}>
@@ -362,7 +362,7 @@ export default function RoteiroPage() {
   return (
     <Suspense fallback={
       <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}>Carregando...</p>
+        <p style={{ fontFamily: 'Inter, sans-serif', color: '#6d6d74' }}>Carregando...</p>
       </div>
     }>
       <RoteiroContent />

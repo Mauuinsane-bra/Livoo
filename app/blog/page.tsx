@@ -29,18 +29,18 @@ export default async function BlogPage() {
   const rest = allPosts.filter(p => !p.featured)
 
   return (
-    <div style={{ background: '#F4F6F9', minHeight: '100vh' }}>
+    <div style={{ background: '#fafaf7', minHeight: '100vh' }}>
 
       {/* Hero */}
       <div style={{
-        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #2B9FEE 100%)',
+        background: 'linear-gradient(135deg, #0d0d0f 0%, #ff5722 60%, #2B9FEE 100%)',
         padding: '72px 24px 80px',
         textAlign: 'center',
       }}>
         <span style={{
           display: 'inline-block',
           background: 'rgba(245,166,35,0.15)',
-          color: '#F5A800',
+          color: '#ffd600',
           fontSize: '0.72rem',
           fontWeight: 700,
           letterSpacing: '2px',
@@ -53,7 +53,7 @@ export default async function BlogPage() {
           Guias e dicas
         </span>
         <h1 style={{
-          fontFamily: 'Nunito, sans-serif',
+          fontFamily: 'Space Grotesk, sans-serif',
           fontSize: 'clamp(2rem, 4vw, 3rem)',
           color: '#fff',
           marginBottom: 16,
@@ -80,9 +80,9 @@ export default async function BlogPage() {
         {featured.length > 0 && (
           <>
             <h2 style={{
-              fontFamily: 'Nunito, sans-serif',
+              fontFamily: 'Space Grotesk, sans-serif',
               fontSize: '1.5rem',
-              color: '#0F2340',
+              color: '#0d0d0f',
               marginBottom: 28,
             }}>
               Em destaque
@@ -100,7 +100,7 @@ export default async function BlogPage() {
                     borderRadius: 20,
                     overflow: 'hidden',
                     boxShadow: '0 4px 24px rgba(13,27,62,0.08)',
-                    border: '1px solid #E2E8F0',
+                    border: '1px solid #e7e6e0',
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
@@ -132,9 +132,9 @@ export default async function BlogPage() {
                     </div>
                     <div style={{ padding: '24px 28px', flex: 1, display: 'flex', flexDirection: 'column' }}>
                       <h3 style={{
-                        fontFamily: 'Nunito, sans-serif',
+                        fontFamily: 'Space Grotesk, sans-serif',
                         fontSize: '1.1rem',
-                        color: '#0F2340',
+                        color: '#0d0d0f',
                         marginBottom: 10,
                         lineHeight: 1.35,
                       }}>
@@ -143,7 +143,7 @@ export default async function BlogPage() {
                       <p style={{
                         fontFamily: 'Inter, sans-serif',
                         fontSize: '0.85rem',
-                        color: '#64748B',
+                        color: '#6d6d74',
                         lineHeight: 1.65,
                         flex: 1,
                         marginBottom: 16,
@@ -158,7 +158,7 @@ export default async function BlogPage() {
                         <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#9AAABB' }}>
                           {formatDate(post.publishedAt)} · {post.readTime} min
                         </span>
-                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', fontWeight: 700, color: '#1A82D8' }}>
+                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', fontWeight: 700, color: '#ff5722' }}>
                           Ler artigo →
                         </span>
                       </div>
@@ -174,9 +174,9 @@ export default async function BlogPage() {
         {rest.length > 0 && (
           <>
             <h2 style={{
-              fontFamily: 'Nunito, sans-serif',
+              fontFamily: 'Space Grotesk, sans-serif',
               fontSize: '1.5rem',
-              color: '#0F2340',
+              color: '#0d0d0f',
               marginBottom: 28,
             }}>
               Mais artigos
@@ -188,7 +188,7 @@ export default async function BlogPage() {
                     background: '#fff',
                     borderRadius: 16,
                     padding: '24px 28px',
-                    border: '1px solid #E2E8F0',
+                    border: '1px solid #e7e6e0',
                     display: 'flex',
                     gap: 24,
                     alignItems: 'center',
@@ -220,9 +220,9 @@ export default async function BlogPage() {
                         {post.category}
                       </span>
                       <h3 style={{
-                        fontFamily: 'Nunito, sans-serif',
+                        fontFamily: 'Space Grotesk, sans-serif',
                         fontSize: '1.05rem',
-                        color: '#0F2340',
+                        color: '#0d0d0f',
                         margin: '6px 0 8px',
                         lineHeight: 1.3,
                       }}>
@@ -232,7 +232,7 @@ export default async function BlogPage() {
                         <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#9AAABB' }}>
                           {formatDate(post.publishedAt)} · {post.readTime} min de leitura
                         </span>
-                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', fontWeight: 700, color: '#1A82D8' }}>
+                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', fontWeight: 700, color: '#ff5722' }}>
                           Ler →
                         </span>
                       </div>
@@ -247,12 +247,12 @@ export default async function BlogPage() {
         {/* CTA */}
         <div style={{
           marginTop: 56,
-          background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)',
+          background: 'linear-gradient(135deg, #0d0d0f 0%, #1a1a20 100%)',
           borderRadius: 20,
           padding: '44px 48px',
           textAlign: 'center',
         }}>
-          <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.5rem', color: '#fff', marginBottom: 12 }}>
+          <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.5rem', color: '#fff', marginBottom: 12 }}>
             Pronto para montar sua viagem?
           </h3>
           <p style={{
@@ -267,9 +267,9 @@ export default async function BlogPage() {
           </p>
           <Link href="/roteiro" style={{
             display: 'inline-block',
-            background: '#F5A800',
-            color: '#0F2340',
-            fontFamily: 'Nunito, sans-serif',
+            background: '#ffd600',
+            color: '#0d0d0f',
+            fontFamily: 'Space Grotesk, sans-serif',
             fontWeight: 800,
             fontSize: '0.95rem',
             padding: '14px 36px',

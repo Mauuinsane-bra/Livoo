@@ -49,18 +49,18 @@ export default function ContatoPage() {
   }
 
   return (
-    <div style={{ background: '#F4F6F9', minHeight: '100vh' }}>
+    <div style={{ background: '#fafaf7', minHeight: '100vh' }}>
 
       {/* Hero */}
       <div style={{
-        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #2B9FEE 100%)',
+        background: 'linear-gradient(135deg, #0d0d0f 0%, #ff5722 60%, #2B9FEE 100%)',
         padding: '80px 24px 88px',
         textAlign: 'center',
       }}>
         <span style={{
           display: 'inline-block',
           background: 'rgba(245,166,35,0.15)',
-          color: '#F5A800',
+          color: '#ffd600',
           fontSize: '0.72rem',
           fontWeight: 700,
           letterSpacing: '2px',
@@ -73,7 +73,7 @@ export default function ContatoPage() {
           Fale conosco
         </span>
         <h1 style={{
-          fontFamily: 'Nunito, sans-serif',
+          fontFamily: 'Space Grotesk, sans-serif',
           fontSize: 'clamp(2rem, 4vw, 3rem)',
           color: '#fff',
           marginBottom: 16,
@@ -107,12 +107,12 @@ export default function ContatoPage() {
               background: '#fff',
               borderRadius: 16,
               padding: '28px 28px',
-              border: '1px solid #E2E8F0',
+              border: '1px solid #e7e6e0',
             }}>
               <h3 style={{
-                fontFamily: 'Nunito, sans-serif',
+                fontFamily: 'Space Grotesk, sans-serif',
                 fontSize: '1.05rem',
-                color: '#0F2340',
+                color: '#0d0d0f',
                 marginBottom: 8,
               }}>
                 Email
@@ -120,7 +120,7 @@ export default function ContatoPage() {
               <p style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '0.9rem',
-                color: '#1A82D8',
+                color: '#ff5722',
                 margin: 0,
               }}>
                 contato@golivoo.com.br
@@ -131,12 +131,12 @@ export default function ContatoPage() {
               background: '#fff',
               borderRadius: 16,
               padding: '28px 28px',
-              border: '1px solid #E2E8F0',
+              border: '1px solid #e7e6e0',
             }}>
               <h3 style={{
-                fontFamily: 'Nunito, sans-serif',
+                fontFamily: 'Space Grotesk, sans-serif',
                 fontSize: '1.05rem',
-                color: '#0F2340',
+                color: '#0d0d0f',
                 marginBottom: 8,
               }}>
                 Tempo de resposta
@@ -144,12 +144,12 @@ export default function ContatoPage() {
               <p style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '0.88rem',
-                color: '#64748B',
+                color: '#6d6d74',
                 margin: 0,
                 lineHeight: 1.65,
               }}>
                 Respondemos em até 48 horas úteis. Para dúvidas rápidas, consulte nossa página
-                {' '}<Link href="/como-funciona" style={{ color: '#1A82D8', fontWeight: 600 }}>Como funciona</Link>.
+                {' '}<Link href="/como-funciona" style={{ color: '#ff5722', fontWeight: 600 }}>Como funciona</Link>.
               </p>
             </div>
 
@@ -157,12 +157,12 @@ export default function ContatoPage() {
               background: '#fff',
               borderRadius: 16,
               padding: '28px 28px',
-              border: '1px solid #E2E8F0',
+              border: '1px solid #e7e6e0',
             }}>
               <h3 style={{
-                fontFamily: 'Nunito, sans-serif',
+                fontFamily: 'Space Grotesk, sans-serif',
                 fontSize: '1.05rem',
-                color: '#0F2340',
+                color: '#0d0d0f',
                 marginBottom: 12,
               }}>
                 Assuntos frequentes
@@ -178,12 +178,12 @@ export default function ContatoPage() {
                   <span key={item} style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '0.82rem',
-                    color: '#64748B',
+                    color: '#6d6d74',
                     display: 'flex',
                     alignItems: 'center',
                     gap: 8,
                   }}>
-                    <span style={{ color: '#1A82D8', fontWeight: 700 }}>→</span>
+                    <span style={{ color: '#ff5722', fontWeight: 700 }}>→</span>
                     {item}
                   </span>
                 ))}
@@ -197,7 +197,7 @@ export default function ContatoPage() {
             borderRadius: 20,
             padding: '40px 44px',
             boxShadow: '0 4px 24px rgba(13,27,62,0.08)',
-            border: '1px solid #E2E8F0',
+            border: '1px solid #e7e6e0',
           }}>
             {sent ? (
               <div style={{ textAlign: 'center', padding: '32px 0' }}>
@@ -216,9 +216,9 @@ export default function ContatoPage() {
                   </svg>
                 </div>
                 <h3 style={{
-                  fontFamily: 'Nunito, sans-serif',
+                  fontFamily: 'Space Grotesk, sans-serif',
                   fontSize: '1.4rem',
-                  color: '#0F2340',
+                  color: '#0d0d0f',
                   marginBottom: 12,
                 }}>
                   Seu email foi preparado
@@ -226,12 +226,12 @@ export default function ContatoPage() {
                 <p style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '0.92rem',
-                  color: '#64748B',
+                  color: '#6d6d74',
                   lineHeight: 1.7,
                   marginBottom: 24,
                 }}>
                   Abrimos seu cliente de email com a mensagem pronta para{' '}
-                  <strong style={{ color: '#0F2340' }}>contato@golivoo.com.br</strong>.
+                  <strong style={{ color: '#0d0d0f' }}>contato@golivoo.com.br</strong>.
                   Revise e clique em enviar — respondemos em até 48 horas úteis.
                 </p>
                 <button
@@ -245,9 +245,9 @@ export default function ContatoPage() {
             ) : (
               <>
                 <h2 style={{
-                  fontFamily: 'Nunito, sans-serif',
+                  fontFamily: 'Space Grotesk, sans-serif',
                   fontSize: '1.4rem',
-                  color: '#0F2340',
+                  color: '#0d0d0f',
                   marginBottom: 28,
                 }}>
                   Enviar mensagem
@@ -260,7 +260,7 @@ export default function ContatoPage() {
                         fontFamily: 'Inter, sans-serif',
                         fontSize: '0.8rem',
                         fontWeight: 700,
-                        color: '#0F2340',
+                        color: '#0d0d0f',
                         marginBottom: 6,
                       }}>
                         Nome *
@@ -274,11 +274,11 @@ export default function ContatoPage() {
                         style={{
                           width: '100%',
                           padding: '10px 14px',
-                          border: '1.5px solid #E2E8F0',
+                          border: '1.5px solid #e7e6e0',
                           borderRadius: 10,
                           fontFamily: 'Inter, sans-serif',
                           fontSize: '0.9rem',
-                          color: '#0F2340',
+                          color: '#0d0d0f',
                           outline: 'none',
                           boxSizing: 'border-box',
                         }}
@@ -290,7 +290,7 @@ export default function ContatoPage() {
                         fontFamily: 'Inter, sans-serif',
                         fontSize: '0.8rem',
                         fontWeight: 700,
-                        color: '#0F2340',
+                        color: '#0d0d0f',
                         marginBottom: 6,
                       }}>
                         Email *
@@ -304,11 +304,11 @@ export default function ContatoPage() {
                         style={{
                           width: '100%',
                           padding: '10px 14px',
-                          border: '1.5px solid #E2E8F0',
+                          border: '1.5px solid #e7e6e0',
                           borderRadius: 10,
                           fontFamily: 'Inter, sans-serif',
                           fontSize: '0.9rem',
-                          color: '#0F2340',
+                          color: '#0d0d0f',
                           outline: 'none',
                           boxSizing: 'border-box',
                         }}
@@ -322,7 +322,7 @@ export default function ContatoPage() {
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '0.8rem',
                       fontWeight: 700,
-                      color: '#0F2340',
+                      color: '#0d0d0f',
                       marginBottom: 6,
                     }}>
                       Assunto *
@@ -334,11 +334,11 @@ export default function ContatoPage() {
                       style={{
                         width: '100%',
                         padding: '10px 14px',
-                        border: '1.5px solid #E2E8F0',
+                        border: '1.5px solid #e7e6e0',
                         borderRadius: 10,
                         fontFamily: 'Inter, sans-serif',
                         fontSize: '0.9rem',
-                        color: form.assunto ? '#0F2340' : '#9AAABB',
+                        color: form.assunto ? '#0d0d0f' : '#9AAABB',
                         background: '#fff',
                         outline: 'none',
                         boxSizing: 'border-box',
@@ -360,7 +360,7 @@ export default function ContatoPage() {
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '0.8rem',
                       fontWeight: 700,
-                      color: '#0F2340',
+                      color: '#0d0d0f',
                       marginBottom: 6,
                     }}>
                       Mensagem *
@@ -374,11 +374,11 @@ export default function ContatoPage() {
                       style={{
                         width: '100%',
                         padding: '10px 14px',
-                        border: '1.5px solid #E2E8F0',
+                        border: '1.5px solid #e7e6e0',
                         borderRadius: 10,
                         fontFamily: 'Inter, sans-serif',
                         fontSize: '0.9rem',
-                        color: '#0F2340',
+                        color: '#0d0d0f',
                         outline: 'none',
                         resize: 'vertical',
                         boxSizing: 'border-box',
@@ -404,7 +404,7 @@ export default function ContatoPage() {
                     lineHeight: 1.5,
                   }}>
                     Ao enviar, você concorda com nossa{' '}
-                    <Link href="/privacidade" style={{ color: '#1A82D8' }}>Política de Privacidade</Link>.
+                    <Link href="/privacidade" style={{ color: '#ff5722' }}>Política de Privacidade</Link>.
                   </p>
                 </form>
               </>

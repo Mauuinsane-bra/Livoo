@@ -7,9 +7,9 @@ interface BirdSVGProps {
 
 export default function BirdSVG({ variant = 'navbar', size = 52 }: BirdSVGProps) {
   const isFooter = variant === 'footer'
-  const bodyColor   = isFooter ? '#F5A800' : '#1A82D8'
-  const bodyDark    = isFooter ? '#D48A0A' : '#1260A8'
-  const beakColor   = isFooter ? '#fff'    : '#F5A800'
+  const bodyColor   = isFooter ? '#ffd600' : '#ff5722'
+  const bodyDark    = isFooter ? '#D48A0A' : '#e64e1e'
+  const beakColor   = isFooter ? '#fff'    : '#ffd600'
   const idSuffix    = isFooter ? 'ft'      : 'nb'
 
   return (
@@ -76,7 +76,7 @@ export default function BirdSVG({ variant = 'navbar', size = 52 }: BirdSVGProps)
           <circle cx="45" cy="18" r="0.8" fill="white" />
         </g>
         {/* Sobrancelha expressiva */}
-        <path d="M40 15.5 Q43.5 13.5 46.5 15" stroke="#0F2340" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+        <path d="M40 15.5 Q43.5 13.5 46.5 15" stroke="#0d0d0f" strokeWidth="1.2" strokeLinecap="round" fill="none" />
 
         {/* Bico curvado */}
         <path d="M53 19.5 Q57.5 22 53 24" fill={beakColor} />

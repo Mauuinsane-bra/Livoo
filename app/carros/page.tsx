@@ -117,7 +117,7 @@ function ProviderMonogram({ initials, color }: { initials: string; color: string
       width: 56, height: 56, borderRadius: 14,
       background: color, color: '#fff',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      fontFamily: 'Nunito, sans-serif', fontWeight: 800,
+      fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800,
       fontSize: 18, letterSpacing: '0.5px', flexShrink: 0,
       boxShadow: `0 4px 12px ${color}40`,
     }}>
@@ -149,8 +149,8 @@ function CarProviderCard({
       <div style={{ flex: 1 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
           <h3 style={{
-            fontFamily: 'Nunito, sans-serif', fontSize: '1.05rem',
-            color: '#0F2340', margin: 0,
+            fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.05rem',
+            color: '#0d0d0f', margin: 0,
           }}>
             {provider.name}
           </h3>
@@ -168,7 +168,7 @@ function CarProviderCard({
         </div>
         <p style={{
           fontFamily: 'Inter, sans-serif', fontSize: '0.83rem',
-          color: '#64748B', margin: '0 0 4px',
+          color: '#6d6d74', margin: '0 0 4px',
         }}>
           {provider.description}
         </p>
@@ -185,7 +185,7 @@ function CarProviderCard({
       <div style={{ textAlign: 'right', flexShrink: 0 }}>
         <p style={{
           fontFamily: 'Inter, sans-serif', fontSize: '0.75rem',
-          color: '#64748B', marginBottom: 8,
+          color: '#6d6d74', marginBottom: 8,
         }}>
           {days} diária{days !== 1 ? 's' : ''}
         </p>
@@ -249,10 +249,10 @@ function SearchForm({
   }
 
   return (
-    <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #2B9FEE 100%)', padding: '36px 0 48px' }}>
+    <div style={{ background: 'linear-gradient(135deg, #0d0d0f 0%, #ff5722 60%, #2B9FEE 100%)', padding: '36px 0 48px' }}>
       <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
         <h1 style={{
-          fontFamily: 'Nunito, sans-serif', fontSize: '1.8rem',
+          fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.8rem',
           color: '#fff', marginBottom: 8,
         }}>
           Alugar carro
@@ -361,14 +361,14 @@ function CarrosContent() {
             {/* Cabeçalho */}
             <div style={{ marginBottom: 24 }}>
               <h2 style={{
-                fontFamily: 'Nunito, sans-serif', fontSize: '1.2rem',
-                color: '#0F2340', marginBottom: 4,
+                fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.2rem',
+                color: '#0d0d0f', marginBottom: 4,
               }}>
                 Carros em {current.location}
               </h2>
               <p style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '0.85rem', color: '#64748B',
+                fontSize: '0.85rem', color: '#6d6d74',
               }}>
                 {formatDateDisplay(current.pickup)} → {formatDateDisplay(current.return)} · {days} diária{days !== 1 ? 's' : ''}
               </p>
@@ -396,18 +396,18 @@ function CarrosContent() {
 
             {/* Banner informativo */}
             <div style={{
-              background: '#E6F3FF', borderRadius: 12,
+              background: '#fafaf7', borderRadius: 12,
               padding: '14px 20px', marginBottom: 20,
               display: 'flex', alignItems: 'center', gap: 12,
             }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff5722" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
                 <circle cx="12" cy="12" r="10"/>
                 <line x1="12" y1="16" x2="12" y2="12"/>
                 <line x1="12" y1="8" x2="12.01" y2="8"/>
               </svg>
               <p style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '0.82rem', color: '#1A82D8', margin: 0,
+                fontSize: '0.82rem', color: '#ff5722', margin: 0,
               }}>
                 Clique em cada locadora — seus dados ({current.location}, {formatDateDisplay(current.pickup)} → {formatDateDisplay(current.return)}) são enviados automaticamente.
               </p>
@@ -429,13 +429,13 @@ function CarrosContent() {
 
             {/* Dica */}
             <div style={{
-              marginTop: 32, background: '#FFF8EC',
-              border: '1px solid #F5A80040', borderRadius: 12,
+              marginTop: 32, background: '#fffbe6',
+              border: '1px solid #ffd60040', borderRadius: 12,
               padding: '20px 24px',
             }}>
               <p style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '0.83rem', color: '#64748B', margin: 0,
+                fontSize: '0.83rem', color: '#6d6d74', margin: 0,
               }}>
                 <strong style={{ color: '#D48A0A' }}>Dica Go Livoo:</strong> O Rentcars compara todas as locadoras ao mesmo tempo e costuma ter o melhor preço final.
                 Para retiradas em aeroportos, verifique se o seguro básico já está incluso no valor exibido.
@@ -444,12 +444,12 @@ function CarrosContent() {
 
             {/* CTA roteiro */}
             <div style={{
-              marginTop: 16, background: '#F4F6F9', borderRadius: 12,
+              marginTop: 16, background: '#fafaf7', borderRadius: 12,
               padding: '20px 24px', textAlign: 'center',
             }}>
               <p style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '0.85rem', color: '#64748B', marginBottom: 10,
+                fontSize: '0.85rem', color: '#6d6d74', marginBottom: 10,
               }}>
                 Quer montar um roteiro completo com carro + voo + hotel?
               </p>
@@ -457,7 +457,7 @@ function CarrosContent() {
                 href="/roteiro"
                 style={{
                   fontFamily: 'Inter, sans-serif', fontWeight: 600,
-                  fontSize: '0.88rem', color: '#1A82D8', textDecoration: 'none',
+                  fontSize: '0.88rem', color: '#ff5722', textDecoration: 'none',
                 }}
               >
                 Criar roteiro completo →
@@ -470,7 +470,7 @@ function CarrosContent() {
           <div>
             <p style={{
               fontFamily: 'Inter, sans-serif',
-              fontSize: '0.85rem', color: '#64748B',
+              fontSize: '0.85rem', color: '#6d6d74',
               marginBottom: 20, textAlign: 'center',
             }}>
               Preencha o local e as datas — os links abaixo serão ativados com seus dados.
@@ -481,7 +481,7 @@ function CarrosContent() {
                   <ProviderMonogram initials={provider.initials} color={provider.color} />
                   <div style={{ flex: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                      <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.05rem', color: '#0F2340', margin: 0 }}>
+                      <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.05rem', color: '#0d0d0f', margin: 0 }}>
                         {provider.name}
                       </h3>
                       {provider.badge && (
@@ -494,12 +494,12 @@ function CarrosContent() {
                         </span>
                       )}
                     </div>
-                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.83rem', color: '#64748B', margin: 0 }}>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.83rem', color: '#6d6d74', margin: 0 }}>
                       {provider.description}
                     </p>
                   </div>
                   <div style={{
-                    background: '#E2E8F0', color: '#fff',
+                    background: '#e7e6e0', color: '#fff',
                     fontFamily: 'Inter, sans-serif',
                     fontWeight: 700, fontSize: '0.85rem',
                     padding: '10px 20px', borderRadius: 10,

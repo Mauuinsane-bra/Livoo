@@ -116,8 +116,8 @@ export default function CitySearch({
   } : {
     width: '100%', padding: '12px 14px',
     fontFamily: 'Inter, sans-serif', fontSize: '0.92rem',
-    background: '#fff', border: '1.5px solid #E2E8F0',
-    borderRadius: 10, color: '#0F2340', outline: 'none',
+    background: '#fff', border: '1.5px solid #e7e6e0',
+    borderRadius: 10, color: '#0d0d0f', outline: 'none',
     boxSizing: 'border-box',
     ...inputStyle,
   }
@@ -141,7 +141,7 @@ export default function CitySearch({
         <span style={{
           position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)',
           fontFamily: 'Inter, sans-serif', fontSize: '0.7rem',
-          color: dark ? 'rgba(255,255,255,0.5)' : '#64748B',
+          color: dark ? 'rgba(255,255,255,0.5)' : '#6d6d74',
         }}>
           ...
         </span>
@@ -151,7 +151,7 @@ export default function CitySearch({
       {open && options.length > 0 && (
         <ul style={{
           position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, zIndex: 100,
-          background: '#fff', border: '1px solid #E2E8F0',
+          background: '#fff', border: '1px solid #e7e6e0',
           borderRadius: 10, boxShadow: '0 8px 24px rgba(13,27,62,0.12)',
           listStyle: 'none', margin: 0, padding: 4,
           maxHeight: 280, overflowY: 'auto',
@@ -163,19 +163,19 @@ export default function CitySearch({
               style={{
                 display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                 padding: '10px 14px', borderRadius: 8, cursor: 'pointer',
-                background: highlighted === i ? '#E6F3FF' : 'transparent',
+                background: highlighted === i ? '#fafaf7' : 'transparent',
               }}
               onMouseEnter={() => setHighlighted(i)}
             >
               <span style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '0.9rem', color: '#0F2340', fontWeight: 500,
+                fontSize: '0.9rem', color: '#0d0d0f', fontWeight: 500,
               }}>
                 {opt.city}
               </span>
               <span style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '0.78rem', color: '#64748B',
+                fontSize: '0.78rem', color: '#6d6d74',
               }}>
                 {opt.country}
               </span>

@@ -49,12 +49,12 @@ function postImageUrl(post: SanityBlogPost & { _fallbackImageUrl?: string }, wid
 const ptComponents = {
   block: {
     h2: ({ children }: any) => (
-      <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.35rem', color: '#0F2340', margin: '32px 0 14px', lineHeight: 1.3 }}>
+      <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.35rem', color: '#0d0d0f', margin: '32px 0 14px', lineHeight: 1.3 }}>
         {children}
       </h2>
     ),
     h3: ({ children }: any) => (
-      <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.1rem', color: '#0F2340', margin: '24px 0 10px' }}>
+      <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.1rem', color: '#0d0d0f', margin: '24px 0 10px' }}>
         {children}
       </h3>
     ),
@@ -65,10 +65,10 @@ const ptComponents = {
     ),
     blockquote: ({ children }: any) => (
       <blockquote style={{
-        borderLeft: '4px solid #1A82D8',
+        borderLeft: '4px solid #ff5722',
         paddingLeft: 20,
         margin: '24px 0',
-        color: '#0F2340',
+        color: '#0d0d0f',
         fontStyle: 'italic',
         fontFamily: 'Inter, sans-serif',
         fontSize: '1rem',
@@ -94,10 +94,10 @@ const ptComponents = {
     number: ({ children }: any) => <li style={{ marginBottom: 6 }}>{children}</li>,
   },
   marks: {
-    strong: ({ children }: any) => <strong style={{ color: '#0F2340', fontWeight: 700 }}>{children}</strong>,
-    em: ({ children }: any) => <em style={{ color: '#1A82D8', fontStyle: 'italic' }}>{children}</em>,
+    strong: ({ children }: any) => <strong style={{ color: '#0d0d0f', fontWeight: 700 }}>{children}</strong>,
+    em: ({ children }: any) => <em style={{ color: '#ff5722', fontStyle: 'italic' }}>{children}</em>,
     code: ({ children }: any) => (
-      <code style={{ background: '#F4F6F9', padding: '2px 6px', borderRadius: 4, fontFamily: 'monospace', fontSize: '0.88em' }}>
+      <code style={{ background: '#fafaf7', padding: '2px 6px', borderRadius: 4, fontFamily: 'monospace', fontSize: '0.88em' }}>
         {children}
       </code>
     ),
@@ -106,7 +106,7 @@ const ptComponents = {
         href={value?.href}
         target={value?.blank ? '_blank' : undefined}
         rel={value?.blank ? 'noopener noreferrer' : undefined}
-        style={{ color: '#1A82D8', fontWeight: 600, textDecoration: 'underline' }}
+        style={{ color: '#ff5722', fontWeight: 600, textDecoration: 'underline' }}
       >
         {children}
       </a>
@@ -141,7 +141,7 @@ export default async function BlogPostPage({ params }: Props) {
   const imgUrl = postImageUrl(post)
 
   return (
-    <div style={{ background: '#F4F6F9', minHeight: '100vh' }}>
+    <div style={{ background: '#fafaf7', minHeight: '100vh' }}>
 
       {/* Hero com imagem */}
       <div style={{ position: 'relative', height: 420, overflow: 'hidden' }}>
@@ -174,7 +174,7 @@ export default async function BlogPostPage({ params }: Props) {
             {post.category}
           </span>
           <h1 style={{
-            fontFamily: 'Nunito, sans-serif',
+            fontFamily: 'Space Grotesk, sans-serif',
             fontSize: 'clamp(1.6rem, 4vw, 2.5rem)',
             color: '#fff', lineHeight: 1.2, marginBottom: 12,
           }}>
@@ -201,12 +201,12 @@ export default async function BlogPostPage({ params }: Props) {
             {/* Excerpt */}
             <div style={{
               background: '#fff', borderRadius: 16, padding: '24px 28px',
-              border: '1px solid #E2E8F0', marginBottom: 32,
+              border: '1px solid #e7e6e0', marginBottom: 32,
               borderLeft: `4px solid ${color}`,
             }}>
               <p style={{
                 fontFamily: 'Inter, sans-serif', fontSize: '1rem',
-                color: '#0F2340', fontWeight: 600, lineHeight: 1.7, margin: 0,
+                color: '#0d0d0f', fontWeight: 600, lineHeight: 1.7, margin: 0,
               }}>
                 {post.excerpt}
               </p>
@@ -217,7 +217,7 @@ export default async function BlogPostPage({ params }: Props) {
               background: '#fff', borderRadius: 20,
               padding: '40px 44px',
               boxShadow: '0 4px 24px rgba(13,27,62,0.07)',
-              border: '1px solid #E2E8F0',
+              border: '1px solid #e7e6e0',
             }}>
               {/* Sanity Portable Text */}
               {post.content && (
@@ -238,8 +238,8 @@ export default async function BlogPostPage({ params }: Props) {
                 {post.tags.map(tag => (
                   <span key={tag} style={{
                     fontFamily: 'Inter, sans-serif', fontSize: '0.75rem',
-                    color: '#64748B', background: '#fff',
-                    border: '1px solid #E2E8F0', padding: '4px 12px', borderRadius: 50,
+                    color: '#6d6d74', background: '#fff',
+                    border: '1px solid #e7e6e0', padding: '4px 12px', borderRadius: 50,
                   }}>
                     #{tag}
                   </span>
@@ -252,10 +252,10 @@ export default async function BlogPostPage({ params }: Props) {
           <aside style={{ position: 'sticky', top: 100 }}>
             {/* CTA Livoo Prep */}
             <div style={{
-              background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)',
+              background: 'linear-gradient(135deg, #0d0d0f 0%, #1a1a20 100%)',
               borderRadius: 16, padding: '28px 24px', marginBottom: 24, textAlign: 'center',
             }}>
-              <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.1rem', color: '#fff', marginBottom: 10 }}>
+              <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.1rem', color: '#fff', marginBottom: 10 }}>
                 Precisa de visto?
               </h3>
               <p style={{
@@ -272,14 +272,14 @@ export default async function BlogPostPage({ params }: Props) {
             {/* CTA Roteiro */}
             <div style={{
               background: '#fff', borderRadius: 16, padding: '24px',
-              border: '1px solid #E2E8F0', marginBottom: 24,
+              border: '1px solid #e7e6e0', marginBottom: 24,
             }}>
-              <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1rem', color: '#0F2340', marginBottom: 8 }}>
+              <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1rem', color: '#0d0d0f', marginBottom: 8 }}>
                 Monte seu roteiro
               </h3>
               <p style={{
                 fontFamily: 'Inter, sans-serif', fontSize: '0.82rem',
-                color: '#64748B', lineHeight: 1.6, marginBottom: 14,
+                color: '#6d6d74', lineHeight: 1.6, marginBottom: 14,
               }}>
                 Descreva a experiência que quer ter e receba um pacote completo com voo + hotel.
               </p>
@@ -293,12 +293,12 @@ export default async function BlogPostPage({ params }: Props) {
 
       {/* Estilos fallback para posts HTML legados */}
       <style>{`
-        .blog-content h2 { font-family: Nunito, sans-serif; font-size: 1.35rem; color: #0F2340; margin: 32px 0 14px; line-height: 1.3; }
-        .blog-content h3 { font-family: Nunito, sans-serif; font-size: 1.1rem; color: #0F2340; margin: 24px 0 10px; }
+        .blog-content h2 { font-family: Space Grotesk, sans-serif; font-size: 1.35rem; color: #0d0d0f; margin: 32px 0 14px; line-height: 1.3; }
+        .blog-content h3 { font-family: Space Grotesk, sans-serif; font-size: 1.1rem; color: #0d0d0f; margin: 24px 0 10px; }
         .blog-content p  { font-family: Inter, sans-serif; font-size: 0.95rem; color: #4A5A70; line-height: 1.8; margin-bottom: 16px; }
         .blog-content ul, .blog-content ol { font-family: Inter, sans-serif; font-size: 0.92rem; color: #4A5A70; line-height: 1.75; padding-left: 22px; margin-bottom: 16px; }
-        .blog-content a { color: #1A82D8; }
-        .blog-content blockquote { border-left: 3px solid #1A82D8; margin: 20px 0; padding: 12px 20px; background: #E6F3FF; border-radius: 0 8px 8px 0; }
+        .blog-content a { color: #ff5722; }
+        .blog-content blockquote { border-left: 3px solid #ff5722; margin: 20px 0; padding: 12px 20px; background: #fafaf7; border-radius: 0 8px 8px 0; }
         .blog-content code { background: #F0F4F8; padding: 2px 6px; border-radius: 4px; font-size: 0.88rem; }
       `}</style>
     </div>

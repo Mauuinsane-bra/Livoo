@@ -92,7 +92,7 @@ export default function AirportSearch({ placeholder = 'Cidade ou aeroporto', val
           fontFamily: 'Inter, sans-serif',
           fontSize: '0.78rem',
           fontWeight: 600,
-          color: dark ? 'rgba(255,255,255,0.6)' : '#64748B',
+          color: dark ? 'rgba(255,255,255,0.6)' : '#6d6d74',
           marginBottom: 6,
         }}>
           {label}
@@ -114,11 +114,11 @@ export default function AirportSearch({ placeholder = 'Cidade ou aeroporto', val
           style={{
             width: '100%',
             padding: '11px 36px 11px 14px',
-            border: `1.5px solid ${focused ? '#1A82D8' : '#E2E8F0'}`,
+            border: `1.5px solid ${focused ? '#ff5722' : '#e7e6e0'}`,
             borderRadius: 10,
             fontFamily: 'Inter, sans-serif',
             fontSize: '0.9rem',
-            color: '#0F2340',
+            color: '#0d0d0f',
             background: '#fff',
             outline: 'none',
             transition: 'border-color 0.2s',
@@ -131,13 +131,13 @@ export default function AirportSearch({ placeholder = 'Cidade ou aeroporto', val
           right: 12,
           top: '50%',
           transform: 'translateY(-50%)',
-          color: value ? '#1A82D8' : '#64748B',
+          color: value ? '#ff5722' : '#6d6d74',
           pointerEvents: 'none',
           display: 'flex',
           alignItems: 'center',
         }}>
           {loading
-            ? <span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid #E2E8F0', borderTop: '2px solid #1A82D8', borderRadius: '50%', animation: 'spinAirport 0.6s linear infinite' }} />
+            ? <span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid #e7e6e0', borderTop: '2px solid #ff5722', borderRadius: '50%', animation: 'spinAirport 0.6s linear infinite' }} />
             : <span style={{ fontSize: '1rem' }}>&#9992;</span>
           }
         </span>
@@ -151,7 +151,7 @@ export default function AirportSearch({ placeholder = 'Cidade ou aeroporto', val
           left: 0,
           right: 0,
           background: '#fff',
-          border: '1.5px solid #E2E8F0',
+          border: '1.5px solid #e7e6e0',
           borderRadius: 10,
           boxShadow: '0 8px 32px rgba(13,27,62,0.12)',
           zIndex: 200,
@@ -172,19 +172,19 @@ export default function AirportSearch({ placeholder = 'Cidade ou aeroporto', val
                 padding: '10px 14px',
                 background: 'none',
                 border: 'none',
-                borderBottom: i < results.length - 1 ? '1px solid #F4F6F9' : 'none',
+                borderBottom: i < results.length - 1 ? '1px solid #fafaf7' : 'none',
                 cursor: 'pointer',
                 textAlign: 'left',
                 transition: 'background 0.15s',
               }}
-              onMouseEnter={e => (e.currentTarget.style.background = '#F4F6F9')}
+              onMouseEnter={e => (e.currentTarget.style.background = '#fafaf7')}
               onMouseLeave={e => (e.currentTarget.style.background = 'none')}
             >
               {/* IATA badge */}
               <span style={{
                 minWidth: 40,
-                background: '#E6F3FF',
-                color: '#1A82D8',
+                background: '#fafaf7',
+                color: '#ff5722',
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '0.75rem',
                 fontWeight: 700,
@@ -201,7 +201,7 @@ export default function AirportSearch({ placeholder = 'Cidade ou aeroporto', val
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '0.88rem',
                   fontWeight: 600,
-                  color: '#0F2340',
+                  color: '#0d0d0f',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
@@ -212,7 +212,7 @@ export default function AirportSearch({ placeholder = 'Cidade ou aeroporto', val
                   display: 'block',
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '0.75rem',
-                  color: '#64748B',
+                  color: '#6d6d74',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',

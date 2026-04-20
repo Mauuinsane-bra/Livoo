@@ -40,7 +40,7 @@ function ExperienceCard({ exp }: { exp: Experience }) {
         {/* Imagem */}
         <div style={{
           width: 180, flexShrink: 0,
-          background: '#E6F3FF',
+          background: '#fafaf7',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: 36, minHeight: 140,
         }}>
@@ -56,7 +56,7 @@ function ExperienceCard({ exp }: { exp: Experience }) {
               />
             </div>
           ) : (
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9aaabb" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
               <line x1="8" y1="2" x2="8" y2="18"/>
               <line x1="16" y1="6" x2="16" y2="22"/>
@@ -69,25 +69,25 @@ function ExperienceCard({ exp }: { exp: Experience }) {
           {/* Categoria */}
           <span style={{
             fontFamily: 'Inter, sans-serif', fontSize: '0.7rem',
-            fontWeight: 700, color: '#1A82D8', textTransform: 'uppercase',
+            fontWeight: 700, color: '#ff5722', textTransform: 'uppercase',
             letterSpacing: '0.8px', marginBottom: 6, display: 'block',
           }}>
             {exp.category}
           </span>
 
           <h3 style={{
-            fontFamily: 'Nunito, sans-serif', fontSize: '1rem',
-            color: '#0F2340', margin: '0 0 6px',
+            fontFamily: 'Space Grotesk, sans-serif', fontSize: '1rem',
+            color: '#0d0d0f', margin: '0 0 6px',
           }}>
             {exp.title}
           </h3>
 
           <div style={{ display: 'flex', gap: 16, marginBottom: 12, alignItems: 'center' }}>
             <span style={{
-              fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#64748B',
+              fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#6d6d74',
               display: 'inline-flex', alignItems: 'center', gap: 4,
             }}>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6d6d74" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
                 <circle cx="12" cy="10" r="3"/>
               </svg>
@@ -95,10 +95,10 @@ function ExperienceCard({ exp }: { exp: Experience }) {
             </span>
             {exp.duration && (
               <span style={{
-                fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#64748B',
+                fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#6d6d74',
                 display: 'inline-flex', alignItems: 'center', gap: 4,
               }}>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6d6d74" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10"/>
                   <polyline points="12 6 12 12 16 14"/>
                 </svg>
@@ -110,17 +110,17 @@ function ExperienceCard({ exp }: { exp: Experience }) {
           {/* Avaliação */}
           {exp.rating > 0 && (
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#F5A800" stroke="#F5A800" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#ffd600" stroke="#ffd600" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
               </svg>
               <span style={{
                 fontFamily: 'Inter, sans-serif', fontWeight: 700,
-                fontSize: '0.85rem', color: '#0F2340',
+                fontSize: '0.85rem', color: '#0d0d0f',
               }}>
                 {exp.rating.toFixed(1)}
               </span>
               <span style={{
-                fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#64748B',
+                fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#6d6d74',
               }}>
                 ({exp.reviewCount.toLocaleString('pt-BR')} avaliações)
               </span>
@@ -130,8 +130,8 @@ function ExperienceCard({ exp }: { exp: Experience }) {
           <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
               <p style={{
-                fontFamily: 'Nunito, sans-serif', fontSize: '1.15rem',
-                fontWeight: 700, color: '#0F2340', margin: 0,
+                fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.15rem',
+                fontWeight: 700, color: '#0d0d0f', margin: 0,
               }}>
                 {new Intl.NumberFormat('pt-BR', {
                   style: 'currency', currency: exp.currency === 'EUR' ? 'EUR' : 'BRL',
@@ -140,7 +140,7 @@ function ExperienceCard({ exp }: { exp: Experience }) {
               </p>
               <p style={{
                 fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
-                color: '#64748B', margin: '2px 0 0',
+                color: '#6d6d74', margin: '2px 0 0',
               }}>
                 por pessoa
               </p>
@@ -207,10 +207,10 @@ function SearchForm({
   }
 
   return (
-    <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #2B9FEE 100%)', padding: '36px 0 48px' }}>
+    <div style={{ background: 'linear-gradient(135deg, #0d0d0f 0%, #ff5722 60%, #2B9FEE 100%)', padding: '36px 0 48px' }}>
       <div style={{ maxWidth: 960, margin: '0 auto', padding: '0 24px' }}>
         <h1 style={{
-          fontFamily: 'Nunito, sans-serif', fontSize: '1.8rem',
+          fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.8rem',
           color: '#fff', marginBottom: 6,
         }}>
           Guias e experiências
@@ -256,7 +256,7 @@ function SearchForm({
                 onChange={e => setCategory(e.target.value)}
               >
                 {CATEGORIES.map(c => (
-                  <option key={c.value} value={c.value} style={{ background: '#0F2340' }}>
+                  <option key={c.value} value={c.value} style={{ background: '#0d0d0f' }}>
                     {c.label}
                   </option>
                 ))}
@@ -353,11 +353,11 @@ function GuiasContent() {
         {status === 'loading' && (
           <div style={{ textAlign: 'center', padding: 80 }}>
             <div style={{
-              width: 40, height: 40, border: '3px solid #E6F3FF',
-              borderTop: '3px solid #1A82D8', borderRadius: '50%',
+              width: 40, height: 40, border: '3px solid #fafaf7',
+              borderTop: '3px solid #ff5722', borderRadius: '50%',
               animation: 'spin 0.8s linear infinite', margin: '0 auto 16px',
             }} />
-            <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', color: '#6d6d74' }}>
               Buscando experiências em {current.destination}...
             </p>
           </div>
@@ -368,10 +368,10 @@ function GuiasContent() {
           <div>
             {/* Cabeçalho */}
             <div style={{ marginBottom: 20 }}>
-              <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.2rem', color: '#0F2340', marginBottom: 4 }}>
+              <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.2rem', color: '#0d0d0f', marginBottom: 4 }}>
                 Experiências em {current.destination}
               </h2>
-              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#64748B' }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#6d6d74' }}>
                 Redirecionando para GetYourGuide — maior plataforma de experiências do mundo
               </p>
             </div>
@@ -379,11 +379,11 @@ function GuiasContent() {
             {/* Card de redirect */}
             <div style={{
               background: '#fff', borderRadius: 16, overflow: 'hidden',
-              boxShadow: '0 4px 20px rgba(13,27,62,0.08)', border: '1px solid #E2E8F0',
+              boxShadow: '0 4px 20px rgba(13,27,62,0.08)', border: '1px solid #e7e6e0',
             }}>
               {/* Header colorido */}
               <div style={{
-                background: 'linear-gradient(135deg, #0F2340 0%, #1A3A6E 100%)',
+                background: 'linear-gradient(135deg, #0d0d0f 0%, #1A3A6E 100%)',
                 padding: '32px 40px', display: 'flex', alignItems: 'center', gap: 24,
               }}>
                 <div style={{
@@ -392,7 +392,7 @@ function GuiasContent() {
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   flexShrink: 0,
                 }}>
-                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#F5A800" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ffd600" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="12" cy="12" r="10"/>
                     <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
                   </svg>
@@ -405,7 +405,7 @@ function GuiasContent() {
                   }}>
                     Parceiro verificado
                   </p>
-                  <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.4rem', color: '#fff', margin: 0 }}>
+                  <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.4rem', color: '#fff', margin: 0 }}>
                     GetYourGuide — {current.destination}
                   </h3>
                   <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: 'rgba(255,255,255,0.65)', marginTop: 4, marginBottom: 0 }}>
@@ -423,7 +423,7 @@ function GuiasContent() {
                   {[
                     {
                       icon: (
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#F5A800" stroke="#F5A800" strokeWidth="1.5" strokeLinejoin="round">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#ffd600" stroke="#ffd600" strokeWidth="1.5" strokeLinejoin="round">
                           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                         </svg>
                       ),
@@ -431,7 +431,7 @@ function GuiasContent() {
                     },
                     {
                       icon: (
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff5722" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
                           <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                         </svg>
@@ -440,7 +440,7 @@ function GuiasContent() {
                     },
                     {
                       icon: (
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff5722" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <circle cx="12" cy="12" r="10"/>
                           <line x1="2" y1="12" x2="22" y2="12"/>
                           <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
@@ -450,7 +450,7 @@ function GuiasContent() {
                     },
                     {
                       icon: (
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff5722" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                         </svg>
                       ),
@@ -458,13 +458,13 @@ function GuiasContent() {
                     },
                   ].map(item => (
                     <div key={item.label} style={{
-                      background: '#F4F6F9', borderRadius: 12, padding: '16px 18px',
+                      background: '#fafaf7', borderRadius: 12, padding: '16px 18px',
                     }}>
                       <span style={{ display: 'block', marginBottom: 8 }}>{item.icon}</span>
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', fontWeight: 700, color: '#0F2340', margin: '0 0 4px' }}>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', fontWeight: 700, color: '#0d0d0f', margin: '0 0 4px' }}>
                         {item.label}
                       </p>
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#64748B', margin: 0 }}>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#6d6d74', margin: 0 }}>
                         {item.desc}
                       </p>
                     </div>
@@ -482,7 +482,7 @@ function GuiasContent() {
                 </a>
                 <p style={{
                   fontFamily: 'Inter, sans-serif', fontSize: '0.75rem',
-                  color: '#64748B', textAlign: 'center', marginTop: 10,
+                  color: '#6d6d74', textAlign: 'center', marginTop: 10,
                 }}>
                   A Go Livoo recebe uma comissão quando você reserva — sem custo adicional para você.
                 </p>
@@ -497,7 +497,7 @@ function GuiasContent() {
             background: '#fff', borderRadius: 14, padding: 48,
             textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)',
           }}>
-            <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', fontSize: '0.9rem', marginBottom: 20 }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', color: '#6d6d74', fontSize: '0.9rem', marginBottom: 20 }}>
               Não foi possível carregar as experiências. Tente novamente.
             </p>
             <a href={`https://www.getyourguide.com/s/?q=${encodeURIComponent(current.destination)}`}
@@ -517,13 +517,13 @@ function GuiasContent() {
             }}>
               <div>
                 <h2 style={{
-                  fontFamily: 'Nunito, sans-serif', fontSize: '1.2rem',
-                  color: '#0F2340', marginBottom: 4,
+                  fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.2rem',
+                  color: '#0d0d0f', marginBottom: 4,
                 }}>
                   {current.destination}
                 </h2>
                 <p style={{
-                  fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#64748B',
+                  fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#6d6d74',
                 }}>
                   {experiences.length} experiência{experiences.length !== 1 ? 's' : ''} encontrada{experiences.length !== 1 ? 's' : ''}
                   {current.date ? ` · ${formatDateDisplay(current.date)}` : ''}
@@ -535,7 +535,7 @@ function GuiasContent() {
                 rel="noopener noreferrer"
                 style={{
                   fontFamily: 'Inter, sans-serif', fontSize: '0.8rem',
-                  color: '#1A82D8', fontWeight: 600, textDecoration: 'none',
+                  color: '#ff5722', fontWeight: 600, textDecoration: 'none',
                 }}
               >
                 Ver mais no GetYourGuide →
@@ -557,17 +557,17 @@ function GuiasContent() {
             textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)',
           }}>
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
-              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#9aaabb" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                 <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
                 <line x1="8" y1="2" x2="8" y2="18"/>
                 <line x1="16" y1="6" x2="16" y2="22"/>
               </svg>
             </div>
-            <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 8 }}>
+            <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', color: '#0d0d0f', marginBottom: 8 }}>
               Nenhuma experiência encontrada
             </h3>
             <p style={{
-              fontFamily: 'Inter, sans-serif', color: '#64748B',
+              fontFamily: 'Inter, sans-serif', color: '#6d6d74',
               fontSize: '0.9rem', maxWidth: 440, margin: '0 auto 28px',
             }}>
               Não encontramos experiências para esse destino na nossa base. Veja o que está disponível diretamente no GetYourGuide.
@@ -589,7 +589,7 @@ function GuiasContent() {
           <div style={{ textAlign: 'center', padding: '60px 0' }}>
             <p style={{
               fontFamily: 'Inter, sans-serif',
-              color: '#64748B', fontSize: '0.95rem',
+              color: '#6d6d74', fontSize: '0.95rem',
             }}>
               Digite o destino para encontrar tours, guias e experiências locais.
             </p>
@@ -601,7 +601,7 @@ function GuiasContent() {
         @keyframes spin { to { transform: rotate(360deg); } }
         input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.6; }
         input::placeholder { color: rgba(255,255,255,0.45) !important; }
-        select option { background: #0F2340; color: #fff; }
+        select option { background: #0d0d0f; color: #fff; }
       `}</style>
     </>
   )

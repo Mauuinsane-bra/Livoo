@@ -72,7 +72,7 @@ export default function EventoSlugPage({ params }: Props) {
             </span>
 
             <h1 style={{
-              fontFamily: 'Nunito, sans-serif', fontSize: '2rem',
+              fontFamily: 'Space Grotesk, sans-serif', fontSize: '2rem',
               color: '#fff', margin: '0 0 8px', lineHeight: 1.2,
             }}>
               {event.title}
@@ -116,8 +116,8 @@ export default function EventoSlugPage({ params }: Props) {
           <div>
             {/* Descrição */}
             <h2 style={{
-              fontFamily: 'Nunito, sans-serif', fontSize: '1.3rem',
-              color: '#0F2340', marginBottom: 14,
+              fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.3rem',
+              color: '#0d0d0f', marginBottom: 14,
             }}>
               Sobre o evento
             </h2>
@@ -130,20 +130,20 @@ export default function EventoSlugPage({ params }: Props) {
 
             {/* Ingressos — CTA principal */}
             <div style={{
-              background: '#0F2340', borderRadius: 14,
+              background: '#0d0d0f', borderRadius: 14,
               padding: '24px 28px', marginBottom: 32,
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
                 <div>
                   <p style={{
                     fontFamily: 'Inter, sans-serif', fontSize: '0.75rem',
-                    fontWeight: 700, color: '#F5A800', textTransform: 'uppercase',
+                    fontWeight: 700, color: '#ffd600', textTransform: 'uppercase',
                     letterSpacing: '0.8px', marginBottom: 4,
                   }}>
                     Ingressos
                   </p>
                   <p style={{
-                    fontFamily: 'Nunito, sans-serif', fontSize: '1.15rem',
+                    fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.15rem',
                     color: '#fff', margin: '0 0 4px',
                   }}>
                     {event.priceEstimate}
@@ -161,7 +161,7 @@ export default function EventoSlugPage({ params }: Props) {
                   rel="noopener noreferrer"
                   style={{
                     display: 'inline-block',
-                    background: '#F5A800', color: '#0F2340',
+                    background: '#ffd600', color: '#0d0d0f',
                     fontFamily: 'Inter, sans-serif',
                     fontWeight: 800, fontSize: '0.9rem',
                     padding: '12px 28px', borderRadius: 100,
@@ -175,8 +175,8 @@ export default function EventoSlugPage({ params }: Props) {
 
             {/* Dicas práticas */}
             <h2 style={{
-              fontFamily: 'Nunito, sans-serif', fontSize: '1.1rem',
-              color: '#0F2340', marginBottom: 14,
+              fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.1rem',
+              color: '#0d0d0f', marginBottom: 14,
             }}>
               Dicas para a viagem
             </h2>
@@ -184,8 +184,8 @@ export default function EventoSlugPage({ params }: Props) {
               {event.tips.map((tip, i) => (
                 <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
                   <span style={{
-                    fontFamily: 'Nunito, sans-serif', fontSize: '1rem',
-                    fontWeight: 700, color: '#F5A800',
+                    fontFamily: 'Space Grotesk, sans-serif', fontSize: '1rem',
+                    fontWeight: 700, color: '#ffd600',
                     minWidth: 24, marginTop: 1,
                   }}>
                     {String(i + 1).padStart(2, '0')}
@@ -204,8 +204,8 @@ export default function EventoSlugPage({ params }: Props) {
             {related.length > 0 && (
               <>
                 <h2 style={{
-                  fontFamily: 'Nunito, sans-serif', fontSize: '1.1rem',
-                  color: '#0F2340', marginBottom: 16,
+                  fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.1rem',
+                  color: '#0d0d0f', marginBottom: 16,
                 }}>
                   Eventos relacionados
                 </h2>
@@ -216,7 +216,7 @@ export default function EventoSlugPage({ params }: Props) {
                       href={`/eventos/${r.id}`}
                       style={{
                         display: 'flex', gap: 14, alignItems: 'center',
-                        background: '#F4F6F9', borderRadius: 12, padding: '14px 16px',
+                        background: '#fafaf7', borderRadius: 12, padding: '14px 16px',
                         textDecoration: 'none',
                       }}
                     >
@@ -225,19 +225,19 @@ export default function EventoSlugPage({ params }: Props) {
                       </div>
                       <div>
                         <p style={{
-                          fontFamily: 'Nunito, sans-serif', fontSize: '0.9rem',
-                          color: '#0F2340', margin: '0 0 3px',
+                          fontFamily: 'Space Grotesk, sans-serif', fontSize: '0.9rem',
+                          color: '#0d0d0f', margin: '0 0 3px',
                         }}>
                           {r.title}
                         </p>
                         <p style={{
                           fontFamily: 'Inter, sans-serif', fontSize: '0.75rem',
-                          color: '#64748B', margin: 0,
+                          color: '#6d6d74', margin: 0,
                         }}>
                           {r.flag} {r.location} · {r.date}
                         </p>
                       </div>
-                      <span style={{ marginLeft: 'auto', color: '#1A82D8', fontSize: '1rem' }}>›</span>
+                      <span style={{ marginLeft: 'auto', color: '#ff5722', fontSize: '1rem' }}>›</span>
                     </Link>
                   ))}
                 </div>
@@ -250,15 +250,15 @@ export default function EventoSlugPage({ params }: Props) {
 
             {/* Badge de preço de voo */}
             <div style={{
-              background: '#E6F3FF', borderRadius: 10,
+              background: '#fafaf7', borderRadius: 10,
               padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 8,
             }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff5722" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
               </svg>
               <span style={{
                 fontFamily: 'Inter, sans-serif', fontSize: '0.8rem',
-                color: '#1A82D8', fontWeight: 600,
+                color: '#ff5722', fontWeight: 600,
               }}>
                 {event.flightFrom}
               </span>
@@ -284,8 +284,8 @@ export default function EventoSlugPage({ params }: Props) {
               style={{
                 display: 'block', textAlign: 'center',
                 background: 'transparent',
-                border: '1.5px solid #1A82D8',
-                color: '#1A82D8',
+                border: '1.5px solid #ff5722',
+                color: '#ff5722',
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 700, fontSize: '0.88rem',
                 padding: '12px', borderRadius: 100,

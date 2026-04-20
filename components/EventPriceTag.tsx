@@ -43,12 +43,12 @@ export default function EventPriceTag({ iata, variant = 'badge' }: Props) {
     return (
       <span style={{
         display: 'inline-block',
-        background: '#F4F6F9',
+        background: '#fafaf7',
         borderRadius: 8,
         padding: variant === 'badge' ? '4px 12px' : '2px 8px',
         fontFamily: 'Inter, sans-serif',
         fontSize: variant === 'badge' ? '0.72rem' : '0.78rem',
-        color: '#94A3B8',
+        color: '#9aaabb',
         animation: 'pulse 1.5s ease-in-out infinite',
       }}>
         carregando...

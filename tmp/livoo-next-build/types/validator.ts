@@ -356,21 +356,4 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 // Validate ../../../app/api/waitlist/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/waitlist">> = Specific
-  const handler = {} as typeof import("../../../app/api/waitlist/route.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
-
-
-
-
-// Validate ../../../app/layout.tsx
-{
-  type __IsExpected<Specific extends LayoutConfig<"/">> = Specific
-  const handler = {} as typeof import("../../../app/layout.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
+  const handler = {} as typeof import("../../../app/api/waitlist/route.j

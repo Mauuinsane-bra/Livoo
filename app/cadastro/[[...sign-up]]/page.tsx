@@ -7,7 +7,7 @@ export default function CadastroPage() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'linear-gradient(135deg, #0F2340 0%, #1A3A6E 100%)',
+      background: 'linear-gradient(135deg, #0d0d0f 0%, #1A3A6E 100%)',
       padding: '40px 24px',
     }}>
       <SignUp
