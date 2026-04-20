@@ -99,6 +99,31 @@ export async function getPostBySlug(slug: string): Promise<(SanityBlogPost & { _
   }
 }
 
+export async function getPostsByCategory(category: string): Promise<SanityBlogPost[]> {
+  try {
+    const posts = await sanityClient.fetch<SanityBlogPost[]>(
+      `*[_type == "blogPost" && lower(category) == $cat] | order(publishedAt desc) { ${POST_FIELDS} }`,
+      { cat: category.toLowerCase() }
+    )
+    if (posts && posts.length > 0) return posts
+  } catch (err) {
+    console.info('[Go Livoo] Sanity getPostsByCategory: usando fallback local', err)
+  }
+  return BLOG_POSTS.filter(p => p.category?.toLowerCase() === category.toLowerCase()).map(p => ({
+    _id: p.slug,
+    title: p.title,
+    slug: p.slug,
+    excerpt: p.excerpt,
+    category: p.category,
+    coverImage: undefined,
+    publishedAt: p.date,
+    readTime: p.readTime,
+    tags: p.tags,
+    featured: p.featured,
+    _fallbackImageUrl: p.imageUrl,
+  } as SanityBlogPost & { _fallbackImageUrl?: string }))
+}
+
 export async function getAllSlugs(): Promise<string[]> {
   try {
     const slugs = await sanityClient.fetch<{ slug: string }[]>(
