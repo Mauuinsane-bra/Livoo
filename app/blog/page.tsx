@@ -261,4 +261,32 @@ export default async function BlogPage() {
             color: 'rgba(255,255,255,0.65)',
             maxWidth: 500,
             margin: '0 auto 28px',
-            lineHeight: 
+            lineHeight: 1.6,
+          }}>
+            Descreva a experiência que quer ter e receba um roteiro completo com voo + hotel.
+          </p>
+          <Link href="/roteiro" style={{
+            display: 'inline-block',
+            background: '#F5A800',
+            color: '#0F2340',
+            fontFamily: 'Nunito, sans-serif',
+            fontWeight: 800,
+            fontSize: '0.95rem',
+            padding: '14px 36px',
+            borderRadius: 12,
+            textDecoration: 'none',
+          }}>
+            Criar meu roteiro grátis
+          </Link>
+        </div>
+
+      </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .blog-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+    </div>
+  )
+}

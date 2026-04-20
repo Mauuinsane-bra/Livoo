@@ -297,4 +297,10 @@ export default async function BlogPostPage({ params }: Props) {
         .blog-content h3 { font-family: Nunito, sans-serif; font-size: 1.1rem; color: #0F2340; margin: 24px 0 10px; }
         .blog-content p  { font-family: Inter, sans-serif; font-size: 0.95rem; color: #4A5A70; line-height: 1.8; margin-bottom: 16px; }
         .blog-content ul, .blog-content ol { font-family: Inter, sans-serif; font-size: 0.92rem; color: #4A5A70; line-height: 1.75; padding-left: 22px; margin-bottom: 16px; }
-       
+        .blog-content a { color: #1A82D8; }
+        .blog-content blockquote { border-left: 3px solid #1A82D8; margin: 20px 0; padding: 12px 20px; background: #E6F3FF; border-radius: 0 8px 8px 0; }
+        .blog-content code { background: #F0F4F8; padding: 2px 6px; border-radius: 4px; font-size: 0.88rem; }
+      `}</style>
+    </div>
+  )
+}
