@@ -1,423 +1,137 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ── Design Tokens ────────────────────────────────────── */
+/* ── Design Tokens — Direção 04 ──────────────────────── */
 :root {
-  --primary:      #1A82D8;
-  --primary-dark: #1260A8;
-  --gold:         #F5A800;
-  --gold-dark:    #D48A0A;
-  --navy:         #0F2340;
-  --navy-mid:     #1E3A6E;
-  --light:        #E6F3FF;
-  --light-gold:   #FFF8EC;
-  --gray:         #64748B;
-  --border:       #E2E8F0;
-  --bg-alt:       #F4F6F9;
-  --radius:       12px;
+  --bg:       #fafaf7;
+  --surface:  #ffffff;
+  --ink:      #0d0d0f;
+  --ink-2:    #2a2a30;
+  --muted:    #6d6d74;
+  --line:     #e7e6e0;
+  --line-2:   #d8d7d0;
+  --accent:   #ff5722;
+  --accent-2: #1a1fff;
+  --hot:      #ff2060;
+  --ok:       #00a15a;
+  --yellow:   #ffd600;
+  /* legado — mantidos para páginas internas */
+  --primary:      #ff5722;
+  --primary-dark: #e64e1e;
+  --gold:         #ffd600;
+  --navy:         #0d0d0f;
+  --gray:         #6d6d74;
+  --border:       #e7e6e0;
+  --radius:       16px;
 }
 
-/* ── Base ─────────────────────────────────────────────── */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
+/* ── Base ────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-
 body {
   font-family: 'Inter', sans-serif;
-  color: var(--navy);
-  background: #fff;
-  line-height: 1.6;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
   -webkit-font-smoothing: antialiased;
 }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+img { max-width: 100%; display: block; }
 
-h1, h2, h3, h4 {
-  font-family: 'Nunito', sans-serif;
-  font-weight: 800;
-  line-height: 1.2;
-}
+/* ── Typography helpers ──────────────────────────────── */
+.display { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.025em; }
+.mono    { font-family: 'JetBrains Mono', monospace; }
 
-/* ── Andorinha — Animações ────────────────────────────── */
-@keyframes bird-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3.5px)} }
-@keyframes bird-flap-top  { 0%,100%{transform:rotate(-14deg)} 50%{transform:rotate(20deg)} }
-@keyframes bird-flap-bot  { 0%,100%{transform:rotate(12deg)}  50%{transform:rotate(-16deg)} }
-@keyframes bird-tail-sway { 0%,100%{transform:rotate(-7deg)}  50%{transform:rotate(7deg)} }
-@keyframes bird-blink     { 0%,90%,100%{transform:scaleY(1)}  95%{transform:scaleY(0.1)} }
+/* ── Layout ──────────────────────────────────────────── */
+.wrap { max-width: 1320px; margin: 0 auto; padding: 0 24px; }
+.container { max-width: 1320px; margin: 0 auto; padding: 0 24px; }
 
-.livoo-bird       { display:block; }
-.bird-float       { animation: bird-float    1.3s ease-in-out infinite; }
-.bird-wing-t      { animation: bird-flap-top 0.52s ease-in-out infinite; transform-origin: 26px 24px; }
-.bird-wing-b      { animation: bird-flap-bot 0.52s ease-in-out infinite; transform-origin: 26px 28px; }
-.bird-tail        { animation: bird-tail-sway 1.3s ease-in-out infinite; transform-origin: 19px 28px; }
-.bird-eye-blink   { animation: bird-blink    3.5s ease-in-out infinite; transform-origin: 40px 20px; }
-
-/* ── Logo ─────────────────────────────────────────────── */
-.logo-name {
-  font-family: 'Nunito', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 900;
-  color: var(--navy);
-  letter-spacing: -0.3px;
-  line-height: 1;
-}
-.logo-dot { color: var(--primary); }
-.logo-tagline {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.58rem;
-  font-weight: 600;
-  color: var(--gray);
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
-  display: block;
-  margin-top: 2px;
-}
-
-/* ── Botões ───────────────────────────────────────────── */
+/* ── Botões ──────────────────────────────────────────── */
 .btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--primary);
-  color: #fff;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: 0.9rem;
-  padding: 12px 24px;
-  border-radius: var(--radius);
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
-  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--accent); color: #fff;
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13.5px;
+  padding: 12px 22px; border-radius: 999px; border: none; cursor: pointer;
+  transition: background .15s, transform .15s; text-decoration: none;
 }
 .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
 
-.btn-gold {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--gold);
-  color: var(--navy);
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: 0.9rem;
-  padding: 12px 28px;
-  border-radius: var(--radius);
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
-  text-decoration: none;
-}
-.btn-gold:hover { background: var(--gold-dark); transform: translateY(-1px); }
-
 .btn-outline {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: transparent;
-  color: var(--primary);
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: 0.9rem;
-  padding: 11px 24px;
-  border-radius: var(--radius);
-  border: 2px solid var(--primary);
-  cursor: pointer;
-  transition: all 0.2s;
-  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--ink);
+  font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13.5px;
+  padding: 11px 22px; border-radius: 999px; border: 1.5px solid var(--line);
+  cursor: pointer; transition: border-color .15s; text-decoration: none;
 }
-.btn-outline:hover { background: var(--primary); color: #fff; }
+.btn-outline:hover { border-color: var(--ink); }
 
-/* ── Cards ────────────────────────────────────────────── */
+.btn-gold {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--yellow); color: var(--ink);
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13.5px;
+  padding: 12px 22px; border-radius: 999px; border: none; cursor: pointer;
+  transition: opacity .15s; text-decoration: none;
+}
+.btn-gold:hover { opacity: .88; }
+
+/* ── Cards ───────────────────────────────────────────── */
 .card {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 24px;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 20px rgba(13, 27, 62, 0.06);
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 16px; padding: 24px;
+  transition: transform .15s, box-shadow .15s, border-color .15s;
 }
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(13, 27, 62, 0.12);
-}
+.card:hover { transform: translateY(-3px); box-shadow: 0 24px 50px -28px rgba(0,0,0,.2); border-color: var(--ink); }
 
-/* ── Seções ───────────────────────────────────────────── */
-.section { padding: 80px 0; }
-.section-alt { background: var(--bg-alt); }
+/* ── Section ─────────────────────────────────────────── */
+.section { padding: 56px 0; }
+.section-alt { background: var(--surface); }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
+.sec-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; gap: 20px; }
+.sec-head h2 { font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700; letter-spacing: -0.025em; margin: 0; }
+.sec-head h2 em { font-style: normal; color: var(--accent); }
+.sec-head .all { font-size: 13px; font-weight: 600; color: var(--ink); }
+.sec-head .all:hover { color: var(--accent); }
 
-.section-label {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--primary);
-  display: block;
-  margin-bottom: 12px;
-}
+/* ── Event card ──────────────────────────────────────── */
+.ev { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; transition: all .15s ease; cursor: pointer; position: relative; }
+.ev:hover { transform: translateY(-3px); box-shadow: 0 24px 50px -28px rgba(0,0,0,.2); border-color: var(--ink); }
+.ev .ev-img { aspect-ratio: 16/10; background: repeating-linear-gradient(135deg,#d6cfbb 0 12px,#c7beab 12px 24px); position: relative; }
+.ev .tag { position: absolute; top: 12px; left: 12px; background: var(--surface); color: var(--ink); font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 11px; padding: 4px 10px; border-radius: 999px; }
+.ev .tag.hot { background: var(--accent); color: #fff; }
+.ev .tag.sale { background: var(--yellow); }
+.ev .ev-foot { display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px dashed var(--line); padding-top: 10px; }
+.ev .ev-foot .p { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; }
+.ev .ev-foot .buy { background: var(--ink); color: #fff; padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 12px; text-decoration: none; }
 
-/* ── Formulários ──────────────────────────────────────── */
+/* ── Input ───────────────────────────────────────────── */
 .input-field {
-  width: 100%;
-  padding: 12px 16px;
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.9rem;
-  color: var(--navy);
-  background: #fff;
-  outline: none;
-  transition: border-color 0.2s;
+  width: 100%; padding: 10px 14px;
+  border: 1px solid var(--line-2); border-radius: 10px;
+  background: var(--bg); font-size: 13.5px; font-family: inherit; outline: none;
+  transition: border-color .15s;
 }
-.input-field:focus { border-color: var(--primary); }
-.input-field::placeholder { color: var(--gray); }
+.input-field:focus { border-color: var(--ink); }
+.input-field::placeholder { color: var(--muted); }
 
-/* ── Badges / chips ───────────────────────────────────── */
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  border-radius: 50px;
-  border: 1.5px solid var(--border);
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--gray);
-  background: #fff;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.chip:hover, .chip.active {
-  background: var(--light);
-  border-color: var(--primary);
-  color: var(--primary);
-}
+/* ── Legacy classes (páginas internas) ───────────────── */
+.hero-gradient { background: linear-gradient(135deg, #0d0d0f 0%, #1a1a20 100%); }
+.section-label { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 12px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; border-radius: 999px; border: 1px solid var(--line); font-size: 13px; font-weight: 500; color: var(--ink-2); background: var(--surface); cursor: pointer; transition: all .15s; }
+.chip:hover, .chip.active { background: var(--ink); border-color: var(--ink); color: #fff; }
 
-/* ── Numeração (01, 02, 03) ───────────────────────────── */
-.step-number {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  background: var(--navy);
-  color: #fff;
-  font-family: 'Nunito', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-/* ── Hero gradient ────────────────────────────────────── */
-.hero-gradient {
-  background: linear-gradient(135deg, #060e20 0%, #0D1B3E 40%, #1E3A6E 100%);
-}
-
-/* ── Responsividade ──────────────────────────────────── */
-@media (max-width: 768px) {
-  .section { padding: 48px 0; }
-
-  /* Pacotes grid */
-  .pacotes-grid {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-/* ── Scrollbar personalizada ──────────────────────────── */
+/* ── Scrollbar ───────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-alt); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--gray); }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 
-/* ── Promo strip ──────────────────────────────────────── */
-.promo-strip {
-  background: var(--gold);
-  padding: 11px 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 28px;
-  flex-wrap: wrap;
-}
-.promo-item {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-family: 'Inter', sans-serif;
-  font-size: 12.5px;
-  font-weight: 700;
-  color: var(--navy);
-}
-.promo-sep { color: rgba(15,35,64,.3); }
-
-/* ── Event cards (foto) ───────────────────────────────── */
-.ev-card {
-  background: #fff;
-  border-radius: 14px;
-  overflow: hidden;
-  cursor: pointer;
-  box-shadow: 0 1px 4px rgba(0,0,0,.07);
-  transition: transform .2s, box-shadow .2s;
-}
-.ev-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(26,130,216,.15); }
-.ev-img {
-  height: 175px;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  padding: 12px;
-}
-.ev-img::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,.52) 0%, transparent 55%);
-}
-.ev-badge {
-  background: var(--gold);
-  color: var(--navy);
-  font-family: 'Inter', sans-serif;
-  font-size: 10px;
-  font-weight: 800;
-  padding: 3px 10px;
-  border-radius: 100px;
-  position: relative;
-  z-index: 1;
-  letter-spacing: .4px;
-}
-.ev-body { padding: 14px 16px 16px; }
-.ev-title { font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; color: var(--navy); margin-bottom: 3px; }
-.ev-local { font-size: 12px; color: var(--gray); margin-bottom: 12px; display: flex; align-items: center; gap: 4px; }
-.ev-price-row { display: flex; align-items: center; justify-content: space-between; }
-.ev-from { font-size: 10px; color: #94A3B8; font-weight: 600; display: block; }
-.ev-price { font-family: 'Nunito', sans-serif; font-size: 20px; font-weight: 900; color: var(--primary); line-height: 1; }
-.ev-price small { font-size: 12px; font-weight: 700; }
-.ev-btn {
-  background: var(--light);
-  color: var(--primary);
-  border: none;
-  border-radius: 8px;
-  padding: 7px 14px;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  transition: .15s;
-  text-decoration: none;
-}
-.ev-btn:hover { background: var(--primary); color: #fff; }
-
-/* ── Destination cards ────────────────────────────────── */
-.dest-card {
-  border-radius: 13px;
-  overflow: hidden;
-  height: 145px;
-  position: relative;
-  cursor: pointer;
-  transition: transform .2s;
-  text-decoration: none;
-}
-.dest-card:hover { transform: scale(1.03); }
-.dest-bg { position: absolute; inset: 0; background-size: cover; background-position: center; }
-.dest-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,.62) 0%, rgba(0,0,0,.08) 55%, transparent 100%);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 12px;
-}
-.dest-name { color: #fff; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; }
-.dest-count { color: rgba(255,255,255,.7); font-size: 11px; font-weight: 500; }
-
-/* ── Diferenciais ─────────────────────────────────────── */
-.difs-row {
-  background: #fff;
-  border-radius: 18px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  box-shadow: 0 1px 4px rgba(0,0,0,.06);
-}
-.dif-item {
-  padding: 30px 28px;
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-  border-right: 1px solid var(--border);
-}
-.dif-item:last-child { border-right: none; }
-.dif-ico {
-  width: 46px;
-  height: 46px;
-  flex-shrink: 0;
-  background: var(--light);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.dif-title { font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; margin-bottom: 6px; color: var(--navy); }
-.dif-desc { font-size: 13px; color: var(--gray); line-height: 1.65; }
-
-/* ── Section header row ───────────────────────────────── */
-.section-header-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-.section-title-main { font-family: 'Nunito', sans-serif; font-size: 22px; font-weight: 800; color: var(--navy); }
-.section-link-all { font-size: 13px; font-weight: 700; color: var(--primary); text-decoration: none; }
-.section-link-all:hover { text-decoration: underline; }
-
-/* ── Category nav tabs ────────────────────────────────── */
-.cat-nav { background: #fff; border-top: 1px solid var(--border); }
-.cat-nav-inner {
-  display: flex;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-  overflow-x: auto;
-}
-.cat-tab {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  padding: 8px 17px;
-  text-decoration: none;
-  color: var(--gray);
-  font-size: 11px;
-  font-weight: 600;
-  white-space: nowrap;
-  border-bottom: 2.5px solid transparent;
-  transition: .15s;
-  cursor: pointer;
-  background: none;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  font-family: 'Inter', sans-serif;
-}
-.cat-tab:hover { color: var(--primary); }
-.cat-tab svg { width: 19px; height: 19px; }
-
-@media (max-width: 768px) {
-  .section { padding: 48px 0; }
-  .difs-row { grid-template-columns: 1fr; }
-  .dif-item { border-right: none; border-bottom: 1px solid var(--border); }
-  .dif-item:last-child { border-bottom: none; }
-  .cat-nav-inner { padding: 0 12px; }
+/* ── Mobile ──────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .wrap, .container { padding: 0 16px; }
+  .section { padding: 40px 0; }
+  .sec-head h2 { font-size: 26px; }
+  .hidden-mobile { display: none !important; }
 }
