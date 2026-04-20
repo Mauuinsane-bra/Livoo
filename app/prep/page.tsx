@@ -324,7 +324,7 @@ function PrepContent() {
         <section style={{ padding: '0 0 64px' }}>
           <div className="container" style={{ maxWidth: 720 }}>
 
-            {/* Banner modo demo \u2014 ocultado do usu\u00e1rio final; log via useEffect acima */}
+            {/* Banner modo demo — ocultado do usuário final; log via useEffect acima */}
 
             {/* Cabeçalho do resultado */}
             <div className="card" style={{ padding: '24px 28px', marginBottom: 16 }}>

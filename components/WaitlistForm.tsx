@@ -100,12 +100,17 @@ export default function WaitlistForm() {
         padding: 36,
         textAlign: 'center',
       }}>
-        <div style={{ fontSize: 48, marginBottom: 12 }}>✓</div>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#F5A800" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+        </div>
         <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#F5A800', fontSize: '1.4rem', marginBottom: 8 }}>
           Você está na lista!
         </h3>
         <p style={{ fontFamily: 'Inter, sans-serif', color: 'rgba(255,255,255,0.65)', fontSize: '0.9rem' }}>
-          Você será um dos primeiros a saber quando a Livoo abrir. Fique de olho no email <strong style={{ color: '#fff' }}>{email}</strong>.
+          Você será um dos primeiros a saber quando a Go Livoo abrir. Fique de olho no email <strong style={{ color: '#fff' }}>{email}</strong>.
         </p>
       </div>
     )
@@ -145,10 +150,9 @@ export default function WaitlistForm() {
               right: 12,
               top: '50%',
               transform: 'translateY(-50%)',
-              color: '#10b981',
-              fontSize: '1.2rem',
+              display: 'inline-flex',
             }}>
-              ✓
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
             </span>
           )}
           {emailValid === false && (
@@ -157,10 +161,9 @@ export default function WaitlistForm() {
               right: 12,
               top: '50%',
               transform: 'translateY(-50%)',
-              color: '#dc2626',
-              fontSize: '1.2rem',
+              display: 'inline-flex',
             }}>
-              ✕
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="3" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </span>
           )}
         </div>

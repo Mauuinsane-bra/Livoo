@@ -237,12 +237,12 @@ export default function SobrePage() {
             justifyContent: 'center',
           }}>
             {[
-              'Travelpayouts (voos e hot\u00e9is)',
+              'Travelpayouts (voos e hotéis)',
               'Trip.com (passagens internacionais)',
               'Rentcars (aluguel de carros)',
               'Ticketmaster (eventos)',
               'Stripe (pagamentos)',
-              'Clerk (autentica\u00e7\u00e3o)',
+              'Clerk (autenticação)',
               'Supabase (banco de dados)',
               'Vercel (infraestrutura)',
             ].map(p => (

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
+import Script from 'next/script'
 import FlightCard from '@/components/FlightCard'
 import FlightDrawer from '@/components/FlightDrawer'
 import AirportSearch, { type Airport } from '@/components/AirportSearch'
@@ -92,16 +93,25 @@ interface LegResult {
   legIndex: number
 }
 
+// ── Toggle entre White Label e busca clássica ───────────
+type SearchMode = 'whitelabel' | 'classic'
+
 function PassagensContent() {
   const params = useSearchParams()
   const router = useRouter()
 
-  // Detecta modo múltiplos destinos
+  // Detecta modo múltiplos destinos (sempre usa clássico)
   const legsRaw = params.get('legs')
   const parsedLegs: LegParam[] = (() => {
     try { return legsRaw ? JSON.parse(decodeURIComponent(legsRaw)) : [] } catch { return [] }
   })()
   const isMultiDestination = parsedLegs.length >= 2
+
+  // Se veio da URL com parâmetros de busca, usa modo clássico
+  const hasUrlParams = !!(params.get('origin') && params.get('destination') && params.get('date'))
+  const defaultMode: SearchMode = (isMultiDestination || hasUrlParams) ? 'classic' : 'whitelabel'
+
+  const [searchMode, setSearchMode] = useState<SearchMode>(defaultMode)
 
   const [origin,      setOrigin]      = useState<Airport | null>(null)
   const [destination, setDestination] = useState<Airport | null>(null)
@@ -162,8 +172,9 @@ function PassagensContent() {
     if (d && AIRPORTS_MAP[d]) setDestination(AIRPORTS_MAP[d])
   }, [params]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Busca automática ao carregar
+  // Busca automática ao carregar (modo clássico)
   useEffect(() => {
+    if (searchMode !== 'classic') return
     if (isMultiDestination) {
       searchMultiLegs(parsedLegs)
     } else if (params.get('origin') && params.get('destination') && params.get('date')) {
@@ -252,267 +263,338 @@ function PassagensContent() {
   return (
     <div style={{ background: '#F4F6F9', minHeight: '100vh' }}>
 
-      {/* ── Barra de busca ─────────────────────────────── */}
-      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #2B9FEE 100%)', padding: '32px 24px 48px' }}>
+      {/* ── Header com título + toggle de modo ──────────── */}
+      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #2B9FEE 100%)', padding: '32px 24px 28px' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
-          <h1 style={{ fontFamily: 'Nunito, sans-serif', color: '#fff', fontSize: '1.6rem', marginBottom: 24 }}>
-            {isMultiDestination ? 'Voos — múltiplos destinos' : 'Buscar passagens'}
-          </h1>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
+            <h1 style={{ fontFamily: 'Nunito, sans-serif', color: '#fff', fontSize: '1.6rem', margin: 0 }}>
+              {isMultiDestination ? 'Voos — múltiplos destinos' : 'Buscar passagens'}
+            </h1>
 
-          {isMultiDestination ? (
-            /* Resumo dos trechos no modo multi-destino */
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {parsedLegs.map((leg, idx) => (
-                <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <span style={{
-                    background: 'rgba(255,255,255,0.15)', color: '#fff',
-                    borderRadius: '50%', width: 24, height: 24,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, flexShrink: 0,
-                  }}>
-                    {idx + 1}
-                  </span>
-                  <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: '#fff', fontWeight: 600 }}>
-                    {leg.o} → {leg.d}
-                  </span>
-                  <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: 'rgba(255,255,255,0.55)' }}>
-                    {leg.date}
-                  </span>
-                </div>
-              ))}
-              <button
-                onClick={() => router.push('/')}
-                style={{
-                  marginTop: 8, background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
-                  borderRadius: 8, padding: '7px 14px', cursor: 'pointer',
-                  fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 600,
-                  color: '#fff', width: 'fit-content',
-                }}
-              >
-                ← Editar trechos
-              </button>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
-                <AirportSearch label="Origem" placeholder="De onde você sai?" value={origin} onChange={setOrigin} />
-                <AirportSearch label="Destino" placeholder="Para onde vai?" value={destination} onChange={setDestination} />
-                <DatePicker label="Ida" value={dateFrom} onChange={setDateFrom} />
-                <DatePicker label="Volta (opcional)" value={dateTo} onChange={setDateTo} min={dateFrom} placeholder="Só ida" />
-              </div>
-              <div style={{ display: 'flex', gap: 12, alignItems: 'flex-end' }}>
-                <div style={{ flex: '0 0 120px' }}>
-                  <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255,255,255,0.6)', marginBottom: 6, fontFamily: 'Inter, sans-serif' }}>
-                    Passageiros
-                  </label>
-                  <input
-                    type="number" min={1} max={9}
-                    value={passengers} onChange={e => setPassengers(e.target.value)}
-                    style={{ width: '100%', padding: '11px 14px', border: '1.5px solid rgba(255,255,255,0.2)', borderRadius: 10, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', background: 'rgba(255,255,255,0.08)', color: '#fff', outline: 'none' }}
-                  />
-                </div>
+            {/* Toggle White Label / Clássico (só quando não é multi-destino) */}
+            {!isMultiDestination && (
+              <div style={{
+                display: 'flex', gap: 4, background: 'rgba(255,255,255,0.12)',
+                borderRadius: 100, padding: 3,
+              }}>
                 <button
-                  type="submit"
-                  disabled={!origin || !destination || !dateFrom}
-                  className="btn-gold"
-                  style={{ flex: 1, justifyContent: 'center', padding: '11px 24px', opacity: (!origin || !destination || !dateFrom) ? 0.5 : 1 }}
+                  onClick={() => setSearchMode('whitelabel')}
+                  style={{
+                    padding: '6px 16px', borderRadius: 100, border: 'none', cursor: 'pointer',
+                    fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 600,
+                    background: searchMode === 'whitelabel' ? '#fff' : 'transparent',
+                    color: searchMode === 'whitelabel' ? '#0F2340' : 'rgba(255,255,255,0.7)',
+                    transition: 'all 0.2s',
+                  }}
                 >
-                  Buscar voos
+                  Busca completa
+                </button>
+                <button
+                  onClick={() => setSearchMode('classic')}
+                  style={{
+                    padding: '6px 16px', borderRadius: 100, border: 'none', cursor: 'pointer',
+                    fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 600,
+                    background: searchMode === 'classic' ? '#fff' : 'transparent',
+                    color: searchMode === 'classic' ? '#0F2340' : 'rgba(255,255,255,0.7)',
+                    transition: 'all 0.2s',
+                  }}
+                >
+                  Busca rápida
                 </button>
               </div>
-            </form>
+            )}
+          </div>
+
+          {/* ── Formulário clássico (só no modo classic ou multi-destino) */}
+          {(searchMode === 'classic' || isMultiDestination) && (
+            <>
+              {isMultiDestination ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {parsedLegs.map((leg, idx) => (
+                    <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <span style={{
+                        background: 'rgba(255,255,255,0.15)', color: '#fff',
+                        borderRadius: '50%', width: 24, height: 24,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, flexShrink: 0,
+                      }}>
+                        {idx + 1}
+                      </span>
+                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: '#fff', fontWeight: 600 }}>
+                        {leg.o} → {leg.d}
+                      </span>
+                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: 'rgba(255,255,255,0.55)' }}>
+                        {leg.date}
+                      </span>
+                    </div>
+                  ))}
+                  <button
+                    onClick={() => router.push('/')}
+                    style={{
+                      marginTop: 8, background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+                      borderRadius: 8, padding: '7px 14px', cursor: 'pointer',
+                      fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 600,
+                      color: '#fff', width: 'fit-content',
+                    }}
+                  >
+                    ← Editar trechos
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
+                    <AirportSearch label="Origem" placeholder="Digite e selecione — ex: São Paulo" value={origin} onChange={setOrigin} dark />
+                    <AirportSearch label="Destino" placeholder="Digite e selecione — ex: Lisboa" value={destination} onChange={setDestination} dark />
+                    <DatePicker label="Ida" value={dateFrom} onChange={setDateFrom} dark />
+                    <DatePicker label="Volta (opcional)" value={dateTo} onChange={setDateTo} min={dateFrom} placeholder="Só ida" dark />
+                  </div>
+                  <div style={{ display: 'flex', gap: 12, alignItems: 'flex-end' }}>
+                    <div style={{ flex: '0 0 120px' }}>
+                      <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255,255,255,0.6)', marginBottom: 6, fontFamily: 'Inter, sans-serif' }}>
+                        Passageiros
+                      </label>
+                      <input
+                        type="number" min={1} max={9}
+                        value={passengers} onChange={e => setPassengers(e.target.value)}
+                        style={{ width: '100%', padding: '11px 14px', border: '1.5px solid rgba(255,255,255,0.2)', borderRadius: 10, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', background: 'rgba(255,255,255,0.08)', color: '#fff', outline: 'none' }}
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={!origin || !destination || !dateFrom}
+                      className="btn-gold"
+                      style={{ flex: 1, justifyContent: 'center', padding: '11px 24px', opacity: (!origin || !destination || !dateFrom) ? 0.5 : 1 }}
+                    >
+                      Buscar voos
+                    </button>
+                  </div>
+                </form>
+              )}
+            </>
           )}
         </div>
       </div>
 
-      <div style={{ maxWidth: 900, margin: '-20px auto 0', padding: '0 24px 60px' }}>
+      {/* ════════════════════════════════════════════════════ */}
+      {/* ── MODO WHITE LABEL ─────────────────────────────── */}
+      {/* ════════════════════════════════════════════════════ */}
+      {searchMode === 'whitelabel' && !isMultiDestination && (
+        <div style={{ maxWidth: 1100, margin: '-8px auto 0', padding: '0 16px 60px' }}>
+          {/* Script do Travelpayouts White Label */}
+          <Script
+            id="tpwl-script"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function () {
+                  var script = document.createElement("script");
+                  script.async = 1;
+                  script.type = "module";
+                  script.src = "https://tpwdgt.com/wl_web/main.js?wl_id=16516";
+                  document.head.appendChild(script);
+                })();
+              `,
+            }}
+          />
 
-        {/* ── Filtros ──────────────────────────────────── */}
-        {status === 'done' && (
-          <div style={{
-            background: '#fff', borderRadius: 12, padding: '14px 20px',
-            boxShadow: '0 4px 20px rgba(13,27,62,0.07)',
-            display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap',
-            marginBottom: 20,
+          {/* Container do formulário de busca */}
+          <div id="tpwl-search" style={{ marginBottom: 24 }} />
+
+          {/* Container dos resultados de voos */}
+          <div id="tpwl-tickets" />
+
+          <p style={{
+            fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#9BA8B8',
+            textAlign: 'center', marginTop: 24, lineHeight: 1.6,
           }}>
-            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 600, color: '#64748B' }}>
-              {totalFound} voo{totalFound !== 1 ? 's' : ''} encontrado{totalFound !== 1 ? 's' : ''}
-              {isRoundTrip && !isMultiDestination && ' (ida + volta)'}
-              {isMultiDestination && ` em ${parsedLegs.length} trechos`}
-            </span>
-            <div style={{ display: 'flex', gap: 8, marginLeft: 'auto', flexWrap: 'wrap' }}>
-              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#64748B', alignSelf: 'center' }}>Ordenar:</span>
-              {(['price', 'stops', 'duration'] as SortKey[]).map(key => (
-                <button key={key} onClick={() => setSortBy(key)} style={{
-                  padding: '5px 14px', borderRadius: 100, border: 'none', cursor: 'pointer',
-                  fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 500,
-                  background: sortBy === key ? '#1A82D8' : '#F4F6F9',
-                  color: sortBy === key ? '#fff' : '#64748B', transition: 'all 0.2s',
-                }}>
-                  {key === 'price' ? 'Menor preço' : key === 'stops' ? 'Menos escalas' : 'Menor duração'}
-                </button>
-              ))}
-              <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#64748B', cursor: 'pointer' }}>
-                <input type="checkbox" checked={onlyDirect} onChange={e => setOnlyDirect(e.target.checked)} style={{ accentColor: '#1A82D8' }} />
-                Só direto
-              </label>
-            </div>
-          </div>
-        )}
+            Preços em R$ (BRL) · Busca e comparação via Travelpayouts · Sem markup · Sujeito a disponibilidade
+          </p>
+        </div>
+      )}
 
-        {/* ── Loading ──────────────────────────────────── */}
-        {status === 'loading' && (
-          <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
-            <div style={{ width: 48, height: 48, border: '4px solid #E6F3FF', borderTop: '4px solid #1A82D8', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 16px' }} />
-            <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}>
-              {isMultiDestination
-                ? `Buscando voos para ${parsedLegs.length} trechos...`
-                : dateTo ? 'Buscando voos de ida e volta...' : 'Buscando os melhores voos...'}
-            </p>
-            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-          </div>
-        )}
+      {/* ════════════════════════════════════════════════════ */}
+      {/* ── MODO CLÁSSICO (resultados da API) ────────────── */}
+      {/* ════════════════════════════════════════════════════ */}
+      {(searchMode === 'classic' || isMultiDestination) && (
+        <div style={{ maxWidth: 900, margin: '-20px auto 0', padding: '0 24px 60px' }}>
 
-        {/* ── Erro ─────────────────────────────────────── */}
-        {status === 'error' && (
-          <div style={{ background: '#fff', borderRadius: 14, padding: 40, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#F5A800" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-                <line x1="12" y1="9" x2="12" y2="13"/>
-                <line x1="12" y1="17" x2="12.01" y2="17"/>
-              </svg>
-            </div>
-            <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 10 }}>Não foi possível buscar os voos</h3>
-            <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', marginBottom: 20, fontSize: '0.9rem' }}>{errorMsg}</p>
-            {errorMsg.includes('TRAVELPAYOUTS') || errorMsg.includes('configurad') ? (
-              <div style={{ background: '#FFF8EC', border: '1px solid rgba(245,166,35,0.3)', borderRadius: 10, padding: 16, textAlign: 'left', maxWidth: 480, margin: '0 auto' }}>
-                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#92400e', margin: 0 }}>
-                  <strong>API de voos não configurada.</strong><br />
-                  Adicione <code>TRAVELPAYOUTS_TOKEN</code> no arquivo <code>.env.local</code>.<br />
-                  Cadastre-se gratuitamente em <strong>travelpayouts.com</strong> → Developers → API.
-                </p>
+          {/* ── Filtros ──────────────────────────────────── */}
+          {status === 'done' && (
+            <div style={{
+              background: '#fff', borderRadius: 12, padding: '14px 20px',
+              boxShadow: '0 4px 20px rgba(13,27,62,0.07)',
+              display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap',
+              marginBottom: 20,
+            }}>
+              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 600, color: '#64748B' }}>
+                {totalFound} voo{totalFound !== 1 ? 's' : ''} encontrado{totalFound !== 1 ? 's' : ''}
+                {isRoundTrip && !isMultiDestination && ' (ida + volta)'}
+                {isMultiDestination && ` em ${parsedLegs.length} trechos`}
+              </span>
+              <div style={{ display: 'flex', gap: 8, marginLeft: 'auto', flexWrap: 'wrap' }}>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#64748B', alignSelf: 'center' }}>Ordenar:</span>
+                {(['price', 'stops', 'duration'] as SortKey[]).map(key => (
+                  <button key={key} onClick={() => setSortBy(key)} style={{
+                    padding: '5px 14px', borderRadius: 100, border: 'none', cursor: 'pointer',
+                    fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 500,
+                    background: sortBy === key ? '#1A82D8' : '#F4F6F9',
+                    color: sortBy === key ? '#fff' : '#64748B', transition: 'all 0.2s',
+                  }}>
+                    {key === 'price' ? 'Menor preço' : key === 'stops' ? 'Menos escalas' : 'Menor duração'}
+                  </button>
+                ))}
+                <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#64748B', cursor: 'pointer' }}>
+                  <input type="checkbox" checked={onlyDirect} onChange={e => setOnlyDirect(e.target.checked)} style={{ accentColor: '#1A82D8' }} />
+                  Só direto
+                </label>
               </div>
-            ) : (
+            </div>
+          )}
+
+          {/* ── Loading ──────────────────────────────────── */}
+          {status === 'loading' && (
+            <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
+              <div style={{ width: 48, height: 48, border: '4px solid #E6F3FF', borderTop: '4px solid #1A82D8', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 16px' }} />
+              <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}>
+                {isMultiDestination
+                  ? `Buscando voos para ${parsedLegs.length} trechos...`
+                  : dateTo ? 'Buscando voos de ida e volta...' : 'Buscando os melhores voos...'}
+              </p>
+              <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+            </div>
+          )}
+
+          {/* ── Erro ─────────────────────────────────────── */}
+          {status === 'error' && (
+            <div style={{ background: '#fff', borderRadius: 14, padding: 40, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#F5A800" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+              </div>
+              <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 10 }}>Não foi possível buscar os voos</h3>
+              <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', marginBottom: 20, fontSize: '0.9rem' }}>{errorMsg}</p>
               <button onClick={() => origin && destination && dateFrom && search(origin.iata, destination.iata, dateFrom, dateTo || undefined)} className="btn-primary">
                 Tentar novamente
               </button>
-            )}
-          </div>
-        )}
-
-        {/* ── Sem resultados ───────────────────────────── */}
-        {status === 'done' && totalFound === 0 && (() => {
-          const orig = params.get('origin') ?? origin?.iata ?? ''
-          const dest = params.get('destination') ?? destination?.iata ?? ''
-          const date = params.get('date') ?? dateFrom
-          const tripUrl = orig && dest
-            ? `https://br.trip.com/flights/showfarefirst?dcity=${orig.toLowerCase()}&acity=${dest.toLowerCase()}${date ? `&ddate=${date}` : ''}&triptype=ow&class=y&quantity=1&locale=pt-BR&curr=BRL`
-            : 'https://br.trip.com/flights'
-
-          return (
-            <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
-              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
-                </svg>
-              </div>
-              <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 8 }}>
-                Não encontramos voos em nossa base para essa rota
-              </h3>
-              <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', fontSize: '0.9rem', marginBottom: 28, maxWidth: 460, margin: '0 auto 28px' }}>
-                Nossa base de preços é atualizada periodicamente e pode não ter dados para rotas menos frequentes.
-                Continue sua busca no Trip.com com preços em tempo real, em Português e Reais.
-              </p>
-              <a
-                href={tripUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-block',
-                  background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
-                  color: '#fff',
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: 700,
-                  fontSize: '0.95rem',
-                  padding: '14px 32px',
-                  borderRadius: 100,
-                  textDecoration: 'none',
-                  marginBottom: 16,
-                }}
-              >
-                Ver voos {orig} → {dest} no Trip.com
-              </a>
-              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#9BA8B8', margin: '12px 0 0' }}>
-                Você será redirecionado para o Trip.com com a sua busca já preenchida
-              </p>
             </div>
-          )
-        })()}
+          )}
 
-        {/* ── Resultados: modo simples / ida+volta ─────── */}
-        {status === 'done' && !isMultiDestination && totalFound > 0 && (
-          <>
-            <FlightSection
-              title={isRoundTrip ? `Voos de Ida — ${params.get('origin')} → ${params.get('destination')}` : `Voos disponíveis — ${params.get('origin')} → ${params.get('destination')}`}
-              flights={outbound}
-              sortBy={sortBy}
-              onlyDirect={onlyDirect}
-              onSelect={setSelectedFlight}
-            />
+          {/* ── Sem resultados ───────────────────────────── */}
+          {status === 'done' && totalFound === 0 && (() => {
+            const orig = params.get('origin') ?? origin?.iata ?? ''
+            const dest = params.get('destination') ?? destination?.iata ?? ''
+            const date = params.get('date') ?? dateFrom
+            const tripUrl = orig && dest
+              ? `https://br.trip.com/flights/showfarefirst?dcity=${orig.toLowerCase()}&acity=${dest.toLowerCase()}${date ? `&ddate=${date}` : ''}&triptype=ow&class=y&quantity=1&locale=pt-BR&curr=BRL`
+              : 'https://br.trip.com/flights'
 
-            {isRoundTrip && returning.length > 0 && (
+            return (
+              <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+                  </svg>
+                </div>
+                <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 8 }}>
+                  Não encontramos voos em nossa base para essa rota
+                </h3>
+                <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', fontSize: '0.9rem', marginBottom: 28, maxWidth: 460, margin: '0 auto 28px' }}>
+                  Nossa base de preços é atualizada periodicamente e pode não ter dados para rotas menos frequentes.
+                  Continue sua busca no Trip.com com preços em tempo real, em Português e Reais.
+                </p>
+                <a
+                  href={tripUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-block',
+                    background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
+                    color: '#fff',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 700,
+                    fontSize: '0.95rem',
+                    padding: '14px 32px',
+                    borderRadius: 100,
+                    textDecoration: 'none',
+                    marginBottom: 16,
+                  }}
+                >
+                  Ver voos {orig} → {dest} no Trip.com
+                </a>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#9BA8B8', margin: '12px 0 0' }}>
+                  Você será redirecionado para o Trip.com com a sua busca já preenchida
+                </p>
+              </div>
+            )
+          })()}
+
+          {/* ── Resultados: modo simples / ida+volta ─────── */}
+          {status === 'done' && !isMultiDestination && totalFound > 0 && (
+            <>
               <FlightSection
-                title={`Voos de Volta — ${params.get('destination')} → ${params.get('origin')}`}
-                flights={returning}
+                title={isRoundTrip ? `Voos de Ida — ${params.get('origin')} → ${params.get('destination')}` : `Voos disponíveis — ${params.get('origin')} → ${params.get('destination')}`}
+                flights={outbound}
                 sortBy={sortBy}
                 onlyDirect={onlyDirect}
                 onSelect={setSelectedFlight}
               />
-            )}
 
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#64748B', textAlign: 'center', marginTop: 8 }}>
-              Preços em R$ (BRL) · Via Travelpayouts/Trip.com · Sem markup · Sujeito a disponibilidade
-            </p>
-          </>
-        )}
-
-        {/* ── Resultados: múltiplos destinos ───────────── */}
-        {status === 'done' && isMultiDestination && totalFound > 0 && (
-          <>
-            {legResults.map((lr, idx) => (
-              lr.flights.length > 0 && (
+              {isRoundTrip && returning.length > 0 && (
                 <FlightSection
-                  key={idx}
-                  title={`Trecho ${lr.legIndex + 1} — ${lr.leg.o} → ${lr.leg.d}`}
-                  flights={lr.flights}
+                  title={`Voos de Volta — ${params.get('destination')} → ${params.get('origin')}`}
+                  flights={returning}
                   sortBy={sortBy}
                   onlyDirect={onlyDirect}
                   onSelect={setSelectedFlight}
                 />
-              )
-            ))}
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#64748B', textAlign: 'center', marginTop: 8 }}>
-              Preços em R$ (BRL) · Via Travelpayouts/Trip.com · Sem markup · Sujeito a disponibilidade
-            </p>
-          </>
-        )}
+              )}
 
-        {/* ── Estado inicial ───────────────────────────── */}
-        {status === 'idle' && !hasParams && (
-          <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
-              </svg>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#64748B', textAlign: 'center', marginTop: 8 }}>
+                Preços em R$ (BRL) · Via Travelpayouts/Trip.com · Sem markup · Sujeito a disponibilidade
+              </p>
+            </>
+          )}
+
+          {/* ── Resultados: múltiplos destinos ───────────── */}
+          {status === 'done' && isMultiDestination && totalFound > 0 && (
+            <>
+              {legResults.map((lr, idx) => (
+                lr.flights.length > 0 && (
+                  <FlightSection
+                    key={idx}
+                    title={`Trecho ${lr.legIndex + 1} — ${lr.leg.o} → ${lr.leg.d}`}
+                    flights={lr.flights}
+                    sortBy={sortBy}
+                    onlyDirect={onlyDirect}
+                    onSelect={setSelectedFlight}
+                  />
+                )
+              ))}
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#64748B', textAlign: 'center', marginTop: 8 }}>
+                Preços em R$ (BRL) · Via Travelpayouts/Trip.com · Sem markup · Sujeito a disponibilidade
+              </p>
+            </>
+          )}
+
+          {/* ── Estado inicial ───────────────────────────── */}
+          {status === 'idle' && !hasParams && (
+            <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+                </svg>
+              </div>
+              <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 8 }}>Busque sua passagem</h3>
+              <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', fontSize: '0.9rem' }}>
+                Preencha origem, destino e data acima para buscar os melhores voos.
+              </p>
             </div>
-            <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 8 }}>Pronto para decolar</h3>
-            <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', fontSize: '0.9rem' }}>
-              Preencha origem, destino e data acima para buscar os melhores voos.
-            </p>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
 
       {/* ── Drawer de checkout ───────────────────────── */}
       <FlightDrawer

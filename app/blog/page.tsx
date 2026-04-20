@@ -1,7 +1,10 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import { BLOG_POSTS } from '@/lib/blog-data'
+import { getAllPosts } from '@/lib/sanity-queries'
+import { urlFor, categoryColor, type SanityBlogPost } from '@/lib/sanity'
+
+export const revalidate = 60 // revalida a cada 60s
 
 export const metadata: Metadata = {
   title: 'Blog — Guias de Viagem e Eventos | Go Livoo',
@@ -13,9 +16,17 @@ function formatDate(iso: string) {
   return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })
 }
 
-export default function BlogPage() {
-  const featured = BLOG_POSTS.filter(p => p.featured)
-  const rest = BLOG_POSTS.filter(p => !p.featured)
+function postImageUrl(post: SanityBlogPost & { _fallbackImageUrl?: string }): string {
+  if (post.coverImage) {
+    try { return urlFor(post.coverImage).width(800).url() } catch { /* empty */ }
+  }
+  return post._fallbackImageUrl ?? 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800'
+}
+
+export default async function BlogPage() {
+  const allPosts = (await getAllPosts()) as (SanityBlogPost & { _fallbackImageUrl?: string })[]
+  const featured = allPosts.filter(p => p.featured)
+  const rest = allPosts.filter(p => !p.featured)
 
   return (
     <div style={{ background: '#F4F6F9', minHeight: '100vh' }}>
@@ -83,25 +94,20 @@ export default function BlogPage() {
               marginBottom: 56,
             }}>
               {featured.map(post => (
-                <Link
-                  key={post.slug}
-                  href={`/blog/${post.slug}`}
-                  style={{ textDecoration: 'none' }}
-                >
+                <Link key={post.slug} href={`/blog/${post.slug}`} style={{ textDecoration: 'none' }}>
                   <article style={{
                     background: '#fff',
                     borderRadius: 20,
                     overflow: 'hidden',
                     boxShadow: '0 4px 24px rgba(13,27,62,0.08)',
                     border: '1px solid #E2E8F0',
-                    transition: 'transform 0.15s, box-shadow 0.15s',
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
                   }}>
                     <div style={{ position: 'relative', height: 200 }}>
                       <Image
-                        src={post.imageUrl}
+                        src={postImageUrl(post)}
                         alt={post.title}
                         fill
                         style={{ objectFit: 'cover' }}
@@ -117,7 +123,7 @@ export default function BlogPage() {
                         fontFamily: 'Inter, sans-serif',
                         fontSize: '0.7rem', fontWeight: 700,
                         color: '#fff',
-                        background: post.categoryColor,
+                        background: categoryColor(post.category),
                         padding: '3px 10px', borderRadius: 50,
                         textTransform: 'uppercase', letterSpacing: '0.5px',
                       }}>
@@ -149,19 +155,10 @@ export default function BlogPage() {
                         alignItems: 'center',
                         justifyContent: 'space-between',
                       }}>
-                        <span style={{
-                          fontFamily: 'Inter, sans-serif',
-                          fontSize: '0.75rem',
-                          color: '#9AAABB',
-                        }}>
-                          {formatDate(post.date)} · {post.readTime} min
+                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#9AAABB' }}>
+                          {formatDate(post.publishedAt)} · {post.readTime} min
                         </span>
-                        <span style={{
-                          fontFamily: 'Inter, sans-serif',
-                          fontSize: '0.82rem',
-                          fontWeight: 700,
-                          color: '#1A82D8',
-                        }}>
+                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', fontWeight: 700, color: '#1A82D8' }}>
                           Ler artigo →
                         </span>
                       </div>
@@ -186,11 +183,7 @@ export default function BlogPage() {
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               {rest.map(post => (
-                <Link
-                  key={post.slug}
-                  href={`/blog/${post.slug}`}
-                  style={{ textDecoration: 'none' }}
-                >
+                <Link key={post.slug} href={`/blog/${post.slug}`} style={{ textDecoration: 'none' }}>
                   <article style={{
                     background: '#fff',
                     borderRadius: 16,
@@ -208,7 +201,7 @@ export default function BlogPage() {
                       flexShrink: 0,
                     }}>
                       <Image
-                        src={post.imageUrl}
+                        src={postImageUrl(post)}
                         alt={post.title}
                         fill
                         style={{ objectFit: 'cover' }}
@@ -220,7 +213,7 @@ export default function BlogPage() {
                       <span style={{
                         fontFamily: 'Inter, sans-serif',
                         fontSize: '0.7rem', fontWeight: 700,
-                        color: post.categoryColor,
+                        color: categoryColor(post.category),
                         textTransform: 'uppercase',
                         letterSpacing: '1px',
                       }}>
@@ -236,19 +229,10 @@ export default function BlogPage() {
                         {post.title}
                       </h3>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <span style={{
-                          fontFamily: 'Inter, sans-serif',
-                          fontSize: '0.75rem',
-                          color: '#9AAABB',
-                        }}>
-                          {formatDate(post.date)} · {post.readTime} min de leitura
+                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#9AAABB' }}>
+                          {formatDate(post.publishedAt)} · {post.readTime} min de leitura
                         </span>
-                        <span style={{
-                          fontFamily: 'Inter, sans-serif',
-                          fontSize: '0.82rem',
-                          fontWeight: 700,
-                          color: '#1A82D8',
-                        }}>
+                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', fontWeight: 700, color: '#1A82D8' }}>
                           Ler →
                         </span>
                       </div>
@@ -268,12 +252,7 @@ export default function BlogPage() {
           padding: '44px 48px',
           textAlign: 'center',
         }}>
-          <h3 style={{
-            fontFamily: 'Nunito, sans-serif',
-            fontSize: '1.5rem',
-            color: '#fff',
-            marginBottom: 12,
-          }}>
+          <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.5rem', color: '#fff', marginBottom: 12 }}>
             Pronto para montar sua viagem?
           </h3>
           <p style={{
@@ -286,9 +265,7 @@ export default function BlogPage() {
           }}>
             Use a Go Livoo para gerar um roteiro completo com voo, hotel e documentação — em segundos.
           </p>
-          <Link href="/" className="btn-gold">
-            Gerar meu roteiro agora
-          </Link>
+          <Link href="/" className="btn-gold">Gerar meu roteiro agora</Link>
         </div>
       </div>
     </div>

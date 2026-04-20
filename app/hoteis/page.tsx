@@ -62,7 +62,7 @@ function HotelCard({ hotel, nights }: { hotel: HotelResult; nights: number }) {
             alignItems: 'center', justifyContent: 'center',
             fontSize: 32, color: '#1A82D8',
           }}>
-            🏨
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 21V7l9-4 9 4v14"/><path d="M9 21v-6h6v6"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
           </div>
         )}
       </div>

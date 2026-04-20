@@ -33,7 +33,7 @@ export interface FlightSearchResult {
   stops:         number
   price:         number
   currency:      string
-  link:          string   // link de compra no Aviasales
+  link:          string   // link de compra no Trip.com (br.trip.com)
 }
 
 export interface SearchFlightsParams {
@@ -150,7 +150,7 @@ function transformFlightData(
         stops:         flight.number_of_changes ?? 0,
         price:         flight.price,
         currency:      (params.currency ?? 'brl').toUpperCase(),
-        link:          buildAviasalesUrl(params.origin, destCode, params.date, params.adults ?? 1),
+        link:          buildTripComUrl(params.origin, destCode, params.date, params.adults ?? 1),
       })
     }
   }
@@ -169,22 +169,34 @@ interface TpRawFlight {
   number_of_changes?: number
 }
 
-// ── Link de compra Aviasales (afiliado) ───────────────────
+// ── Link de compra Trip.com (afiliado) ────────────────────
+// Trip.com (br.trip.com) — site em Português, preços em BRL
+// Aviasales descontinuado: sem suporte a Brasil, PT nem BRL
 
-function buildAviasalesUrl(origin: string, dest: string, date: string, adults: number): string {
-  // Formato de busca direta do Aviasales: /search/{ORIGIN}{DDMM}{DEST}{PAX}
-  // Esse formato aceita ?currency=BRL de forma confiável
-  // Exemplo: GRU1510LIS1 = GRU → LIS, 15 de outubro, 1 passageiro
-  const [, month, day] = date.split('-')           // "2026-10-15" → ["2026","10","15"]
-  const searchCode = `${origin}${day}${month}${dest}${adults}`
+function buildTripComUrl(origin: string, dest: string, date: string, adults: number): string {
+  const o = origin.toLowerCase()
+  const d = dest.toLowerCase()
 
-  const marker = process.env.TRAVELPAYOUTS_MARKER
-  const qs = new URLSearchParams({
-    currency: 'BRL',
-    ...(marker && { marker }),
+  const params = new URLSearchParams({
+    dcity:    o,
+    acity:    d,
+    triptype: 'ow',
+    class:    'y',
+    quantity: String(adults),
+    locale:   'pt-BR',
+    curr:     'BRL',
   })
+  if (date && date.length === 10) {
+    params.set('ddate', date)
+  }
 
-  return `https://www.aviasales.com/search/${searchCode}?${qs}`
+  const tripUrl = `https://br.trip.com/flights/showfarefirst?${params.toString()}`
+
+  // Quando o programa Trip.com (p=121) for aprovado no Travelpayouts:
+  // const marker = process.env.TRAVELPAYOUTS_MARKER
+  // if (marker) return `https://tp.media/r?marker=${marker}&p=121&u=${encodeURIComponent(tripUrl)}`
+
+  return tripUrl
 }
 
 // ── Mapa de cias aéreas ───────────────────────────────────

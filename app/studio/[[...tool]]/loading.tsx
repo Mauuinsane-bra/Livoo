@@ -1,0 +1,18 @@
+'use client'
+
+export default function Loading() {
+  return (
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '100vh',
+      background: '#101010',
+      color: '#fff',
+      fontFamily: 'Inter, sans-serif',
+      fontSize: '0.9rem',
+    }}>
+      Carregando Go Livoo Studio…
+    </div>
+  )
+}

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Política de Privacidade',
-  description: 'Como a Livoo coleta, usa e protege seus dados pessoais, em conformidade com a Lei Geral de Proteção de Dados (LGPD).',
+  description: 'Como a Go Livoo coleta, usa e protege seus dados pessoais, em conformidade com a Lei Geral de Proteção de Dados (LGPD).',
 }
 
 export default function PrivacidadePage() {
@@ -58,7 +58,7 @@ export default function PrivacidadePage() {
           boxShadow: '0 4px 20px rgba(13,27,62,0.06)',
         }}>
           <Section title="1. Quem somos">
-            <p>A <strong>Livoo</strong> é uma plataforma de soluções para viajantes, empresa em constituição no Brasil. Esta Política de Privacidade descreve como coletamos, usamos e protegemos seus dados pessoais, em total conformidade com a Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018).</p>
+            <p>A <strong>Go Livoo</strong> é uma plataforma de soluções para viajantes, empresa em constituição no Brasil. Esta Política de Privacidade descreve como coletamos, usamos e protegemos seus dados pessoais, em total conformidade com a Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018).</p>
             <p>Para dúvidas ou solicitações relacionadas a esta política, entre em contato: <a href="mailto:privacidade@golivoo.com.br" style={{ color: '#1A82D8' }}>privacidade@golivoo.com.br</a></p>
           </Section>
 
@@ -68,7 +68,7 @@ export default function PrivacidadePage() {
               <li><strong>Lista de espera:</strong> nome e endereço de email, e interesses de viagem que você opcionalmente informa.</li>
               <li><strong>Conta de usuário:</strong> nome, email e preferências de viagem, gerenciados via Clerk (provedor de autenticação terceirizado).</li>
               <li><strong>Uso da plataforma:</strong> buscas realizadas, roteiros gerados e preferências de notificação, para personalizar sua experiência.</li>
-              <li><strong>Pagamentos (Livoo Prep):</strong> processados exclusivamente pela Stripe. A Livoo <strong>não armazena</strong> dados de cartão de crédito ou informações bancárias.</li>
+              <li><strong>Pagamentos (Livoo Prep):</strong> processados exclusivamente pela Stripe. A Go Livoo <strong>não armazena</strong> dados de cartão de crédito ou informações bancárias.</li>
               <li><strong>Dados analíticos:</strong> utilizamos Plausible Analytics, que não usa cookies de rastreamento e não coleta dados pessoais identificáveis.</li>
             </ul>
           </Section>
@@ -76,7 +76,7 @@ export default function PrivacidadePage() {
           <Section title="3. Como usamos seus dados">
             <p>Usamos seus dados para:</p>
             <ul>
-              <li>Notificá-lo sobre o lançamento e novidades da Livoo (apenas se você se cadastrou na lista de espera).</li>
+              <li>Notificá-lo sobre o lançamento e novidades da Go Livoo (apenas se você se cadastrou na lista de espera).</li>
               <li>Personalizar resultados de busca e sugestões de roteiro.</li>
               <li>Enviar confirmações de pagamento e alertas de preço que você configurou.</li>
               <li>Melhorar nossos serviços com base em dados anonimizados de uso.</li>
@@ -121,7 +121,7 @@ export default function PrivacidadePage() {
           </Section>
 
           <Section title="7. Cookies e rastreamento">
-            <p>A Livoo usa apenas cookies estritamente necessários para o funcionamento da plataforma (autenticação via Clerk). Não utilizamos cookies de rastreamento publicitário, cookies de terceiros para remarketing, ou qualquer tecnologia de rastreamento cross-site.</p>
+            <p>A Go Livoo usa apenas cookies estritamente necessários para o funcionamento da plataforma (autenticação via Clerk). Não utilizamos cookies de rastreamento publicitário, cookies de terceiros para remarketing, ou qualquer tecnologia de rastreamento cross-site.</p>
             <p>Nossa análise de uso é feita via <strong>Plausible Analytics</strong>, que é open-source, não usa cookies e não coleta dados pessoais — em total conformidade com a LGPD e o GDPR europeu.</p>
           </Section>
 

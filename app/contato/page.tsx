@@ -9,11 +9,11 @@ export default function ContatoPage() {
   const [sending, setSending] = useState(false)
 
   const ASSUNTO_LABEL: Record<string, string> = {
-    roteiro:  'D\u00favida sobre roteiro gerado',
+    roteiro:  'Dúvida sobre roteiro gerado',
     prep:     'Problema com Livoo Prep',
-    evento:   'Sugest\u00e3o de evento',
+    evento:   'Sugestão de evento',
     parceria: 'Parceria comercial',
-    imprensa: 'Imprensa e m\u00eddia',
+    imprensa: 'Imprensa e mídia',
     outro:    'Outro',
   }
 
@@ -21,9 +21,9 @@ export default function ContatoPage() {
     e.preventDefault()
     setSending(true)
 
-    // Abre o cliente de email do usu\u00e1rio com a mensagem pronta para enviar.
-    // Isso garante que a mensagem realmente chegue ao destinat\u00e1rio
-    // (contato@golivoo.com.br) sem depender de backend ainda n\u00e3o configurado.
+    // Abre o cliente de email do usuário com a mensagem pronta para enviar.
+    // Isso garante que a mensagem realmente chegue ao destinatário
+    // (contato@golivoo.com.br) sem depender de backend ainda não configurado.
     const assuntoLabel = ASSUNTO_LABEL[form.assunto] || form.assunto || 'Contato pelo site'
     const subject = `[Go Livoo] ${assuntoLabel}`
     const body = [
@@ -37,7 +37,7 @@ export default function ContatoPage() {
 
     const mailto = `mailto:contato@golivoo.com.br?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 
-    // Pequena pausa para o usu\u00e1rio ver o estado "enviando"
+    // Pequena pausa para o usuário ver o estado "enviando"
     await new Promise(r => setTimeout(r, 400))
 
     if (typeof window !== 'undefined') {
@@ -232,7 +232,7 @@ export default function ContatoPage() {
                 }}>
                   Abrimos seu cliente de email com a mensagem pronta para{' '}
                   <strong style={{ color: '#0F2340' }}>contato@golivoo.com.br</strong>.
-                  Revise e clique em enviar — respondemos em at\u00e9 48 horas \u00fateis.
+                  Revise e clique em enviar — respondemos em até 48 horas úteis.
                 </p>
                 <button
                   onClick={() => { setSent(false); setForm({ nome: '', email: '', assunto: '', mensagem: '' }) }}

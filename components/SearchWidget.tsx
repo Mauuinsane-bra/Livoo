@@ -660,7 +660,7 @@ export default function SearchWidget() {
               />
             </div>
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#8A9AB5', marginBottom: 16 }}>
-              Encontramos guias locais, passeios e experiências via GetYourGuide — mais de 300 mil atividades no mundo.
+              Encontramos guias locais, passeios e experiências em mais de 300 mil atividades no mundo.
             </p>
             <button
               type="submit"

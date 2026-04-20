@@ -9,6 +9,8 @@ interface DatePickerProps {
   min?: string
   max?: string
   placeholder?: string
+  /** Quando true, usa label claro para fundo escuro */
+  dark?: boolean
 }
 
 function formatDisplay(dateStr: string): string {
@@ -18,7 +20,7 @@ function formatDisplay(dateStr: string): string {
   return `${d} ${months[parseInt(m) - 1]} ${y}`
 }
 
-export default function DatePicker({ label, value, onChange, min, max, placeholder = 'Selecione a data' }: DatePickerProps) {
+export default function DatePicker({ label, value, onChange, min, max, placeholder = 'Selecione a data', dark = false }: DatePickerProps) {
   const [focused, setFocused] = useState(false)
   const [flexible, setFlexible] = useState(false)
 
@@ -42,7 +44,7 @@ export default function DatePicker({ label, value, onChange, min, max, placehold
         fontFamily: 'Inter, sans-serif',
         fontSize: '0.78rem',
         fontWeight: 600,
-        color: '#64748B',
+        color: dark ? 'rgba(255,255,255,0.6)' : '#64748B',
         marginBottom: 6,
       }}>
         {label}

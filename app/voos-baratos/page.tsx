@@ -353,7 +353,7 @@ export default function VoosBaratosPage() {
               Não conseguimos carregar os preços agora
             </p>
             <p style={{ fontSize: 14, marginBottom: 24, lineHeight: 1.5 }}>
-              O Travelpayouts pode estar com instabilidade. Tente novamente em instantes.
+              Nosso parceiro de dados pode estar com instabilidade. Tente novamente em instantes.
             </p>
             <button
               onClick={() => fetchFlights(origin)}

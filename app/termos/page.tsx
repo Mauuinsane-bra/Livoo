@@ -122,8 +122,7 @@ export default function TermosPage() {
               que conecta o usuário a parceiros comerciais confiáveis.
             </P>
             <P>
-              As reservas de voos, hotéis e experiências são realizadas diretamente com os parceiros (Booking.com,
-              Travelpayouts, GetYourGuide, entre outros). A Go Livoo não é parte contratante dessas reservas.
+              As reservas de voos, hotéis e experiências são realizadas diretamente com os parceiros de cada serviço. A Go Livoo não é parte contratante dessas reservas.
             </P>
           </Section>
 
@@ -158,7 +157,7 @@ export default function TermosPage() {
 
           <Section title="6. Uso de inteligência artificial">
             <P>
-              A funcionalidade "Roteiro Completo" utiliza inteligência artificial (OpenAI GPT-4o) para gerar sugestões
+              A funcionalidade "Roteiro Completo" utiliza inteligência artificial para gerar sugestões
               de itinerário. Os roteiros gerados são sugestões automáticas baseadas em dados disponíveis e não
               representam recomendações profissionais de viagem.
             </P>

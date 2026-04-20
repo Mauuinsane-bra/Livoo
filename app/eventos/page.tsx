@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import type { TMEvent } from '@/app/api/events/route'
+import EventPriceTag from '@/components/EventPriceTag'
 
 // ── Tipos ──────────────────────────────────────────────────
 
@@ -24,6 +25,7 @@ interface StaticEvent {
   ticketLabel:   string
   priceEstimate: string
   flightFrom?:   string
+  destinationIata?: string
   source:        'static'
 }
 
@@ -48,6 +50,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     ticketLabel: 'Comprar ingresso — ingressos.athletico.com.br',
     priceEstimate: 'Ingressos a partir de R$ 40',
     flightFrom: 'Voos para Curitiba a partir de R$ 320',
+    destinationIata: 'CWB',
     source: 'static',
   },
   {
@@ -66,6 +69,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     ticketLabel: 'Comprar ingresso — FutebolCard',
     priceEstimate: 'Ingressos a partir de R$ 60',
     flightFrom: 'Voos para o Rio a partir de R$ 280',
+    destinationIata: 'GIG',
     source: 'static',
   },
   {
@@ -84,6 +88,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     ticketLabel: 'Comprar ingresso — FutebolCard',
     priceEstimate: 'Ingressos a partir de R$ 50',
     flightFrom: 'Voos para São Paulo a partir de R$ 220',
+    destinationIata: 'GRU',
     source: 'static',
   },
   {
@@ -102,6 +107,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     ticketLabel: 'Ingressos — CONMEBOL',
     priceEstimate: 'Preço estimado a partir de R$ 800',
     flightFrom: 'Voos para Buenos Aires a partir de R$ 1.200',
+    destinationIata: 'EZE',
     source: 'static',
   },
   {
@@ -120,6 +126,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     ticketLabel: 'Ingressos oficiais — Formula1.com',
     priceEstimate: 'Preço estimado a partir de R$ 22.000',
     flightFrom: 'Voos para Nice a partir de R$ 6.800',
+    destinationIata: 'NCE',
     source: 'static',
   },
   {
@@ -138,6 +145,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     ticketLabel: 'Ingressos oficiais — Formula1.com',
     priceEstimate: 'Preço estimado a partir de R$ 1.800',
     flightFrom: 'Voos para São Paulo a partir de R$ 320',
+    destinationIata: 'GRU',
     source: 'static',
   },
   {
@@ -156,6 +164,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     ticketLabel: 'Ingressos oficiais — NHRA.com',
     priceEstimate: 'Preço estimado a partir de R$ 2.400',
     flightFrom: 'Voos para Orlando a partir de R$ 3.200',
+    destinationIata: 'IND',
     source: 'static',
   },
   {
@@ -174,6 +183,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     ticketLabel: 'Ingressos — FIA World RX',
     priceEstimate: 'Preço estimado a partir de R$ 8.900',
     flightFrom: 'Voos para Tbilisi a partir de R$ 5.400',
+    destinationIata: 'TBS',
     source: 'static',
   },
   {
@@ -192,6 +202,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     ticketLabel: 'Ingressos — lollapaloozabr.com',
     priceEstimate: 'Ingressos a partir de R$ 650',
     flightFrom: 'Voos para São Paulo a partir de R$ 220',
+    destinationIata: 'GRU',
     source: 'static',
   },
   {
@@ -210,6 +221,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     ticketLabel: 'Ingressos — rockinrio.com',
     priceEstimate: 'Ingressos a partir de R$ 395',
     flightFrom: 'Voos para o Rio a partir de R$ 280',
+    destinationIata: 'GIG',
     source: 'static',
   },
   {
@@ -228,6 +240,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     ticketLabel: 'Ingressos — liesa.com.br',
     priceEstimate: 'Ingressos a partir de R$ 200',
     flightFrom: 'Voos para o Rio a partir de R$ 280',
+    destinationIata: 'GIG',
     source: 'static',
   },
   {
@@ -246,6 +259,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     ticketLabel: 'Guia de viagem — japan.travel',
     priceEstimate: 'Preço estimado a partir de R$ 15.800',
     flightFrom: 'Voos para Tóquio a partir de R$ 7.200',
+    destinationIata: 'NRT',
     source: 'static',
   },
 ]
@@ -407,7 +421,9 @@ function EventCard({ event }: { event: AnyEvent }) {
           }}>
             {event.priceEstimate}
           </div>
-          {'flightFrom' in event && event.flightFrom && (
+          {'destinationIata' in event && event.destinationIata ? (
+            <EventPriceTag iata={event.destinationIata} variant="line" />
+          ) : 'flightFrom' in event && event.flightFrom ? (
             <div style={{
               fontFamily: 'Inter, sans-serif',
               fontSize: '0.78rem',
@@ -416,7 +432,7 @@ function EventCard({ event }: { event: AnyEvent }) {
             }}>
               {event.flightFrom}
             </div>
-          )}
+          ) : null}
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -759,7 +775,7 @@ export default function EventosPage() {
             </div>
           )}
 
-          {/* Info demo mode removida do usu\u00e1rio final \u2014 log no console via useEffect acima */}
+          {/* Info demo mode removida do usuário final — log no console via useEffect acima */}
         </div>
       </section>
 

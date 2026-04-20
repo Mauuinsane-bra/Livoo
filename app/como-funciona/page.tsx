@@ -78,7 +78,7 @@ export default function ComoFuncionaPage() {
             {
               step: '02',
               title: 'A IA monta o roteiro completo',
-              desc: 'Nossa inteligência artificial (GPT-4o) analisa seu pedido, encontra as melhores datas, combina opções de voo e hotel e gera um roteiro detalhado com estimativas de custo.',
+              desc: 'Nossa inteligência artificial analisa seu pedido, encontra as melhores datas, combina opções de voo e hotel e gera um roteiro detalhado com estimativas de custo.',
               detail: 'O roteiro inclui dia a dia, dicas de cada cidade, opções de transporte local e lista de documentos necessários.',
               color: '#7c3aed',
               link: '/roteiro',
@@ -94,7 +94,7 @@ export default function ComoFuncionaPage() {
             {
               step: '04',
               title: 'Reserve com os melhores parceiros',
-              desc: 'A plataforma conecta você diretamente com Booking.com, Travelpayouts, GetYourGuide e outros parceiros confiáveis. Você reserva com segurança em plataformas reconhecidas globalmente.',
+              desc: 'A plataforma conecta você diretamente com parceiros confiáveis de voos, hotéis e experiências. Você reserva com segurança em plataformas reconhecidas globalmente.',
               detail: 'A Go Livoo recebe uma comissão dos parceiros quando você reserva. Para você, o preço é o mesmo — ou melhor, pois negociamos tarifas especiais.',
               color: '#16a34a',
               link: null,
@@ -207,9 +207,9 @@ export default function ComoFuncionaPage() {
             gap: 16,
           }}>
             {[
-              { label: 'Voos', value: 'Travelpayouts / Amadeus', comissao: 'R$15–50/reserva' },
-              { label: 'Hotéis', value: 'Booking.com Affiliate', comissao: '25–40% sobre margem' },
-              { label: 'Experiências', value: 'GetYourGuide', comissao: '~8% do valor' },
+              { label: 'Voos', value: 'Parceiros de voos', comissao: 'Comissão por reserva' },
+              { label: 'Hotéis', value: 'Parceiros de hotéis', comissao: 'Comissão sobre margem' },
+              { label: 'Experiências', value: 'Parceiros de experiências', comissao: 'Comissão por reserva' },
               { label: 'Documentação', value: 'Livoo Prep', comissao: 'R$39 por consulta' },
             ].map(item => (
               <div key={item.label} style={{

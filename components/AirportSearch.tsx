@@ -16,9 +16,11 @@ interface AirportSearchProps {
   value?: Airport | null
   onChange: (airport: Airport | null) => void
   label?: string
+  /** Quando true, usa label claro para fundo escuro */
+  dark?: boolean
 }
 
-export default function AirportSearch({ placeholder = 'Cidade ou aeroporto', value, onChange, label }: AirportSearchProps) {
+export default function AirportSearch({ placeholder = 'Cidade ou aeroporto', value, onChange, label, dark = false }: AirportSearchProps) {
   const [query,   setQuery]   = useState(value ? `${value.city} (${value.iata})` : '')
   const [results, setResults] = useState<Airport[]>([])
   const [open,    setOpen]    = useState(false)
@@ -90,7 +92,7 @@ export default function AirportSearch({ placeholder = 'Cidade ou aeroporto', val
           fontFamily: 'Inter, sans-serif',
           fontSize: '0.78rem',
           fontWeight: 600,
-          color: '#64748B',
+          color: dark ? 'rgba(255,255,255,0.6)' : '#64748B',
           marginBottom: 6,
         }}>
           {label}

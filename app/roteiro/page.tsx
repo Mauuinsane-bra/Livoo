@@ -302,7 +302,7 @@ function RoteiroContent() {
               {
                 num: '04',
                 title: 'Guias e experiências locais',
-                desc: `Experiências e guias especializados em ${parsed.destination} via GetYourGuide.`,
+                desc: `Experiências e guias especializados em ${parsed.destination}.`,
                 cta: 'Ver experiências',
                 href: `/guias?q=${encodeURIComponent(parsed.searchQuery)}`,
                 color: '#1A82D8',
