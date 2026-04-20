@@ -329,14 +329,11 @@ export default async function HomePage() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 8 }} className="prods-grid">
             {products.map(p => (
-              <Link key={p.label} href={p.href} style={{
+              <Link key={p.label} href={p.href} className="prod-card" style={{
                 background: '#fff', border: '1px solid var(--line)', borderRadius: 14, padding: '16px 14px',
                 display: 'flex', flexDirection: 'column', gap: 6, minHeight: 120, textAlign: 'left',
                 textDecoration: 'none', color: 'inherit', transition: 'border-color .15s, transform .15s',
-              }}
-                onMouseOver={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.borderColor = '#0d0d0f'; el.style.transform = 'translateY(-2px)'; }}
-                onMouseOut={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.borderColor = 'var(--line)'; el.style.transform = 'translateY(0)'; }}
-              >
+              }}>
                 <span style={{ color: '#ff5722' }}>{p.icon}</span>
                 <h4 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 13.5, fontWeight: 700, margin: 0, letterSpacing: '-.01em' }}>{p.label}</h4>
                 <p style={{ fontSize: 11.5, color: 'var(--muted)', margin: 0, lineHeight: 1.35 }}>{p.desc}</p>
@@ -399,14 +396,11 @@ export default async function HomePage() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }} className="blog-grid-home">
             {latestPosts.map(post => (
-              <Link key={post._id} href={`/blog/${post.slug}`} style={{
+              <Link key={post._id} href={`/blog/${post.slug}`} className="blog-card" style={{
                 background: '#fff', border: '1px solid var(--line)', borderRadius: 16, overflow: 'hidden',
                 textDecoration: 'none', color: 'inherit', transition: 'border-color .15s',
                 display: 'block',
-              }}
-                onMouseOver={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = '#0d0d0f'; }}
-                onMouseOut={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--line)'; }}
-              >
+              }}>
                 <div style={{
                   aspectRatio: '4/3',
                   background: `url(${blogImgUrl(post)}) center/cover, repeating-linear-gradient(135deg,#d6cfbb 0 10px,#c7beab 10px 20px)`,
@@ -457,6 +451,8 @@ export default async function HomePage() {
       </section>
 
       <style>{`
+        .prod-card:hover { border-color: #0d0d0f !important; transform: translateY(-2px); }
+        .blog-card:hover { border-color: #0d0d0f !important; }
         @media (max-width: 900px) {
           .feat-grid { grid-template-columns: 1fr !important; }
           .catalog-layout { grid-template-columns: 1fr !important; }
