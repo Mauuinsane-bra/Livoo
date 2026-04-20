@@ -15,6 +15,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'images.unsplash.com' },
       { protocol: 'https', hostname: 'photo.hotellook.com' },
       { protocol: 'https', hostname: '**.getyourguide.com' },
+      { protocol: 'https', hostname: 'cdn.sanity.io' },
     ],
   },
   serverExternalPackages: ['amadeus'],
