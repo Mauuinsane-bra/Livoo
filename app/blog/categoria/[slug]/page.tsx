@@ -115,8 +115,9 @@ export async function generateStaticParams() {
   return Object.keys(CAT_META).map(slug => ({ slug }))
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const meta = CAT_META[params.slug]
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const meta = CAT_META[slug]
   if (!meta) return { title: 'Categoria — Blog Go Livoo' }
   return {
     title: `${meta.label} — Blog Go Livoo`,
@@ -136,8 +137,8 @@ function fmtDate(iso: string) {
   return new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })
 }
 
-export default async function CategoryPage({ params }: { params: { slug: string } }) {
-  const { slug } = params
+export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
   const meta = CAT_META[slug] ?? {
     label: slug ? slug.charAt(0).toUpperCase() + slug.slice(1) : 'Categoria',
     description: 'Posts desta categoria.',

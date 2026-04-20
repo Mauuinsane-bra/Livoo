@@ -8,7 +8,7 @@ import { urlFor, type SanityBlogPost } from '@/lib/sanity'
 
 export const revalidate = 60
 
-interface Props { params: { slug: string } }
+interface Props { params: Promise<{ slug: string }> }
 
 type Post = SanityBlogPost & { _fallbackImageUrl?: string; _fallbackContent?: string }
 
@@ -18,7 +18,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = await getPostBySlug(params.slug) as Post | null
+  const { slug } = await params
+  const post = await getPostBySlug(slug) as Post | null
   if (!post) return {}
   const img = post.coverImage ? urlFor(post.coverImage).width(1200).url() : post._fallbackImageUrl
   return {
@@ -109,7 +110,8 @@ const ptComponents = {
 }
 
 export default async function BlogPost({ params }: Props) {
-  const post = await getPostBySlug(params.slug) as Post | null
+  const { slug } = await params
+  const post = await getPostBySlug(slug) as Post | null
   if (!post) notFound()
 
   const allPosts = await getAllPosts() as Post[]
