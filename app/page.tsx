@@ -301,13 +301,4 @@ export default async function Home() {
       <style>{`
         @media (max-width: 900px) {
           .events-grid-home { grid-template-columns: repeat(2, 1fr) !important; }
-          .dest-grid-home   { grid-template-columns: repeat(3, 1fr) !important; }
-        }
-        @media (max-width: 600px) {
-          .events-grid-home { grid-template-columns: 1fr !important; }
-          .dest-grid-home   { grid-template-columns: repeat(2, 1fr) !important; }
-        }
-      `}</style>
-    </>
-  )
-}
+          .dest-gri

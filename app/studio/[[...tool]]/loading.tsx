@@ -13,6 +13,4 @@ export default function Loading() {
       fontSize: '0.9rem',
     }}>
       Carregando Go Livoo Studio…
-    </div>
-  )
-}
+  

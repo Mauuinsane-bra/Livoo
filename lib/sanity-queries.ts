@@ -104,9 +104,4 @@ export async function getAllSlugs(): Promise<string[]> {
     const slugs = await sanityClient.fetch<{ slug: string }[]>(
       `*[_type == "blogPost"]{ "slug": slug.current }`
     )
-    if (slugs?.length) return slugs.map(s => s.slug)
-  } catch {
-    // silêncio
-  }
-  return BLOG_POSTS.map(p => p.slug)
-}
+    if (slugs?.leng

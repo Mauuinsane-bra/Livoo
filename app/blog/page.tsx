@@ -261,13 +261,4 @@ export default async function BlogPage() {
             color: 'rgba(255,255,255,0.65)',
             maxWidth: 500,
             margin: '0 auto 28px',
-            lineHeight: 1.7,
-          }}>
-            Use a Go Livoo para gerar um roteiro completo com voo, hotel e documentação — em segundos.
-          </p>
-          <Link href="/" className="btn-gold">Gerar meu roteiro agora</Link>
-        </div>
-      </div>
-    </div>
-  )
-}
+            lineHeight: 

@@ -142,12 +142,4 @@ export const blogPost = defineType({
     prepare({ title, category, media, publishedAt }) {
       const date = publishedAt
         ? new Date(publishedAt).toLocaleDateString('pt-BR')
-        : 'Sem data'
-      return {
-        title,
-        subtitle: `${category ?? 'Sem categoria'} · ${date}`,
-        media,
-      }
-    },
-  },
-})
+        
