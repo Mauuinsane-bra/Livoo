@@ -1,5 +1,6 @@
 // lib/sanity.ts — cliente Sanity para buscar dados no Next.js
-import { createClient } from 'next-sanity'
+// Usa @sanity/client diretamente (sem next-sanity) para compatibilidade com Next.js 16
+import { createClient } from '@sanity/client'
 import imageUrlBuilder from '@sanity/image-url'
 
 // Tipo compatível com @sanity/image-url sem depender de path interno do pacote

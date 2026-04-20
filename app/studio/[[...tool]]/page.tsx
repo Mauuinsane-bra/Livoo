@@ -1,19 +1,13 @@
 /**
- * /studio — Sanity Studio embutido no Next.js
- * Acesse em: https://livoo-two.vercel.app/studio
+ * /studio — redireciona para o Sanity Studio em golivoo.sanity.io
  *
- * Para publicar um post:
- * 1. Faça login com sua conta Sanity (golivoo.sanity.io)
- * 2. Clique em "Posts do Blog" → "+ Novo Post"
- * 3. Preencha o conteúdo e clique em "Publicar"
+ * O Studio embutido foi removido para compatibilidade com Next.js 16.
+ * Para publicar posts, acesse: https://golivoo.sanity.io
  */
-'use client'
-
-import { NextStudio } from 'next-sanity/studio'
-import config from '../../../sanity.config'
+import { redirect } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
 
 export default function StudioPage() {
-  return <NextStudio config={config} />
+  redirect('https://golivoo.sanity.io')
 }
