@@ -15,4 +15,5 @@ import config from '../../../sanity.config'
 export const dynamic = 'force-dynamic'
 
 export default function StudioPage() {
-  return <NextStudio conf
+  return <NextStudio config={config} />
+}

@@ -24,4 +24,6 @@ export default defineConfig({
     visionTool(),
   ],
   schema: {
-    ty
+    types: schemaTypes,
+  },
+})

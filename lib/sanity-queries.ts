@@ -104,4 +104,9 @@ export async function getAllSlugs(): Promise<string[]> {
     const slugs = await sanityClient.fetch<{ slug: string }[]>(
       `*[_type == "blogPost"]{ "slug": slug.current }`
     )
-    if (slugs?.leng
+    if (slugs?.length > 0) return slugs.map(s => s.slug)
+  } catch (err) {
+    console.info('[Go Livoo] Sanity getAllSlugs: usando fallback local', err)
+  }
+  return BLOG_POSTS.map(p => p.slug)
+}

@@ -233,4 +233,15 @@ export async function POST(req: NextRequest) {
   const articleUrl = `https://golivoo.com.br/blog/${post.slug}`
 
   // Postar em paralelo
-  const [igOk,
+  const [igOk, fbOk] = await Promise.all([
+    postToInstagram(caption, imageUrl),
+    postToFacebook(caption, imageUrl, articleUrl),
+  ])
+
+  return NextResponse.json({
+    success: true,
+    instagram: igOk,
+    facebook: fbOk,
+    caption,
+  })
+}
