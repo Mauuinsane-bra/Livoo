@@ -102,7 +102,7 @@ export async function getPostBySlug(slug: string): Promise<(SanityBlogPost & { _
 export async function getPostsByCategory(category: string): Promise<SanityBlogPost[]> {
   try {
     const posts = await sanityClient.fetch<SanityBlogPost[]>(
-      `*[_type == "blogPost" && lower(category) == $cat] | order(publishedAt desc) { ${POST_FIELDS} }`,
+      `*[_type == "blogPost" && string::lower(category) == $cat] | order(publishedAt desc) { ${POST_FIELDS} }`,
       { cat: category.toLowerCase() }
     )
     if (posts && posts.length > 0) return posts

@@ -139,7 +139,7 @@ function fmtDate(iso: string) {
 export default async function CategoryPage({ params }: { params: { slug: string } }) {
   const { slug } = params
   const meta = CAT_META[slug] ?? {
-    label: slug.charAt(0).toUpperCase() + slug.slice(1),
+    label: slug ? slug.charAt(0).toUpperCase() + slug.slice(1) : 'Categoria',
     description: 'Posts desta categoria.',
     count: 0, articles: 0, saved: '0', reads: '0', keyword: slug,
   }
@@ -636,8 +636,8 @@ export default async function CategoryPage({ params }: { params: { slug: string 
                   </div>
                 )}
                 <div className="cat-post-footer">
-                  <div className="cat-post-author-av">{post.author.charAt(0)}</div>
-                  <span className="cat-post-author-name">{post.author}</span>
+                  <div className="cat-post-author-av">{(post.author ?? 'E').charAt(0)}</div>
+                  <span className="cat-post-author-name">{post.author ?? 'Equipe Go Livoo'}</span>
                   <span className="cat-post-cta">
                     Ler artigo
                     <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
