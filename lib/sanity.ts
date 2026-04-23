@@ -11,7 +11,7 @@ export const sanityClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '0tdmg2yt',
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   apiVersion: '2026-04-20',
-  useCdn: true,
+  useCdn: false,   // false = API direta, sem delay de CDN — posts aparecem imediatamente após publicar
   // token de leitura (opcional — necessário apenas para conteúdo privado)
   // token: process.env.SANITY_API_TOKEN,
 })
