@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import type { TMEvent } from '@/app/api/events/route'
+import type { EBEvent } from '@/app/api/eventbrite/route'
 import EventPriceTag from '@/components/EventPriceTag'
 
 // ── Tipos ──────────────────────────────────────────────────
@@ -29,7 +30,7 @@ interface StaticEvent {
   source:        'static'
 }
 
-type AnyEvent = StaticEvent | (TMEvent & { flightFrom?: string })
+type AnyEvent = StaticEvent | (TMEvent & { flightFrom?: string }) | EBEvent
 
 // ── Eventos curados (fallback e base sempre visível) ────────
 
@@ -260,6 +261,273 @@ const STATIC_EVENTS: StaticEvent[] = [
     priceEstimate: 'Preço estimado a partir de R$ 15.800',
     flightFrom: 'Voos para Tóquio a partir de R$ 7.200',
     destinationIata: 'NRT',
+    source: 'static',
+  },
+  // ── Eventos internacionais adicionais ──
+  {
+    id: 'coachella',
+    title: 'Coachella Valley Music & Arts Festival',
+    description: 'O festival mais icônico do mundo — dois finais de semana no deserto da Califórnia com os maiores nomes da música pop, eletrônica e alternativa.',
+    date: 'Abr 2027',
+    location: 'Indio, EUA',
+    country: 'EUA',
+    flag: '🇺🇸',
+    category: 'shows',
+    tag: 'Ícone Mundial',
+    tagColor: '#7c3aed',
+    imageUrl: 'https://images.unsplash.com/photo-1493676304819-0d7a40d39775?w=600',
+    ticketUrl: 'https://www.coachella.com/',
+    ticketLabel: 'Ingressos — coachella.com',
+    priceEstimate: 'A partir de US$ 649 (≈ R$ 3.750)',
+    flightFrom: 'Voos para Los Angeles a partir de R$ 3.800',
+    destinationIata: 'LAX',
+    source: 'static',
+  },
+  {
+    id: 'glastonbury',
+    title: 'Glastonbury Festival',
+    description: 'O maior festival de música ao ar livre do mundo, na Inglaterra. Cinco dias de música, arte e cultura em torno dos lendários palcos de Somerset.',
+    date: 'Jun 2027',
+    location: 'Somerset, Inglaterra',
+    country: 'Inglaterra',
+    flag: '🇬🇧',
+    category: 'shows',
+    tag: 'Lendário',
+    tagColor: '#7c3aed',
+    imageUrl: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=600',
+    ticketUrl: 'https://www.glastonburyfestivals.co.uk/',
+    ticketLabel: 'Ingressos — glastonburyfestivals.co.uk',
+    priceEstimate: 'A partir de £ 340 (≈ R$ 2.200)',
+    flightFrom: 'Voos para Londres a partir de R$ 4.200',
+    destinationIata: 'LHR',
+    source: 'static',
+  },
+  {
+    id: 'tomorrowland',
+    title: 'Tomorrowland',
+    description: 'O maior festival de música eletrônica do mundo, na Bélgica. Cenários de conto de fadas, DJs internacionais e uma experiência de outra dimensão.',
+    date: 'Jul 2027',
+    location: 'Boom, Bélgica',
+    country: 'Bélgica',
+    flag: '🇧🇪',
+    category: 'shows',
+    tag: 'Eletrônica',
+    tagColor: '#7c3aed',
+    imageUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600',
+    ticketUrl: 'https://www.tomorrowland.com/',
+    ticketLabel: 'Ingressos — tomorrowland.com',
+    priceEstimate: 'A partir de €250 (≈ R$ 1.560)',
+    flightFrom: 'Voos para Bruxelas a partir de R$ 4.800',
+    destinationIata: 'BRU',
+    source: 'static',
+  },
+  {
+    id: 'oktoberfest',
+    title: 'Oktoberfest — Munique',
+    description: 'A maior festa do mundo acontece em Munique. Duas semanas de cerveja, música bávara, trajes típicos e seis milhões de visitantes anualmente.',
+    date: 'Set–Out 2026',
+    location: 'Munique, Alemanha',
+    country: 'Alemanha',
+    flag: '🇩🇪',
+    category: 'cultura',
+    tag: 'Tradição',
+    tagColor: '#ffd600',
+    imageUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600',
+    ticketUrl: 'https://www.oktoberfest.de/en/',
+    ticketLabel: 'Guia oficial — oktoberfest.de',
+    priceEstimate: 'Entrada gratuita (consumação à parte)',
+    flightFrom: 'Voos para Munique a partir de R$ 4.600',
+    destinationIata: 'MUC',
+    source: 'static',
+  },
+  {
+    id: 'le-mans-24h',
+    title: '24 Horas de Le Mans',
+    description: 'A corrida de resistência mais famosa do mundo. 24 horas ininterruptas no mítico circuito de La Sarthe, na França. Uma experiência única para qualquer fã de automobilismo.',
+    date: 'Jun 2027',
+    location: 'Le Mans, França',
+    country: 'França',
+    flag: '🇫🇷',
+    category: 'automobilismo',
+    tag: 'Resistência',
+    tagColor: '#dc2626',
+    imageUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600',
+    ticketUrl: 'https://www.24h-lemans.com/',
+    ticketLabel: 'Ingressos — 24h-lemans.com',
+    priceEstimate: 'A partir de €90 (≈ R$ 560)',
+    flightFrom: 'Voos para Paris a partir de R$ 4.900',
+    destinationIata: 'CDG',
+    source: 'static',
+  },
+  {
+    id: 'moto-gp-mugello',
+    title: 'MotoGP — Gran Premio d\'Italia',
+    description: 'O GP da Itália em Mugello é um dos mais atmosféricos do calendário MotoGP. Torcida apaixonada, história e a beleza da Toscana ao redor.',
+    date: 'Jun 2026',
+    location: 'Mugello, Itália',
+    country: 'Itália',
+    flag: '🇮🇹',
+    category: 'automobilismo',
+    tag: 'MotoGP',
+    tagColor: '#dc2626',
+    imageUrl: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=600',
+    ticketUrl: 'https://www.motogp.com/en/event/2026/ITA',
+    ticketLabel: 'Ingressos — motogp.com',
+    priceEstimate: 'A partir de €80 (≈ R$ 500)',
+    flightFrom: 'Voos para Florença a partir de R$ 5.200',
+    destinationIata: 'FLR',
+    source: 'static',
+  },
+  {
+    id: 'wimbledon',
+    title: 'Wimbledon Championships',
+    description: 'O torneio de tênis mais prestigioso do mundo, no All England Club em Londres. Morango com creme, gramado perfeito e a nobreza do esporte branco.',
+    date: 'Jun–Jul 2027',
+    location: 'Londres, Inglaterra',
+    country: 'Inglaterra',
+    flag: '🇬🇧',
+    category: 'esportes',
+    tag: 'Grand Slam',
+    tagColor: '#16a34a',
+    imageUrl: 'https://images.unsplash.com/photo-1542144582-1ba00456b5e3?w=600',
+    ticketUrl: 'https://www.wimbledon.com/en_GB/tickets/',
+    ticketLabel: 'Ingressos — wimbledon.com',
+    priceEstimate: 'Sorteio público ou revendas a partir de £200',
+    flightFrom: 'Voos para Londres a partir de R$ 4.200',
+    destinationIata: 'LHR',
+    source: 'static',
+  },
+  {
+    id: 'tour-de-france',
+    title: 'Tour de France — Chegada em Paris',
+    description: 'Assistir à chegada do Tour de France na Champs-Élysées é uma das experiências esportivas mais memoráveis do mundo. Entrada gratuita na última etapa.',
+    date: 'Jul 2027',
+    location: 'Paris, França',
+    country: 'França',
+    flag: '🇫🇷',
+    category: 'esportes',
+    tag: 'Ciclismo',
+    tagColor: '#ffd600',
+    imageUrl: 'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=600',
+    ticketUrl: 'https://www.letour.fr/en/',
+    ticketLabel: 'Info — letour.fr',
+    priceEstimate: 'Chegada em Paris: entrada gratuita',
+    flightFrom: 'Voos para Paris a partir de R$ 4.900',
+    destinationIata: 'CDG',
+    source: 'static',
+  },
+  {
+    id: 'super-bowl',
+    title: 'Super Bowl LXI',
+    description: 'A maior final esportiva do planeta. Shows durante o intervalo, coquetel de celebridades e o espetáculo americano em sua forma mais pura.',
+    date: 'Fev 2027',
+    location: 'EUA (cidade a confirmar)',
+    country: 'EUA',
+    flag: '🇺🇸',
+    category: 'esportes',
+    tag: 'NFL',
+    tagColor: '#1A82D8',
+    imageUrl: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=600',
+    ticketUrl: 'https://www.nfl.com/super-bowl/',
+    ticketLabel: 'Info — nfl.com',
+    priceEstimate: 'A partir de US$ 3.000 (≈ R$ 17.400)',
+    flightFrom: 'Voos para os EUA a partir de R$ 3.800',
+    destinationIata: 'LAX',
+    source: 'static',
+  },
+  {
+    id: 'carnaval-veneza',
+    title: 'Carnaval de Veneza',
+    description: 'Um dos mais antigos e glamourosos carnavais do mundo. Máscaras elaboradas, óperas ao ar livre e a magia dos canais venezianos no inverno.',
+    date: 'Fev 2027',
+    location: 'Veneza, Itália',
+    country: 'Itália',
+    flag: '🇮🇹',
+    category: 'cultura',
+    tag: 'Tradicional',
+    tagColor: '#ffd600',
+    imageUrl: 'https://images.unsplash.com/photo-1534430480872-3498386e7856?w=600',
+    ticketUrl: 'https://www.carnevale.venezia.it/',
+    ticketLabel: 'Info — carnevale.venezia.it',
+    priceEstimate: 'Evento gratuito (festas privadas a partir de €80)',
+    flightFrom: 'Voos para Veneza a partir de R$ 5.400',
+    destinationIata: 'VCE',
+    source: 'static',
+  },
+  {
+    id: 'nba-finals',
+    title: 'NBA Finals 2027',
+    description: 'A grande final do basquete americano. O melhor espetáculo da NBA ao vivo — intensidade, celebrities e a atmosfera que só os EUA sabe criar.',
+    date: 'Jun 2027',
+    location: 'EUA (cidade a confirmar)',
+    country: 'EUA',
+    flag: '🇺🇸',
+    category: 'esportes',
+    tag: 'NBA',
+    tagColor: '#1A82D8',
+    imageUrl: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=600',
+    ticketUrl: 'https://www.nba.com/playoffs',
+    ticketLabel: 'Info — nba.com',
+    priceEstimate: 'A partir de US$ 500 (≈ R$ 2.900)',
+    flightFrom: 'Voos para os EUA a partir de R$ 3.800',
+    destinationIata: 'JFK',
+    source: 'static',
+  },
+  {
+    id: 'edinburgh-fringe',
+    title: 'Edinburgh Fringe Festival',
+    description: 'O maior festival de artes do mundo — 3.000+ espetáculos em 250 locais por todo Edimburgo. Teatro, comédia, dança, música e o melhor da cultura indie.',
+    date: 'Ago 2026',
+    location: 'Edimburgo, Escócia',
+    country: 'Escócia',
+    flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+    category: 'cultura',
+    tag: 'Arte & Teatro',
+    tagColor: '#0891b2',
+    imageUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600',
+    ticketUrl: 'https://www.edfringe.com/',
+    ticketLabel: 'Programação — edfringe.com',
+    priceEstimate: 'Espetáculos a partir de £8 (≈ R$ 52)',
+    flightFrom: 'Voos para Edimburgo a partir de R$ 5.100',
+    destinationIata: 'EDI',
+    source: 'static',
+  },
+  {
+    id: 'copa-mundo-2026',
+    title: 'Copa do Mundo FIFA 2026',
+    description: 'A Copa do Mundo acontece no Canadá, EUA e México. O Brasil buscando o hexacampeonato — o maior evento esportivo do planeta em solo norte-americano.',
+    date: 'Jun–Jul 2026',
+    location: 'EUA, Canadá e México',
+    country: 'EUA',
+    flag: '🇺🇸',
+    category: 'futebol',
+    tag: 'Copa do Mundo',
+    tagColor: '#ffd600',
+    imageUrl: 'https://images.unsplash.com/photo-1556816213-354f013c9d40?w=600',
+    ticketUrl: 'https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/tickets',
+    ticketLabel: 'Ingressos — fifa.com',
+    priceEstimate: 'Fase de grupos a partir de US$ 80 (≈ R$ 464)',
+    flightFrom: 'Voos para Nova York a partir de R$ 3.600',
+    destinationIata: 'JFK',
+    source: 'static',
+  },
+  {
+    id: 'champions-league-final',
+    title: 'Final da UEFA Champions League',
+    description: 'A maior noite do futebol europeu. Os dois melhores clubes do continente em uma final épica que para o mundo.',
+    date: 'Mai 2027',
+    location: 'Europa (cidade a confirmar)',
+    country: 'Europa',
+    flag: '🌍',
+    category: 'futebol',
+    tag: 'Champions League',
+    tagColor: '#1A82D8',
+    imageUrl: 'https://images.unsplash.com/photo-1551958219-acbc82e6e25b?w=600',
+    ticketUrl: 'https://www.uefa.com/uefachampionsleague/',
+    ticketLabel: 'Info — uefa.com',
+    priceEstimate: 'A partir de €200 (≈ R$ 1.250)',
+    flightFrom: 'Voos para Europa a partir de R$ 4.200',
+    destinationIata: 'LHR',
     source: 'static',
   },
 ]
@@ -516,9 +784,8 @@ export default function EventosPage() {
   const [activeCategory, setActiveCategory] = useState<Category>('todos')
   const [keyword, setKeyword]               = useState('')
   const [inputValue, setInputValue]         = useState('')
-  const [liveEvents, setLiveEvents]         = useState<TMEvent[]>([])
-  const [loading, setLoading]               = useState(false)
-  const [isDemoMode, setIsDemoMode]         = useState(false)
+  const [liveEvents, setLiveEvents]     = useState<(TMEvent | EBEvent)[]>([])
+  const [loading, setLoading]           = useState(false)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Debounce do input de busca
@@ -528,7 +795,7 @@ export default function EventosPage() {
     debounceRef.current = setTimeout(() => setKeyword(val), 400)
   }
 
-  // Busca ao Ticketmaster quando keyword ou category muda
+  // Busca Ticketmaster + Eventbrite em paralelo quando keyword ou category muda
   useEffect(() => {
     async function fetchLive() {
       setLoading(true)
@@ -537,10 +804,18 @@ export default function EventosPage() {
         if (keyword) qs.set('keyword', keyword)
         if (activeCategory !== 'todos') qs.set('category', activeCategory)
 
-        const res  = await fetch(`/api/events?${qs}`)
-        const data = await res.json()
-        setLiveEvents(data.events ?? [])
-        setIsDemoMode(data.isDemoMode ?? false)
+        const [tmRes, ebRes] = await Promise.allSettled([
+          fetch(`/api/events?${qs}`).then(r => r.json()),
+          fetch(`/api/eventbrite?${qs}`).then(r => r.json()),
+        ])
+
+        const tmEvents: TMEvent[] = tmRes.status === 'fulfilled' ? (tmRes.value.events ?? []) : []
+        const ebEvents: EBEvent[] = ebRes.status === 'fulfilled' ? (ebRes.value.events ?? []) : []
+
+        if (tmRes.status === 'rejected') console.info('[Go Livoo] Ticketmaster indisponível, usando Eventbrite.')
+        if (ebRes.status === 'rejected') console.info('[Go Livoo] Eventbrite indisponível.')
+
+        setLiveEvents([...tmEvents, ...ebEvents])
       } catch {
         setLiveEvents([])
       } finally {
@@ -551,13 +826,6 @@ export default function EventosPage() {
     fetchLive()
   }, [keyword, activeCategory])
 
-  // Log no console (não na UI) quando a API responde em modo demo
-  useEffect(() => {
-    if (isDemoMode && keyword) {
-      console.info('[Go Livoo] Busca de eventos em modo demo (TICKETMASTER_API_KEY não configurada).')
-    }
-  }, [isDemoMode, keyword])
-
   // Filtra estáticos por categoria + keyword
   const filteredStatic = STATIC_EVENTS.filter(e => {
     const matchCat = activeCategory === 'todos' || e.category === activeCategory
@@ -566,12 +834,12 @@ export default function EventosPage() {
     return matchCat && matchKw
   })
 
-  // Deduplica TM (remove se já tem id idêntico no estático, improvável mas seguro)
+  // Deduplica live events (remove se já tem id idêntico no estático)
   const staticIds = new Set(filteredStatic.map(e => e.id))
   const uniqueLive = liveEvents.filter(e => !staticIds.has(e.id))
 
-  // Se buscando: TM primeiro, depois estáticos relevantes
-  // Se não buscando: só estáticos (TM carrega silenciosamente)
+  // Se buscando: live primeiro, depois estáticos relevantes
+  // Se não buscando: estáticos primeiro (já curados), live no final
   const allEvents: AnyEvent[] = keyword
     ? [...uniqueLive, ...filteredStatic]
     : [...filteredStatic, ...uniqueLive]
@@ -684,8 +952,8 @@ export default function EventosPage() {
       <section style={{ padding: '48px 0 80px' }}>
         <div className="container">
 
-          {/* Banner Ticketmaster (ao vivo) */}
-          {!isDemoMode && uniqueLive.length > 0 && (
+          {/* Banner eventos ao vivo */}
+          {uniqueLive.length > 0 && (
             <div style={{
               background: '#fff',
               border: '1px solid #e7e6e0',

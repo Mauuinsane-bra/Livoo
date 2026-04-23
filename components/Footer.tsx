@@ -15,6 +15,7 @@ const cols = {
     { label: 'Eventos',         href: '/eventos' },
     { label: 'Roteiro Completo',href: '/roteiro' },
     { label: 'Passagens',       href: '/passagens' },
+    { label: 'Promoções',       href: '/promocoes' },
     { label: 'Hotéis',         href: '/hoteis' },
     { label: 'Voos Baratos',    href: '/voos-baratos' },
     { label: 'Pacotes',         href: '/pacotes' },

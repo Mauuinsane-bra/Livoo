@@ -17,6 +17,7 @@ const navLinks = [
   { label: 'Eventos',    href: '/eventos' },
   { label: 'Roteiro',    href: '/roteiro' },
   { label: 'Passagens',  href: '/passagens' },
+  { label: 'Promoções',  href: '/promocoes' },
   { label: 'Hotéis',    href: '/hoteis' },
   { label: 'Pacotes',    href: '/pacotes' },
   { label: 'Carros',     href: '/carros' },

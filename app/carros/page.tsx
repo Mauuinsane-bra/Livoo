@@ -468,47 +468,138 @@ function CarrosContent() {
 
         {!searched && (
           <div>
-            <p style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '0.85rem', color: '#6d6d74',
-              marginBottom: 20, textAlign: 'center',
-            }}>
-              Preencha o local e as datas — os links abaixo serão ativados com seus dados.
-            </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, opacity: 0.5, pointerEvents: 'none' }}>
-              {CAR_PROVIDERS.map(provider => (
-                <div key={provider.id} className="card" style={{ padding: '24px 28px', display: 'flex', alignItems: 'center', gap: 20 }}>
-                  <ProviderMonogram initials={provider.initials} color={provider.color} />
-                  <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                      <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.05rem', color: '#0d0d0f', margin: 0 }}>
-                        {provider.name}
-                      </h3>
-                      {provider.badge && (
-                        <span style={{
-                          fontFamily: 'Inter, sans-serif', fontSize: '0.68rem',
-                          fontWeight: 700, color: provider.color, background: provider.color + '15',
-                          padding: '2px 8px', borderRadius: 20, textTransform: 'uppercase',
-                        }}>
-                          {provider.badge}
+            {/* Seção: parceiros disponíveis */}
+            <div style={{ marginBottom: 40 }}>
+              <h2 style={{
+                fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.25rem',
+                fontWeight: 700, color: '#0d0d0f', margin: '0 0 6px',
+              }}>
+                Locadoras disponíveis
+              </h2>
+              <p style={{
+                fontFamily: 'Inter, sans-serif', fontSize: '0.85rem',
+                color: '#6d6d74', margin: '0 0 20px',
+              }}>
+                Preencha as datas acima e clique em "Buscar carros" — seus dados são enviados automaticamente para cada locadora.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {CAR_PROVIDERS.map(provider => (
+                  <div key={provider.id} className="card" style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', gap: 18 }}>
+                    <ProviderMonogram initials={provider.initials} color={provider.color} />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
+                        <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: '1rem', color: '#0d0d0f' }}>
+                          {provider.name}
                         </span>
-                      )}
+                        {provider.badge && (
+                          <span style={{
+                            fontFamily: 'Inter, sans-serif', fontSize: '0.65rem', fontWeight: 700,
+                            color: provider.color, background: provider.color + '18',
+                            padding: '2px 8px', borderRadius: 20, textTransform: 'uppercase', letterSpacing: '0.5px',
+                          }}>
+                            {provider.badge}
+                          </span>
+                        )}
+                      </div>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#6d6d74', margin: '0 0 3px' }}>
+                        {provider.description}
+                      </p>
+                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 600, color: provider.color }}>
+                        Estimativa: {provider.priceRange}
+                      </span>
                     </div>
-                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.83rem', color: '#6d6d74', margin: 0 }}>
-                      {provider.description}
-                    </p>
+                    <a
+                      href={provider.buildUrl('', '', '')}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'inline-block', flexShrink: 0,
+                        background: '#f4f4f2', color: '#0d0d0f',
+                        fontFamily: 'Inter, sans-serif', fontWeight: 600,
+                        fontSize: '0.82rem', padding: '9px 18px', borderRadius: 10,
+                        textDecoration: 'none', whiteSpace: 'nowrap',
+                        border: '1.5px solid #e7e6e0',
+                      }}
+                    >
+                      Ver site →
+                    </a>
                   </div>
-                  <div style={{
-                    background: '#e7e6e0', color: '#fff',
-                    fontFamily: 'Inter, sans-serif',
-                    fontWeight: 700, fontSize: '0.85rem',
-                    padding: '10px 20px', borderRadius: 10,
-                    whiteSpace: 'nowrap', flexShrink: 0,
+                ))}
+              </div>
+            </div>
+
+            {/* Seção: faixas de preço por rota */}
+            <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #e7e6e0', padding: '28px 28px', marginBottom: 28 }}>
+              <h3 style={{
+                fontFamily: 'Space Grotesk, sans-serif', fontSize: '1rem',
+                fontWeight: 700, color: '#0d0d0f', margin: '0 0 18px',
+              }}>
+                Faixas de preço por destino
+              </h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 14 }}>
+                {[
+                  { destino: 'São Paulo (GRU)', preco: 'R$ 79–180/dia', tipo: 'Compacto a SUV' },
+                  { destino: 'Rio de Janeiro', preco: 'R$ 85–200/dia', tipo: 'Compacto a SUV' },
+                  { destino: 'Florianópolis', preco: 'R$ 70–160/dia', tipo: 'Compacto a SUV' },
+                  { destino: 'Buenos Aires', preco: 'US$ 35–90/dia', tipo: 'Econômico a premium' },
+                  { destino: 'Lisboa', preco: '€22–65/dia', tipo: 'Econômico a premium' },
+                  { destino: 'Miami / EUA', preco: 'US$ 30–80/dia', tipo: 'Econômico a SUV' },
+                ].map(r => (
+                  <div key={r.destino} style={{
+                    background: '#fafaf7', borderRadius: 10,
+                    padding: '14px 16px', border: '1px solid #f0efeb',
                   }}>
-                    Ver preços →
+                    <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: '0.88rem', color: '#0d0d0f', marginBottom: 4 }}>
+                      {r.destino}
+                    </div>
+                    <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.92rem', fontWeight: 700, color: '#ff5722', marginBottom: 2 }}>
+                      {r.preco}
+                    </div>
+                    <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', color: '#6d6d74' }}>
+                      {r.tipo}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', color: '#9a9aa0', margin: '14px 0 0' }}>
+                Estimativas baseadas em pesquisas recentes. Preços reais variam por data, categoria e disponibilidade.
+              </p>
+            </div>
+
+            {/* Como funciona */}
+            <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #e7e6e0', padding: '28px 28px' }}>
+              <h3 style={{
+                fontFamily: 'Space Grotesk, sans-serif', fontSize: '1rem',
+                fontWeight: 700, color: '#0d0d0f', margin: '0 0 20px',
+              }}>
+                Como funciona
+              </h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+                {[
+                  { n: '1', t: 'Informe o destino', d: 'Digite a cidade, aeroporto ou endereço de retirada e as datas desejadas.' },
+                  { n: '2', t: 'Escolha a locadora', d: 'Veja as opções com faixa de preço estimada e clique na que preferir.' },
+                  { n: '3', t: 'Reserve direto', d: 'Seus dados são enviados automaticamente. Complete a reserva no site da locadora.' },
+                ].map(s => (
+                  <div key={s.n}>
+                    <div style={{
+                      width: 32, height: 32, borderRadius: 10,
+                      background: 'linear-gradient(135deg, #ff5722, #e04010)',
+                      color: '#fff', fontFamily: 'Space Grotesk, sans-serif',
+                      fontWeight: 800, fontSize: '0.95rem',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      marginBottom: 10,
+                    }}>
+                      {s.n}
+                    </div>
+                    <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: '0.88rem', color: '#0d0d0f', marginBottom: 5 }}>
+                      {s.t}
+                    </div>
+                    <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#6d6d74', lineHeight: 1.5 }}>
+                      {s.d}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}
