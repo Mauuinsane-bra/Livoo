@@ -7,7 +7,7 @@ import { schemaTypes } from './sanity/schemaTypes'
 export default defineConfig({
   name: 'go-livoo',
   title: 'Go Livoo · Blog',
-  projectId: 'r1ne031h',
+  projectId: '0tdmg2yt',
   dataset: 'production',
   plugins: [
     structureTool({

@@ -8,7 +8,7 @@ import imageUrlBuilder from '@sanity/image-url'
 type SanityImageSource = any
 
 export const sanityClient = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'r1ne031h',
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '0tdmg2yt',
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   apiVersion: '2026-04-20',
   useCdn: true,
