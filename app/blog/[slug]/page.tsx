@@ -6,15 +6,20 @@ import { PortableText } from '@portabletext/react'
 import { getPostBySlug, getAllSlugs, getAllPosts } from '@/lib/sanity-queries'
 import { urlFor, type SanityBlogPost } from '@/lib/sanity'
 
-export const revalidate = 60
+export const revalidate = 0      // sempre renderiza fresh — garante que posts novos aparecem na hora
+export const dynamicParams = true // slugs fora do generateStaticParams são gerados on-demand
 
 interface Props { params: Promise<{ slug: string }> }
 
 type Post = SanityBlogPost & { _fallbackImageUrl?: string; _fallbackContent?: string }
 
 export async function generateStaticParams() {
-  const slugs = await getAllSlugs()
-  return slugs.map(slug => ({ slug }))
+  try {
+    const slugs = await getAllSlugs()
+    return slugs.map(slug => ({ slug }))
+  } catch {
+    return []  // se Sanity falhar no build, não bloqueia o deploy
+  }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

@@ -74,11 +74,16 @@ export async function getPostBySlug(slug: string): Promise<(SanityBlogPost & { _
         content,
         autoPost
       }`,
-      { slug }
+      { slug },
+      { cache: 'no-store' }   // força busca sempre fresh, nunca usa cache do Next.js
     )
     if (post?._id) return post
+    // post retornou mas sem _id → loga para diagnóstico
+    if (post !== null && post !== undefined) {
+      console.error('[Go Livoo] getPostBySlug: Sanity retornou objeto sem _id para slug:', slug, post)
+    }
   } catch (err) {
-    console.info('[Go Livoo] Sanity getPostBySlug: usando fallback local', err)
+    console.error('[Go Livoo] getPostBySlug ERRO para slug:', slug, err)
   }
   // Fallback local
   const local = BLOG_POSTS.find(p => p.slug === slug)
