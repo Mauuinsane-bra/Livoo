@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import BirdCabecudinha from './BirdCabecudinha'
 
@@ -20,6 +21,10 @@ const navLinks = [
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const pathname = usePathname()
+
+  // Blog tem layout próprio — não exibir Navbar do site
+  if (pathname.startsWith('/blog')) return null
 
   return (
     <>

@@ -54,7 +54,7 @@ export default function BlogLayout({ children }: { children: React.ReactNode }) 
           background: var(--bg-2);
           border-bottom: 1px solid var(--line);
           position: sticky;
-          top: 64px;
+          top: 0;
           z-index: 35;
         }
         .blog-subnav .inner {

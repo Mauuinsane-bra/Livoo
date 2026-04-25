@@ -1,8 +1,8 @@
 // Logo 05 — Cabeçudinha · site principal (navbar + footer)
 
-interface Props { size?: number; rounded?: boolean }
+interface Props { size?: number }
 
-export default function BirdCabecudinha({ size = 48, rounded = true }: Props) {
+export default function BirdCabecudinha({ size = 48 }: Props) {
   return (
     <svg
       viewBox="0 0 100 100"
@@ -11,7 +11,7 @@ export default function BirdCabecudinha({ size = 48, rounded = true }: Props) {
       xmlns="http://www.w3.org/2000/svg"
       role="img"
       aria-label="Go Livoo"
-      style={{ display: 'block', flexShrink: 0, borderRadius: rounded ? Math.round(size * 0.22) : 0 }}
+      style={{ display: 'block', flexShrink: 0 }}
     >
       <style>{`
         @keyframes cbc-flap  { 0%,100%{transform:scaleY(1)}   50%{transform:scaleY(.7)} }
@@ -24,8 +24,6 @@ export default function BirdCabecudinha({ size = 48, rounded = true }: Props) {
           .cbc-body, .cbc-wings, .cbc-eye { animation: none; }
         }
       `}</style>
-
-      <rect width="100" height="100" fill="#0F2340"/>
 
       <g className="cbc-body">
         <path d="M38 60 C34 68 30 76 26 84" stroke="#c03010" strokeWidth="3.6" strokeLinecap="round" fill="none"/>

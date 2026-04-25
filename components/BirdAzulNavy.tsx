@@ -25,8 +25,6 @@ export default function BirdAzulNavy({ size = 44 }: Props) {
         }
       `}</style>
 
-      <rect width="100" height="100" fill="#ffffff"/>
-
       <g className="azn-body">
         <path d="M40 56 C36 64 32 72 28 80" stroke="#0F2340" strokeWidth="3.6" strokeLinecap="round" fill="none"/>
         <path d="M46 58 C44 66 41 74 39 82" stroke="#1A56DB" strokeWidth="3"   strokeLinecap="round" fill="none"/>

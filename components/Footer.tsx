@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import BirdCabecudinha from './BirdCabecudinha'
 
 const cols = {
@@ -35,6 +36,11 @@ const cols = {
 }
 
 export default function Footer() {
+  const pathname = usePathname()
+
+  // Blog tem layout próprio — não exibir Footer do site
+  if (pathname.startsWith('/blog')) return null
+
   return (
     <footer style={{ background: '#fff', borderTop: '1px solid #e7e6e0', padding: '52px 0 28px', marginTop: 40 }}>
       <div className="wrap">
