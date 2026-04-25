@@ -135,4 +135,5 @@ img { max-width: 100%; display: block; }
   .wrap, .container { padding: 0 16px; }
   .section { padding: 40px 0; }
   .sec-head h2 { font-size: 26px; }
-  .hidden-mobile { disp
+  .hidden-mobile { display: none !important; }
+}
