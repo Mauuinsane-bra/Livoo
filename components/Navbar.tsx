@@ -18,7 +18,7 @@ const navLinks = [
   { label: 'Roteiro',    href: '/roteiro' },
   { label: 'Passagens',  href: '/passagens' },
   { label: 'Promoções',         href: '/promocoes' },
-  { label: 'Melhores Destinos', href: '/melhores-destinos' },
+  { label: 'Explorar Destinos', href: '/explorar-destinos' },
   { label: 'Hotéis',           href: '/hoteis' },
   { label: 'Pacotes',    href: '/pacotes' },
   { label: 'Carros',     href: '/carros' },

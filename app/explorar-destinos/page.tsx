@@ -279,7 +279,7 @@ export default function MelhoresDestinosPage() {
             textTransform: 'uppercase', padding: '5px 14px', borderRadius: 50,
             marginBottom: 16, border: '1px solid rgba(255,87,34,0.3)',
           }}>
-            Melhores destinos
+            Explorar destinos
           </span>
           <h1 style={{
             fontFamily: 'Space Grotesk, sans-serif',
