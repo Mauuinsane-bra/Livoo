@@ -1,482 +1,302 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
-import { useSearchParams, useRouter } from 'next/navigation'
-import Image from 'next/image'
-import CitySearch from '@/components/CitySearch'
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import type { HotelDeal } from '@/app/api/hotel-deals/route'
 
-// ── Types ──────────────────────────────────────────────────
+// ── Regiões ────────────────────────────────────────────────────────────────
 
-interface HotelResult {
-  id:            string
-  name:          string
-  location:      string
-  country:       string
-  stars:         number
-  pricePerNight: number
-  currency:      string
-  imageUrl:      string
-  link:          string
-}
+const REGIONS = [
+  { id: 'europa',   label: 'Europa' },
+  { id: 'americas', label: 'Américas' },
+  { id: 'asia',     label: 'Ásia & Oriente Médio' },
+]
 
-// ── Star Rating ────────────────────────────────────────────
+// ── Skeleton ───────────────────────────────────────────────────────────────
 
-function StarRating({ stars }: { stars: number }) {
-  if (!stars) return null
+function SkeletonCard() {
   return (
-    <span style={{ color: '#ffd600', fontSize: '0.85rem', letterSpacing: 1 }}>
-      {'★'.repeat(Math.min(stars, 5))}
-      {'☆'.repeat(Math.max(0, 5 - stars))}
-    </span>
+    <div style={{
+      background: '#fff', borderRadius: 16, overflow: 'hidden',
+      border: '1px solid #e7e6e0', boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+    }}>
+      <div style={{ height: 160, background: '#f0efeb' }} />
+      <div style={{ padding: '16px 18px' }}>
+        <div style={{ height: 12, background: '#f0efeb', borderRadius: 6, marginBottom: 8, width: '50%' }} />
+        <div style={{ height: 22, background: '#f0efeb', borderRadius: 6, marginBottom: 10 }} />
+        <div style={{ height: 28, background: '#fde8e0', borderRadius: 6, width: '70%' }} />
+      </div>
+    </div>
   )
 }
 
-// ── Hotel Card ─────────────────────────────────────────────
+// ── Hotel Deal Card ────────────────────────────────────────────────────────
 
-function HotelCard({ hotel, nights }: { hotel: HotelResult; nights: number }) {
-  const [imgError, setImgError] = useState(false)
-  const total = hotel.pricePerNight * nights
-
-  function fmt(v: number) {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency', currency: hotel.currency, minimumFractionDigits: 0,
-    }).format(v)
-  }
-
+function HotelDealCard({ deal }: { deal: HotelDeal }) {
   return (
-    <div className="card" style={{ padding: 0, overflow: 'hidden', display: 'flex', gap: 0 }}>
-      {/* Imagem */}
-      <div style={{ position: 'relative', width: 200, flexShrink: 0, background: '#fafaf7' }}>
-        {!imgError ? (
-          <Image
-            src={hotel.imageUrl}
-            alt={hotel.name}
-            fill
-            style={{ objectFit: 'cover' }}
-            sizes="200px"
-            onError={() => setImgError(true)}
+    <a
+      href={deal.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ textDecoration: 'none', display: 'block' }}
+    >
+      <div style={{
+        background: '#fff', borderRadius: 16, overflow: 'hidden',
+        border: '1px solid #e7e6e0', boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+        transition: 'transform 0.2s, box-shadow 0.2s', cursor: 'pointer',
+      }}
+        onMouseEnter={e => {
+          (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-4px)'
+          ;(e.currentTarget as HTMLDivElement).style.boxShadow = '0 8px 24px rgba(0,0,0,0.12)'
+        }}
+        onMouseLeave={e => {
+          (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'
+          ;(e.currentTarget as HTMLDivElement).style.boxShadow = '0 2px 8px rgba(0,0,0,0.05)'
+        }}
+      >
+        {/* Foto */}
+        <div style={{ position: 'relative', height: 160, overflow: 'hidden', background: '#0d0d0f' }}>
+          <img
+            src={deal.photo}
+            alt={deal.city}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
-        ) : (
           <div style={{
-            width: '100%', height: '100%', display: 'flex',
-            alignItems: 'center', justifyContent: 'center',
-            fontSize: 32, color: '#ff5722',
+            position: 'absolute', inset: 0,
+            background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%)',
+          }} />
+          <span style={{
+            position: 'absolute', bottom: 10, left: 12,
+            color: '#fff', fontFamily: 'Inter, sans-serif',
+            fontSize: '0.82rem', fontWeight: 600,
           }}>
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ff5722" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 21V7l9-4 9 4v14"/><path d="M9 21v-6h6v6"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
-          </div>
-        )}
-      </div>
-
-      {/* Conteúdo */}
-      <div style={{ padding: '20px 24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <div style={{ flex: 1 }}>
-          <StarRating stars={hotel.stars} />
-          <h3 style={{
-            fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.05rem',
-            color: '#0d0d0f', margin: '6px 0 4px',
+            {deal.flag} {deal.city}
+          </span>
+          {/* Hotel icon badge */}
+          <span style={{
+            position: 'absolute', top: 10, right: 10,
+            background: 'rgba(0,0,0,0.55)', color: '#fff',
+            fontFamily: 'Inter, sans-serif', fontSize: '0.65rem',
+            fontWeight: 700, padding: '3px 8px', borderRadius: 20,
+            letterSpacing: '0.5px', display: 'flex', alignItems: 'center', gap: 4,
           }}>
-            {hotel.name}
-          </h3>
-          <p style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '0.82rem', color: '#6d6d74', margin: 0,
-          }}>
-            {hotel.location}{hotel.country ? `, ${hotel.country}` : ''}
-          </p>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3 21V7l9-4 9 4v14H3zm2-2h14V8.3l-7-3.1L5 8.3V19zm4-4h6v-4H9v4z"/>
+            </svg>
+            Hotel
+          </span>
         </div>
 
-        <div style={{
-          display: 'flex', alignItems: 'flex-end',
-          justifyContent: 'space-between', marginTop: 20,
-        }}>
-          <div>
-            <p style={{
-              fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.3rem',
-              fontWeight: 700, color: '#0d0d0f', margin: 0,
-            }}>
-              {fmt(hotel.pricePerNight)}
-              <span style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '0.72rem', fontWeight: 400,
-                color: '#6d6d74', marginLeft: 4,
-              }}>
-                / noite
-              </span>
-            </p>
-            {nights > 1 && (
-              <p style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '0.78rem', color: '#6d6d74', margin: '2px 0 0',
-              }}>
-                {fmt(total)} total ({nights} noite{nights !== 1 ? 's' : ''})
-              </p>
-            )}
+        {/* Info */}
+        <div style={{ padding: '14px 16px' }}>
+          <div style={{
+            fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
+            fontWeight: 600, color: '#6d6d74', textTransform: 'uppercase',
+            letterSpacing: '0.8px', marginBottom: 4,
+          }}>
+            {deal.country}
           </div>
-          <a
-            href={hotel.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary"
-            style={{ fontSize: '0.85rem', padding: '10px 20px', whiteSpace: 'nowrap' }}
-          >
-            Ver hotel
-          </a>
+          <div style={{
+            fontFamily: 'Space Grotesk, sans-serif', fontSize: '0.95rem',
+            fontWeight: 700, color: '#0d0d0f', marginBottom: 10,
+          }}>
+            {deal.city}
+          </div>
+          <div style={{
+            fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.2rem',
+            fontWeight: 800, color: '#ff5722',
+          }}>
+            {deal.priceLabel}
+          </div>
+          <div style={{
+            fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
+            color: '#9a9aa0', marginTop: 4,
+          }}>
+            {deal.priceUSD ? 'Preço real · 7 noites · via Booking.com' : 'Clique para ver preços disponíveis'}
+          </div>
         </div>
       </div>
-    </div>
+    </a>
   )
 }
 
-// ── Formulário de busca ────────────────────────────────────
-
-function SearchForm({
-  defaultLocation, defaultCheckIn, defaultCheckOut, defaultAdults, onSearch,
-}: {
-  defaultLocation: string
-  defaultCheckIn:  string
-  defaultCheckOut: string
-  defaultAdults:   number
-  onSearch: (l: string, ci: string, co: string, a: number) => void
-}) {
-  const [location,  setLocation]  = useState(defaultLocation)
-  const [checkIn,   setCheckIn]   = useState(defaultCheckIn)
-  const [checkOut,  setCheckOut]  = useState(defaultCheckOut)
-  const [adults,    setAdults]    = useState(defaultAdults)
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!location || !checkIn || !checkOut) return
-    onSearch(location, checkIn, checkOut, adults)
-  }
-
-  const inputStyle: React.CSSProperties = {
-    width: '100%', padding: '12px 14px',
-    fontFamily: 'Inter, sans-serif', fontSize: '0.92rem',
-    background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.25)',
-    borderRadius: 10, color: '#fff', outline: 'none',
-    boxSizing: 'border-box',
-  }
-
-  const labelStyle: React.CSSProperties = {
-    fontFamily: 'Inter, sans-serif',
-    fontSize: '0.72rem', fontWeight: 600,
-    color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase',
-    letterSpacing: '0.8px', display: 'block', marginBottom: 6,
-  }
-
-  return (
-    <div style={{ background: 'linear-gradient(135deg, #0d0d0f 0%, #ff5722 60%, #2B9FEE 100%)', padding: '36px 0 48px' }}>
-      <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
-        <h1 style={{
-          fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.8rem',
-          color: '#fff', marginBottom: 28,
-        }}>
-          Buscar hotéis
-        </h1>
-        <form onSubmit={handleSubmit}>
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 80px', gap: 12, alignItems: 'end' }}>
-            {/* Destino */}
-            <div>
-              <label style={labelStyle}>Destino</label>
-              <CitySearch
-                value={location}
-                onChange={setLocation}
-                placeholder="Cidade ou destino"
-                dark={true}
-                required
-              />
-            </div>
-
-            {/* Check-in */}
-            <div>
-              <label style={labelStyle}>Check-in</label>
-              <input
-                type="date"
-                style={inputStyle}
-                value={checkIn}
-                onChange={e => setCheckIn(e.target.value)}
-                required
-              />
-            </div>
-
-            {/* Check-out */}
-            <div>
-              <label style={labelStyle}>Check-out</label>
-              <input
-                type="date"
-                style={inputStyle}
-                value={checkOut}
-                onChange={e => setCheckOut(e.target.value)}
-                required
-              />
-            </div>
-
-            {/* Hóspedes */}
-            <div>
-              <label style={labelStyle}>Hóspedes</label>
-              <input
-                type="number"
-                min={1}
-                max={10}
-                style={inputStyle}
-                value={adults}
-                onChange={e => setAdults(parseInt(e.target.value) || 1)}
-              />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            className="btn-primary"
-            style={{
-              width: '100%', marginTop: 14, padding: '14px',
-              fontSize: '0.95rem', fontWeight: 700,
-            }}
-          >
-            Buscar hotéis
-          </button>
-        </form>
-      </div>
-    </div>
-  )
-}
-
-// ── Página principal ───────────────────────────────────────
-
-function HoteisContent() {
-  const searchParams = useSearchParams()
-  const router = useRouter()
-
-  const initialLocation  = searchParams.get('location')  || ''
-  const initialCheckIn   = searchParams.get('checkIn')   || ''
-  const initialCheckOut  = searchParams.get('checkOut')  || ''
-  const initialAdults    = parseInt(searchParams.get('adults') ?? '1')
-
-  const [hotels,      setHotels]      = useState<HotelResult[]>([])
-  const [fallbackUrl, setFallbackUrl] = useState('')
-  const [status,      setStatus]      = useState<'idle' | 'loading' | 'done' | 'error'>('idle')
-  const [error,       setError]       = useState('')
-
-  // Parâmetros da busca atual (para calcular noites)
-  const [currentParams, setCurrentParams] = useState({
-    location: initialLocation,
-    checkIn:  initialCheckIn,
-    checkOut: initialCheckOut,
-    adults:   initialAdults,
-  })
-
-  // Dispara busca automática se vier com parâmetros na URL
-  useEffect(() => {
-    if (initialLocation && initialCheckIn && initialCheckOut) {
-      fetchHotels(initialLocation, initialCheckIn, initialCheckOut, initialAdults)
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  function calcNights(ci: string, co: string): number {
-    if (!ci || !co) return 1
-    const diff = (new Date(co).getTime() - new Date(ci).getTime()) / 86_400_000
-    return Math.max(1, Math.round(diff))
-  }
-
-  async function fetchHotels(location: string, checkIn: string, checkOut: string, adults: number) {
-    setStatus('loading')
-    setError('')
-    setHotels([])
-    setCurrentParams({ location, checkIn, checkOut, adults })
-
-    // Atualiza URL
-    const qs = new URLSearchParams({ location, checkIn, checkOut, adults: String(adults) })
-    router.replace(`/hoteis?${qs}`, { scroll: false })
-
-    try {
-      const res = await fetch(`/api/hotels?${qs}`)
-      const data = await res.json()
-
-      if (!res.ok) throw new Error(data.error || 'Erro desconhecido')
-
-      setHotels(data.hotels ?? [])
-      setFallbackUrl(data.fallbackUrl ?? '')
-      setStatus('done')
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Erro ao buscar hotéis.')
-      setStatus('error')
-    }
-  }
-
-  const nights = calcNights(currentParams.checkIn, currentParams.checkOut)
-
-  return (
-    <>
-      <SearchForm
-        defaultLocation={initialLocation}
-        defaultCheckIn={initialCheckIn}
-        defaultCheckOut={initialCheckOut}
-        defaultAdults={initialAdults}
-        onSearch={fetchHotels}
-      />
-
-      <div style={{ maxWidth: 900, margin: '0 auto', padding: '32px 24px' }}>
-
-        {/* Loading */}
-        {status === 'loading' && (
-          <div style={{ textAlign: 'center', padding: 80 }}>
-            <div style={{
-              width: 40, height: 40, border: '3px solid #fafaf7',
-              borderTop: '3px solid #ff5722', borderRadius: '50%',
-              animation: 'spin 0.8s linear infinite', margin: '0 auto 16px',
-            }} />
-            <p style={{ fontFamily: 'Inter, sans-serif', color: '#6d6d74' }}>
-              Buscando hotéis em {currentParams.location}...
-            </p>
-          </div>
-        )}
-
-        {/* Erro de API (token não configurado) */}
-        {status === 'error' && (
-          <div style={{
-            background: '#fff', borderRadius: 14, padding: 48,
-            textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)',
-          }}>
-            <span style={{ fontSize: 40, display: 'block', marginBottom: 12 }}>🏨</span>
-            <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', color: '#0d0d0f', marginBottom: 8 }}>
-              Busca em configuração
-            </h3>
-            <p style={{
-              fontFamily: 'Inter, sans-serif', color: '#6d6d74',
-              fontSize: '0.9rem', maxWidth: 440, margin: '0 auto 28px',
-            }}>
-              {error.includes('não configurada')
-                ? 'A API de hotéis está sendo configurada. Enquanto isso, você pode buscar diretamente no Booking.com.'
-                : error}
-            </p>
-            {currentParams.location && currentParams.checkIn && currentParams.checkOut && (
-              <a
-                href={`https://www.booking.com/searchresults.html?ss=${encodeURIComponent(currentParams.location)}&checkin=${currentParams.checkIn}&checkout=${currentParams.checkOut}&group_adults=${currentParams.adults}&no_rooms=1&aid=2849997`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary"
-                style={{ display: 'inline-block', fontSize: '0.9rem', padding: '12px 28px' }}
-              >
-                Ver hotéis em {currentParams.location} no Booking.com
-              </a>
-            )}
-          </div>
-        )}
-
-        {/* Resultados */}
-        {status === 'done' && hotels.length > 0 && (
-          <>
-            <div style={{
-              display: 'flex', alignItems: 'center',
-              justifyContent: 'space-between', marginBottom: 20,
-            }}>
-              <p style={{
-                fontFamily: 'Inter, sans-serif',
-                color: '#6d6d74', fontSize: '0.88rem',
-              }}>
-                <strong style={{ color: '#0d0d0f' }}>{hotels.length} hotéis</strong> encontrados
-                em {currentParams.location} · {nights} noite{nights !== 1 ? 's' : ''}
-              </p>
-              <span style={{
-                fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
-                color: '#6d6d74', background: '#fafaf7',
-                padding: '4px 10px', borderRadius: 20,
-              }}>
-                Preços em USD · via Hotellook
-              </span>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {hotels.map(hotel => (
-                <HotelCard key={hotel.id} hotel={hotel} nights={nights} />
-              ))}
-            </div>
-
-            {/* Fallback Booking.com no rodapé dos resultados */}
-            {fallbackUrl && (
-              <div style={{
-                marginTop: 28, background: '#fafaf7', borderRadius: 12,
-                padding: '20px 24px', textAlign: 'center',
-              }}>
-                <p style={{
-                  fontFamily: 'Inter, sans-serif', fontSize: '0.85rem',
-                  color: '#6d6d74', marginBottom: 12,
-                }}>
-                  Quer ver mais opções ou filtrar por avaliações?
-                </p>
-                <a
-                  href={fallbackUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    fontFamily: 'Inter, sans-serif', fontWeight: 600,
-                    fontSize: '0.88rem', color: '#ff5722', textDecoration: 'none',
-                  }}
-                >
-                  Ver todos os hotéis no Booking.com →
-                </a>
-              </div>
-            )}
-          </>
-        )}
-
-        {/* Sem resultados */}
-        {status === 'done' && hotels.length === 0 && (
-          <div style={{
-            background: '#fff', borderRadius: 14, padding: 48,
-            textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)',
-          }}>
-            <span style={{ fontSize: 40, display: 'block', marginBottom: 12 }}>🏨</span>
-            <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', color: '#0d0d0f', marginBottom: 8 }}>
-              Não encontramos hotéis em nossa base para esse destino
-            </h3>
-            <p style={{
-              fontFamily: 'Inter, sans-serif', color: '#6d6d74',
-              fontSize: '0.9rem', maxWidth: 440, margin: '0 auto 28px',
-            }}>
-              Nossa base pode não ter dados para esse destino ainda. Encontramos opções diretamente no Booking.com.
-            </p>
-            {fallbackUrl && (
-              <a
-                href={fallbackUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary"
-                style={{ display: 'inline-block', fontSize: '0.9rem', padding: '12px 28px' }}
-              >
-                Ver hotéis em {currentParams.location} no Booking.com
-              </a>
-            )}
-          </div>
-        )}
-
-        {/* Estado inicial */}
-        {status === 'idle' && (
-          <div style={{ textAlign: 'center', padding: '60px 0' }}>
-            <p style={{
-              fontFamily: 'Inter, sans-serif',
-              color: '#6d6d74', fontSize: '0.95rem',
-            }}>
-              Digite um destino e as datas para buscar hotéis.
-            </p>
-          </div>
-        )}
-      </div>
-
-      <style>{`
-        @keyframes spin { to { transform: rotate(360deg); } }
-        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.6; }
-        input::placeholder { color: rgba(255,255,255,0.45) !important; }
-      `}</style>
-    </>
-  )
-}
+// ── Página principal ───────────────────────────────────────────────────────
 
 export default function HoteisPage() {
+  const [selectedRegion, setSelectedRegion] = useState('europa')
+  const [deals, setDeals]                   = useState<HotelDeal[]>([])
+  const [loading, setLoading]               = useState(true)
+  const [error, setError]                   = useState(false)
+
+  useEffect(() => {
+    async function fetchDeals() {
+      setLoading(true)
+      setError(false)
+      try {
+        const res  = await fetch(`/api/hotel-deals?region=${selectedRegion}`)
+        const data = await res.json()
+        setDeals(data.deals ?? [])
+      } catch {
+        setError(true)
+        setDeals([])
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchDeals()
+  }, [selectedRegion])
+
+  const regionLabel = REGIONS.find(r => r.id === selectedRegion)?.label ?? selectedRegion
+
   return (
-    <Suspense>
-      <HoteisContent />
-    </Suspense>
+    <div style={{ background: '#fafaf7', minHeight: '100vh' }}>
+
+      {/* ── HERO ──────────────────────────────────────────────── */}
+      <section style={{
+        background: 'linear-gradient(135deg, #0d0d0f 0%, #1A82D8 60%, #00b4d8 100%)',
+        padding: '64px 0 52px',
+      }}>
+        <div className="container" style={{ textAlign: 'center' }}>
+          <span style={{
+            display: 'inline-block',
+            background: 'rgba(0,180,216,0.15)', color: '#7ee8fa',
+            fontSize: '0.7rem', fontWeight: 700, letterSpacing: '2px',
+            textTransform: 'uppercase', padding: '5px 14px', borderRadius: 50,
+            marginBottom: 20, border: '1px solid rgba(0,180,216,0.3)',
+          }}>
+            Hotéis ao redor do mundo
+          </span>
+          <h1 style={{
+            fontFamily: 'Space Grotesk, sans-serif',
+            fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 700,
+            color: '#fff', margin: '0 0 16px',
+          }}>
+            Onde ficar no seu destino
+          </h1>
+          <p style={{
+            fontFamily: 'Inter, sans-serif', fontSize: '1rem',
+            color: 'rgba(255,255,255,0.75)', maxWidth: 500,
+            margin: '0 auto 36px', lineHeight: 1.7,
+          }}>
+            Preços reais atualizados via Hotellook — agrega Booking.com, Hotels.com, Agoda e mais numa única busca.
+          </p>
+
+          {/* Seletor de região */}
+          <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8 }}>
+            {REGIONS.map(r => (
+              <button
+                key={r.id}
+                onClick={() => setSelectedRegion(r.id)}
+                style={{
+                  fontFamily: 'Inter, sans-serif', fontSize: '0.82rem',
+                  fontWeight: 600, padding: '9px 18px', borderRadius: 100,
+                  border: '1.5px solid',
+                  borderColor: selectedRegion === r.id ? '#00b4d8' : 'rgba(255,255,255,0.3)',
+                  background: selectedRegion === r.id ? '#00b4d8' : 'transparent',
+                  color: selectedRegion === r.id ? '#0d0d0f' : '#fff',
+                  cursor: 'pointer', transition: 'all 0.15s',
+                }}
+              >
+                {r.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── DEALS GRID ────────────────────────────────────────── */}
+      <section style={{ padding: '48px 0 80px' }}>
+        <div className="container">
+
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 28 }}>
+            <div>
+              <h2 style={{
+                fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.35rem',
+                fontWeight: 700, color: '#0d0d0f', margin: '0 0 4px',
+              }}>
+                Hotéis em {regionLabel}
+              </h2>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#6d6d74', margin: 0 }}>
+                Preços por noite — clique para ver disponibilidade e reservar no Booking.com
+              </p>
+            </div>
+            <span style={{
+              fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
+              color: '#9a9aa0', flexShrink: 0,
+            }}>
+              Via Hotellook
+            </span>
+          </div>
+
+          {/* Skeletons ou grid */}
+          {loading ? (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 20 }}>
+              {Array.from({ length: 9 }).map((_, i) => <SkeletonCard key={i} />)}
+            </div>
+          ) : error || deals.length === 0 ? (
+            <div style={{
+              textAlign: 'center', padding: '60px 24px',
+              background: '#fff', borderRadius: 16,
+              border: '1px solid #e7e6e0',
+            }}>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#e7e6e0" strokeWidth="1.5" strokeLinecap="round" style={{ marginBottom: 16 }}>
+                <path d="M3 21V7l9-4 9 4v14H3z"/><path d="M9 21v-6h6v6"/>
+              </svg>
+              <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.1rem', color: '#0d0d0f', margin: '0 0 8px' }}>
+                Hotéis não disponíveis agora
+              </h3>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#6d6d74', margin: '0 0 20px' }}>
+                Tente outra região ou busque diretamente no Booking.com.
+              </p>
+              <a
+                href="https://www.booking.com/?aid=356980"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary"
+                style={{ display: 'inline-block', padding: '12px 24px', textDecoration: 'none' }}
+              >
+                Buscar no Booking.com →
+              </a>
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 20 }}>
+              {deals.map((deal, i) => (
+                <HotelDealCard key={`${deal.city}-${i}`} deal={deal} />
+              ))}
+            </div>
+          )}
+
+          {/* CTA roteiro */}
+          {!loading && deals.length > 0 && (
+            <div style={{
+              marginTop: 48, background: '#fff', borderRadius: 16,
+              border: '1px solid #e7e6e0', padding: '32px',
+              textAlign: 'center',
+            }}>
+              <h3 style={{
+                fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.15rem',
+                fontWeight: 700, color: '#0d0d0f', margin: '0 0 10px',
+              }}>
+                Quer montar o pacote completo?
+              </h3>
+              <p style={{
+                fontFamily: 'Inter, sans-serif', fontSize: '0.88rem',
+                color: '#6d6d74', margin: '0 0 20px', maxWidth: 420,
+                marginLeft: 'auto', marginRight: 'auto',
+              }}>
+                Voo + hotel + experiências — a Go Livoo monta tudo por você.
+              </p>
+              <Link
+                href="/roteiro"
+                className="btn-primary"
+                style={{ display: 'inline-block', padding: '14px 32px', textDecoration: 'none', fontSize: '0.95rem' }}
+              >
+                Montar roteiro completo →
+              </Link>
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
   )
 }

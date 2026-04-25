@@ -545,7 +545,7 @@ const CATEGORIES: { value: Category; label: string }[] = [
 
 function EventCard({ event }: { event: AnyEvent }) {
   const roteirUrl = `/roteiro?evento=${encodeURIComponent(event.title)}&destino=${encodeURIComponent(event.location)}`
-  const isTM = event.source === 'ticketmaster'
+  const isLive = event.source === 'ticketmaster' || event.source === 'eventbrite'
 
   return (
     <div
@@ -579,10 +579,13 @@ function EventCard({ event }: { event: AnyEvent }) {
         ) : (
           <div style={{
             width: '100%', height: '100%',
+            background: `linear-gradient(135deg, ${event.tagColor}cc 0%, #0d0d0f 100%)`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 40,
           }}>
-            {event.flag}
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2" strokeLinecap="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 8v4l3 3"/>
+            </svg>
           </div>
         )}
         <div style={{
@@ -608,13 +611,13 @@ function EventCard({ event }: { event: AnyEvent }) {
           {event.tag}
         </span>
 
-        {/* Badge Ticketmaster */}
-        {isTM && (
+        {/* Badge de fonte */}
+        {isLive && (
           <span style={{
             position: 'absolute',
             top: 14, right: 14,
-            background: 'rgba(0,0,0,0.55)',
-            color: '#fff',
+            background: 'rgba(0,0,0,0.60)',
+            color: '#7ee8fa',
             fontSize: '0.6rem',
             fontWeight: 700,
             padding: '3px 8px',
@@ -668,6 +671,10 @@ function EventCard({ event }: { event: AnyEvent }) {
           color: '#6d6d74',
           lineHeight: 1.6,
           margin: '0 0 16px',
+          display: '-webkit-box',
+          WebkitLineClamp: 3,
+          WebkitBoxOrient: 'vertical',
+          overflow: 'hidden',
         }}>
           {event.description}
         </p>

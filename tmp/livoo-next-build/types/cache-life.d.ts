@@ -137,4 +137,9 @@ declare module 'next/cache' {
     }): void
   
 
-  import { cacheTag } from 'next/dist/server/use-cache
+  import { cacheTag } from 'next/dist/server/use-cache/cache-tag'
+  export { cacheTag }
+
+  export const unstable_cacheTag: typeof cacheTag
+  export const unstable_cacheLife: typeof cacheLife
+}

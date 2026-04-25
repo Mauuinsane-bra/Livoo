@@ -1,622 +1,307 @@
 'use client'
 
-import { useState, Suspense } from 'react'
-import { useSearchParams, useRouter } from 'next/navigation'
-import CitySearch from '@/components/CitySearch'
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
 
-// ── Helpers ────────────────────────────────────────────────
+// ── Helpers ────────────────────────────────────────────────────────────────
 
-function formatDateDisplay(date: string): string {
-  if (!date) return ''
-  const d = new Date(date + 'T12:00:00')
-  return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })
+const U = (id: string) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=800&q=80`
+
+// ── Destinos de aluguel de carros ──────────────────────────────────────────
+
+interface CarDeal {
+  city:          string
+  country:       string
+  flag:          string
+  photo:         string
+  priceLabel:    string   // "a partir de R$ 79/dia"
+  category:      string   // "nacional" | "international"
+  rentcarsSlug:  string   // slug usado na URL da Rentcars
+  highlight:     string   // ex: "150+ opções"
 }
 
-/** YYYY-MM-DD → DD/MM/YYYY (formato aceito pelos sites BR de locadoras) */
-function formatDateBR(date: string): string {
-  if (!date) return ''
-  const [y, m, d] = date.split('-')
-  return `${d}/${m}/${y}`
-}
-
-function calcDays(pickupDate: string, returnDate: string): number {
-  if (!pickupDate || !returnDate) return 1
-  const diff = (new Date(returnDate).getTime() - new Date(pickupDate).getTime()) / 86_400_000
-  return Math.max(1, Math.round(diff))
-}
-
-// ── Provedores de aluguel ──────────────────────────────────
-
-interface CarProvider {
-  id:          string
-  name:        string
-  description: string
-  color:       string
-  initials:    string   // 2 letras como logotipo (substitui emoji)
-  badge?:      string
-  priceRange:  string   // faixa estimada para exibição antes do redirecionamento
-  buildUrl: (location: string, pickup: string, ret: string) => string
-}
-
-const CAR_PROVIDERS: CarProvider[] = [
-  {
-    id:          'rentcars',
-    name:        'Rentcars',
-    description: 'Maior agregador de aluguel de carros do Brasil. Compara Localiza, Unidas, Movida, Hertz e mais — em uma única busca.',
-    color:       '#0050FF',
-    initials:    'RC',
-    badge:       'Mais opções',
-    priceRange:  'a partir de R$ 79/dia',
-    buildUrl:    (_location, _pickup, _ret) => {
-      // Rentcars não aceita parâmetros de busca via deep link externo.
-      // Usamos a URL exata gerada pelo painel de afiliados — define o cookie
-      // requestorid=10582 e garante a atribuição da comissão.
-      return 'https://www.rentcars.com/pt-br/?requestorid=10582&utm_source=www.golivoo.com.br&utm_medium=afiliado-link'
-    },
-  },
-  {
-    id:          'localiza',
-    name:        'Localiza',
-    description: 'Maior rede de aluguel de carros da América Latina, com mais de 600 agências no Brasil.',
-    color:       '#009A44',
-    initials:    'LZ',
-    priceRange:  'a partir de R$ 89/dia',
-    buildUrl:    (location, pickup, ret) => {
-      // Localiza usa DD/MM/YYYY nos parâmetros
-      const qs = new URLSearchParams({
-        retirada:      location,
-        devolucao:     location,
-        dataRetirada:  formatDateBR(pickup),
-        dataDevolucao: formatDateBR(ret),
-        horaRetirada:  '10:00',
-        horaDevolucao: '10:00',
-      })
-      return `https://www.localiza.com/brasil/pt-br/resultado?${qs}`
-    },
-  },
-  {
-    id:          'movida',
-    name:        'Movida',
-    description: 'Segunda maior locadora do Brasil, com boa cobertura em aeroportos e centros urbanos.',
-    color:       '#E30613',
-    initials:    'MV',
-    priceRange:  'a partir de R$ 85/dia',
-    buildUrl:    (location, pickup, ret) => {
-      // Movida usa DD/MM/YYYY nos parâmetros
-      const qs = new URLSearchParams({
-        local:   location,
-        entrada: formatDateBR(pickup),
-        saida:   formatDateBR(ret),
-      })
-      return `https://www.movida.com.br/aluguel-de-carros?${qs}`
-    },
-  },
-  {
-    id:          'unidas',
-    name:        'Unidas',
-    description: 'Forte presença em aeroportos e opções de carros executivos para viagens corporativas.',
-    color:       '#FF6600',
-    initials:    'UN',
-    priceRange:  'a partir de R$ 92/dia',
-    buildUrl:    (location, pickup, ret) => {
-      // Unidas usa DD/MM/YYYY nos parâmetros
-      const qs = new URLSearchParams({
-        cidade:      location,
-        dataEntrada: formatDateBR(pickup),
-        dataSaida:   formatDateBR(ret),
-      })
-      return `https://www.unidas.com.br/aluguel-de-carros?${qs}`
-    },
-  },
+// Preços pesquisados na Rentcars.com.br em abril/2026
+// Rentcars agrega Localiza, Movida, Unidas, Hertz, Avis e outros
+const NATIONAL_DEALS: CarDeal[] = [
+  { city: 'São Paulo',      country: 'Brasil', flag: '🇧🇷', category: 'nacional', priceLabel: 'a partir de R$ 79/dia',  highlight: '200+ opções', rentcarsSlug: 'sao-paulo',       photo: U('1554168848-228452c09d60') },
+  { city: 'Rio de Janeiro', country: 'Brasil', flag: '🇧🇷', category: 'nacional', priceLabel: 'a partir de R$ 89/dia',  highlight: '150+ opções', rentcarsSlug: 'rio-de-janeiro',  photo: U('1483729558449-99ef09a8c325') },
+  { city: 'Florianópolis',  country: 'Brasil', flag: '🇧🇷', category: 'nacional', priceLabel: 'a partir de R$ 95/dia',  highlight: '80+ opções',  rentcarsSlug: 'florianopolis',   photo: U('1565574337618-b08146e94992') },
+  { city: 'Curitiba',       country: 'Brasil', flag: '🇧🇷', category: 'nacional', priceLabel: 'a partir de R$ 85/dia',  highlight: '90+ opções',  rentcarsSlug: 'curitiba',        photo: U('1616642325314-fe17e194b380') },
+  { city: 'Salvador',       country: 'Brasil', flag: '🇧🇷', category: 'nacional', priceLabel: 'a partir de R$ 80/dia',  highlight: '70+ opções',  rentcarsSlug: 'salvador',        photo: U('1603237568326-e7c5adde84ff') },
+  { city: 'Fortaleza',      country: 'Brasil', flag: '🇧🇷', category: 'nacional', priceLabel: 'a partir de R$ 75/dia',  highlight: '75+ opções',  rentcarsSlug: 'fortaleza',       photo: U('1560971923-16c232d1ee89') },
+  { city: 'Recife',         country: 'Brasil', flag: '🇧🇷', category: 'nacional', priceLabel: 'a partir de R$ 80/dia',  highlight: '65+ opções',  rentcarsSlug: 'recife',          photo: U('1563455227142-d0f82238d6f8') },
+  { city: 'Brasília',       country: 'Brasil', flag: '🇧🇷', category: 'nacional', priceLabel: 'a partir de R$ 90/dia',  highlight: '100+ opções', rentcarsSlug: 'brasilia',        photo: U('1625426078245-6911839409dd') },
+  { city: 'Manaus',         country: 'Brasil', flag: '🇧🇷', category: 'nacional', priceLabel: 'a partir de R$ 95/dia',  highlight: '40+ opções',  rentcarsSlug: 'manaus',          photo: U('1700753618948-79f177a3b19e') },
+  { city: 'Foz do Iguaçu',  country: 'Brasil', flag: '🇧🇷', category: 'nacional', priceLabel: 'a partir de R$ 85/dia',  highlight: '50+ opções',  rentcarsSlug: 'foz-do-iguacu',   photo: U('1538703012804-b74999aa11b9') },
 ]
 
-// SVG monogram logo (substitui o círculo de emoji)
-function ProviderMonogram({ initials, color }: { initials: string; color: string }) {
+const INTERNATIONAL_DEALS: CarDeal[] = [
+  { city: 'Lisboa',          country: 'Portugal',        flag: '🇵🇹', category: 'international', priceLabel: 'a partir de R$ 130/dia', highlight: 'Multi-companhias', rentcarsSlug: 'lisboa',          photo: U('1534430480872-3498386e7856') },
+  { city: 'Madri',           country: 'Espanha',         flag: '🇪🇸', category: 'international', priceLabel: 'a partir de R$ 150/dia', highlight: 'Multi-companhias', rentcarsSlug: 'madri',           photo: U('1543783207-ec64e4d8de4b') },
+  { city: 'Miami',           country: 'EUA',             flag: '🇺🇸', category: 'international', priceLabel: 'a partir de R$ 110/dia', highlight: 'Multi-companhias', rentcarsSlug: 'miami',           photo: U('1533106497176-45ae19e68ba2') },
+  { city: 'Orlando',         country: 'EUA',             flag: '🇺🇸', category: 'international', priceLabel: 'a partir de R$ 120/dia', highlight: 'Multi-companhias', rentcarsSlug: 'orlando',         photo: U('1605723517503-3cadb5818a0c') },
+  { city: 'Buenos Aires',    country: 'Argentina',       flag: '🇦🇷', category: 'international', priceLabel: 'a partir de R$ 160/dia', highlight: 'Multi-companhias', rentcarsSlug: 'buenos-aires',    photo: U('1589909202802-8f4aadce1849') },
+  { city: 'Santiago',        country: 'Chile',           flag: '🇨🇱', category: 'international', priceLabel: 'a partir de R$ 170/dia', highlight: 'Multi-companhias', rentcarsSlug: 'santiago',        photo: U('1689850543263-01a52ccc6943') },
+  { city: 'Cancún',          country: 'México',          flag: '🇲🇽', category: 'international', priceLabel: 'a partir de R$ 100/dia', highlight: 'Multi-companhias', rentcarsSlug: 'cancun',          photo: U('1510097467424-192d713fd8b2') },
+  { city: 'Nova York',       country: 'EUA',             flag: '🇺🇸', category: 'international', priceLabel: 'a partir de R$ 180/dia', highlight: 'Multi-companhias', rentcarsSlug: 'nova-york',       photo: U('1496442226666-8d4d0e62e6e9') },
+]
+
+// ── Categoria selecionada ──────────────────────────────────────────────────
+
+const CATEGORIES = [
+  { id: 'nacional',      label: 'Brasil',          deals: NATIONAL_DEALS },
+  { id: 'international', label: 'Internacional',   deals: INTERNATIONAL_DEALS },
+]
+
+// ── Skeleton ───────────────────────────────────────────────────────────────
+
+function SkeletonCard() {
   return (
     <div style={{
-      width: 56, height: 56, borderRadius: 14,
-      background: color, color: '#fff',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800,
-      fontSize: 18, letterSpacing: '0.5px', flexShrink: 0,
-      boxShadow: `0 4px 12px ${color}40`,
+      background: '#fff', borderRadius: 16, overflow: 'hidden',
+      border: '1px solid #e7e6e0', boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
     }}>
-      {initials}
+      <div style={{ height: 160, background: '#f0efeb' }} />
+      <div style={{ padding: '16px 18px' }}>
+        <div style={{ height: 12, background: '#f0efeb', borderRadius: 6, marginBottom: 8, width: '50%' }} />
+        <div style={{ height: 22, background: '#f0efeb', borderRadius: 6, marginBottom: 10 }} />
+        <div style={{ height: 28, background: '#fde8e0', borderRadius: 6, width: '65%' }} />
+      </div>
     </div>
   )
 }
 
-// ── Provider Card ──────────────────────────────────────────
+// ── Car Deal Card ──────────────────────────────────────────────────────────
 
-function CarProviderCard({
-  provider, location, pickupDate, returnDate, onRedirect,
-}: {
-  provider:    CarProvider
-  location:    string
-  pickupDate:  string
-  returnDate:  string
-  onRedirect:  (name: string) => void
-}) {
-  const url  = provider.buildUrl(location, pickupDate, returnDate)
-  const days = calcDays(pickupDate, returnDate)
+function CarDealCard({ deal }: { deal: CarDeal }) {
+  const link = `https://www.rentcars.com/pt-br/aluguel-de-carros/${deal.rentcarsSlug}/?requestorid=10582&utm_source=golivoo&utm_medium=afiliado`
 
   return (
-    <div className="card" style={{ padding: '24px 28px', display: 'flex', alignItems: 'center', gap: 20 }}>
-      {/* Logo monograma */}
-      <ProviderMonogram initials={provider.initials} color={provider.color} />
-
-      {/* Info */}
-      <div style={{ flex: 1 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-          <h3 style={{
-            fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.05rem',
-            color: '#0d0d0f', margin: 0,
+    <a
+      href={link}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ textDecoration: 'none', display: 'block' }}
+    >
+      <div style={{
+        background: '#fff', borderRadius: 16, overflow: 'hidden',
+        border: '1px solid #e7e6e0', boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+        transition: 'transform 0.2s, box-shadow 0.2s', cursor: 'pointer',
+      }}
+        onMouseEnter={e => {
+          (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-4px)'
+          ;(e.currentTarget as HTMLDivElement).style.boxShadow = '0 8px 24px rgba(0,0,0,0.12)'
+        }}
+        onMouseLeave={e => {
+          (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)'
+          ;(e.currentTarget as HTMLDivElement).style.boxShadow = '0 2px 8px rgba(0,0,0,0.05)'
+        }}
+      >
+        {/* Foto */}
+        <div style={{ position: 'relative', height: 160, overflow: 'hidden', background: '#0d0d0f' }}>
+          <img
+            src={deal.photo}
+            alt={deal.city}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%)',
+          }} />
+          <span style={{
+            position: 'absolute', bottom: 10, left: 12,
+            color: '#fff', fontFamily: 'Inter, sans-serif',
+            fontSize: '0.82rem', fontWeight: 600,
           }}>
-            {provider.name}
-          </h3>
-          {provider.badge && (
-            <span style={{
-              fontFamily: 'Inter, sans-serif', fontSize: '0.68rem',
-              fontWeight: 700, color: provider.color,
-              background: provider.color + '15',
-              padding: '2px 8px', borderRadius: 20,
-              textTransform: 'uppercase', letterSpacing: '0.5px',
-            }}>
-              {provider.badge}
-            </span>
-          )}
+            {deal.flag} {deal.city}
+          </span>
+          {/* Carro badge */}
+          <span style={{
+            position: 'absolute', top: 10, right: 10,
+            background: 'rgba(0,0,0,0.55)', color: '#fff',
+            fontFamily: 'Inter, sans-serif', fontSize: '0.65rem',
+            fontWeight: 700, padding: '3px 8px', borderRadius: 20,
+            letterSpacing: '0.5px', display: 'flex', alignItems: 'center', gap: 4,
+          }}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M5 11l1.5-4.5h11L19 11M17 16a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-8 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0M3 11h18v7H3z"/>
+            </svg>
+            Rentcars
+          </span>
         </div>
-        <p style={{
-          fontFamily: 'Inter, sans-serif', fontSize: '0.83rem',
-          color: '#6d6d74', margin: '0 0 4px',
-        }}>
-          {provider.description}
-        </p>
-        {/* Faixa de preço estimada */}
-        <p style={{
-          fontFamily: 'Inter, sans-serif', fontSize: '0.78rem',
-          color: provider.color, fontWeight: 600, margin: 0,
-        }}>
-          Estimativa: {provider.priceRange}
-        </p>
-      </div>
 
-      {/* Diárias + CTA */}
-      <div style={{ textAlign: 'right', flexShrink: 0 }}>
-        <p style={{
-          fontFamily: 'Inter, sans-serif', fontSize: '0.75rem',
-          color: '#6d6d74', marginBottom: 8,
-        }}>
-          {days} diária{days !== 1 ? 's' : ''}
-        </p>
-        <a
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => onRedirect(provider.name)}
-          style={{
-            display: 'inline-block',
-            background: provider.color, color: '#fff',
-            fontFamily: 'Inter, sans-serif',
-            fontWeight: 700, fontSize: '0.85rem',
-            padding: '10px 20px', borderRadius: 10,
-            textDecoration: 'none', whiteSpace: 'nowrap',
-            transition: 'opacity 0.15s',
-          }}
-          onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
-          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-        >
-          Ver preços →
-        </a>
-      </div>
-    </div>
-  )
-}
-
-// ── Formulário de busca ────────────────────────────────────
-
-function SearchForm({
-  defaultLocation, defaultPickup, defaultReturn, onSearch,
-}: {
-  defaultLocation: string
-  defaultPickup:   string
-  defaultReturn:   string
-  onSearch: (location: string, pickup: string, ret: string) => void
-}) {
-  const [location, setLocation] = useState(defaultLocation)
-  const [pickup,   setPickup]   = useState(defaultPickup)
-  const [ret,      setRet]      = useState(defaultReturn)
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!location || !pickup || !ret) return
-    onSearch(location, pickup, ret)
-  }
-
-  const inputStyle: React.CSSProperties = {
-    width: '100%', padding: '12px 14px',
-    fontFamily: 'Inter, sans-serif', fontSize: '0.92rem',
-    background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.25)',
-    borderRadius: 10, color: '#fff', outline: 'none',
-    boxSizing: 'border-box',
-  }
-
-  const labelStyle: React.CSSProperties = {
-    fontFamily: 'Inter, sans-serif',
-    fontSize: '0.72rem', fontWeight: 600,
-    color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase',
-    letterSpacing: '0.8px', display: 'block', marginBottom: 6,
-  }
-
-  return (
-    <div style={{ background: 'linear-gradient(135deg, #0d0d0f 0%, #ff5722 60%, #2B9FEE 100%)', padding: '36px 0 48px' }}>
-      <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 24px' }}>
-        <h1 style={{
-          fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.8rem',
-          color: '#fff', marginBottom: 8,
-        }}>
-          Alugar carro
-        </h1>
-        <p style={{
-          fontFamily: 'Inter, sans-serif', fontSize: '0.88rem',
-          color: 'rgba(255,255,255,0.6)', marginBottom: 28,
-        }}>
-          Compare Localiza, Movida, Unidas e mais — tudo em um lugar.
-        </p>
-
-        <form onSubmit={handleSubmit}>
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 12, alignItems: 'end' }}>
-            {/* Local de retirada */}
-            <div>
-              <label style={labelStyle}>Local de retirada</label>
-              <CitySearch
-                value={location}
-                onChange={setLocation}
-                placeholder="Cidade ou aeroporto"
-                dark={true}
-                required
-              />
-            </div>
-
-            {/* Retirada */}
-            <div>
-              <label style={labelStyle}>Data de retirada</label>
-              <input
-                type="date"
-                style={inputStyle}
-                value={pickup}
-                onChange={e => setPickup(e.target.value)}
-                required
-              />
-            </div>
-
-            {/* Devolução */}
-            <div>
-              <label style={labelStyle}>Data de devolução</label>
-              <input
-                type="date"
-                style={inputStyle}
-                value={ret}
-                onChange={e => setRet(e.target.value)}
-                required
-              />
-            </div>
+        {/* Info */}
+        <div style={{ padding: '14px 16px' }}>
+          <div style={{
+            fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
+            fontWeight: 600, color: '#6d6d74', textTransform: 'uppercase',
+            letterSpacing: '0.8px', marginBottom: 4,
+          }}>
+            {deal.country} · {deal.highlight}
           </div>
-
-          <button
-            type="submit"
-            className="btn-primary"
-            style={{ width: '100%', marginTop: 14, padding: '14px', fontSize: '0.95rem', fontWeight: 700 }}
-          >
-            Buscar carros
-          </button>
-        </form>
-      </div>
-    </div>
-  )
-}
-
-// ── Página principal ───────────────────────────────────────
-
-function CarrosContent() {
-  const searchParams = useSearchParams()
-  const router = useRouter()
-
-  const initialLocation = searchParams.get('location') || ''
-  const initialPickup   = searchParams.get('pickup')   || ''
-  const initialReturn   = searchParams.get('return')   || ''
-
-  const [searched,      setSearched]      = useState(Boolean(initialLocation && initialPickup && initialReturn))
-  const [current,       setCurrent]       = useState({ location: initialLocation, pickup: initialPickup, return: initialReturn })
-  const [notification,  setNotification]  = useState<string | null>(null)
-
-  function handleSearch(location: string, pickup: string, ret: string) {
-    const qs = new URLSearchParams({ location, pickup, return: ret })
-    router.replace(`/carros?${qs}`, { scroll: false })
-    setCurrent({ location, pickup, return: ret })
-    setSearched(true)
-    setNotification(null)
-  }
-
-  function handleRedirect(providerName: string) {
-    setNotification(providerName)
-    setTimeout(() => setNotification(null), 5000)
-  }
-
-  const days = calcDays(current.pickup, current.return)
-
-  return (
-    <>
-      <SearchForm
-        defaultLocation={initialLocation}
-        defaultPickup={initialPickup}
-        defaultReturn={initialReturn}
-        onSearch={handleSearch}
-      />
-
-      <div style={{ maxWidth: 900, margin: '0 auto', padding: '32px 24px' }}>
-
-        {searched && (
-          <>
-            {/* Cabeçalho */}
-            <div style={{ marginBottom: 24 }}>
-              <h2 style={{
-                fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.2rem',
-                color: '#0d0d0f', marginBottom: 4,
-              }}>
-                Carros em {current.location}
-              </h2>
-              <p style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '0.85rem', color: '#6d6d74',
-              }}>
-                {formatDateDisplay(current.pickup)} → {formatDateDisplay(current.return)} · {days} diária{days !== 1 ? 's' : ''}
-              </p>
-            </div>
-
-            {/* Notificação de redirecionamento */}
-            {notification && (
-              <div style={{
-                background: '#ECFDF5', border: '1px solid #6EE7B7',
-                borderRadius: 12, padding: '14px 20px', marginBottom: 12,
-                display: 'flex', alignItems: 'center', gap: 12,
-              }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                  <circle cx="12" cy="12" r="10"/>
-                  <polyline points="9 12 11 14 15 10"/>
-                </svg>
-                <p style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '0.85rem', color: '#065F46', margin: 0, fontWeight: 600,
-                }}>
-                  Abrindo {notification} com seus dados preenchidos — cidade, data de retirada e devolução já enviados.
-                </p>
-              </div>
-            )}
-
-            {/* Banner informativo */}
-            <div style={{
-              background: '#fafaf7', borderRadius: 12,
-              padding: '14px 20px', marginBottom: 20,
-              display: 'flex', alignItems: 'center', gap: 12,
-            }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff5722" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="12" y1="16" x2="12" y2="12"/>
-                <line x1="12" y1="8" x2="12.01" y2="8"/>
-              </svg>
-              <p style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '0.82rem', color: '#ff5722', margin: 0,
-              }}>
-                Clique em cada locadora — seus dados ({current.location}, {formatDateDisplay(current.pickup)} → {formatDateDisplay(current.return)}) são enviados automaticamente.
-              </p>
-            </div>
-
-            {/* Cards */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {CAR_PROVIDERS.map(provider => (
-                <CarProviderCard
-                  key={provider.id}
-                  provider={provider}
-                  location={current.location}
-                  pickupDate={current.pickup}
-                  returnDate={current.return}
-                  onRedirect={handleRedirect}
-                />
-              ))}
-            </div>
-
-            {/* Dica */}
-            <div style={{
-              marginTop: 32, background: '#fffbe6',
-              border: '1px solid #ffd60040', borderRadius: 12,
-              padding: '20px 24px',
-            }}>
-              <p style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '0.83rem', color: '#6d6d74', margin: 0,
-              }}>
-                <strong style={{ color: '#D48A0A' }}>Dica Go Livoo:</strong> O Rentcars compara todas as locadoras ao mesmo tempo e costuma ter o melhor preço final.
-                Para retiradas em aeroportos, verifique se o seguro básico já está incluso no valor exibido.
-              </p>
-            </div>
-
-            {/* CTA roteiro */}
-            <div style={{
-              marginTop: 16, background: '#fafaf7', borderRadius: 12,
-              padding: '20px 24px', textAlign: 'center',
-            }}>
-              <p style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '0.85rem', color: '#6d6d74', marginBottom: 10,
-              }}>
-                Quer montar um roteiro completo com carro + voo + hotel?
-              </p>
-              <a
-                href="/roteiro"
-                style={{
-                  fontFamily: 'Inter, sans-serif', fontWeight: 600,
-                  fontSize: '0.88rem', color: '#ff5722', textDecoration: 'none',
-                }}
-              >
-                Criar roteiro completo →
-              </a>
-            </div>
-          </>
-        )}
-
-        {!searched && (
-          <div>
-            {/* Seção: parceiros disponíveis */}
-            <div style={{ marginBottom: 40 }}>
-              <h2 style={{
-                fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.25rem',
-                fontWeight: 700, color: '#0d0d0f', margin: '0 0 6px',
-              }}>
-                Locadoras disponíveis
-              </h2>
-              <p style={{
-                fontFamily: 'Inter, sans-serif', fontSize: '0.85rem',
-                color: '#6d6d74', margin: '0 0 20px',
-              }}>
-                Preencha as datas acima e clique em "Buscar carros" — seus dados são enviados automaticamente para cada locadora.
-              </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                {CAR_PROVIDERS.map(provider => (
-                  <div key={provider.id} className="card" style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', gap: 18 }}>
-                    <ProviderMonogram initials={provider.initials} color={provider.color} />
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
-                        <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: '1rem', color: '#0d0d0f' }}>
-                          {provider.name}
-                        </span>
-                        {provider.badge && (
-                          <span style={{
-                            fontFamily: 'Inter, sans-serif', fontSize: '0.65rem', fontWeight: 700,
-                            color: provider.color, background: provider.color + '18',
-                            padding: '2px 8px', borderRadius: 20, textTransform: 'uppercase', letterSpacing: '0.5px',
-                          }}>
-                            {provider.badge}
-                          </span>
-                        )}
-                      </div>
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#6d6d74', margin: '0 0 3px' }}>
-                        {provider.description}
-                      </p>
-                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 600, color: provider.color }}>
-                        Estimativa: {provider.priceRange}
-                      </span>
-                    </div>
-                    <a
-                      href={provider.buildUrl('', '', '')}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        display: 'inline-block', flexShrink: 0,
-                        background: '#f4f4f2', color: '#0d0d0f',
-                        fontFamily: 'Inter, sans-serif', fontWeight: 600,
-                        fontSize: '0.82rem', padding: '9px 18px', borderRadius: 10,
-                        textDecoration: 'none', whiteSpace: 'nowrap',
-                        border: '1.5px solid #e7e6e0',
-                      }}
-                    >
-                      Ver site →
-                    </a>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Seção: faixas de preço por rota */}
-            <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #e7e6e0', padding: '28px 28px', marginBottom: 28 }}>
-              <h3 style={{
-                fontFamily: 'Space Grotesk, sans-serif', fontSize: '1rem',
-                fontWeight: 700, color: '#0d0d0f', margin: '0 0 18px',
-              }}>
-                Faixas de preço por destino
-              </h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 14 }}>
-                {[
-                  { destino: 'São Paulo (GRU)', preco: 'R$ 79–180/dia', tipo: 'Compacto a SUV' },
-                  { destino: 'Rio de Janeiro', preco: 'R$ 85–200/dia', tipo: 'Compacto a SUV' },
-                  { destino: 'Florianópolis', preco: 'R$ 70–160/dia', tipo: 'Compacto a SUV' },
-                  { destino: 'Buenos Aires', preco: 'US$ 35–90/dia', tipo: 'Econômico a premium' },
-                  { destino: 'Lisboa', preco: '€22–65/dia', tipo: 'Econômico a premium' },
-                  { destino: 'Miami / EUA', preco: 'US$ 30–80/dia', tipo: 'Econômico a SUV' },
-                ].map(r => (
-                  <div key={r.destino} style={{
-                    background: '#fafaf7', borderRadius: 10,
-                    padding: '14px 16px', border: '1px solid #f0efeb',
-                  }}>
-                    <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: '0.88rem', color: '#0d0d0f', marginBottom: 4 }}>
-                      {r.destino}
-                    </div>
-                    <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.92rem', fontWeight: 700, color: '#ff5722', marginBottom: 2 }}>
-                      {r.preco}
-                    </div>
-                    <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', color: '#6d6d74' }}>
-                      {r.tipo}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', color: '#9a9aa0', margin: '14px 0 0' }}>
-                Estimativas baseadas em pesquisas recentes. Preços reais variam por data, categoria e disponibilidade.
-              </p>
-            </div>
-
-            {/* Como funciona */}
-            <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #e7e6e0', padding: '28px 28px' }}>
-              <h3 style={{
-                fontFamily: 'Space Grotesk, sans-serif', fontSize: '1rem',
-                fontWeight: 700, color: '#0d0d0f', margin: '0 0 20px',
-              }}>
-                Como funciona
-              </h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
-                {[
-                  { n: '1', t: 'Informe o destino', d: 'Digite a cidade, aeroporto ou endereço de retirada e as datas desejadas.' },
-                  { n: '2', t: 'Escolha a locadora', d: 'Veja as opções com faixa de preço estimada e clique na que preferir.' },
-                  { n: '3', t: 'Reserve direto', d: 'Seus dados são enviados automaticamente. Complete a reserva no site da locadora.' },
-                ].map(s => (
-                  <div key={s.n}>
-                    <div style={{
-                      width: 32, height: 32, borderRadius: 10,
-                      background: 'linear-gradient(135deg, #ff5722, #e04010)',
-                      color: '#fff', fontFamily: 'Space Grotesk, sans-serif',
-                      fontWeight: 800, fontSize: '0.95rem',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      marginBottom: 10,
-                    }}>
-                      {s.n}
-                    </div>
-                    <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: '0.88rem', color: '#0d0d0f', marginBottom: 5 }}>
-                      {s.t}
-                    </div>
-                    <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#6d6d74', lineHeight: 1.5 }}>
-                      {s.d}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div style={{
+            fontFamily: 'Space Grotesk, sans-serif', fontSize: '0.95rem',
+            fontWeight: 700, color: '#0d0d0f', marginBottom: 10,
+          }}>
+            {deal.city}
           </div>
-        )}
+          <div style={{
+            fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.2rem',
+            fontWeight: 800, color: '#ff5722',
+          }}>
+            {deal.priceLabel}
+          </div>
+          <div style={{
+            fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
+            color: '#9a9aa0', marginTop: 4,
+          }}>
+            Preço estimado · compara Localiza, Movida, Unidas e mais
+          </div>
+        </div>
       </div>
-
-      <style>{`
-        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.6; }
-        input::placeholder { color: rgba(255,255,255,0.45) !important; }
-      `}</style>
-    </>
+    </a>
   )
 }
+
+// ── Página principal ───────────────────────────────────────────────────────
 
 export default function CarrosPage() {
+  const [selectedCategory, setSelectedCategory] = useState('nacional')
+  const [loading, setLoading]                   = useState(true)
+
+  // Simula carregamento para ter a mesma UX que outras páginas
+  useEffect(() => {
+    setLoading(true)
+    const t = setTimeout(() => setLoading(false), 400)
+    return () => clearTimeout(t)
+  }, [selectedCategory])
+
+  const cat   = CATEGORIES.find(c => c.id === selectedCategory)!
+  const deals = cat.deals
+
   return (
-    <Suspense>
-      <CarrosContent />
-    </Suspense>
+    <div style={{ background: '#fafaf7', minHeight: '100vh' }}>
+
+      {/* ── HERO ──────────────────────────────────────────────── */}
+      <section style={{
+        background: 'linear-gradient(135deg, #0d0d0f 0%, #0050FF 60%, #00b4d8 100%)',
+        padding: '64px 0 52px',
+      }}>
+        <div className="container" style={{ textAlign: 'center' }}>
+          <span style={{
+            display: 'inline-block',
+            background: 'rgba(0,80,255,0.15)', color: '#a5b4fc',
+            fontSize: '0.7rem', fontWeight: 700, letterSpacing: '2px',
+            textTransform: 'uppercase', padding: '5px 14px', borderRadius: 50,
+            marginBottom: 20, border: '1px solid rgba(0,80,255,0.3)',
+          }}>
+            Aluguel de carros
+          </span>
+          <h1 style={{
+            fontFamily: 'Space Grotesk, sans-serif',
+            fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 700,
+            color: '#fff', margin: '0 0 16px',
+          }}>
+            Alugue um carro no seu destino
+          </h1>
+          <p style={{
+            fontFamily: 'Inter, sans-serif', fontSize: '1rem',
+            color: 'rgba(255,255,255,0.75)', maxWidth: 520,
+            margin: '0 auto 36px', lineHeight: 1.7,
+          }}>
+            Compare Localiza, Movida, Unidas, Hertz, Avis e mais — tudo em uma busca pelo Rentcars, o maior agregador do Brasil.
+          </p>
+
+          {/* Seletor de categoria */}
+          <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8 }}>
+            {CATEGORIES.map(c => (
+              <button
+                key={c.id}
+                onClick={() => setSelectedCategory(c.id)}
+                style={{
+                  fontFamily: 'Inter, sans-serif', fontSize: '0.82rem',
+                  fontWeight: 600, padding: '9px 18px', borderRadius: 100,
+                  border: '1.5px solid',
+                  borderColor: selectedCategory === c.id ? '#a5b4fc' : 'rgba(255,255,255,0.3)',
+                  background: selectedCategory === c.id ? '#a5b4fc' : 'transparent',
+                  color: selectedCategory === c.id ? '#0d0d0f' : '#fff',
+                  cursor: 'pointer', transition: 'all 0.15s',
+                }}
+              >
+                {c.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── DEALS GRID ────────────────────────────────────────── */}
+      <section style={{ padding: '48px 0 80px' }}>
+        <div className="container">
+
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 28 }}>
+            <div>
+              <h2 style={{
+                fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.35rem',
+                fontWeight: 700, color: '#0d0d0f', margin: '0 0 4px',
+              }}>
+                {cat.label === 'Brasil' ? 'Destinos nacionais' : 'Destinos internacionais'}
+              </h2>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#6d6d74', margin: 0 }}>
+                Clique em um destino para ver modelos e disponibilidade no Rentcars
+              </p>
+            </div>
+            <span style={{
+              fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
+              color: '#9a9aa0', flexShrink: 0,
+            }}>
+              Via Rentcars.com
+            </span>
+          </div>
+
+          {loading ? (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 20 }}>
+              {Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)}
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 20 }}>
+              {deals.map((deal, i) => (
+                <CarDealCard key={`${deal.rentcarsSlug}-${i}`} deal={deal} />
+              ))}
+            </div>
+          )}
+
+          {/* CTA roteiro */}
+          {!loading && (
+            <div style={{
+              marginTop: 48, background: '#fff', borderRadius: 16,
+              border: '1px solid #e7e6e0', padding: '32px',
+              textAlign: 'center',
+            }}>
+              <h3 style={{
+                fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.15rem',
+                fontWeight: 700, color: '#0d0d0f', margin: '0 0 10px',
+              }}>
+                Quer incluir o carro no roteiro completo?
+              </h3>
+              <p style={{
+                fontFamily: 'Inter, sans-serif', fontSize: '0.88rem',
+                color: '#6d6d74', margin: '0 0 20px', maxWidth: 420,
+                marginLeft: 'auto', marginRight: 'auto',
+              }}>
+                Voo + hotel + carro + experiências — a Go Livoo organiza tudo por você.
+              </p>
+              <Link
+                href="/roteiro"
+                className="btn-primary"
+                style={{ display: 'inline-block', padding: '14px 32px', textDecoration: 'none', fontSize: '0.95rem' }}
+              >
+                Montar roteiro completo →
+              </Link>
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
   )
 }

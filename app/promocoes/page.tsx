@@ -5,18 +5,21 @@ import Link from 'next/link'
 
 // ── Tipos ──────────────────────────────────────────────────────────────────
 
+// Corresponde a CheapFlight retornado por /api/cheap-flights
 interface FlightDeal {
-  origin:      string
-  destination: string
-  price:       number
-  currency:    string
-  airline:     string
-  departs:     string
-  link:        string
-  destCity:    string
-  destCountry: string
-  destFlag:    string
-  photo:       string
+  origin:              string
+  destination:         string  // IATA
+  destinationCity:     string
+  destinationCountry:  string
+  destinationFlag:     string
+  destinationPhoto:    string
+  price:               number
+  currency:            string
+  airline:             string
+  airlineCode:         string
+  stops:               number
+  departDate:          string
+  link:                string
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────
@@ -29,13 +32,6 @@ const ORIGINS = [
   { iata: 'SSA', city: 'Salvador' },
   { iata: 'REC', city: 'Recife' },
 ]
-
-function buildTripLink(origin: string, dest: string): string {
-  const today = new Date()
-  today.setDate(today.getDate() + 30)
-  const d = today.toISOString().split('T')[0]
-  return `https://br.trip.com/flights/showfarefirst?dcity=${origin.toLowerCase()}&acity=${dest.toLowerCase()}&ddate=${d}&triptype=ow&class=y&quantity=1&locale=pt-BR&curr=BRL`
-}
 
 function formatPrice(price: number, currency: string): string {
   if (currency === 'BRL') return `R$ ${Math.round(price).toLocaleString('pt-BR')}`
@@ -62,11 +58,10 @@ function SkeletonCard() {
   )
 }
 
-function FlightDealCard({ deal, origin }: { deal: FlightDeal; origin: string }) {
-  const link = buildTripLink(origin, deal.destination)
+function FlightDealCard({ deal }: { deal: FlightDeal }) {
   return (
     <a
-      href={link}
+      href={deal.link}
       target="_blank"
       rel="noopener noreferrer"
       style={{ textDecoration: 'none', display: 'block' }}
@@ -88,8 +83,8 @@ function FlightDealCard({ deal, origin }: { deal: FlightDeal; origin: string }) 
         {/* Foto */}
         <div style={{ position: 'relative', height: 160, overflow: 'hidden', background: '#0d0d0f' }}>
           <img
-            src={deal.photo}
-            alt={deal.destCity}
+            src={deal.destinationPhoto}
+            alt={deal.destinationCity}
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
           <div style={{
@@ -101,7 +96,7 @@ function FlightDealCard({ deal, origin }: { deal: FlightDeal; origin: string }) 
             color: '#fff', fontFamily: 'Inter, sans-serif',
             fontSize: '0.82rem', fontWeight: 600,
           }}>
-            {deal.destFlag} {deal.destCity}
+            {deal.destinationFlag} {deal.destinationCity}
           </span>
           {deal.airline && (
             <span style={{
@@ -123,13 +118,13 @@ function FlightDealCard({ deal, origin }: { deal: FlightDeal; origin: string }) 
             fontWeight: 600, color: '#6d6d74', textTransform: 'uppercase',
             letterSpacing: '0.8px', marginBottom: 4,
           }}>
-            {deal.destCountry}
+            {deal.destinationCountry}
           </div>
           <div style={{
             fontFamily: 'Space Grotesk, sans-serif', fontSize: '0.95rem',
             fontWeight: 700, color: '#0d0d0f', marginBottom: 10,
           }}>
-            {deal.destCity}
+            {deal.destinationCity}
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
             <span style={{
@@ -143,7 +138,7 @@ function FlightDealCard({ deal, origin }: { deal: FlightDeal; origin: string }) 
             fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
             color: '#9a9aa0', marginTop: 4,
           }}>
-            Ida · preço estimado · via Trip.com
+            Ida · {deal.stops === 0 ? 'voo direto' : `${deal.stops} escala`} · via Trip.com
           </div>
         </div>
       </div>
@@ -166,7 +161,7 @@ export default function PromocoesPage() {
       try {
         const res  = await fetch(`/api/cheap-flights?origin=${selectedOrigin}`)
         const data = await res.json()
-        setDeals(data.deals ?? [])
+        setDeals(data.flights ?? [])
       } catch {
         setError(true)
         setDeals([])
@@ -293,7 +288,7 @@ export default function PromocoesPage() {
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 20 }}>
               {deals.map((deal, i) => (
-                <FlightDealCard key={`${deal.destination}-${i}`} deal={deal} origin={selectedOrigin} />
+                <FlightDealCard key={`${deal.destination}-${i}`} deal={deal} />
               ))}
             </div>
           )}

@@ -100,4 +100,7 @@ declare global {
    * }
    * ```
    */
-  interface RouteContext<AppRouteHa
+  interface RouteContext<AppRouteHandlerRoute extends AppRouteHandlerRoutes> {
+    params: Promise<ParamMap[AppRouteHandlerRoute]>
+  }
+}
