@@ -17,11 +17,11 @@ interface DestinationMeta {
 
 const DESTINATIONS: DestinationMeta[] = [
   // Europa
-  { city: 'Lisboa',          country: 'Portugal',        flag: '🇵🇹', region: 'europa',   hlCity: 'Lisbon',           bookingSlug: 'lisbon',           photo: U('1534430480872-3498386e7856') },
-  { city: 'Porto',           country: 'Portugal',        flag: '🇵🇹', region: 'europa',   hlCity: 'Porto',            bookingSlug: 'porto',            photo: U('1555881400-74d7acaacd2b') },
+  { city: 'Lisboa',          country: 'Portugal',        flag: '🇵🇹', region: 'europa',   hlCity: 'Lisbon',           bookingSlug: 'lisbon',           photo: U('1518241354-e57c7e99e5ce') },
+  { city: 'Porto',           country: 'Portugal',        flag: '🇵🇹', region: 'europa',   hlCity: 'Porto',            bookingSlug: 'porto',            photo: U('1555881406-6b46ba2b4c26') },
   { city: 'Paris',           country: 'França',          flag: '🇫🇷', region: 'europa',   hlCity: 'Paris',            bookingSlug: 'paris',            photo: U('1502602898657-3e91760cbb34') },
   { city: 'Barcelona',       country: 'Espanha',         flag: '🇪🇸', region: 'europa',   hlCity: 'Barcelona',        bookingSlug: 'barcelona',        photo: U('1539037116277-4db20889f2d4') },
-  { city: 'Madri',           country: 'Espanha',         flag: '🇪🇸', region: 'europa',   hlCity: 'Madrid',           bookingSlug: 'madrid',           photo: U('1543783207-ec64e4d8de4b') },
+  { city: 'Madri',           country: 'Espanha',         flag: '🇪🇸', region: 'europa',   hlCity: 'Madrid',           bookingSlug: 'madrid',           photo: U('1559599238-308e4628b70c') },
   { city: 'Roma',            country: 'Itália',          flag: '🇮🇹', region: 'europa',   hlCity: 'Rome',             bookingSlug: 'rome',             photo: U('1552832230-c0197dd311b5') },
   { city: 'Londres',         country: 'Reino Unido',     flag: '🇬🇧', region: 'europa',   hlCity: 'London',           bookingSlug: 'london',           photo: U('1513635269975-59663e0ac1ad') },
   { city: 'Amsterdã',        country: 'Holanda',         flag: '🇳🇱', region: 'europa',   hlCity: 'Amsterdam',        bookingSlug: 'amsterdam',        photo: U('1512470876302-972faa2aa9a4') },

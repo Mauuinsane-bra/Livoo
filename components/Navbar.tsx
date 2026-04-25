@@ -31,30 +31,6 @@ export default function Navbar() {
 
   return (
     <>
-      {/* ── Top bar ──────────────────────────────────────── */}
-      <div style={{
-        background: '#0d0d0f',
-        color: '#fff',
-        padding: '9px 0',
-        fontSize: 12.5,
-        textAlign: 'center',
-        fontFamily: 'Inter, sans-serif',
-      }}>
-        <span style={{
-          fontFamily: 'JetBrains Mono, monospace',
-          fontSize: 11,
-          letterSpacing: '.16em',
-          textTransform: 'uppercase',
-          background: '#ffd600',
-          color: '#0d0d0f',
-          padding: '2px 8px',
-          borderRadius: 4,
-          marginRight: 6,
-          fontWeight: 700,
-        }}>Lançamento</span>
-        cupom <strong>CHEGUEI10</strong> · 10% OFF no primeiro ingresso de evento · parcelamento em 12x
-      </div>
-
       {/* ── Header ───────────────────────────────────────── */}
       <header style={{
         background: '#fff',

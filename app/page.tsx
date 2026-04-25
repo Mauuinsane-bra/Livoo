@@ -59,11 +59,11 @@ const products = [
 ]
 
 const destinations = [
-  { name: 'Monte Carlo', sub: 'Mônaco · EU', n: 3, bg: 'repeating-linear-gradient(135deg,#9b8b70 0 10px,#85765d 10px 20px)', href: '/eventos/f1-monaco' },
-  { name: 'Rio de Janeiro', sub: 'Brasil · SA', n: 8, bg: 'repeating-linear-gradient(135deg,#2a3b58 0 10px,#1e2c44 10px 20px)', href: '/eventos' },
-  { name: 'Munique', sub: 'Alemanha · EU', n: 5, bg: 'repeating-linear-gradient(135deg,#3a6254 0 10px,#2c4a3f 10px 20px)', href: '/eventos' },
-  { name: 'Paris', sub: 'França · EU', n: 5, bg: 'repeating-linear-gradient(135deg,#8b3b3b 0 10px,#6d2b2b 10px 20px)', href: '/eventos' },
-  { name: 'São Paulo', sub: 'Brasil · SA', n: 12, bg: 'repeating-linear-gradient(135deg,#9b8b70 0 10px,#85765d 10px 20px)', href: '/eventos' },
+  { name: 'Monte Carlo', sub: 'Mônaco · EU', n: 3, href: '/eventos/f1-monaco', photo: 'https://images.unsplash.com/photo-1615483585256-a5e24a069ee1?auto=format&fit=crop&w=600&q=80' },
+  { name: 'Rio de Janeiro', sub: 'Brasil · SA', n: 8, href: '/eventos', photo: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=600&q=80' },
+  { name: 'Munique', sub: 'Alemanha · EU', n: 5, href: '/eventos', photo: 'https://images.unsplash.com/photo-1595168517039-39c27e413ea8?auto=format&fit=crop&w=600&q=80' },
+  { name: 'Paris', sub: 'França · EU', n: 5, href: '/eventos', photo: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=600&q=80' },
+  { name: 'São Paulo', sub: 'Brasil · SA', n: 12, href: '/eventos', photo: 'https://images.unsplash.com/photo-1554168848-228452c09d60?auto=format&fit=crop&w=600&q=80' },
 ]
 
 const calDays = [
@@ -309,12 +309,20 @@ export default async function HomePage() {
                 position: 'relative', aspectRatio: '3/4', borderRadius: 14, overflow: 'hidden',
                 color: '#fff', display: 'flex', alignItems: 'flex-end', padding: 14,
                 fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 18, letterSpacing: '-.01em',
-                background: `linear-gradient(180deg,rgba(0,0,0,.1) 50%, rgba(0,0,0,.7)),${dest.bg}`,
-                textDecoration: 'none',
+                background: '#0d0d0f', textDecoration: 'none',
               }}>
-                <span style={{ position: 'absolute', top: 12, right: 12, background: '#ffd600', color: '#0d0d0f', fontSize: 11, padding: '3px 8px', borderRadius: 999, fontWeight: 700 }}>{dest.n}</span>
-                <span style={{ position: 'absolute', top: 14, left: 14, fontSize: 10, fontFamily: 'JetBrains Mono, monospace', letterSpacing: '.12em', textTransform: 'uppercase', fontWeight: 500, opacity: .85 }}>{dest.sub}</span>
-                {dest.name}
+                {/* Foto de fundo */}
+                <img
+                  src={dest.photo}
+                  alt={dest.name}
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }}
+                />
+                {/* Gradiente sobre a foto */}
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.72) 100%)' }} />
+                {/* Conteúdo */}
+                <span style={{ position: 'absolute', top: 12, right: 12, background: '#ffd600', color: '#0d0d0f', fontSize: 11, padding: '3px 8px', borderRadius: 999, fontWeight: 700, zIndex: 1 }}>{dest.n}</span>
+                <span style={{ position: 'absolute', top: 14, left: 14, fontSize: 10, fontFamily: 'JetBrains Mono, monospace', letterSpacing: '.12em', textTransform: 'uppercase', fontWeight: 500, opacity: .85, zIndex: 1 }}>{dest.sub}</span>
+                <span style={{ position: 'relative', zIndex: 1 }}>{dest.name}</span>
               </Link>
             ))}
           </div>

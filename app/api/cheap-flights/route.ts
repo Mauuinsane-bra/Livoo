@@ -11,9 +11,9 @@ const U = (id: string) => `https://images.unsplash.com/photo-${id}?auto=format&f
 
 const DESTINATIONS: Record<string, { city: string; country: string; flag: string; photo: string }> = {
   // Europa
-  LIS: { city: 'Lisboa',           country: 'Portugal',        flag: '🇵🇹', photo: U('1534430480872-3498386e7856') },
-  OPO: { city: 'Porto',            country: 'Portugal',        flag: '🇵🇹', photo: U('1555881400-74d7acaacd2b') },
-  MAD: { city: 'Madri',            country: 'Espanha',         flag: '🇪🇸', photo: U('1543783207-ec64e4d8de4b') },
+  LIS: { city: 'Lisboa',           country: 'Portugal',        flag: '🇵🇹', photo: U('1518241354-e57c7e99e5ce') },
+  OPO: { city: 'Porto',            country: 'Portugal',        flag: '🇵🇹', photo: U('1555881406-6b46ba2b4c26') },
+  MAD: { city: 'Madri',            country: 'Espanha',         flag: '🇪🇸', photo: U('1559599238-308e4628b70c') },
   BCN: { city: 'Barcelona',        country: 'Espanha',         flag: '🇪🇸', photo: U('1539037116277-4db20889f2d4') },
   CDG: { city: 'Paris',            country: 'França',          flag: '🇫🇷', photo: U('1502602898657-3e91760cbb34') },
   LHR: { city: 'Londres',          country: 'Reino Unido',     flag: '🇬🇧', photo: U('1513635269975-59663e0ac1ad') },
