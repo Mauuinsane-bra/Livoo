@@ -79,7 +79,7 @@ const VISA_LABELS: Record<string, { label: string; color: string; bg: string }> 
   on_arrival:   { label: 'Visto na chegada',     color: '#ca8a04', bg: '#fef9c3' },
   e_visa:       { label: 'E-Visa (online)',       color: '#2563eb', bg: '#dbeafe' },
   embassy:      { label: 'Visto na embaixada',    color: '#dc2626', bg: '#fee2e2' },
-  unknown:      { label: 'Verificar com consulado', color: '#6d6d74', bg: '#fafaf7' },
+  unknown:      { label: 'Verificar com consulado', color: '#64748B', bg: '#fafaf7' },
 }
 
 // ── Componente principal ───────────────────────────────────
@@ -172,15 +172,15 @@ function PrepContent() {
 
       {/* ── HEADER ── */}
       <section style={{
-        background: 'linear-gradient(135deg, #0d0d0f 0%, #ff5722 60%, #2B9FEE 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)',
         padding: '64px 0 48px',
         textAlign: 'center',
       }}>
         <div className="container">
           <span style={{
             display: 'inline-block',
-            background: 'rgba(245,166,35,0.15)',
-            color: '#ffd600',
+            background: 'rgba(245,168,0,0.15)',
+            color: '#F5A800',
             fontSize: '0.7rem',
             fontWeight: 700,
             letterSpacing: '2px',
@@ -188,12 +188,12 @@ function PrepContent() {
             padding: '5px 14px',
             borderRadius: 50,
             marginBottom: 20,
-            border: '1px solid rgba(245,166,35,0.3)',
+            border: '1px solid rgba(245,168,0,0.3)',
           }}>
             Documentação Viagem
           </span>
           <h1 style={{
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: 'clamp(2rem, 5vw, 2.8rem)',
             color: '#fff',
             margin: '0 0 14px',
@@ -218,9 +218,9 @@ function PrepContent() {
         <div className="container" style={{ maxWidth: 720 }}>
           <div className="card" style={{ padding: 32 }}>
             <h2 style={{
-              fontFamily: 'Space Grotesk, sans-serif',
+              fontFamily: 'Nunito, sans-serif',
               fontSize: '1.3rem',
-              color: '#0d0d0f',
+              color: '#0F2340',
               margin: '0 0 24px',
             }}>
               Verificar documentação
@@ -234,7 +234,7 @@ function PrepContent() {
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '0.78rem',
                   fontWeight: 600,
-                  color: '#6d6d74',
+                  color: '#64748B',
                   textTransform: 'uppercase',
                   letterSpacing: '0.8px',
                   marginBottom: 8,
@@ -250,9 +250,9 @@ function PrepContent() {
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '0.92rem',
                     background: '#fff',
-                    border: '1.5px solid #e7e6e0',
+                    border: '1.5px solid #E2E8F0',
                     borderRadius: 10,
-                    color: '#0d0d0f',
+                    color: '#0F2340',
                     outline: 'none',
                     cursor: 'pointer',
                     boxSizing: 'border-box',
@@ -273,7 +273,7 @@ function PrepContent() {
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '0.78rem',
                   fontWeight: 600,
-                  color: '#6d6d74',
+                  color: '#64748B',
                   textTransform: 'uppercase',
                   letterSpacing: '0.8px',
                   marginBottom: 8,
@@ -289,9 +289,9 @@ function PrepContent() {
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '0.92rem',
                     background: '#fff',
-                    border: '1.5px solid #e7e6e0',
+                    border: '1.5px solid #E2E8F0',
                     borderRadius: 10,
-                    color: destination ? '#0d0d0f' : '#8A9AB5',
+                    color: destination ? '#0F2340' : '#8A9AB5',
                     outline: 'none',
                     cursor: 'pointer',
                     boxSizing: 'border-box',
@@ -334,9 +334,9 @@ function PrepContent() {
                 </div>
                 <div>
                   <h2 style={{
-                    fontFamily: 'Space Grotesk, sans-serif',
+                    fontFamily: 'Nunito, sans-serif',
                     fontSize: '1.25rem',
-                    color: '#0d0d0f',
+                    color: '#0F2340',
                     margin: '0 0 4px',
                   }}>
                     {natCountry?.name ?? nationality} → {destCountry?.name ?? destination}
@@ -409,7 +409,7 @@ function PrepContent() {
                   <strong style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '0.9rem',
-                    color: '#0d0d0f',
+                    color: '#0F2340',
                     display: 'block',
                     marginBottom: 4,
                   }}>
@@ -418,7 +418,7 @@ function PrepContent() {
                   <p style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '0.85rem',
-                    color: '#6d6d74',
+                    color: '#64748B',
                     margin: 0,
                   }}>
                     {result.passportValidity}
@@ -431,9 +431,9 @@ function PrepContent() {
             {(result.vaccinesRequired.length > 0 || result.vaccinesRecommended.length > 0) && (
               <div className="card" style={{ padding: '24px 28px', marginBottom: 16 }}>
                 <h3 style={{
-                  fontFamily: 'Space Grotesk, sans-serif',
+                  fontFamily: 'Nunito, sans-serif',
                   fontSize: '1.05rem',
-                  color: '#0d0d0f',
+                  color: '#0F2340',
                   margin: '0 0 16px',
                   display: 'flex',
                   alignItems: 'center',
@@ -456,11 +456,11 @@ function PrepContent() {
                       OBRIGATÓRIA
                     </span>
                     <div>
-                      <strong style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: '#0d0d0f' }}>
+                      <strong style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: '#0F2340' }}>
                         {v.name}
                       </strong>
                       {v.details && (
-                        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#6d6d74', margin: '4px 0 0' }}>
+                        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#64748B', margin: '4px 0 0' }}>
                           {v.details}
                         </p>
                       )}
@@ -482,11 +482,11 @@ function PrepContent() {
                       RECOMENDADA
                     </span>
                     <div>
-                      <strong style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: '#0d0d0f' }}>
+                      <strong style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: '#0F2340' }}>
                         {v.name}
                       </strong>
                       {v.details && (
-                        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#6d6d74', margin: '4px 0 0' }}>
+                        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#64748B', margin: '4px 0 0' }}>
                           {v.details}
                         </p>
                       )}
@@ -500,9 +500,9 @@ function PrepContent() {
             {result.entryRestrictions.length > 0 && (
               <div className="card" style={{ padding: '24px 28px', marginBottom: 16 }}>
                 <h3 style={{
-                  fontFamily: 'Space Grotesk, sans-serif',
+                  fontFamily: 'Nunito, sans-serif',
                   fontSize: '1.05rem',
-                  color: '#0d0d0f',
+                  color: '#0F2340',
                   margin: '0 0 16px',
                   display: 'flex',
                   alignItems: 'center',
@@ -513,13 +513,13 @@ function PrepContent() {
                 {result.entryRestrictions.map((r, i) => (
                   <div key={i} style={{
                     padding: '10px 16px',
-                    background: '#fffbe6',
+                    background: '#FFF8EC',
                     borderRadius: 8,
                     marginBottom: 8,
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '0.85rem',
-                    color: '#6d6d74',
-                    borderLeft: '3px solid #ffd600',
+                    color: '#64748B',
+                    borderLeft: '3px solid #F5A800',
                   }}>
                     {r}
                   </div>
@@ -529,7 +529,7 @@ function PrepContent() {
 
             {/* Upgrade Documentação */}
             <div style={{
-              background: 'linear-gradient(135deg, #0d0d0f 0%, #1A3A6E 100%)',
+              background: 'linear-gradient(135deg, #0F2340 0%, #1A3A6E 100%)',
               borderRadius: 16,
               padding: '28px 32px',
               marginBottom: 16,
@@ -548,7 +548,7 @@ function PrepContent() {
                       <strong style={{
                         fontFamily: 'Inter, sans-serif',
                         fontSize: '1rem',
-                        color: '#ffd600',
+                        color: '#F5A800',
                         display: 'block',
                         marginBottom: 2,
                       }}>
@@ -611,8 +611,8 @@ function PrepContent() {
                       display: 'block',
                       width: '100%',
                       padding: '12px',
-                      background: '#ffd600',
-                      color: '#0d0d0f',
+                      background: '#F5A800',
+                      color: '#0F2340',
                       fontFamily: 'Inter, sans-serif',
                       fontWeight: 700,
                       fontSize: '0.9rem',
@@ -630,7 +630,7 @@ function PrepContent() {
                   <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 20 }}>
                     <div>
                       <strong style={{
-                        fontFamily: 'Space Grotesk, sans-serif',
+                        fontFamily: 'Nunito, sans-serif',
                         fontSize: '1.2rem',
                         color: '#fff',
                         display: 'block',
@@ -651,9 +651,9 @@ function PrepContent() {
                     <div style={{ textAlign: 'right', flexShrink: 0 }}>
                       <span style={{
                         display: 'block',
-                        fontFamily: 'Space Grotesk, sans-serif',
+                        fontFamily: 'Nunito, sans-serif',
                         fontSize: '1.6rem',
-                        color: '#ffd600',
+                        color: '#F5A800',
                         lineHeight: 1,
                       }}>
                         R$39
@@ -708,8 +708,8 @@ function PrepContent() {
                       display: 'block',
                       width: '100%',
                       padding: '14px',
-                      background: '#ffd600',
-                      color: '#0d0d0f',
+                      background: '#F5A800',
+                      color: '#0F2340',
                       fontFamily: 'Inter, sans-serif',
                       fontWeight: 700,
                       fontSize: '0.95rem',
@@ -738,7 +738,7 @@ function PrepContent() {
             {/* CTA roteiro */}
             <div style={{
               background: '#fff',
-              border: '1px solid #e7e6e0',
+              border: '1px solid #E2E8F0',
               borderRadius: 12,
               padding: '20px 24px',
               textAlign: 'center',
@@ -746,7 +746,7 @@ function PrepContent() {
               <p style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '0.85rem',
-                color: '#6d6d74',
+                color: '#64748B',
                 marginBottom: 12,
               }}>
                 Quer montar o roteiro completo para {destCountry?.name ?? destination}?
@@ -757,7 +757,7 @@ function PrepContent() {
                   fontFamily: 'Inter, sans-serif',
                   fontWeight: 600,
                   fontSize: '0.88rem',
-                  color: '#ff5722',
+                  color: '#1A82D8',
                   textDecoration: 'none',
                 }}
               >
@@ -774,10 +774,10 @@ function PrepContent() {
           <div className="container" style={{ maxWidth: 720 }}>
             <div className="card" style={{ padding: 32, textAlign: 'center' }}>
               <div style={{ fontSize: 40, marginBottom: 16 }}>⚠️</div>
-              <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', color: '#0d0d0f', margin: '0 0 8px' }}>
+              <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', margin: '0 0 8px' }}>
                 Erro ao verificar documentação
               </h3>
-              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#6d6d74' }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#64748B' }}>
                 Não foi possível buscar os dados. Verifique sua conexão e tente novamente.
               </p>
               <button
@@ -812,7 +812,7 @@ function PrepContent() {
                   <strong style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '0.9rem',
-                    color: '#0d0d0f',
+                    color: '#0F2340',
                     display: 'block',
                     marginBottom: 6,
                   }}>
@@ -821,7 +821,7 @@ function PrepContent() {
                   <p style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '0.78rem',
-                    color: '#6d6d74',
+                    color: '#64748B',
                     margin: 0,
                     lineHeight: 1.5,
                   }}>
@@ -839,7 +839,7 @@ function PrepContent() {
 
 export default function PrepPage() {
   return (
-    <Suspense fallback={<div style={{ padding: '40px', textAlign: 'center', color: '#6d6d74' }}>Carregando...</div>}>
+    <Suspense fallback={<div style={{ padding: '40px', textAlign: 'center', color: '#64748B' }}>Carregando...</div>}>
       <PrepContent />
     </Suspense>
   )

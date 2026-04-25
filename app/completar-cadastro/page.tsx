@@ -239,7 +239,7 @@ export default function CompletarCadastroPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0d0d0f 0%, #1a1a20 100%)',
+      background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)',
       padding: '60px 24px',
     }}>
       <div style={{ maxWidth: 700, margin: '0 auto' }}>
@@ -250,10 +250,10 @@ export default function CompletarCadastroPage() {
           boxShadow: '0 20px 60px rgba(13, 27, 62, 0.2)',
         }}>
           <h1 style={{
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: '2rem',
             fontWeight: 700,
-            color: '#0d0d0f',
+            color: '#0F2340',
             marginBottom: 8,
             textAlign: 'center',
           }}>
@@ -262,7 +262,7 @@ export default function CompletarCadastroPage() {
           <p style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: '0.9rem',
-            color: '#6d6d74',
+            color: '#64748B',
             textAlign: 'center',
             marginBottom: 36,
           }}>
@@ -304,10 +304,10 @@ export default function CompletarCadastroPage() {
             {/* Seção 1: Dados Pessoais */}
             <fieldset style={{ border: 'none', padding: 0, marginBottom: 32 }}>
               <legend style={{
-                fontFamily: 'Space Grotesk, sans-serif',
+                fontFamily: 'Nunito, sans-serif',
                 fontSize: '1.2rem',
                 fontWeight: 700,
-                color: '#0d0d0f',
+                color: '#0F2340',
                 marginBottom: 20,
                 display: 'flex',
                 alignItems: 'center',
@@ -316,7 +316,7 @@ export default function CompletarCadastroPage() {
                 <span style={{
                   width: 32,
                   height: 32,
-                  background: '#ffd600',
+                  background: '#F5A800',
                   color: '#fff',
                   borderRadius: '50%',
                   display: 'flex',
@@ -337,7 +337,7 @@ export default function CompletarCadastroPage() {
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '0.85rem',
                     fontWeight: 600,
-                    color: '#0d0d0f',
+                    color: '#0F2340',
                     display: 'block',
                     marginBottom: 6,
                   }}>
@@ -368,7 +368,7 @@ export default function CompletarCadastroPage() {
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '0.85rem',
                       fontWeight: 600,
-                      color: '#0d0d0f',
+                      color: '#0F2340',
                       display: 'block',
                       marginBottom: 6,
                     }}>
@@ -397,7 +397,7 @@ export default function CompletarCadastroPage() {
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '0.85rem',
                       fontWeight: 600,
-                      color: '#0d0d0f',
+                      color: '#0F2340',
                       display: 'block',
                       marginBottom: 6,
                     }}>
@@ -419,10 +419,10 @@ export default function CompletarCadastroPage() {
             {/* Seção 2: Contato */}
             <fieldset style={{ border: 'none', padding: 0, marginBottom: 32 }}>
               <legend style={{
-                fontFamily: 'Space Grotesk, sans-serif',
+                fontFamily: 'Nunito, sans-serif',
                 fontSize: '1.2rem',
                 fontWeight: 700,
-                color: '#0d0d0f',
+                color: '#0F2340',
                 marginBottom: 20,
                 display: 'flex',
                 alignItems: 'center',
@@ -431,7 +431,7 @@ export default function CompletarCadastroPage() {
                 <span style={{
                   width: 32,
                   height: 32,
-                  background: '#ffd600',
+                  background: '#F5A800',
                   color: '#fff',
                   borderRadius: '50%',
                   display: 'flex',
@@ -452,7 +452,7 @@ export default function CompletarCadastroPage() {
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '0.85rem',
                     fontWeight: 600,
-                    color: '#0d0d0f',
+                    color: '#0F2340',
                     display: 'block',
                     marginBottom: 6,
                   }}>
@@ -482,7 +482,7 @@ export default function CompletarCadastroPage() {
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '0.85rem',
                     fontWeight: 600,
-                    color: '#0d0d0f',
+                    color: '#0F2340',
                     display: 'block',
                     marginBottom: 6,
                   }}>
@@ -511,10 +511,10 @@ export default function CompletarCadastroPage() {
             {/* Seção 3: Endereço */}
             <fieldset style={{ border: 'none', padding: 0, marginBottom: 32 }}>
               <legend style={{
-                fontFamily: 'Space Grotesk, sans-serif',
+                fontFamily: 'Nunito, sans-serif',
                 fontSize: '1.2rem',
                 fontWeight: 700,
-                color: '#0d0d0f',
+                color: '#0F2340',
                 marginBottom: 20,
                 display: 'flex',
                 alignItems: 'center',
@@ -523,7 +523,7 @@ export default function CompletarCadastroPage() {
                 <span style={{
                   width: 32,
                   height: 32,
-                  background: '#ffd600',
+                  background: '#F5A800',
                   color: '#fff',
                   borderRadius: '50%',
                   display: 'flex',
@@ -544,7 +544,7 @@ export default function CompletarCadastroPage() {
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '0.85rem',
                     fontWeight: 600,
-                    color: '#0d0d0f',
+                    color: '#0F2340',
                     display: 'block',
                     marginBottom: 6,
                   }}>
@@ -564,7 +564,7 @@ export default function CompletarCadastroPage() {
                     }}
                   />
                   {loadingCEP && (
-                    <small style={{ color: '#ff5722', fontSize: '0.75rem', display: 'block', marginTop: 4 }}>
+                    <small style={{ color: '#1A82D8', fontSize: '0.75rem', display: 'block', marginTop: 4 }}>
                       Buscando informações...
                     </small>
                   )}
@@ -582,7 +582,7 @@ export default function CompletarCadastroPage() {
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '0.85rem',
                       fontWeight: 600,
-                      color: '#0d0d0f',
+                      color: '#0F2340',
                       display: 'block',
                       marginBottom: 6,
                     }}>
@@ -610,7 +610,7 @@ export default function CompletarCadastroPage() {
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '0.85rem',
                       fontWeight: 600,
-                      color: '#0d0d0f',
+                      color: '#0F2340',
                       display: 'block',
                       marginBottom: 6,
                     }}>
@@ -638,7 +638,7 @@ export default function CompletarCadastroPage() {
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '0.85rem',
                       fontWeight: 600,
-                      color: '#0d0d0f',
+                      color: '#0F2340',
                       display: 'block',
                       marginBottom: 6,
                     }}>
@@ -662,7 +662,7 @@ export default function CompletarCadastroPage() {
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '0.85rem',
                       fontWeight: 600,
-                      color: '#0d0d0f',
+                      color: '#0F2340',
                       display: 'block',
                       marginBottom: 6,
                     }}>
@@ -690,7 +690,7 @@ export default function CompletarCadastroPage() {
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '0.85rem',
                       fontWeight: 600,
-                      color: '#0d0d0f',
+                      color: '#0F2340',
                       display: 'block',
                       marginBottom: 6,
                     }}>
@@ -718,7 +718,7 @@ export default function CompletarCadastroPage() {
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '0.85rem',
                       fontWeight: 600,
-                      color: '#0d0d0f',
+                      color: '#0F2340',
                       display: 'block',
                       marginBottom: 6,
                     }}>
@@ -773,10 +773,10 @@ export default function CompletarCadastroPage() {
             {/* Seção 4: Segurança */}
             <fieldset style={{ border: 'none', padding: 0, marginBottom: 32 }}>
               <legend style={{
-                fontFamily: 'Space Grotesk, sans-serif',
+                fontFamily: 'Nunito, sans-serif',
                 fontSize: '1.2rem',
                 fontWeight: 700,
-                color: '#0d0d0f',
+                color: '#0F2340',
                 marginBottom: 20,
                 display: 'flex',
                 alignItems: 'center',
@@ -785,7 +785,7 @@ export default function CompletarCadastroPage() {
                 <span style={{
                   width: 32,
                   height: 32,
-                  background: '#ffd600',
+                  background: '#F5A800',
                   color: '#fff',
                   borderRadius: '50%',
                   display: 'flex',
@@ -806,7 +806,7 @@ export default function CompletarCadastroPage() {
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '0.85rem',
                     fontWeight: 600,
-                    color: '#0d0d0f',
+                    color: '#0F2340',
                     display: 'block',
                     marginBottom: 6,
                   }}>
@@ -867,7 +867,7 @@ export default function CompletarCadastroPage() {
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '0.85rem',
                     fontWeight: 600,
-                    color: '#0d0d0f',
+                    color: '#0F2340',
                     display: 'block',
                     marginBottom: 6,
                   }}>

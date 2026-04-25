@@ -42,20 +42,20 @@ export default function Footer() {
   if (pathname.startsWith('/blog')) return null
 
   return (
-    <footer style={{ background: '#fff', borderTop: '1px solid #e7e6e0', padding: '52px 0 28px', marginTop: 40 }}>
+    <footer style={{ background: '#fff', borderTop: '1px solid #E2E8F0', padding: '52px 0 28px', marginTop: 40 }}>
       <div className="wrap">
         <div style={{ display: 'grid', gridTemplateColumns: '1.3fr repeat(4, 1fr)', gap: 28 }} className="footer-grid">
 
           {/* Col 1 — brand */}
           <div>
-            <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#0d0d0f', marginBottom: 14 }}>
+            <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#0F2340', marginBottom: 14 }}>
               <BirdCabecudinha size={40} />
               <span style={{ display: 'flex', flexDirection: 'column', gap: 3, lineHeight: 1 }}>
-                <b style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 20, letterSpacing: '-0.035em', lineHeight: .95 }}>Go Livoo</b>
-                <small style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 8, color: '#6d6d74', letterSpacing: '.2em', textTransform: 'uppercase' }}>Vá mais longe por menos</small>
+                <b style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: 20, letterSpacing: '-0.035em', lineHeight: .95 }}>Go Livoo</b>
+                <small style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 8, color: '#64748B', letterSpacing: '.2em', textTransform: 'uppercase' }}>Vá mais longe por menos</small>
               </span>
             </Link>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#6d6d74', lineHeight: 1.65, maxWidth: 260, marginBottom: 20 }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#64748B', lineHeight: 1.65, maxWidth: 260, marginBottom: 20 }}>
               Você quer a experiência. A Go Livoo resolve o resto.
             </p>
             {/* Social pills */}
@@ -65,12 +65,12 @@ export default function Footer() {
               ].map(s => (
                 <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
                   style={{
-                    fontSize: 11.5, fontWeight: 600, padding: '5px 12px', border: '1px solid #e7e6e0',
-                    borderRadius: 999, color: '#2a2a30', textDecoration: 'none', fontFamily: 'Inter, sans-serif',
+                    fontSize: 11.5, fontWeight: 600, padding: '5px 12px', border: '1px solid #E2E8F0',
+                    borderRadius: 999, color: '#0F2340', textDecoration: 'none', fontFamily: 'Inter, sans-serif',
                     transition: 'border-color .15s, color .15s',
                   }}
-                  onMouseOver={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = '#0d0d0f'; (e.currentTarget as HTMLAnchorElement).style.color = '#0d0d0f'; }}
-                  onMouseOut={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = '#e7e6e0'; (e.currentTarget as HTMLAnchorElement).style.color = '#2a2a30'; }}
+                  onMouseOver={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = '#0F2340'; (e.currentTarget as HTMLAnchorElement).style.color = '#0F2340'; }}
+                  onMouseOut={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = '#E2E8F0'; (e.currentTarget as HTMLAnchorElement).style.color = '#0F2340'; }}
                 >
                   {s.label}
                 </a>
@@ -82,17 +82,17 @@ export default function Footer() {
           {(Object.entries(cols) as [string, { label: string; href: string }[]][]).map(([title, links]) => (
             <div key={title}>
               <h5 style={{
-                fontFamily: 'Space Grotesk, sans-serif', fontSize: 13, textTransform: 'uppercase',
-                color: '#6d6d74', letterSpacing: '.06em', margin: '0 0 10px', fontWeight: 700,
+                fontFamily: 'Nunito, sans-serif', fontSize: 13, textTransform: 'uppercase',
+                color: '#64748B', letterSpacing: '.06em', margin: '0 0 10px', fontWeight: 700,
               }}>
                 {title}
               </h5>
               <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {links.map(l => (
                   <li key={l.href}>
-                    <Link href={l.href} style={{ fontSize: 13, color: '#2a2a30', textDecoration: 'none', transition: 'color .15s' }}
-                      onMouseOver={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#ff5722'; }}
-                      onMouseOut={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#2a2a30'; }}
+                    <Link href={l.href} style={{ fontSize: 13, color: '#0F2340', textDecoration: 'none', transition: 'color .15s' }}
+                      onMouseOver={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#1A82D8'; }}
+                      onMouseOut={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#0F2340'; }}
                     >
                       {l.label}
                     </Link>
@@ -105,9 +105,9 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div style={{
-          borderTop: '1px solid #e7e6e0', marginTop: 28, paddingTop: 18,
+          borderTop: '1px solid #E2E8F0', marginTop: 28, paddingTop: 18,
           display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8,
-          fontFamily: 'Inter, sans-serif', fontSize: 11.5, color: '#6d6d74',
+          fontFamily: 'Inter, sans-serif', fontSize: 11.5, color: '#64748B',
         }}>
           <span>© 2026 Go Livoo.</span>
           <span>PT-BR · BRL</span>

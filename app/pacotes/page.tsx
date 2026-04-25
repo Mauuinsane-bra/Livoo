@@ -93,7 +93,7 @@ function buildPackages(): Package[] {
       eventIatas:    getUniqueIatas(showEvents),
       imageUrl:      'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800',
       badge:         'Em alta',
-      badgeColor:    '#ffd600',
+      badgeColor:    '#F5A800',
     },
     {
       id:            'cultura-internacional',
@@ -118,14 +118,14 @@ function buildPackages(): Package[] {
 function PackageHero() {
   return (
     <div style={{
-      background: 'linear-gradient(135deg, #0d0d0f 0%, #ff5722 60%, #2B9FEE 100%)',
+      background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)',
       padding: '72px 24px 80px',
       textAlign: 'center',
     }}>
       <span style={{
         display: 'inline-block',
-        background: 'rgba(245,166,35,0.15)',
-        color: '#ffd600',
+        background: 'rgba(245,168,0,0.15)',
+        color: '#F5A800',
         fontSize: '0.72rem',
         fontWeight: 700,
         letterSpacing: '2px',
@@ -133,12 +133,12 @@ function PackageHero() {
         padding: '5px 14px',
         borderRadius: 50,
         marginBottom: 20,
-        border: '1px solid rgba(245,166,35,0.3)',
+        border: '1px solid rgba(245,168,0,0.3)',
       }}>
         Pacotes completos
       </span>
       <h1 style={{
-        fontFamily: 'Space Grotesk, sans-serif',
+        fontFamily: 'Nunito, sans-serif',
         fontSize: 'clamp(2rem, 4vw, 3rem)',
         color: '#fff',
         marginBottom: 16,
@@ -168,7 +168,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
       borderRadius: 20,
       overflow: 'hidden',
       boxShadow: '0 4px 24px rgba(13,27,62,0.08)',
-      border: '1px solid #e7e6e0',
+      border: '1px solid #E2E8F0',
     }}>
       {/* Header com imagem */}
       <div style={{ position: 'relative', height: 220, overflow: 'hidden' }}>
@@ -191,7 +191,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
             fontFamily: 'Inter, sans-serif',
             fontSize: '0.72rem', fontWeight: 700,
             color: '#fff',
-            background: pkg.badgeColor || '#ff5722',
+            background: pkg.badgeColor || '#1A82D8',
             padding: '4px 12px', borderRadius: 50,
             letterSpacing: '0.5px', textTransform: 'uppercase',
           }}>
@@ -213,7 +213,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
             {pkg.category}
           </span>
           <h2 style={{
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: '1.5rem', color: '#fff',
             margin: '8px 0 0',
           }}>
@@ -233,7 +233,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
       <div style={{ padding: '24px 28px' }}>
         <p style={{
           fontFamily: 'Inter, sans-serif',
-          fontSize: '0.88rem', color: '#6d6d74',
+          fontSize: '0.88rem', color: '#64748B',
           lineHeight: 1.65, marginBottom: 20,
         }}>
           {pkg.description}
@@ -249,7 +249,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
           <div style={{ flex: 1 }}>
             <p style={{
               fontFamily: 'Inter, sans-serif',
-              fontSize: '0.78rem', color: '#6d6d74', margin: 0, lineHeight: 1.5,
+              fontSize: '0.78rem', color: '#64748B', margin: 0, lineHeight: 1.5,
             }}>
               {pkg.priceNote}
             </p>
@@ -258,7 +258,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
           <span style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: '0.82rem', fontWeight: 600,
-            color: '#ff5722',
+            color: '#1A82D8',
             background: 'rgba(26,130,216,0.08)',
             padding: '6px 14px', borderRadius: 50,
             whiteSpace: 'nowrap',
@@ -272,7 +272,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
           <h3 style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: '0.75rem', fontWeight: 700,
-            color: '#0d0d0f', textTransform: 'uppercase',
+            color: '#0F2340', textTransform: 'uppercase',
             letterSpacing: '1.2px', marginBottom: 10,
           }}>
             O que inclui
@@ -284,7 +284,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
             {pkg.includes.map(item => (
               <span key={item} style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '0.82rem', color: '#6d6d74',
+                fontSize: '0.82rem', color: '#64748B',
                 display: 'flex', alignItems: 'center', gap: 6,
               }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
@@ -298,7 +298,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
 
         {/* Destaques */}
         <div style={{
-          background: '#fffbe6', borderRadius: 10,
+          background: '#FFF8EC', borderRadius: 10,
           padding: '12px 16px', marginBottom: 20,
         }}>
           {pkg.highlights.map((h, i) => (
@@ -321,7 +321,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
           <h3 style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: '0.75rem', fontWeight: 700,
-            color: '#0d0d0f', textTransform: 'uppercase',
+            color: '#0F2340', textTransform: 'uppercase',
             letterSpacing: '1.2px', marginBottom: 10,
           }}>
             Eventos disponíveis
@@ -343,13 +343,13 @@ function PackageCard({ pkg }: { pkg: Package }) {
                   <p style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '0.85rem', fontWeight: 600,
-                    color: '#0d0d0f', margin: 0,
+                    color: '#0F2340', margin: 0,
                   }}>
                     {ev.title}
                   </p>
                   <p style={{
                     fontFamily: 'Inter, sans-serif',
-                    fontSize: '0.75rem', color: '#6d6d74',
+                    fontSize: '0.75rem', color: '#64748B',
                     margin: '2px 0 0',
                   }}>
                     {ev.date} · {ev.location}
@@ -365,7 +365,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
                 </span>
                 <span style={{
                   fontFamily: 'Inter, sans-serif',
-                  fontSize: '0.78rem', color: '#ff5722',
+                  fontSize: '0.78rem', color: '#1A82D8',
                   fontWeight: 600,
                 }}>
                   →
@@ -421,13 +421,12 @@ export default function PacotesPage() {
             <span key={filter.label} style={{
               fontFamily: 'Inter, sans-serif',
               fontSize: '0.82rem', fontWeight: 600,
-              color: '#0d0d0f',
-              background: '#fff',
+              color: '#64748B',
+              background: '#F8FAFC',
               padding: '8px 18px', borderRadius: 50,
-              border: '1px solid #e7e6e0',
-              cursor: 'default',
+              border: '1px solid #E2E8F0',
             }}>
-              {filter.label} ({filter.count})
+              {filter.label} · {filter.count}
             </span>
           ))}
         </div>
@@ -448,15 +447,15 @@ export default function PacotesPage() {
         {/* Seção "Monte o seu" */}
         <div style={{
           marginTop: 60,
-          background: 'linear-gradient(135deg, #0d0d0f 0%, #1a1a20 100%)',
+          background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)',
           borderRadius: 20,
           padding: '52px 40px',
           textAlign: 'center',
         }}>
           <span style={{
             display: 'inline-block',
-            background: 'rgba(245,166,35,0.15)',
-            color: '#ffd600',
+            background: 'rgba(245,168,0,0.15)',
+            color: '#F5A800',
             fontSize: '0.72rem',
             fontWeight: 700,
             letterSpacing: '2px',
@@ -468,7 +467,7 @@ export default function PacotesPage() {
             Personalizado
           </span>
           <h3 style={{
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: 'clamp(1.4rem, 3vw, 2rem)',
             color: '#fff',
             marginBottom: 12,
@@ -501,12 +500,12 @@ export default function PacotesPage() {
           background: '#fff',
           borderRadius: 16,
           padding: '28px 32px',
-          border: '1px solid #e7e6e0',
+          border: '1px solid #E2E8F0',
           display: 'flex',
           gap: 20,
           alignItems: 'flex-start',
         }}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff5722" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
             <circle cx="12" cy="12" r="10"/>
             <line x1="12" y1="16" x2="12" y2="12"/>
             <line x1="12" y1="8" x2="12.01" y2="8"/>
@@ -515,13 +514,13 @@ export default function PacotesPage() {
             <h4 style={{
               fontFamily: 'Inter, sans-serif',
               fontSize: '0.88rem', fontWeight: 700,
-              color: '#0d0d0f', margin: '0 0 6px',
+              color: '#0F2340', margin: '0 0 6px',
             }}>
               Como funcionam os pacotes?
             </h4>
             <p style={{
               fontFamily: 'Inter, sans-serif',
-              fontSize: '0.83rem', color: '#6d6d74',
+              fontSize: '0.83rem', color: '#64748B',
               margin: 0, lineHeight: 1.65,
             }}>
               Os pacotes da Go Livoo são montados sob demanda — ao clicar em “Montar este pacote”, buscamos em tempo real os melhores preços de voo, hotel e ingresso para a data escolhida. A plataforma é gratuita: a Go Livoo recebe uma comissão dos parceiros quando você reserva, sem custo adicional para você.

@@ -14,26 +14,17 @@ export const metadata: Metadata = {
 type Post = SanityBlogPost & { _fallbackImageUrl?: string }
 
 const GRADIENTS = [
-  'linear-gradient(135deg,#ff7a45,#ff3e5a)',
+  'linear-gradient(135deg,#1A56DB,#2B6EE6)',
   'linear-gradient(135deg,#2b74ff,#06a06b)',
-  'linear-gradient(135deg,#ff5a1f,#ffb800)',
+  'linear-gradient(135deg,#1445B0,#1A56DB)',
   'linear-gradient(135deg,#06a06b,#2b74ff)',
-  'linear-gradient(135deg,#ff3e5a,#ff5a1f)',
-  'linear-gradient(135deg,#ffb800,#ff7a45)',
-  'linear-gradient(135deg,#a34ad6,#ff3e5a)',
-  'linear-gradient(135deg,#06a06b,#ffb800)',
+  'linear-gradient(135deg,#2B6EE6,#1A56DB)',
+  'linear-gradient(135deg,#1A56DB,#2b74ff)',
+  'linear-gradient(135deg,#6B3FA0,#2B6EE6)',
+  'linear-gradient(135deg,#06a06b,#1A56DB)',
 ]
 
-const BOMBANDO = [
-  { title: 'Rock in Rio 2026 · Pacote completo', price: 'R$ 2.890', old: 'R$ 4.020', pct: '-28%', date: '10 SET', vagas: 8, grad: GRADIENTS[0] },
-  { title: 'Lollapalooza BR · SP e balada', price: 'R$ 1.680', old: 'R$ 2.100', pct: '-20%', date: '27 MAR', vagas: 22, grad: GRADIENTS[2] },
-  { title: 'GP de Mônaco 2026 · VIP', price: 'R$ 12.400', old: 'R$ 15.800', pct: '-22%', date: '25 MAI', vagas: 4, grad: GRADIENTS[6] },
-  { title: 'Oktoberfest Blumenau · 4 dias', price: 'R$ 3.200', old: 'R$ 4.100', pct: '-22%', date: '05 OUT', vagas: 11, grad: GRADIENTS[1] },
-  { title: 'Rally da Geórgia · Aventura Total', price: 'R$ 8.900', old: 'R$ 11.000', pct: '-19%', date: '15 OUT', vagas: 6, grad: GRADIENTS[4] },
-  { title: 'Carnaval Salvador 2027 · Camarote', price: 'R$ 4.700', old: 'R$ 5.800', pct: '-19%', date: '14 FEV', vagas: 15, grad: GRADIENTS[7] },
-]
-
-const BADGES = ['🔥 VIRAL', '💰 PROMO', '⭐ TOP 10', 'NOVO', '🔥 VIRAL', '💰 PROMO', 'NOVO', '⭐ TOP 10']
+const BADGES = ['VIRAL', 'PROMO', 'TOP 10', 'NOVO', 'VIRAL', 'PROMO', 'NOVO', 'TOP 10']
 
 function postImg(post: Post): string {
   if (post.coverImage) {
@@ -65,23 +56,8 @@ export default async function BlogHome() {
           <span style={{ color: 'var(--orange)' }}>história</span>.
         </h1>
         <p style={{ fontSize: 18, color: 'var(--ink-2)', maxWidth: 640, margin: '0 0 28px', lineHeight: 1.5, fontWeight: 500 }}>
-          Roteiros, promoções e os guias que a gente só dá pra quem assina a newsletter. Sem papo furado, direto ao ponto.
+          Roteiros, guias práticos e dicas de viagem para quem quer experiências únicas. Sem papo furado, direto ao ponto.
         </p>
-        <div style={{ display: 'flex', gap: 28, marginTop: 18, flexWrap: 'wrap' }}>
-          {[
-            { n: '248', u: ' posts', s: 'publicados até agora' },
-            { n: '412k', u: ' leituras', s: 'só esse mês' },
-            { n: '36k', u: ' assinantes', s: 'na newsletter' },
-            { n: '4,9', u: '', s: 'média nos reviews', pre: 'nota ' },
-          ].map(st => (
-            <div key={st.s} style={{ display: 'flex', flexDirection: 'column' }}>
-              <b style={{ fontFamily: "'Archivo', sans-serif", fontWeight: 900, fontSize: 30, lineHeight: 1, color: 'var(--ink)', letterSpacing: '-.02em' }}>
-                {st.pre}<span style={{ color: 'var(--orange)' }}>{st.n}</span>{st.u}
-              </b>
-              <span style={{ fontSize: 12, color: 'var(--muted)', marginTop: 4, fontWeight: 600 }}>{st.s}</span>
-            </div>
-          ))}
-        </div>
       </section>
 
       {/* ── FEATURED ─────────────────────────────────── */}
@@ -106,19 +82,12 @@ export default async function BlogHome() {
                   <div style={{ position: 'absolute', inset: 0, background: GRADIENTS[0] }} />
                 )}
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,rgba(0,0,0,.1) 40%,rgba(0,0,0,.6) 100%)' }} />
-                {/* Price tag */}
-                <div style={{ position: 'absolute', bottom: 20, left: 20, background: 'var(--orange)', color: '#fff', fontFamily: "'Archivo', sans-serif", fontWeight: 900, fontSize: 14, padding: '12px 16px', borderRadius: 14, boxShadow: '0 3px 0 var(--orange-dk)' }}>
-                  A partir de
-                  <span style={{ fontSize: 28, display: 'block', lineHeight: 1, letterSpacing: '-.02em' }}>R$ 12.400</span>
-                  <small style={{ fontSize: 10, fontWeight: 600, opacity: .9, display: 'block', marginTop: 3, letterSpacing: '.04em' }}>em 12x sem juros</small>
-                </div>
               </div>
 
               {/* Body */}
               <div style={{ padding: '44px 44px 44px 14px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                 <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--orange)', marginBottom: 14, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
                   {featured.category}
-                  <span style={{ background: 'var(--coral)', color: '#fff', padding: '3px 8px', borderRadius: 999, fontSize: 10, letterSpacing: '.06em' }}>AO VIVO</span>
                 </span>
                 <h2 style={{ fontFamily: "'Archivo', sans-serif", fontWeight: 900, fontSize: 'clamp(28px, 3vw, 42px)', lineHeight: .98, letterSpacing: '-.035em', margin: '0 0 14px', color: 'var(--ink)' }}>
                   {featured.title}
@@ -137,13 +106,6 @@ export default async function BlogHome() {
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: 14, background: 'var(--orange)', color: '#fff', padding: '14px 22px', borderRadius: 14, boxShadow: '0 3px 0 var(--orange-dk)', letterSpacing: '.01em' }}>
                     Ler o guia completo →
                   </span>
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontWeight: 700, fontSize: 13.5, background: '#fff', color: 'var(--ink)', padding: '14px 18px', borderRadius: 14, border: '1.5px solid var(--line-2)' }}>
-                    ♡ Salvar
-                  </span>
-                </div>
-                <div style={{ marginTop: 22, display: 'flex', alignItems: 'center', gap: 8, fontSize: 12.5, color: 'var(--orange-dk)', fontWeight: 700 }}>
-                  <span style={{ width: 6, height: 6, borderRadius: 999, background: 'var(--orange)', display: 'inline-block' }} />
-                  427 pessoas leram hoje · última atualização ontem
                 </div>
               </div>
             </article>
@@ -151,47 +113,7 @@ export default async function BlogHome() {
         </section>
       )}
 
-      {/* ── BOMBANDO AGORA ───────────────────────────── */}
-      <section style={{ background: 'var(--bg-soft)', padding: '56px 0', margin: '0 0 0', borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 90% 10%, rgba(255,90,31,.08), transparent 50%)', pointerEvents: 'none' }} />
-        <div className="blog-wrap">
-          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 24, position: 'relative' }}>
-            <div>
-              <h3 style={{ fontFamily: "'Archivo', sans-serif", fontWeight: 900, fontSize: 'clamp(32px, 4vw, 44px)', letterSpacing: '-.035em', margin: 0, lineHeight: 1 }}>
-                <span style={{ display: 'inline-flex', width: 44, height: 44, background: 'var(--sun)', borderRadius: 14, alignItems: 'center', justifyContent: 'center', marginRight: 4, verticalAlign: '-8px', fontSize: 22 }}>🔥</span>
-                Bombando agora
-              </h3>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: 'var(--muted)', marginTop: 6, fontWeight: 600, letterSpacing: '.06em', textTransform: 'uppercase' }}>
-                Pacotes com vagas se esgotando essa semana
-              </div>
-            </div>
-            <Link href="/pacotes" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 13.5, color: '#fff', fontWeight: 700, background: 'var(--orange)', border: '1.5px solid var(--orange)', padding: '9px 16px', borderRadius: 999, boxShadow: '0 3px 0 var(--orange-dk)', whiteSpace: 'nowrap' }}>
-              Ver todos os pacotes →
-            </Link>
-          </div>
-          <div style={{ display: 'flex', gap: 14, overflowX: 'auto', paddingBottom: 10, scrollbarWidth: 'none' }}>
-            {BOMBANDO.map((b, i) => (
-              <Link key={i} href="/pacotes" style={{ flex: '0 0 300px', background: '#fff', borderRadius: 18, overflow: 'hidden', display: 'block', border: '1.5px solid var(--line)', transition: 'transform .15s, box-shadow .15s' }} className="bombando-card">
-                <div style={{ aspectRatio: '1', position: 'relative', background: b.grad }}>
-                  <div style={{ position: 'absolute', top: 10, left: 10, background: 'var(--coral)', color: '#fff', padding: '4px 10px', borderRadius: 999, fontSize: 10.5, fontWeight: 800, letterSpacing: '.02em' }}>{b.pct}</div>
-                  <div style={{ position: 'absolute', top: 10, right: 10, background: 'rgba(0,0,0,.55)', color: '#fff', padding: '4px 10px', borderRadius: 999, fontFamily: "'JetBrains Mono', monospace", fontSize: 10.5, fontWeight: 600 }}>{b.date}</div>
-                </div>
-                <div style={{ padding: '14px 16px 18px' }}>
-                  <h4 style={{ fontFamily: "'Archivo', sans-serif", fontWeight: 900, fontSize: 18, lineHeight: 1.08, letterSpacing: '-.02em', margin: '0 0 8px', color: 'var(--ink)' }}>{b.title}</h4>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 6, fontFamily: "'Archivo', sans-serif" }}>
-                    <b style={{ fontWeight: 900, color: 'var(--ink)', fontSize: 22, letterSpacing: '-.02em' }}>{b.price}</b>
-                    <small style={{ fontSize: 11, color: 'var(--muted)', fontWeight: 600, textDecoration: 'line-through' }}>{b.old}</small>
-                  </div>
-                  <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--orange-dk)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 5 }}>
-                    <span style={{ width: 6, height: 6, borderRadius: 999, background: 'var(--orange)', display: 'inline-block' }} />
-                    Restam {b.vagas} vagas
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Seção Bombando removida — continha promoções e preços fictícios */}
 
       {/* ── OS MAIS SALVOS ───────────────────────────── */}
       <section className="blog-wrap" style={{ padding: '64px 0 0' }}>
@@ -220,7 +142,6 @@ export default async function BlogHome() {
                   <div style={{ position: 'absolute', top: 10, left: 10, background: '#fafaf8', color: 'var(--ink)', padding: '5px 10px', borderRadius: 999, fontSize: 10.5, fontWeight: 800, letterSpacing: '.02em', boxShadow: '0 1px 2px rgba(0,0,0,.1)' }}>
                     {BADGES[i % BADGES.length]}
                   </div>
-                  <button style={{ position: 'absolute', top: 10, right: 10, width: 32, height: 32, borderRadius: 999, background: 'rgba(255,255,255,.92)', color: 'var(--ink)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, border: 0, cursor: 'pointer', fontSize: 16 }}>♡</button>
                 </div>
                 <div style={{ padding: '14px 16px 18px', display: 'flex', flexDirection: 'column', flex: 1 }}>
                   <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10.5, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--orange)', marginBottom: 6 }}>
@@ -281,11 +202,10 @@ export default async function BlogHome() {
             </div>
             <div style={{ background: 'var(--ink)', color: '#fff', borderRadius: 20, padding: 24, fontFamily: "'Archivo', sans-serif", fontWeight: 700 }}>
               <div style={{ fontSize: 22, lineHeight: 1.2, letterSpacing: '-.02em', marginBottom: 16 }}>
-                "Fui ao GP de Mônaco por R$ 11.800 graças ao alerta da Go Livoo."
+                Dicas de destinos, alertas de preço e guias práticos direto no seu email.
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <b style={{ color: 'var(--sun)', fontSize: 26, fontWeight: 900, letterSpacing: '-.02em' }}>36.000+</b>
-                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12.5, color: '#b8b0a3', fontWeight: 500 }}>assinantes recebendo alertas toda sexta</span>
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12.5, color: '#b8b0a3', fontWeight: 500 }}>Toda sexta-feira na sua caixa de entrada</span>
               </div>
             </div>
           </div>
@@ -299,17 +219,17 @@ export default async function BlogHome() {
         </h3>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
           {[
-            { emoji: '🏖️', label: 'Praias', slug: 'destinos' },
-            { emoji: '🎵', label: 'Shows & Festivais', slug: 'eventos' },
-            { emoji: '🏎️', label: 'Automobilismo', slug: 'eventos' },
-            { emoji: '🥾', label: 'Aventura', slug: 'guias' },
-            { emoji: '👨‍👩‍👧', label: 'Família', slug: 'familia' },
-            { emoji: '🌍', label: 'Solo Trip', slug: 'solo' },
-            { emoji: '💰', label: 'Econômico', slug: 'economico' },
-            { emoji: '🍜', label: 'Gastronomia', slug: 'destinos' },
+            { label: 'Praias', slug: 'destinos' },
+            { label: 'Shows & Festivais', slug: 'eventos' },
+            { label: 'Automobilismo', slug: 'eventos' },
+            { label: 'Aventura', slug: 'guias' },
+            { label: 'Família', slug: 'familia' },
+            { label: 'Solo Trip', slug: 'solo' },
+            { label: 'Econômico', slug: 'economico' },
+            { label: 'Gastronomia', slug: 'destinos' },
           ].map(t => (
             <Link key={t.label} href={`/blog/categoria/${t.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '10px 18px', background: 'var(--bg-2)', border: '1.5px solid var(--line)', borderRadius: 999, fontSize: 14, fontWeight: 700, color: 'var(--ink)', transition: 'border-color .15s' }} className="tag-pill">
-              <span>{t.emoji}</span> {t.label}
+              {t.label}
             </Link>
           ))}
         </div>
@@ -317,7 +237,6 @@ export default async function BlogHome() {
 
       <style>{`
         .blog-grid-4 { grid-template-columns: repeat(4, 1fr); }
-        .bombando-card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -12px rgba(0,0,0,.12); border-color: var(--ink) !important; }
         .tag-pill:hover { border-color: var(--ink) !important; }
         @media (max-width: 980px) {
           .blog-grid-4 { grid-template-columns: repeat(2, 1fr) !important; }

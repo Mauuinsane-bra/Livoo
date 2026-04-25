@@ -3,10 +3,11 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { PortableText } from '@portabletext/react'
+import sanitizeHtml from 'sanitize-html'
 import { getPostBySlug, getAllSlugs, getAllPosts } from '@/lib/sanity-queries'
 import { urlFor, type SanityBlogPost } from '@/lib/sanity'
 
-export const revalidate = 0      // sempre renderiza fresh — garante que posts novos aparecem na hora
+export const revalidate = 60     // cache de 1 minuto — posts novos aparecem rápido sem sobrecarregar Sanity
 export const dynamicParams = true // slugs fora do generateStaticParams são gerados on-demand
 
 interface Props { params: Promise<{ slug: string }> }
@@ -52,9 +53,9 @@ function coverImg(post: Post): string {
 }
 
 const GRADIENTS = [
-  'linear-gradient(135deg,#ff7a45,#ff3e5a)',
+  'linear-gradient(135deg,#1A56DB,#2B6EE6)',
   'linear-gradient(135deg,#2b74ff,#06a06b)',
-  'linear-gradient(135deg,#ff5a1f,#ffb800)',
+  'linear-gradient(135deg,#1445B0,#1A56DB)',
 ]
 
 const ptComponents = {
@@ -186,15 +187,6 @@ export default async function BlogPost({ params }: Props) {
               <span>{fmtDate(post.publishedAt)}</span>
               <span style={{ width: 4, height: 4, borderRadius: 999, background: 'var(--line-2)', display: 'inline-block' }} />
               <span>{post.readTime} min de leitura</span>
-              <span style={{ width: 4, height: 4, borderRadius: 999, background: 'var(--line-2)', display: 'inline-block' }} />
-              <span>2.4k leituras hoje</span>
-            </div>
-            <div style={{ marginLeft: 'auto', display: 'flex', gap: 6 }}>
-              {['Compartilhar', 'Salvar ♡', 'Copiar link'].map(a => (
-                <button key={a} style={{ padding: '8px 14px', border: '1.5px solid var(--line-2)', borderRadius: 10, fontSize: 12, fontWeight: 700, background: 'var(--bg-2)', cursor: 'pointer', color: 'var(--ink)' }}>
-                  {a}
-                </button>
-              ))}
             </div>
           </div>
         </div>
@@ -236,7 +228,10 @@ export default async function BlogPost({ params }: Props) {
             <PortableText value={post.content} components={ptComponents} />
           )}
           {!post.content && post._fallbackContent && (
-            <div dangerouslySetInnerHTML={{ __html: post._fallbackContent }} className="blog-fallback-content" />
+            <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(post._fallbackContent, {
+              allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'figure', 'figcaption']),
+              allowedAttributes: { ...sanitizeHtml.defaults.allowedAttributes, img: ['src', 'alt', 'width', 'height', 'loading'] },
+            }) }} className="blog-fallback-content" />
           )}
           {!post.content && !post._fallbackContent && (
             <>
@@ -245,7 +240,9 @@ export default async function BlogPost({ params }: Props) {
               </p>
               <p>Este guia completo cobre tudo que você precisa saber para aproveitar ao máximo sua viagem, com dicas exclusivas que a equipe Go Livoo reuniu após anos acompanhando esse destino de perto.</p>
               <div style={{ background: 'var(--sun)', color: 'var(--ink)', borderRadius: 18, padding: '24px 28px', margin: '30px 0', display: 'flex', gap: 18, alignItems: 'flex-start' }}>
-                <span style={{ fontSize: 30, lineHeight: 1, flexShrink: 0 }}>💡</span>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+                  <path d="M9 21h6M12 3a6 6 0 014 10.47V17a1 1 0 01-1 1h-6a1 1 0 01-1-1v-3.53A6 6 0 0112 3z" stroke="var(--ink)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
                 <div>
                   <b style={{ fontFamily: "'Archivo', sans-serif", fontWeight: 900, fontSize: 17, display: 'block', marginBottom: 4, letterSpacing: '-.015em' }}>Dica Go Livoo</b>
                   <p style={{ margin: 0, fontSize: 15, lineHeight: 1.5, fontWeight: 500 }}>Compre com antecedência mínima de 90 dias para garantir os melhores preços em voos internacionais.</p>
@@ -269,58 +266,19 @@ export default async function BlogPost({ params }: Props) {
 
         {/* Sidebar */}
         <aside style={{ position: 'sticky', top: 140, height: 'fit-content', display: 'flex', flexDirection: 'column', gap: 20 }}>
-          {/* Promo card */}
-          <div style={{ background: 'var(--orange)', color: '#fff', borderRadius: 20, padding: 24, position: 'relative', overflow: 'hidden', boxShadow: '0 4px 0 var(--orange-dk)' }}>
-            <div style={{ position: 'absolute', top: -40, right: -30, width: 120, height: 120, background: 'var(--sun)', borderRadius: 999, opacity: .3, pointerEvents: 'none' }} />
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10.5, fontWeight: 700, color: '#fff', opacity: .85, letterSpacing: '.14em', textTransform: 'uppercase', marginBottom: 8, position: 'relative' }}>
-              Pacote relacionado
-            </div>
-            <h6 style={{ fontFamily: "'Archivo', sans-serif", fontWeight: 900, fontSize: 26, letterSpacing: '-.03em', lineHeight: 1, margin: '0 0 10px', color: '#fff', position: 'relative' }}>
-              {post.title.split(' ').slice(0, 4).join(' ')}
-            </h6>
-            <p style={{ fontSize: 13, color: '#fff', opacity: .9, margin: '0 0 16px', position: 'relative', lineHeight: 1.45, fontWeight: 500 }}>
-              Voo + hotel + ingresso montados pela nossa equipe.
-            </p>
-            <div style={{ fontFamily: "'Archivo', sans-serif", fontWeight: 900, marginBottom: 14, position: 'relative', display: 'flex', alignItems: 'baseline', gap: 8 }}>
-              <b style={{ fontSize: 32, color: '#fff', letterSpacing: '-.02em' }}>R$ 4.200</b>
-              <small style={{ fontSize: 11, fontWeight: 600, color: '#fff', opacity: .85, letterSpacing: '.02em' }}>em 12x s/ juros</small>
-            </div>
-            <Link href="/roteiro" style={{ background: '#fff', color: 'var(--orange-dk)', padding: '12px 18px', borderRadius: 12, fontWeight: 800, fontSize: 13, display: 'inline-flex', gap: 6, alignItems: 'center', position: 'relative', fontFamily: "'Archivo', sans-serif" }}>
-              Montar meu pacote →
-            </Link>
-            <div style={{ marginTop: 14, fontFamily: "'JetBrains Mono', monospace", fontSize: 10.5, color: '#fff', fontWeight: 700, letterSpacing: '.06em', position: 'relative', display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span style={{ width: 6, height: 6, borderRadius: 999, background: 'var(--sun)', display: 'inline-block' }} />
-              Restam 7 vagas nessa data
-            </div>
-          </div>
-
           {/* Newsletter card */}
           <div style={{ background: 'var(--bg-2)', borderRadius: 18, padding: 20, border: '1.5px solid var(--line)' }}>
             <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10.5, fontWeight: 700, color: 'var(--orange)', letterSpacing: '.14em', textTransform: 'uppercase', marginBottom: 8 }}>
               Newsletter
             </div>
             <h5 style={{ fontFamily: "'Archivo', sans-serif", fontWeight: 900, fontSize: 22, letterSpacing: '-.025em', lineHeight: 1.05, margin: '0 0 8px' }}>
-              Receba promoções antes de todo mundo
+              Receba dicas de viagem toda semana
             </h5>
-            <p style={{ fontSize: 13, color: 'var(--muted)', margin: '0 0 14px', lineHeight: 1.5, fontWeight: 500 }}>Alertas de queda de preço toda sexta.</p>
+            <p style={{ fontSize: 13, color: 'var(--muted)', margin: '0 0 14px', lineHeight: 1.5, fontWeight: 500 }}>Guias, destinos e alertas de preço toda sexta.</p>
             <input placeholder="seu@email.com" style={{ width: '100%', padding: '11px 14px', border: '1.5px solid var(--line-2)', borderRadius: 10, fontFamily: 'inherit', fontSize: 13.5, background: '#fff', outline: 'none', marginBottom: 8, boxSizing: 'border-box' }} />
             <button style={{ width: '100%', background: 'var(--ink)', color: '#fff', padding: '11px', borderRadius: 10, fontWeight: 800, fontSize: 13, fontFamily: "'Archivo', sans-serif", border: 0, cursor: 'pointer' }}>
               Quero receber
             </button>
-          </div>
-
-          {/* Livoo Prep card */}
-          <div style={{ background: 'var(--bg-2)', borderRadius: 18, padding: 20, border: '1.5px solid var(--line)' }}>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10.5, fontWeight: 700, color: 'var(--jade)', letterSpacing: '.14em', textTransform: 'uppercase', marginBottom: 8 }}>
-              Documentação
-            </div>
-            <h5 style={{ fontFamily: "'Archivo', sans-serif", fontWeight: 900, fontSize: 20, letterSpacing: '-.025em', lineHeight: 1.05, margin: '0 0 6px' }}>
-              Precisa de visto?
-            </h5>
-            <p style={{ fontSize: 13, color: 'var(--muted)', margin: '0 0 14px', lineHeight: 1.5, fontWeight: 500 }}>Verifique passaporte, visto e vacinas por R$ 39.</p>
-            <Link href="/prep" style={{ display: 'block', background: 'var(--jade)', color: '#fff', padding: '11px', borderRadius: 10, fontWeight: 800, fontSize: 13, fontFamily: "'Archivo', sans-serif", textAlign: 'center' }}>
-              Usar Livoo Prep →
-            </Link>
           </div>
         </aside>
       </div>
@@ -350,49 +308,7 @@ export default async function BlogPost({ params }: Props) {
         </section>
       )}
 
-      {/* ── COMENTÁRIOS ──────────────────────────────── */}
-      <section style={{ background: 'var(--bg)', padding: '56px 0 72px' }}>
-        <div className="blog-wrap-narrow">
-          <h3 style={{ fontFamily: "'Archivo', sans-serif", fontWeight: 900, fontSize: 34, letterSpacing: '-.03em', margin: '0 0 4px' }}>Comentários</h3>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: 'var(--muted)', fontWeight: 600, letterSpacing: '.06em', marginBottom: 28 }}>3 COMENTÁRIOS</div>
-
-          {/* Form */}
-          <div style={{ background: 'var(--bg-2)', border: '1.5px solid var(--line)', borderRadius: 18, padding: 20, marginBottom: 32 }}>
-            <textarea placeholder="Deixe seu comentário…" rows={3} style={{ width: '100%', border: 0, outline: 0, fontFamily: 'inherit', fontSize: 15, resize: 'vertical', background: 'transparent', color: 'var(--ink)', fontWeight: 500, lineHeight: 1.5, boxSizing: 'border-box' }} />
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 12, borderTop: '1px solid var(--line)' }}>
-              <span style={{ fontSize: 12, color: 'var(--muted)', fontWeight: 500 }}>Seja respeitoso. Comentários são moderados.</span>
-              <button style={{ background: 'var(--orange)', color: '#fff', padding: '10px 20px', borderRadius: 10, fontWeight: 800, fontSize: 13, fontFamily: "'Archivo', sans-serif", boxShadow: '0 2px 0 var(--orange-dk)', border: 0, cursor: 'pointer' }}>
-                Publicar
-              </button>
-            </div>
-          </div>
-
-          {/* Sample comments */}
-          {[
-            { name: 'Ana C.', init: 'AC', grad: 'linear-gradient(135deg,#ff5a1f,#ff3e5a)', time: '2h atrás', text: 'Artigo incrível! Fui ao GP de Mônaco ano passado e as dicas sobre hospedagem em Menton são ouro puro. Economizei quase R$ 3.000 comparado às opções no principado.' },
-            { name: 'Rafael M.', init: 'RM', grad: 'linear-gradient(135deg,#2b74ff,#06a06b)', time: '5h atrás', text: 'Alguém sabe se o ingresso K ainda vale a pena em 2026? Ouvi que mudaram as regras de acesso às curvas.', badge: true },
-            { name: 'Lucia S.', init: 'LS', grad: 'linear-gradient(135deg,#ffb800,#ff7a45)', time: '1d atrás', text: 'Perfeito! Adicionei na minha lista de favoritos. Só faltou falar sobre o ferry de Nice — é a melhor opção chegando de dia.' },
-          ].map((c, i) => (
-            <div key={i} style={{ display: 'flex', gap: 14, padding: '20px 0', borderBottom: '1px solid var(--line)' }}>
-              <div style={{ width: 40, height: 40, borderRadius: 999, background: c.grad, flexShrink: 0, fontFamily: "'Archivo', sans-serif", fontWeight: 900, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>
-                {c.init}
-              </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4, flexWrap: 'wrap' }}>
-                  <b style={{ fontWeight: 700, fontSize: 14, color: 'var(--ink)' }}>{c.name}</b>
-                  {c.badge && <span style={{ background: 'var(--orange)', color: '#fff', fontSize: 10, fontWeight: 800, padding: '2px 8px', borderRadius: 999, letterSpacing: '.04em' }}>EQUIPE</span>}
-                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--muted)', fontWeight: 500 }}>{c.time}</span>
-                </div>
-                <p style={{ margin: '0 0 8px', fontSize: 14.5, lineHeight: 1.55, color: 'var(--ink-2)', fontWeight: 500 }}>{c.text}</p>
-                <div style={{ display: 'flex', gap: 14, fontSize: 12.5, color: 'var(--muted)', fontWeight: 600 }}>
-                  <button style={{ background: 'none', border: 0, cursor: 'pointer', color: 'inherit', fontSize: 'inherit', fontWeight: 'inherit' }}>👍 Curtir</button>
-                  <button style={{ background: 'none', border: 0, cursor: 'pointer', color: 'inherit', fontSize: 'inherit', fontWeight: 'inherit' }}>↩ Responder</button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* Seção de comentários removida — sem backend funcional */}
 
       <style>{`
         .article-grid { grid-template-columns: 260px minmax(0,720px) 320px; }

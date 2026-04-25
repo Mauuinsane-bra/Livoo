@@ -6,24 +6,26 @@
 :root {
   --bg:       #fafaf7;
   --surface:  #ffffff;
-  --ink:      #0d0d0f;
-  --ink-2:    #2a2a30;
-  --muted:    #6d6d74;
-  --line:     #e7e6e0;
-  --line-2:   #d8d7d0;
-  --accent:   #ff5722;
-  --accent-2: #1a1fff;
-  --hot:      #ff2060;
+  --ink:      #0F2340;
+  --ink-2:    #1E3A6E;
+  --muted:    #64748B;
+  --line:     #E2E8F0;
+  --line-2:   #CBD5E1;
+  --accent:   #1A82D8;
+  --accent-2: #1260A8;
+  --hot:      #E11D48;
   --ok:       #00a15a;
-  --yellow:   #ffd600;
+  --yellow:   #F5A800;
   /* legado — mantidos para páginas internas */
-  --primary:      #ff5722;
-  --primary-dark: #e64e1e;
-  --gold:         #ffd600;
-  --navy:         #0d0d0f;
-  --gray:         #6d6d74;
-  --border:       #e7e6e0;
-  --radius:       16px;
+  --primary:      #1A82D8;
+  --primary-dark: #1260A8;
+  --gold:         #F5A800;
+  --gold-dark:    #D48A0A;
+  --navy:         #0F2340;
+  --navy-mid:     #1E3A6E;
+  --gray:         #64748B;
+  --border:       #E2E8F0;
+  --radius:       12px;
 }
 
 /* ── Base ────────────────────────────────────────────── */
@@ -42,7 +44,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; col
 img { max-width: 100%; display: block; }
 
 /* ── Typography helpers ──────────────────────────────── */
-.display { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.025em; }
+.display { font-family: 'Nunito', sans-serif; letter-spacing: -0.025em; }
 .mono    { font-family: 'JetBrains Mono', monospace; }
 
 /* ── Layout ──────────────────────────────────────────── */
@@ -90,7 +92,7 @@ img { max-width: 100%; display: block; }
 .section-alt { background: var(--surface); }
 
 .sec-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; gap: 20px; }
-.sec-head h2 { font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700; letter-spacing: -0.025em; margin: 0; }
+.sec-head h2 { font-family: 'Nunito', sans-serif; font-size: 36px; font-weight: 700; letter-spacing: -0.025em; margin: 0; }
 .sec-head h2 em { font-style: normal; color: var(--accent); }
 .sec-head .all { font-size: 13px; font-weight: 600; color: var(--ink); }
 .sec-head .all:hover { color: var(--accent); }
@@ -99,11 +101,11 @@ img { max-width: 100%; display: block; }
 .ev { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; transition: all .15s ease; cursor: pointer; position: relative; }
 .ev:hover { transform: translateY(-3px); box-shadow: 0 24px 50px -28px rgba(0,0,0,.2); border-color: var(--ink); }
 .ev .ev-img { aspect-ratio: 16/10; background: repeating-linear-gradient(135deg,#d6cfbb 0 12px,#c7beab 12px 24px); position: relative; }
-.ev .tag { position: absolute; top: 12px; left: 12px; background: var(--surface); color: var(--ink); font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 11px; padding: 4px 10px; border-radius: 999px; }
+.ev .tag { position: absolute; top: 12px; left: 12px; background: var(--surface); color: var(--ink); font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 11px; padding: 4px 10px; border-radius: 999px; }
 .ev .tag.hot { background: var(--accent); color: #fff; }
 .ev .tag.sale { background: var(--yellow); }
 .ev .ev-foot { display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px dashed var(--line); padding-top: 10px; }
-.ev .ev-foot .p { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; }
+.ev .ev-foot .p { font-family: 'Nunito', sans-serif; font-size: 20px; font-weight: 700; }
 .ev .ev-foot .buy { background: var(--ink); color: #fff; padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 12px; text-decoration: none; }
 
 /* ── Input ───────────────────────────────────────────── */
@@ -117,7 +119,7 @@ img { max-width: 100%; display: block; }
 .input-field::placeholder { color: var(--muted); }
 
 /* ── Legacy classes (páginas internas) ───────────────── */
-.hero-gradient { background: linear-gradient(135deg, #0d0d0f 0%, #1a1a20 100%); }
+.hero-gradient { background: linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%); }
 .section-label { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 12px; }
 .chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; border-radius: 999px; border: 1px solid var(--line); font-size: 13px; font-weight: 500; color: var(--ink-2); background: var(--surface); cursor: pointer; transition: all .15s; }
 .chip:hover, .chip.active { background: var(--ink); border-color: var(--ink); color: #fff; }

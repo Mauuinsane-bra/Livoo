@@ -14,15 +14,15 @@ interface ExperienceCardProps {
 }
 
 const tagColors: Record<string, { bg: string; color: string }> = {
-  'Em alta':   { bg: '#fafaf7', color: '#ff5722' },
-  'Exclusivo': { bg: '#fffbe6', color: '#D48A0A' },
+  'Em alta':   { bg: '#fafaf7', color: '#1A82D8' },
+  'Exclusivo': { bg: '#FFF8EC', color: '#D48A0A' },
   'Esgotando': { bg: '#FFF0F0', color: '#DC2626' },
 }
 
 export default function ExperienceCard({
   id, title, description, date, location, price, category, imageUrl, tag,
 }: ExperienceCardProps) {
-  const tagStyle = tag ? tagColors[tag] ?? { bg: '#fafaf7', color: '#6d6d74' } : null
+  const tagStyle = tag ? tagColors[tag] ?? { bg: '#fafaf7', color: '#64748B' } : null
 
   return (
     <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
@@ -74,7 +74,7 @@ export default function ExperienceCard({
           marginBottom: 8,
           fontFamily: 'Inter, sans-serif',
           fontSize: '0.78rem',
-          color: '#6d6d74',
+          color: '#64748B',
         }}>
           <span>{location}</span>
           <span>·</span>
@@ -82,9 +82,9 @@ export default function ExperienceCard({
         </div>
 
         <h3 style={{
-          fontFamily: 'Space Grotesk, sans-serif',
+          fontFamily: 'Nunito, sans-serif',
           fontSize: '1.1rem',
-          color: '#0d0d0f',
+          color: '#0F2340',
           marginBottom: 8,
           lineHeight: 1.3,
         }}>
@@ -94,7 +94,7 @@ export default function ExperienceCard({
         <p style={{
           fontFamily: 'Inter, sans-serif',
           fontSize: '0.85rem',
-          color: '#6d6d74',
+          color: '#64748B',
           lineHeight: 1.55,
           marginBottom: 16,
           display: '-webkit-box',
@@ -111,13 +111,13 @@ export default function ExperienceCard({
           justifyContent: 'space-between',
         }}>
           <span style={{
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: '1rem',
             fontWeight: 700,
-            color: '#0d0d0f',
+            color: '#0F2340',
           }}>
             {price}
-            <small style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', color: '#6d6d74', fontWeight: 400, marginLeft: 2 }}>
+            <small style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', color: '#64748B', fontWeight: 400, marginLeft: 2 }}>
               *estimado
             </small>
           </span>

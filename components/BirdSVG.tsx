@@ -7,7 +7,7 @@ interface BirdSVGProps {
 
 export default function BirdSVG({ variant = 'navbar', size = 52 }: BirdSVGProps) {
   const isFooter = variant === 'footer'
-  const bodyLight   = isFooter ? '#ffd600' : '#ff7040'
+  const bodyLight   = isFooter ? '#F5A800' : '#ff7040'
   const bodyDark    = isFooter ? '#D48A0A' : '#e04010'
   const bodyMid     = isFooter ? '#e8b800' : '#c03010'
   const beakColor   = isFooter ? '#fff'    : '#ffb800'

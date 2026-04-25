@@ -142,7 +142,7 @@ function SkeletonCard() {
   return (
     <div style={{
       background: '#fff', borderRadius: 16, overflow: 'hidden',
-      border: '1px solid #e7e6e0', boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+      border: '1px solid #E2E8F0', boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
     }}>
       <div style={{ height: 160, background: '#f0efeb' }} />
       <div style={{ padding: '16px 18px' }}>
@@ -164,7 +164,7 @@ function BusDealCard({ deal }: { deal: BusDeal }) {
     >
       <div style={{
         background: '#fff', borderRadius: 16, overflow: 'hidden',
-        border: '1px solid #e7e6e0', boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+        border: '1px solid #E2E8F0', boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
         transition: 'transform 0.2s, box-shadow 0.2s', cursor: 'pointer',
       }}
         onMouseEnter={e => {
@@ -177,7 +177,7 @@ function BusDealCard({ deal }: { deal: BusDeal }) {
         }}
       >
         {/* Foto */}
-        <div style={{ position: 'relative', height: 160, overflow: 'hidden', background: '#0d0d0f' }}>
+        <div style={{ position: 'relative', height: 160, overflow: 'hidden', background: '#0F2340' }}>
           <img
             src={deal.photo}
             alt={deal.destination}
@@ -209,20 +209,20 @@ function BusDealCard({ deal }: { deal: BusDeal }) {
         <div style={{ padding: '14px 16px' }}>
           <div style={{
             fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
-            fontWeight: 600, color: '#6d6d74', textTransform: 'uppercase',
+            fontWeight: 600, color: '#64748B', textTransform: 'uppercase',
             letterSpacing: '0.8px', marginBottom: 4,
           }}>
             {deal.origin} → {deal.destination}
           </div>
           <div style={{
-            fontFamily: 'Space Grotesk, sans-serif', fontSize: '0.95rem',
-            fontWeight: 700, color: '#0d0d0f', marginBottom: 10,
+            fontFamily: 'Nunito, sans-serif', fontSize: '0.95rem',
+            fontWeight: 700, color: '#0F2340', marginBottom: 10,
           }}>
             {deal.destination}
           </div>
           <div style={{
-            fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.3rem',
-            fontWeight: 800, color: '#ff5722',
+            fontFamily: 'Nunito, sans-serif', fontSize: '1.3rem',
+            fontWeight: 800, color: '#1A82D8',
           }}>
             {deal.priceLabel}
           </div>
@@ -258,7 +258,7 @@ export default function OnibusPage() {
 
       {/* ── HERO ──────────────────────────────────────────────── */}
       <section style={{
-        background: 'linear-gradient(135deg, #0d0d0f 0%, #7c3aed 60%, #a78bfa 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #7c3aed 60%, #a78bfa 100%)',
         padding: '64px 0 52px',
       }}>
         <div className="container" style={{ textAlign: 'center' }}>
@@ -272,7 +272,7 @@ export default function OnibusPage() {
             Passagens de ônibus
           </span>
           <h1 style={{
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 700,
             color: '#fff', margin: '0 0 16px',
           }}>
@@ -298,7 +298,7 @@ export default function OnibusPage() {
                   border: '1.5px solid',
                   borderColor: selectedCategory === c.id ? '#c4b5fd' : 'rgba(255,255,255,0.3)',
                   background: selectedCategory === c.id ? '#c4b5fd' : 'transparent',
-                  color: selectedCategory === c.id ? '#0d0d0f' : '#fff',
+                  color: selectedCategory === c.id ? '#0F2340' : '#fff',
                   cursor: 'pointer', transition: 'all 0.15s',
                 }}
               >
@@ -316,12 +316,12 @@ export default function OnibusPage() {
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 28 }}>
             <div>
               <h2 style={{
-                fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.35rem',
-                fontWeight: 700, color: '#0d0d0f', margin: '0 0 4px',
+                fontFamily: 'Nunito, sans-serif', fontSize: '1.35rem',
+                fontWeight: 700, color: '#0F2340', margin: '0 0 4px',
               }}>
                 {cat.label}
               </h2>
-              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#6d6d74', margin: 0 }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#64748B', margin: 0 }}>
                 Clique para ver horários e comprar a passagem diretamente na plataforma
               </p>
             </div>
@@ -349,18 +349,18 @@ export default function OnibusPage() {
           {!loading && (
             <div style={{
               marginTop: 48, background: '#fff', borderRadius: 16,
-              border: '1px solid #e7e6e0', padding: '32px',
+              border: '1px solid #E2E8F0', padding: '32px',
               textAlign: 'center',
             }}>
               <h3 style={{
-                fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.15rem',
-                fontWeight: 700, color: '#0d0d0f', margin: '0 0 10px',
+                fontFamily: 'Nunito, sans-serif', fontSize: '1.15rem',
+                fontWeight: 700, color: '#0F2340', margin: '0 0 10px',
               }}>
                 Quer montar o roteiro completo com ônibus?
               </h3>
               <p style={{
                 fontFamily: 'Inter, sans-serif', fontSize: '0.88rem',
-                color: '#6d6d74', margin: '0 0 20px', maxWidth: 420,
+                color: '#64748B', margin: '0 0 20px', maxWidth: 420,
                 marginLeft: 'auto', marginRight: 'auto',
               }}>
                 Descreva a experiência que você quer ter e a Go Livoo organiza voos, ônibus, hotel e mais.

@@ -25,10 +25,10 @@ export default function BlogLayout({ children }: { children: React.ReactNode }) 
           --muted:#70685f;
           --line:#ececea;
           --line-2:#dbd6cf;
-          --orange:#ff5a1f;
-          --orange-dk:#e8470d;
-          --coral:#ff3e5a;
-          --sun:#ffb800;
+          --orange:#1A56DB;
+          --orange-dk:#1445B0;
+          --coral:#2B6EE6;
+          --sun:#B3D1FF;
           --jade:#06a06b;
           --sky:#2b74ff;
           font-family: 'DM Sans', system-ui, sans-serif;

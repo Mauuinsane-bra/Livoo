@@ -95,18 +95,18 @@ export default function WaitlistForm() {
     return (
       <div style={{
         background: 'rgba(255,255,255,0.07)',
-        border: '1px solid rgba(245,166,35,0.3)',
+        border: '1px solid rgba(245,168,0,0.3)',
         borderRadius: 16,
         padding: 36,
         textAlign: 'center',
       }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ffd600" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#F5A800" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="10"/>
             <polyline points="9 12 11 14 15 10"/>
           </svg>
         </div>
-        <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', color: '#ffd600', fontSize: '1.4rem', marginBottom: 8 }}>
+        <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#F5A800', fontSize: '1.4rem', marginBottom: 8 }}>
           Você está na lista!
         </h3>
         <p style={{ fontFamily: 'Inter, sans-serif', color: 'rgba(255,255,255,0.65)', fontSize: '0.9rem' }}>
@@ -182,9 +182,9 @@ export default function WaitlistForm() {
             style={{
               padding: '5px 12px',
               borderRadius: 50,
-              border: `1.5px solid ${interests.includes(opt) ? '#ffd600' : 'rgba(255,255,255,0.2)'}`,
-              background: interests.includes(opt) ? 'rgba(245,166,35,0.15)' : 'transparent',
-              color: interests.includes(opt) ? '#ffd600' : 'rgba(255,255,255,0.55)',
+              border: `1.5px solid ${interests.includes(opt) ? '#F5A800' : 'rgba(255,255,255,0.2)'}`,
+              background: interests.includes(opt) ? 'rgba(245,168,0,0.15)' : 'transparent',
+              color: interests.includes(opt) ? '#F5A800' : 'rgba(255,255,255,0.55)',
               fontFamily: 'Inter, sans-serif',
               fontSize: '0.8rem',
               fontWeight: 500,
@@ -210,11 +210,11 @@ export default function WaitlistForm() {
           type="checkbox"
           checked={consent}
           onChange={e => setConsent(e.target.checked)}
-          style={{ marginTop: 3, accentColor: '#ffd600', width: 15, height: 15, flexShrink: 0 }}
+          style={{ marginTop: 3, accentColor: '#F5A800', width: 15, height: 15, flexShrink: 0 }}
         />
         <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.5 }}>
           Concordo com a{' '}
-          <a href="/privacidade" style={{ color: '#ffd600', textDecoration: 'underline' }}>
+          <a href="/privacidade" style={{ color: '#F5A800', textDecoration: 'underline' }}>
             Política de Privacidade
           </a>{' '}
           e autorizo o uso do meu email para comunicações da Go Livoo. Posso cancelar a qualquer momento.

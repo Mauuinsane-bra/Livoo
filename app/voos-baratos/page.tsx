@@ -20,7 +20,7 @@ function formatPrice(price: number) {
 
 function StopsLabel({ stops }: { stops: number }) {
   if (stops === 0) return <span style={{ color: '#16a34a', fontWeight: 700, fontSize: 11, fontFamily: 'Inter, sans-serif' }}>Direto</span>
-  return <span style={{ color: '#6d6d74', fontSize: 11, fontFamily: 'Inter, sans-serif' }}>{stops} {stops === 1 ? 'parada' : 'paradas'}</span>
+  return <span style={{ color: '#64748B', fontSize: 11, fontFamily: 'Inter, sans-serif' }}>{stops} {stops === 1 ? 'parada' : 'paradas'}</span>
 }
 
 function formatDepartDate(dateStr: string): string {
@@ -47,7 +47,7 @@ function FlightCard({ flight }: { flight: CheapFlight }) {
         overflow: 'hidden',
         boxShadow: '0 2px 8px rgba(15,35,64,.08)',
         textDecoration: 'none',
-        border: '1px solid #e7e6e0',
+        border: '1px solid #E2E8F0',
         transition: 'transform .2s, box-shadow .2s',
       }}
       onMouseOver={e => {
@@ -78,7 +78,7 @@ function FlightCard({ flight }: { flight: CheapFlight }) {
         ) : (
           <div style={{
             width: '100%', height: '100%',
-            background: 'linear-gradient(135deg, #093468 0%, #ff5722 100%)',
+            background: 'linear-gradient(135deg, #093468 0%, #1A82D8 100%)',
           }} />
         )}
 
@@ -105,7 +105,7 @@ function FlightCard({ flight }: { flight: CheapFlight }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
             <span style={{ fontSize: 20, lineHeight: 1 }}>{flight.destinationFlag}</span>
             <span style={{
-              color: '#fff', fontFamily: 'Space Grotesk, sans-serif',
+              color: '#fff', fontFamily: 'Nunito, sans-serif',
               fontWeight: 900, fontSize: 18, lineHeight: 1,
               textShadow: '0 1px 4px rgba(0,0,0,.4)',
             }}>
@@ -134,8 +134,8 @@ function FlightCard({ flight }: { flight: CheapFlight }) {
               a partir de
             </div>
             <div style={{
-              fontFamily: 'Space Grotesk, sans-serif', fontWeight: 900,
-              fontSize: 28, color: '#ff5722', lineHeight: 1,
+              fontFamily: 'Nunito, sans-serif', fontWeight: 900,
+              fontSize: 28, color: '#1A82D8', lineHeight: 1,
             }}>
               <span style={{ fontSize: 13, fontWeight: 700, verticalAlign: 'super', lineHeight: 0 }}>R$</span>
               {' '}{formatPrice(flight.price)}
@@ -159,7 +159,7 @@ function FlightCard({ flight }: { flight: CheapFlight }) {
         {flight.departDate && (
           <div style={{
             display: 'flex', alignItems: 'center', gap: 5,
-            fontFamily: 'Inter, sans-serif', fontSize: 11, color: '#6d6d74',
+            fontFamily: 'Inter, sans-serif', fontSize: 11, color: '#64748B',
           }}>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9aaabb" strokeWidth="2" strokeLinecap="round">
               <rect x="3" y="4" width="18" height="18" rx="2"/>
@@ -172,7 +172,7 @@ function FlightCard({ flight }: { flight: CheapFlight }) {
         {/* Botão CTA */}
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
-          background: 'linear-gradient(135deg, #ff5722 0%, #e64e1e 100%)',
+          background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
           color: '#fff', borderRadius: 10, padding: '10px 0',
           fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: 13,
           boxShadow: '0 2px 8px rgba(26,130,216,.3)',
@@ -189,10 +189,10 @@ function FlightCard({ flight }: { flight: CheapFlight }) {
 
 function SkeletonCard() {
   return (
-    <div style={{ background: '#fff', borderRadius: 16, overflow: 'hidden', border: '1px solid #e7e6e0' }}>
+    <div style={{ background: '#fff', borderRadius: 16, overflow: 'hidden', border: '1px solid #E2E8F0' }}>
       <div style={{
         height: 160,
-        background: 'linear-gradient(90deg, #e7e6e0 25%, #fafaf7 50%, #e7e6e0 75%)',
+        background: 'linear-gradient(90deg, #E2E8F0 25%, #fafaf7 50%, #E2E8F0 75%)',
         backgroundSize: '200% 100%',
         animation: 'shimmer 1.5s infinite',
       }} />
@@ -239,7 +239,7 @@ export default function VoosBaratosPage() {
     <>
       {/* Hero */}
       <section style={{
-        background: 'linear-gradient(135deg, #0d0d0f 0%, #ff5722 60%, #2B9FEE 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)',
         padding: '56px 24px 52px',
         position: 'relative',
         overflow: 'hidden',
@@ -252,7 +252,7 @@ export default function VoosBaratosPage() {
           {/* Badge */}
           <span style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
-            background: 'rgba(245,168,0,.15)', color: '#ffd600',
+            background: 'rgba(245,168,0,.15)', color: '#F5A800',
             fontSize: 11, fontWeight: 700, letterSpacing: 1.5,
             textTransform: 'uppercase', padding: '5px 14px', borderRadius: 100,
             fontFamily: 'Inter, sans-serif', border: '1px solid rgba(245,168,0,.3)',
@@ -263,12 +263,12 @@ export default function VoosBaratosPage() {
           </span>
 
           <h1 style={{
-            fontFamily: 'Space Grotesk, sans-serif', fontWeight: 900, color: '#fff',
+            fontFamily: 'Nunito, sans-serif', fontWeight: 900, color: '#fff',
             fontSize: 'clamp(26px, 3.5vw, 46px)', lineHeight: 1.05,
             marginBottom: 12, letterSpacing: '-.5px',
           }}>
             Voos baratos saindo de<br />
-            <span style={{ color: '#ffd600' }}>{originObj?.label || origin}</span>
+            <span style={{ color: '#F5A800' }}>{originObj?.label || origin}</span>
           </h1>
 
           <p style={{
@@ -285,8 +285,8 @@ export default function VoosBaratosPage() {
                 key={o.iata}
                 onClick={() => setOrigin(o.iata)}
                 style={{
-                  background: origin === o.iata ? '#ffd600' : 'rgba(255,255,255,.1)',
-                  color: origin === o.iata ? '#0d0d0f' : 'rgba(255,255,255,.9)',
+                  background: origin === o.iata ? '#F5A800' : 'rgba(255,255,255,.1)',
+                  color: origin === o.iata ? '#0F2340' : 'rgba(255,255,255,.9)',
                   border: origin === o.iata ? 'none' : '1px solid rgba(255,255,255,.2)',
                   borderRadius: 100,
                   padding: '8px 18px', cursor: 'pointer',
@@ -311,8 +311,8 @@ export default function VoosBaratosPage() {
           marginBottom: 28, flexWrap: 'wrap', gap: 12,
         }}>
           <div style={{
-            fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800,
-            fontSize: 20, color: '#0d0d0f',
+            fontFamily: 'Nunito, sans-serif', fontWeight: 800,
+            fontSize: 20, color: '#0F2340',
           }}>
             {loading
               ? 'Buscando os melhores preços...'
@@ -333,7 +333,7 @@ export default function VoosBaratosPage() {
                 onClick={() => fetchFlights(origin)}
                 style={{
                   background: 'none', border: 'none', cursor: 'pointer',
-                  color: '#ff5722', fontWeight: 700, fontSize: 12,
+                  color: '#1A82D8', fontWeight: 700, fontSize: 12,
                   fontFamily: 'Inter, sans-serif', padding: '0 0 0 4px',
                 }}
               >
@@ -345,11 +345,11 @@ export default function VoosBaratosPage() {
 
         {/* Grid de cards */}
         {error ? (
-          <div style={{ textAlign: 'center', padding: '80px 24px', color: '#6d6d74' }}>
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#d8d7d0" strokeWidth="1.5" style={{ marginBottom: 16 }}>
+          <div style={{ textAlign: 'center', padding: '80px 24px', color: '#64748B' }}>
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#CBD5E1" strokeWidth="1.5" style={{ marginBottom: 16 }}>
               <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
             </svg>
-            <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, fontSize: 18, marginBottom: 8, color: '#0d0d0f' }}>
+            <p style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 800, fontSize: 18, marginBottom: 8, color: '#0F2340' }}>
               Não conseguimos carregar os preços agora
             </p>
             <p style={{ fontSize: 14, marginBottom: 24, lineHeight: 1.5 }}>
@@ -358,7 +358,7 @@ export default function VoosBaratosPage() {
             <button
               onClick={() => fetchFlights(origin)}
               style={{
-                background: '#ff5722', color: '#fff', border: 'none', borderRadius: 10,
+                background: '#1A82D8', color: '#fff', border: 'none', borderRadius: 10,
                 padding: '12px 28px', cursor: 'pointer', fontFamily: 'Inter, sans-serif',
                 fontWeight: 700, fontSize: 14,
                 boxShadow: '0 2px 8px rgba(26,130,216,.3)',

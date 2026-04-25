@@ -12,14 +12,14 @@ export default function ComoFuncionaPage() {
 
       {/* Hero */}
       <div style={{
-        background: 'linear-gradient(135deg, #0d0d0f 0%, #ff5722 60%, #2B9FEE 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)',
         padding: '80px 24px 88px',
         textAlign: 'center',
       }}>
         <span style={{
           display: 'inline-block',
-          background: 'rgba(245,166,35,0.15)',
-          color: '#ffd600',
+          background: 'rgba(245,168,0,0.15)',
+          color: '#F5A800',
           fontSize: '0.72rem',
           fontWeight: 700,
           letterSpacing: '2px',
@@ -27,12 +27,12 @@ export default function ComoFuncionaPage() {
           padding: '5px 14px',
           borderRadius: 50,
           marginBottom: 20,
-          border: '1px solid rgba(245,166,35,0.3)',
+          border: '1px solid rgba(245,168,0,0.3)',
         }}>
           Plataforma gratuita
         </span>
         <h1 style={{
-          fontFamily: 'Space Grotesk, sans-serif',
+          fontFamily: 'Nunito, sans-serif',
           fontSize: 'clamp(2rem, 4vw, 3rem)',
           color: '#fff',
           marginBottom: 16,
@@ -56,9 +56,9 @@ export default function ComoFuncionaPage() {
 
         {/* Passos */}
         <h2 style={{
-          fontFamily: 'Space Grotesk, sans-serif',
+          fontFamily: 'Nunito, sans-serif',
           fontSize: '1.6rem',
-          color: '#0d0d0f',
+          color: '#0F2340',
           textAlign: 'center',
           marginBottom: 48,
         }}>
@@ -72,7 +72,7 @@ export default function ComoFuncionaPage() {
               title: 'Você descreve a experiência',
               desc: 'No campo "Roteiro Completo", descreva o que quer fazer: ver um jogo, ir a um festival, assistir a uma corrida. Pode ser vago — nossa IA entende o contexto e faz as perguntas certas.',
               detail: 'Exemplos: "Quero ir ao GP de F1 em Mônaco em maio", "Rock in Rio 2026 com voo saindo de São Paulo", "Hanami no Japão em março".',
-              color: '#ff5722',
+              color: '#1A82D8',
               link: null,
             },
             {
@@ -88,7 +88,7 @@ export default function ComoFuncionaPage() {
               title: 'Verifique sua documentação',
               desc: 'Antes de comprar qualquer coisa, o Livoo Prep verifica se seu passaporte, visto e vacinas estão em ordem para o destino escolhido. Evite surpresas desagradáveis na fronteira.',
               detail: 'O Livoo Prep cobre mais de 60 países com informações atualizadas via API Sherpa. Disponível por R$39/viagem.',
-              color: '#ffd600',
+              color: '#F5A800',
               link: '/prep',
             },
             {
@@ -107,7 +107,7 @@ export default function ComoFuncionaPage() {
               borderRadius: 20,
               padding: '32px 36px',
               boxShadow: '0 2px 12px rgba(13,27,62,0.06)',
-              border: '1px solid #e7e6e0',
+              border: '1px solid #E2E8F0',
               alignItems: 'flex-start',
             }}>
               <div style={{
@@ -118,7 +118,7 @@ export default function ComoFuncionaPage() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontFamily: 'Space Grotesk, sans-serif',
+                fontFamily: 'Nunito, sans-serif',
                 fontSize: '1.2rem',
                 fontWeight: 700,
                 color: '#fff',
@@ -127,9 +127,9 @@ export default function ComoFuncionaPage() {
               </div>
               <div style={{ flex: 1 }}>
                 <h3 style={{
-                  fontFamily: 'Space Grotesk, sans-serif',
+                  fontFamily: 'Nunito, sans-serif',
                   fontSize: '1.2rem',
-                  color: '#0d0d0f',
+                  color: '#0F2340',
                   marginBottom: 10,
                 }}>
                   {item.title}
@@ -137,7 +137,7 @@ export default function ComoFuncionaPage() {
                 <p style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '0.92rem',
-                  color: '#6d6d74',
+                  color: '#64748B',
                   lineHeight: 1.7,
                   marginBottom: 10,
                 }}>
@@ -179,13 +179,13 @@ export default function ComoFuncionaPage() {
           background: '#fff',
           borderRadius: 20,
           padding: '40px 44px',
-          border: '1px solid #e7e6e0',
+          border: '1px solid #E2E8F0',
           marginBottom: 40,
         }}>
           <h2 style={{
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: '1.4rem',
-            color: '#0d0d0f',
+            color: '#0F2340',
             marginBottom: 20,
           }}>
             Como a Go Livoo ganha dinheiro?
@@ -193,7 +193,7 @@ export default function ComoFuncionaPage() {
           <p style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: '0.92rem',
-            color: '#6d6d74',
+            color: '#64748B',
             lineHeight: 1.75,
             marginBottom: 24,
           }}>
@@ -222,7 +222,7 @@ export default function ComoFuncionaPage() {
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '0.75rem',
                   fontWeight: 700,
-                  color: '#0d0d0f',
+                  color: '#0F2340',
                   textTransform: 'uppercase',
                   letterSpacing: '1px',
                   margin: '0 0 4px',
@@ -232,15 +232,15 @@ export default function ComoFuncionaPage() {
                 <p style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '0.85rem',
-                  color: '#6d6d74',
+                  color: '#64748B',
                   margin: '0 0 6px',
                 }}>
                   {item.value}
                 </p>
                 <p style={{
-                  fontFamily: 'Space Grotesk, sans-serif',
+                  fontFamily: 'Nunito, sans-serif',
                   fontSize: '0.88rem',
-                  color: '#ff5722',
+                  color: '#1A82D8',
                   fontWeight: 600,
                   margin: 0,
                 }}>
@@ -256,13 +256,13 @@ export default function ComoFuncionaPage() {
           background: '#fff',
           borderRadius: 20,
           padding: '40px 44px',
-          border: '1px solid #e7e6e0',
+          border: '1px solid #E2E8F0',
           marginBottom: 40,
         }}>
           <h2 style={{
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: '1.4rem',
-            color: '#0d0d0f',
+            color: '#0F2340',
             marginBottom: 28,
           }}>
             Perguntas frequentes
@@ -298,7 +298,7 @@ export default function ComoFuncionaPage() {
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '0.95rem',
                   fontWeight: 700,
-                  color: '#0d0d0f',
+                  color: '#0F2340',
                   marginBottom: 8,
                 }}>
                   {item.q}
@@ -306,7 +306,7 @@ export default function ComoFuncionaPage() {
                 <p style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '0.88rem',
-                  color: '#6d6d74',
+                  color: '#64748B',
                   lineHeight: 1.7,
                   margin: 0,
                 }}>
@@ -319,13 +319,13 @@ export default function ComoFuncionaPage() {
 
         {/* CTA */}
         <div style={{
-          background: 'linear-gradient(135deg, #0d0d0f 0%, #1a1a20 100%)',
+          background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)',
           borderRadius: 20,
           padding: '48px 52px',
           textAlign: 'center',
         }}>
           <h2 style={{
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: '1.6rem',
             color: '#fff',
             marginBottom: 12,

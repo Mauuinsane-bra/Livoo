@@ -10,9 +10,9 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <section style={{ marginBottom: 40 }}>
       <h2 style={{
-        fontFamily: 'Space Grotesk, sans-serif',
+        fontFamily: 'Nunito, sans-serif',
         fontSize: '1.2rem',
-        color: '#0d0d0f',
+        color: '#0F2340',
         marginBottom: 16,
         paddingBottom: 12,
         borderBottom: '1px solid #fafaf7',
@@ -29,7 +29,7 @@ function P({ children }: { children: React.ReactNode }) {
     <p style={{
       fontFamily: 'Inter, sans-serif',
       fontSize: '0.92rem',
-      color: '#6d6d74',
+      color: '#64748B',
       lineHeight: 1.8,
       marginBottom: 14,
     }}>
@@ -44,12 +44,12 @@ export default function TermosPage() {
 
       {/* Hero */}
       <div style={{
-        background: 'linear-gradient(135deg, #0d0d0f 0%, #ff5722 60%, #2B9FEE 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)',
         padding: '72px 24px 80px',
         textAlign: 'center',
       }}>
         <h1 style={{
-          fontFamily: 'Space Grotesk, sans-serif',
+          fontFamily: 'Nunito, sans-serif',
           fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
           color: '#fff',
           marginBottom: 12,
@@ -70,7 +70,7 @@ export default function TermosPage() {
           background: '#fff8ec',
           borderRadius: 12,
           padding: '20px 24px',
-          border: '1px solid rgba(245,166,35,0.3)',
+          border: '1px solid rgba(245,168,0,0.3)',
           marginBottom: 40,
         }}>
           <p style={{
@@ -89,7 +89,7 @@ export default function TermosPage() {
           borderRadius: 20,
           padding: '48px 52px',
           boxShadow: '0 4px 24px rgba(13,27,62,0.07)',
-          border: '1px solid #e7e6e0',
+          border: '1px solid #E2E8F0',
         }}>
 
           <Section title="1. Sobre a Go Livoo">
@@ -100,7 +100,7 @@ export default function TermosPage() {
             </P>
             <P>
               O site principal está disponível em <strong>www.golivoo.com.br</strong>. Para dúvidas, entre em contato pelo email{' '}
-              <Link href="mailto:contato@golivoo.com.br" style={{ color: '#ff5722' }}>contato@golivoo.com.br</Link>.
+              <Link href="mailto:contato@golivoo.com.br" style={{ color: '#1A82D8' }}>contato@golivoo.com.br</Link>.
             </P>
           </Section>
 
@@ -198,7 +198,7 @@ export default function TermosPage() {
                 <li key={i} style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '0.9rem',
-                  color: '#6d6d74',
+                  color: '#64748B',
                   lineHeight: 1.7,
                   marginBottom: 8,
                 }}>
@@ -232,7 +232,7 @@ export default function TermosPage() {
           <Section title="11. Privacidade">
             <P>
               O tratamento de dados pessoais dos usuários é regido pela nossa{' '}
-              <Link href="/privacidade" style={{ color: '#ff5722', fontWeight: 600 }}>Política de Privacidade</Link>,
+              <Link href="/privacidade" style={{ color: '#1A82D8', fontWeight: 600 }}>Política de Privacidade</Link>,
               em conformidade com a Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018).
             </P>
           </Section>
@@ -248,9 +248,9 @@ export default function TermosPage() {
           <Section title="13. Contato">
             <P>
               Para dúvidas sobre estes termos, entre em contato pelo email{' '}
-              <Link href="mailto:contato@golivoo.com.br" style={{ color: '#ff5722' }}>contato@golivoo.com.br</Link>{' '}
+              <Link href="mailto:contato@golivoo.com.br" style={{ color: '#1A82D8' }}>contato@golivoo.com.br</Link>{' '}
               ou pela nossa{' '}
-              <Link href="/contato" style={{ color: '#ff5722', fontWeight: 600 }}>página de contato</Link>.
+              <Link href="/contato" style={{ color: '#1A82D8', fontWeight: 600 }}>página de contato</Link>.
             </P>
           </Section>
 

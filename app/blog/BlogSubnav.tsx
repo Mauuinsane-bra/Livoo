@@ -5,13 +5,13 @@ import { usePathname } from 'next/navigation'
 import BirdAzulNavy from '../../components/BirdAzulNavy'
 
 const CATS = [
-  { label: 'Tudo', slug: '', count: 248 },
-  { label: 'Destinos', slug: 'destinos', count: 62 },
-  { label: 'Eventos', slug: 'eventos', count: 38 },
-  { label: 'Guias', slug: 'guias', count: 54 },
-  { label: 'Econômico', slug: 'economico', count: 41 },
-  { label: 'Família', slug: 'familia', count: 29 },
-  { label: 'Solo', slug: 'solo', count: 24 },
+  { label: 'Tudo', slug: '' },
+  { label: 'Destinos', slug: 'destinos' },
+  { label: 'Eventos', slug: 'eventos' },
+  { label: 'Guias', slug: 'guias' },
+  { label: 'Econômico', slug: 'economico' },
+  { label: 'Família', slug: 'familia' },
+  { label: 'Solo', slug: 'solo' },
 ]
 
 export default function BlogSubnav() {
@@ -32,15 +32,11 @@ export default function BlogSubnav() {
               : pathname === '/blog'
             return (
               <Link key={c.slug} href={href} className={isOn ? 'on' : ''}>
-                {c.label} <span className="n">{c.count}</span>
+                {c.label}
               </Link>
             )
           })}
         </div>
-        <span className="chip">
-          <span className="dot" />
-          3 posts novos essa semana
-        </span>
       </div>
     </nav>
   )

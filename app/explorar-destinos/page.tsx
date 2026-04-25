@@ -115,7 +115,7 @@ function SkeletonRow() {
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 16, padding: '16px 20px',
-      background: '#fff', borderRadius: 12, border: '1px solid #e7e6e0',
+      background: '#fff', borderRadius: 12, border: '1px solid #E2E8F0',
     }}>
       <div style={{ width: 80, height: 56, background: '#f0efeb', borderRadius: 8, flexShrink: 0 }} />
       <div style={{ flex: 1 }}>
@@ -155,17 +155,17 @@ function RegionRow({
       <div style={{
         display: 'flex', alignItems: 'center', gap: 16,
         padding: '16px 20px', background: '#fff',
-        borderRadius: 12, border: '1px solid #e7e6e0',
+        borderRadius: 12, border: '1px solid #E2E8F0',
         transition: 'border-color 0.15s, box-shadow 0.15s', cursor: 'pointer',
       }}
         onMouseEnter={e => {
           const el = e.currentTarget as HTMLDivElement
-          el.style.borderColor = '#ff5722'
-          el.style.boxShadow = '0 2px 12px rgba(255,87,34,0.1)'
+          el.style.borderColor = '#1A82D8'
+          el.style.boxShadow = '0 2px 12px rgba(26,130,216,0.1)'
         }}
         onMouseLeave={e => {
           const el = e.currentTarget as HTMLDivElement
-          el.style.borderColor = '#e7e6e0'
+          el.style.borderColor = '#E2E8F0'
           el.style.boxShadow = 'none'
         }}
       >
@@ -184,15 +184,15 @@ function RegionRow({
         {/* Texto */}
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: '1rem', fontWeight: 700,
-            color: '#0d0d0f', marginBottom: 3,
+            color: '#0F2340', marginBottom: 3,
           }}>
             {region.label}
           </div>
           <div style={{
             fontFamily: 'Inter, sans-serif',
-            fontSize: '0.78rem', color: '#6d6d74',
+            fontSize: '0.78rem', color: '#64748B',
             whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
           }}>
             {region.subtitle}
@@ -205,13 +205,13 @@ function RegionRow({
             <>
               <div style={{
                 fontFamily: 'Inter, sans-serif', fontSize: '0.68rem',
-                color: '#6d6d74', marginBottom: 2,
+                color: '#64748B', marginBottom: 2,
               }}>
                 {minFlight.isRoundTrip ? 'Ida + volta' : 'Só ida'}<br />A partir de
               </div>
               <div style={{
-                fontFamily: 'Space Grotesk, sans-serif',
-                fontSize: '1.15rem', fontWeight: 800, color: '#ff5722',
+                fontFamily: 'Nunito, sans-serif',
+                fontSize: '1.15rem', fontWeight: 800, color: '#1A82D8',
               }}>
                 {formatPrice(minFlight.price)}
               </div>
@@ -234,6 +234,7 @@ function RegionRow({
 
 export default function MelhoresDestinosPage() {
   const [origin, setOrigin]         = useState('GRU')
+  const [month, setMonth]           = useState('')
   const [flights, setFlights]       = useState<CheapFlight[]>([])
   const [loading, setLoading]       = useState(true)
   const [originInput, setOriginInput] = useState('São Paulo')
@@ -242,7 +243,8 @@ export default function MelhoresDestinosPage() {
     async function fetchFlights() {
       setLoading(true)
       try {
-        const res  = await fetch(`/api/cheap-flights?origin=${origin}`)
+        const monthParam = month ? `&month=${month}` : ''
+        const res  = await fetch(`/api/cheap-flights?origin=${origin}${monthParam}`)
         const data = await res.json()
         setFlights(data.flights ?? [])
       } catch {
@@ -252,11 +254,16 @@ export default function MelhoresDestinosPage() {
       }
     }
     fetchFlights()
-  }, [origin])
+  }, [origin, month])
+
+  // Filtrar por mês (client-side)
+  const filteredFlights = month
+    ? flights.filter(f => f.departDate?.startsWith(month))
+    : flights
 
   // Mínimo por região
   function getMinForRegion(regionId: string): CheapFlight | null {
-    const regionFlights = flights.filter(f => f.region === regionId)
+    const regionFlights = filteredFlights.filter(f => f.region === regionId)
     if (regionFlights.length === 0) return null
     return regionFlights.reduce((min, f) => f.price < min.price ? f : min)
   }
@@ -268,21 +275,21 @@ export default function MelhoresDestinosPage() {
 
       {/* ── HERO ──────────────────────────────────────────────── */}
       <section style={{
-        background: 'linear-gradient(135deg, #0d0d0f 0%, #ff5722 60%, #f5a800 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #f5a800 100%)',
         padding: '52px 0 44px',
       }}>
         <div className="container" style={{ textAlign: 'center' }}>
           <span style={{
             display: 'inline-block',
-            background: 'rgba(255,87,34,0.15)', color: '#ffb4a2',
+            background: 'rgba(26,130,216,0.15)', color: '#93C5FD',
             fontSize: '0.7rem', fontWeight: 700, letterSpacing: '2px',
             textTransform: 'uppercase', padding: '5px 14px', borderRadius: 50,
-            marginBottom: 16, border: '1px solid rgba(255,87,34,0.3)',
+            marginBottom: 16, border: '1px solid rgba(26,130,216,0.3)',
           }}>
             Explorar destinos
           </span>
           <h1 style={{
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', fontWeight: 700,
             color: '#fff', margin: '0 0 10px',
           }}>
@@ -306,7 +313,7 @@ export default function MelhoresDestinosPage() {
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
               <label style={{
                 fontFamily: 'Inter, sans-serif', fontSize: '0.62rem',
-                fontWeight: 700, color: '#6d6d74', textTransform: 'uppercase',
+                fontWeight: 700, color: '#64748B', textTransform: 'uppercase',
                 letterSpacing: '1px', marginBottom: 3,
               }}>
                 Origem
@@ -318,8 +325,8 @@ export default function MelhoresDestinosPage() {
                   setOriginInput(ORIGINS.find(o => o.iata === e.target.value)?.city ?? '')
                 }}
                 style={{
-                  fontFamily: 'Space Grotesk, sans-serif', fontSize: '0.95rem',
-                  fontWeight: 700, color: '#0d0d0f', border: 'none',
+                  fontFamily: 'Nunito, sans-serif', fontSize: '0.95rem',
+                  fontWeight: 700, color: '#0F2340', border: 'none',
                   outline: 'none', background: 'transparent', cursor: 'pointer',
                   minWidth: 160,
                 }}
@@ -330,21 +337,23 @@ export default function MelhoresDestinosPage() {
               </select>
             </div>
 
-            <div style={{ width: 1, height: 36, background: '#e7e6e0' }} />
+            <div style={{ width: 1, height: 36, background: '#E2E8F0' }} />
 
             {/* Mês */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
               <label style={{
                 fontFamily: 'Inter, sans-serif', fontSize: '0.62rem',
-                fontWeight: 700, color: '#6d6d74', textTransform: 'uppercase',
+                fontWeight: 700, color: '#64748B', textTransform: 'uppercase',
                 letterSpacing: '1px', marginBottom: 3,
               }}>
                 Mês
               </label>
               <select
+                value={month}
+                onChange={e => setMonth(e.target.value)}
                 style={{
-                  fontFamily: 'Space Grotesk, sans-serif', fontSize: '0.95rem',
-                  fontWeight: 700, color: '#0d0d0f', border: 'none',
+                  fontFamily: 'Nunito, sans-serif', fontSize: '0.95rem',
+                  fontWeight: 700, color: '#0F2340', border: 'none',
                   outline: 'none', background: 'transparent', cursor: 'pointer',
                   minWidth: 140,
                 }}
@@ -364,12 +373,12 @@ export default function MelhoresDestinosPage() {
 
           <div style={{ marginBottom: 24 }}>
             <h2 style={{
-              fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.2rem',
-              fontWeight: 700, color: '#0d0d0f', margin: '0 0 4px',
+              fontFamily: 'Nunito, sans-serif', fontSize: '1.2rem',
+              fontWeight: 700, color: '#0F2340', margin: '0 0 4px',
             }}>
               Partindo de {originCity}
             </h2>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#6d6d74', margin: 0 }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#64748B', margin: 0 }}>
               Menor preço encontrado por região · clique para ver datas e reservar
             </p>
           </div>
@@ -402,18 +411,18 @@ export default function MelhoresDestinosPage() {
           {/* CTA roteiro */}
           <div style={{
             marginTop: 40, background: '#fff', borderRadius: 16,
-            border: '1px solid #e7e6e0', padding: '28px 32px',
+            border: '1px solid #E2E8F0', padding: '28px 32px',
             textAlign: 'center',
           }}>
             <h3 style={{
-              fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.1rem',
-              fontWeight: 700, color: '#0d0d0f', margin: '0 0 8px',
+              fontFamily: 'Nunito, sans-serif', fontSize: '1.1rem',
+              fontWeight: 700, color: '#0F2340', margin: '0 0 8px',
             }}>
               Encontrou um destino?
             </h3>
             <p style={{
               fontFamily: 'Inter, sans-serif', fontSize: '0.85rem',
-              color: '#6d6d74', margin: '0 0 18px',
+              color: '#64748B', margin: '0 0 18px',
             }}>
               Monte o roteiro completo — voo, hotel e experiências — com a Go Livoo.
             </p>
@@ -422,19 +431,15 @@ export default function MelhoresDestinosPage() {
               className="btn-primary"
               style={{ display: 'inline-block', padding: '12px 28px', textDecoration: 'none' }}
             >
-              Montar roteiro completo →
+              Montar meu roteiro completo
             </Link>
           </div>
         </div>
       </section>
+    </div>
+  )
+}
 
-      <style>{`
-        @media (max-width: 640px) {
-          .container > div[style*="grid-template-columns: 1fr 1fr"] {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
     </div>
   )
 }

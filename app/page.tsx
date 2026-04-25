@@ -93,15 +93,15 @@ export default async function HomePage() {
         <div className="wrap">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 24, gap: 20, flexWrap: 'wrap' }}>
             <h1 style={{
-              fontFamily: 'Space Grotesk, sans-serif', fontSize: 72, lineHeight: .95,
+              fontFamily: 'Nunito, sans-serif', fontSize: 72, lineHeight: .95,
               fontWeight: 700, letterSpacing: '-.04em', margin: 0, maxWidth: 800,
             }}>
               Um catálogo de{' '}
-              <em style={{ fontStyle: 'normal', background: '#ffd600', padding: '0 10px', borderRadius: 6 }}>experiências</em>
+              <em style={{ fontStyle: 'normal', background: '#F5A800', padding: '0 10px', borderRadius: 6 }}>experiências</em>
               ,<br />com a viagem inteira junto.
             </h1>
-            <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11.5, letterSpacing: '.08em', textTransform: 'uppercase', color: '#6d6d74', textAlign: 'right', flexShrink: 0 }}>
-              <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 38, color: '#0d0d0f', fontWeight: 700, letterSpacing: '-.02em', display: 'block', lineHeight: 1 }}>+20</span>
+            <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11.5, letterSpacing: '.08em', textTransform: 'uppercase', color: '#64748B', textAlign: 'right', flexShrink: 0 }}>
+              <span style={{ fontFamily: 'Nunito, sans-serif', fontSize: 38, color: '#0F2340', fontWeight: 700, letterSpacing: '-.02em', display: 'block', lineHeight: 1 }}>+20</span>
               eventos internacionais<br />selecionados a dedo
             </div>
           </div>
@@ -112,8 +112,8 @@ export default async function HomePage() {
               <Link key={cat} href={i === 0 ? '/eventos' : `/eventos?cat=${encodeURIComponent(cat)}`}
                 style={{
                   whiteSpace: 'nowrap', padding: '9px 16px', borderRadius: 999,
-                  border: '1px solid var(--line)', background: i === 0 ? '#0d0d0f' : '#fff',
-                  color: i === 0 ? '#fff' : '#0d0d0f', fontSize: 13, fontWeight: 500,
+                  border: '1px solid var(--line)', background: i === 0 ? '#0F2340' : '#fff',
+                  color: i === 0 ? '#fff' : '#0F2340', fontSize: 13, fontWeight: 500,
                   textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8,
                 }}>
                 {cat}
@@ -129,14 +129,14 @@ export default async function HomePage() {
               background: 'linear-gradient(180deg, rgba(0,0,0,.05) 30%, rgba(0,0,0,.75) 100%), repeating-linear-gradient(135deg,#b57f4e 0 14px,#9e6d3f 14px 28px)',
               display: 'flex', alignItems: 'flex-end', color: '#fff', padding: 30, textDecoration: 'none',
             }}>
-              <span style={{ position: 'absolute', top: 20, left: 20, background: '#ffd600', color: '#0d0d0f', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 12, padding: '6px 12px', borderRadius: 999, letterSpacing: '.02em' }}>Mônaco · Maio 2026</span>
+              <span style={{ position: 'absolute', top: 20, left: 20, background: '#F5A800', color: '#0F2340', fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: 12, padding: '6px 12px', borderRadius: 999, letterSpacing: '.02em' }}>Mônaco · Maio 2026</span>
               <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%', gap: 20 }}>
                 <div style={{ maxWidth: 560 }}>
                   <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, letterSpacing: '.14em', textTransform: 'uppercase', opacity: .85, marginBottom: 10 }}>24 Mai 2026 · Domingo · 15h</div>
-                  <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 52, lineHeight: .98, fontWeight: 700, letterSpacing: '-.03em', margin: '0 0 8px' }}>GP de Mônaco — F1 2026</h3>
+                  <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 52, lineHeight: .98, fontWeight: 700, letterSpacing: '-.03em', margin: '0 0 8px' }}>GP de Mônaco — F1 2026</h3>
                   <div style={{ fontSize: 15, opacity: .9 }}>Circuit de Monaco, Mônaco · Pacote 4 noites</div>
                 </div>
-                <span style={{ background: '#ff5722', color: '#fff', padding: '14px 20px', borderRadius: 999, fontWeight: 700, fontSize: 13.5, whiteSpace: 'nowrap' }}>ver pacote · R$ 12.400 →</span>
+                <span style={{ background: '#1A82D8', color: '#fff', padding: '14px 20px', borderRadius: 999, fontWeight: 700, fontSize: 13.5, whiteSpace: 'nowrap' }}>ver pacote · R$ 12.400 →</span>
               </div>
             </Link>
 
@@ -153,17 +153,17 @@ export default async function HomePage() {
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 14 }}>
                   <div>
-                    <h4 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 28, lineHeight: 1, fontWeight: 700, letterSpacing: '-.02em', margin: '0 0 4px' }}>Rock in Rio 2026</h4>
+                    <h4 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 28, lineHeight: 1, fontWeight: 700, letterSpacing: '-.02em', margin: '0 0 4px' }}>Rock in Rio 2026</h4>
                     <div style={{ fontSize: 13, opacity: .85 }}>Rio de Janeiro · Cidade do Rock</div>
                   </div>
-                  <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 22, fontWeight: 700, flexShrink: 0 }}>R$ 1.890<small style={{ fontWeight: 400, fontSize: 11, opacity: .7, display: 'block', letterSpacing: '.05em', textTransform: 'uppercase' }}>a partir de</small></div>
+                  <div style={{ fontFamily: 'Nunito, sans-serif', fontSize: 22, fontWeight: 700, flexShrink: 0 }}>R$ 1.890<small style={{ fontWeight: 400, fontSize: 11, opacity: .7, display: 'block', letterSpacing: '.05em', textTransform: 'uppercase' }}>a partir de</small></div>
                 </div>
               </Link>
 
               <Link href="/eventos" style={{
                 position: 'relative', borderRadius: 20, overflow: 'hidden', padding: 24, color: '#fff',
                 display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 190,
-                background: 'linear-gradient(160deg,#ff5722,#ff2060)', textDecoration: 'none',
+                background: 'linear-gradient(160deg,#1A82D8,#E11D48)', textDecoration: 'none',
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ background: 'rgba(255,255,255,.2)', padding: '4px 10px', borderRadius: 999, fontSize: 11, fontWeight: 600 }}>-22% HOJE</span>
@@ -171,10 +171,10 @@ export default async function HomePage() {
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 14 }}>
                   <div>
-                    <h4 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 28, lineHeight: 1, fontWeight: 700, letterSpacing: '-.02em', margin: '0 0 4px' }}>Oktoberfest Munique</h4>
+                    <h4 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 28, lineHeight: 1, fontWeight: 700, letterSpacing: '-.02em', margin: '0 0 4px' }}>Oktoberfest Munique</h4>
                     <div style={{ fontSize: 13, opacity: .85 }}>Alemanha · com tenda reservada</div>
                   </div>
-                  <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 22, fontWeight: 700, flexShrink: 0 }}>R$ 7.200<small style={{ fontWeight: 400, fontSize: 11, opacity: .7, display: 'block', letterSpacing: '.05em', textTransform: 'uppercase' }}>a partir de</small></div>
+                  <div style={{ fontFamily: 'Nunito, sans-serif', fontSize: 22, fontWeight: 700, flexShrink: 0 }}>R$ 7.200<small style={{ fontWeight: 400, fontSize: 11, opacity: .7, display: 'block', letterSpacing: '.05em', textTransform: 'uppercase' }}>a partir de</small></div>
                 </div>
               </Link>
             </div>
@@ -182,17 +182,17 @@ export default async function HomePage() {
 
           {/* Calendar strip */}
           <div style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: 20, padding: 14, marginTop: 8, display: 'flex', alignItems: 'center', gap: 14 }}>
-            <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 18, fontWeight: 700, paddingLeft: 8, whiteSpace: 'nowrap' }}>Maio<br />2026</div>
+            <div style={{ fontFamily: 'Nunito, sans-serif', fontSize: 18, fontWeight: 700, paddingLeft: 8, whiteSpace: 'nowrap' }}>Maio<br />2026</div>
             <div style={{ flex: 1, display: 'grid', gridTemplateColumns: 'repeat(9,1fr)', gap: 6 }} className="cal-grid">
               {calDays.map(({ m, d, dot, active }) => (
                 <div key={d} style={{
-                  borderRadius: 10, border: `1px solid ${active ? '#0d0d0f' : 'var(--line)'}`,
+                  borderRadius: 10, border: `1px solid ${active ? '#0F2340' : 'var(--line)'}`,
                   padding: '8px 4px', textAlign: 'center', position: 'relative', cursor: 'pointer',
-                  background: active ? '#0d0d0f' : 'transparent', color: active ? '#fff' : 'inherit',
+                  background: active ? '#0F2340' : 'transparent', color: active ? '#fff' : 'inherit',
                 }}>
                   <div style={{ fontSize: 10, letterSpacing: '.08em', textTransform: 'uppercase', color: active ? '#aaa' : 'var(--muted)', fontWeight: 600 }}>{m}</div>
-                  <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 18, fontWeight: 700, marginTop: 1 }}>{d}</div>
-                  {dot && <div style={{ width: 5, height: 5, borderRadius: 999, background: active ? '#ffd600' : '#ff5722', margin: '3px auto 0' }} />}
+                  <div style={{ fontFamily: 'Nunito, sans-serif', fontSize: 18, fontWeight: 700, marginTop: 1 }}>{d}</div>
+                  {dot && <div style={{ width: 5, height: 5, borderRadius: 999, background: active ? '#F5A800' : '#1A82D8', margin: '3px auto 0' }} />}
                 </div>
               ))}
             </div>
@@ -217,7 +217,7 @@ export default async function HomePage() {
                 <option>Recém-adicionados</option>
               </select>
               <div style={{ display: 'flex', border: '1px solid var(--line)', borderRadius: 10, overflow: 'hidden' }}>
-                <button style={{ border: 0, borderRight: '1px solid var(--line)', padding: '8px 12px', background: '#0d0d0f', color: '#fff', fontSize: 13 }}>Grid</button>
+                <button style={{ border: 0, borderRight: '1px solid var(--line)', padding: '8px 12px', background: '#0F2340', color: '#fff', fontSize: 13 }}>Grid</button>
                 <button style={{ border: 0, padding: '8px 12px', fontSize: 13 }}>Lista</button>
               </div>
             </div>
@@ -234,10 +234,10 @@ export default async function HomePage() {
                 { title: 'Inclui no pacote', opts: [['Voo direto', 54, true], ['Traslado', 92, true], ['Guia falando PT', 48, false], ['Seguro incluído', 88, false]] },
               ].map(({ title, opts }) => (
                 <div key={title} style={{ padding: '6px 10px 10px', borderBottom: '1px solid var(--line)' }}>
-                  <h5 style={{ margin: '14px 6px 8px', fontFamily: 'Space Grotesk, sans-serif', fontSize: 12, letterSpacing: '.04em', textTransform: 'uppercase', color: 'var(--muted)', fontWeight: 700 }}>{title}</h5>
+                  <h5 style={{ margin: '14px 6px 8px', fontFamily: 'Nunito, sans-serif', fontSize: 12, letterSpacing: '.04em', textTransform: 'uppercase', color: 'var(--muted)', fontWeight: 700 }}>{title}</h5>
                   {(opts as [string, number, boolean][]).map(([label, count, checked]) => (
                     <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '7px 8px', borderRadius: 8, fontSize: 13, cursor: 'pointer' }}>
-                      <span style={{ width: 16, height: 16, borderRadius: 4, border: `1.5px solid ${checked ? '#0d0d0f' : 'var(--line-2)'}`, display: 'grid', placeItems: 'center', flexShrink: 0, background: checked ? '#0d0d0f' : 'transparent', color: '#fff', fontSize: 10, fontWeight: 700 }}>
+                      <span style={{ width: 16, height: 16, borderRadius: 4, border: `1.5px solid ${checked ? '#0F2340' : 'var(--line-2)'}`, display: 'grid', placeItems: 'center', flexShrink: 0, background: checked ? '#0F2340' : 'transparent', color: '#fff', fontSize: 10, fontWeight: 700 }}>
                         {checked && '✓'}
                       </span>
                       {label}
@@ -259,7 +259,7 @@ export default async function HomePage() {
                   }}>
                     <span style={{ position: 'absolute', right: 12, bottom: 10, color: '#fff', fontSize: 9.5, fontFamily: 'JetBrains Mono, monospace', letterSpacing: '.12em', textTransform: 'uppercase', background: 'rgba(0,0,0,.5)', padding: '3px 7px', borderRadius: 4 }}>{ev.bg}</span>
                     <span className={`tag${ev.tagType === 'hot' ? ' hot' : ev.tagType === 'sale' ? ' sale' : ''}`}>{ev.tag}</span>
-                    <div style={{ position: 'absolute', bottom: 12, left: 12, background: '#fff', color: 'var(--ink)', padding: '6px 10px', borderRadius: 8, fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 12, display: 'flex', gap: 10, alignItems: 'center', lineHeight: 1 }}>
+                    <div style={{ position: 'absolute', bottom: 12, left: 12, background: '#fff', color: 'var(--ink)', padding: '6px 10px', borderRadius: 8, fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: 12, display: 'flex', gap: 10, alignItems: 'center', lineHeight: 1 }}>
                       <div>
                         <div style={{ color: 'var(--muted)', fontSize: 10, fontWeight: 600, letterSpacing: '.04em', textTransform: 'uppercase' }}>{ev.month}</div>
                         <div style={{ fontSize: 20 }}>{ev.day}</div>
@@ -271,7 +271,7 @@ export default async function HomePage() {
                       <span>{ev.cat}</span>
                       <span style={{ color: 'var(--ink-2)', fontWeight: 600 }}>{ev.rating}</span>
                     </div>
-                    <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 18, fontWeight: 700, letterSpacing: '-.01em', margin: '0 0 2px', lineHeight: 1.2, color: '#0d0d0f' }}>{ev.title}</h3>
+                    <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 18, fontWeight: 700, letterSpacing: '-.01em', margin: '0 0 2px', lineHeight: 1.2, color: '#0F2340' }}>{ev.title}</h3>
                     <div style={{ fontSize: 12.5, color: 'var(--muted)', marginBottom: 12 }}>{ev.loc}</div>
                     <div style={{ display: 'flex', gap: 6, marginBottom: 12, flexWrap: 'wrap' }}>
                       {ev.chips.map(c => (
@@ -308,8 +308,8 @@ export default async function HomePage() {
               <Link key={dest.name} href={dest.href} style={{
                 position: 'relative', aspectRatio: '3/4', borderRadius: 14, overflow: 'hidden',
                 color: '#fff', display: 'flex', alignItems: 'flex-end', padding: 14,
-                fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 18, letterSpacing: '-.01em',
-                background: '#0d0d0f', textDecoration: 'none',
+                fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: 18, letterSpacing: '-.01em',
+                background: '#0F2340', textDecoration: 'none',
               }}>
                 {/* Foto de fundo */}
                 <img
@@ -320,7 +320,7 @@ export default async function HomePage() {
                 {/* Gradiente sobre a foto */}
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.72) 100%)' }} />
                 {/* Conteúdo */}
-                <span style={{ position: 'absolute', top: 12, right: 12, background: '#ffd600', color: '#0d0d0f', fontSize: 11, padding: '3px 8px', borderRadius: 999, fontWeight: 700, zIndex: 1 }}>{dest.n}</span>
+                <span style={{ position: 'absolute', top: 12, right: 12, background: '#F5A800', color: '#0F2340', fontSize: 11, padding: '3px 8px', borderRadius: 999, fontWeight: 700, zIndex: 1 }}>{dest.n}</span>
                 <span style={{ position: 'absolute', top: 14, left: 14, fontSize: 10, fontFamily: 'JetBrains Mono, monospace', letterSpacing: '.12em', textTransform: 'uppercase', fontWeight: 500, opacity: .85, zIndex: 1 }}>{dest.sub}</span>
                 <span style={{ position: 'relative', zIndex: 1 }}>{dest.name}</span>
               </Link>
@@ -342,8 +342,8 @@ export default async function HomePage() {
                 display: 'flex', flexDirection: 'column', gap: 6, minHeight: 120, textAlign: 'left',
                 textDecoration: 'none', color: 'inherit', transition: 'border-color .15s, transform .15s',
               }}>
-                <span style={{ color: '#ff5722' }}>{p.icon}</span>
-                <h4 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 13.5, fontWeight: 700, margin: 0, letterSpacing: '-.01em' }}>{p.label}</h4>
+                <span style={{ color: '#1A82D8' }}>{p.icon}</span>
+                <h4 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 13.5, fontWeight: 700, margin: 0, letterSpacing: '-.01em' }}>{p.label}</h4>
                 <p style={{ fontSize: 11.5, color: 'var(--muted)', margin: 0, lineHeight: 1.35 }}>{p.desc}</p>
               </Link>
             ))}
@@ -355,21 +355,21 @@ export default async function HomePage() {
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="wrap">
           <div style={{
-            background: '#0d0d0f', color: '#fff', borderRadius: 24, padding: 40,
+            background: '#0F2340', color: '#fff', borderRadius: 24, padding: 40,
             display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 40, alignItems: 'center',
             position: 'relative', overflow: 'hidden',
           }} className="prep-grid">
             <div style={{ position: 'absolute', right: -80, bottom: -80, width: 320, height: 320, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,214,0,.25), transparent 60%)', pointerEvents: 'none' }} />
             <div>
-              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10.5, letterSpacing: '.16em', textTransform: 'uppercase', color: '#ffd600', marginBottom: 12, position: 'relative' }}>Preparativos · Livoo Prep</div>
-              <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 44, fontWeight: 700, letterSpacing: '-.025em', margin: '0 0 14px', lineHeight: 1.02, position: 'relative', maxWidth: 460 }}>
+              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10.5, letterSpacing: '.16em', textTransform: 'uppercase', color: '#F5A800', marginBottom: 12, position: 'relative' }}>Preparativos · Livoo Prep</div>
+              <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 44, fontWeight: 700, letterSpacing: '-.025em', margin: '0 0 14px', lineHeight: 1.02, position: 'relative', maxWidth: 460 }}>
                 Documentação de viagem —{' '}
-                <em style={{ fontStyle: 'normal', background: '#ffd600', color: '#0d0d0f', padding: '0 8px', borderRadius: 6 }}>simplificada</em>.
+                <em style={{ fontStyle: 'normal', background: '#F5A800', color: '#0F2340', padding: '0 8px', borderRadius: 6 }}>simplificada</em>.
               </h2>
               <p style={{ color: '#b6b6bd', fontSize: 14.5, maxWidth: 420, margin: '0 0 20px', position: 'relative' }}>
                 Para cada evento, montamos um checklist completo com tudo o que você precisa antes do voo — e resolvemos o que quiser delegar.
               </p>
-              <Link href="/prep" style={{ background: '#ffd600', color: '#0d0d0f', padding: '13px 20px', borderRadius: 999, fontWeight: 700, fontSize: 13.5, display: 'inline-flex', gap: 8, alignItems: 'center', textDecoration: 'none' }}>
+              <Link href="/prep" style={{ background: '#F5A800', color: '#0F2340', padding: '13px 20px', borderRadius: 999, fontWeight: 700, fontSize: 13.5, display: 'inline-flex', gap: 8, alignItems: 'center', textDecoration: 'none' }}>
                 Montar checklist →
               </Link>
             </div>
@@ -384,10 +384,10 @@ export default async function HomePage() {
                 <div key={item.n} style={{ display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: 12, alignItems: 'center', padding: '11px 14px', borderTop: idx > 0 ? '1px solid rgba(255,255,255,.08)' : 'none' }}>
                   <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: '#6c6c74', letterSpacing: '.1em' }}>{item.n}</div>
                   <div>
-                    <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 15, fontWeight: 600 }}>{item.t}</div>
+                    <div style={{ fontFamily: 'Nunito, sans-serif', fontSize: 15, fontWeight: 600 }}>{item.t}</div>
                     <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 11.5, color: '#9c9ca5', marginTop: 2 }}>{item.sub}</div>
                   </div>
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10.5, color: '#ffd600', letterSpacing: '.1em', whiteSpace: 'nowrap' }}>{item.v}</div>
+                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10.5, color: '#F5A800', letterSpacing: '.1em', whiteSpace: 'nowrap' }}>{item.v}</div>
                 </div>
               ))}
             </div>
@@ -417,10 +417,10 @@ export default async function HomePage() {
                   <span style={{ position: 'absolute', right: 10, bottom: 8, fontSize: 9.5, fontFamily: 'JetBrains Mono, monospace', letterSpacing: '.12em', textTransform: 'uppercase', color: '#fff', background: 'rgba(0,0,0,.55)', padding: '3px 6px', borderRadius: 4 }}>{post.category}</span>
                 </div>
                 <div style={{ padding: '14px 16px 16px' }}>
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, letterSpacing: '.12em', textTransform: 'uppercase', color: '#ff5722' }}>
+                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, letterSpacing: '.12em', textTransform: 'uppercase', color: '#1A82D8' }}>
                     {post.category} · {post.readTime} min
                   </div>
-                  <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 17, fontWeight: 700, letterSpacing: '-.01em', margin: '6px 0', lineHeight: 1.2 }}>{post.title}</h3>
+                  <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 17, fontWeight: 700, letterSpacing: '-.01em', margin: '6px 0', lineHeight: 1.2 }}>{post.title}</h3>
                   <div style={{ fontSize: 11, color: 'var(--muted)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '.06em', textTransform: 'uppercase' }}>
                     {new Date(post.publishedAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
                   </div>
@@ -435,15 +435,15 @@ export default async function HomePage() {
       <section className="section" style={{ paddingTop: 0, paddingBottom: 56 }}>
         <div className="wrap">
           <div style={{
-            background: 'linear-gradient(135deg,#ff5722,#ff2060)', color: '#fff', borderRadius: 24,
+            background: 'linear-gradient(135deg,#1A82D8,#E11D48)', color: '#fff', borderRadius: 24,
             padding: 40, display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 32,
             alignItems: 'center', position: 'relative', overflow: 'hidden',
           }} className="news-grid">
-            <div style={{ position: 'absolute', right: -20, bottom: -40, fontFamily: 'Space Grotesk, sans-serif', fontSize: 160, fontWeight: 700, letterSpacing: '-.04em', opacity: .07, lineHeight: 1, pointerEvents: 'none', userSelect: 'none' }}>
+            <div style={{ position: 'absolute', right: -20, bottom: -40, fontFamily: 'Nunito, sans-serif', fontSize: 160, fontWeight: 700, letterSpacing: '-.04em', opacity: .07, lineHeight: 1, pointerEvents: 'none', userSelect: 'none' }}>
               GO · LIVOO
             </div>
             <div>
-              <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 40, fontWeight: 700, letterSpacing: '-.02em', margin: '0 0 10px', lineHeight: 1.02 }}>
+              <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 40, fontWeight: 700, letterSpacing: '-.02em', margin: '0 0 10px', lineHeight: 1.02 }}>
                 Novos eventos toda semana. Fique por dentro.
               </h2>
               <p style={{ margin: 0, fontSize: 14.5, maxWidth: 440, opacity: .92 }}>
@@ -452,12 +452,12 @@ export default async function HomePage() {
             </div>
             <div>
               <div style={{ background: '#fff', borderRadius: 12, padding: 6, display: 'flex', gap: 6 }}>
-                <input placeholder="seu@email.com" style={{ flex: 1, border: 0, padding: '12px 14px', fontSize: 14, fontFamily: 'inherit', color: '#0d0d0f', outline: 'none', background: 'transparent' }} />
-                <button type="button" style={{ background: '#0d0d0f', color: '#fff', padding: '10px 18px', borderRadius: 8, fontWeight: 700, fontSize: 13, cursor: 'pointer', border: 0 }}>Receber</button>
+                <input placeholder="seu@email.com" style={{ flex: 1, border: 0, padding: '12px 14px', fontSize: 14, fontFamily: 'inherit', color: '#0F2340', outline: 'none', background: 'transparent' }} />
+                <button type="button" style={{ background: '#0F2340', color: '#fff', padding: '10px 18px', borderRadius: 8, fontWeight: 700, fontSize: 13, cursor: 'pointer', border: 0 }}>Receber</button>
               </div>
               <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, color: '#9a9aa0', margin: '6px 0 0' }}>
                 Ao assinar, você concorda com nossa{' '}
-                <a href="/privacidade" style={{ color: '#ff5722', textDecoration: 'underline' }}>Política de Privacidade</a>.
+                <a href="/privacidade" style={{ color: '#1A82D8', textDecoration: 'underline' }}>Política de Privacidade</a>.
                 Cancele quando quiser.
               </p>
             </div>
@@ -466,8 +466,8 @@ export default async function HomePage() {
       </section>
 
       <style>{`
-        .prod-card:hover { border-color: #0d0d0f !important; transform: translateY(-2px); }
-        .blog-card:hover { border-color: #0d0d0f !important; }
+        .prod-card:hover { border-color: #0F2340 !important; transform: translateY(-2px); }
+        .blog-card:hover { border-color: #0F2340 !important; }
         @media (max-width: 900px) {
           .feat-grid { grid-template-columns: 1fr !important; }
           .catalog-layout { grid-template-columns: 1fr !important; }

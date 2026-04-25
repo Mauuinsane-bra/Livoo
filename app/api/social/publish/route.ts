@@ -191,6 +191,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Sem _id no payload' }, { status: 400 })
   }
 
+  // Validar formato do docId para prevenir injection
+  if (!/^[a-zA-Z0-9._-]+$/.test(docId)) {
+    return NextResponse.json({ error: 'Formato de _id inválido' }, { status: 400 })
+  }
+
   // Buscar documento completo do Sanity
   const post = await sanityClient.fetch(
     `*[_id == $id][0]{
@@ -230,6 +235,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Falha ao gerar legenda com Claude' }, { status: 500 })
   }
 
+
   const articleUrl = `https://golivoo.com.br/blog/${post.slug}`
 
   // Postar em paralelo
@@ -239,9 +245,9 @@ export async function POST(req: NextRequest) {
   ])
 
   return NextResponse.json({
-    success: true,
+    ok: true,
+    caption: caption.slice(0, 100) + '...',
     instagram: igOk,
     facebook: fbOk,
-    caption,
   })
 }

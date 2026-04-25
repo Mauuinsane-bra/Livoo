@@ -51,25 +51,25 @@ function FlightSection({
         display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12,
       }}>
         {title.includes('Ida') ? (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff5722" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
           </svg>
         ) : (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff5722" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="23 4 23 10 17 10"/>
             <polyline points="1 20 1 14 7 14"/>
             <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
           </svg>
         )}
         <h3 style={{
-          fontFamily: 'Space Grotesk, sans-serif', color: '#0d0d0f',
+          fontFamily: 'Nunito, sans-serif', color: '#0F2340',
           fontSize: '1.05rem', margin: 0,
         }}>
           {title}
         </h3>
         <span style={{
           fontFamily: 'Inter, sans-serif', fontSize: '0.75rem',
-          color: '#6d6d74', marginLeft: 4,
+          color: '#64748B', marginLeft: 4,
         }}>
           {filtered.length} opção{filtered.length !== 1 ? 'ões' : ''} encontrada{filtered.length !== 1 ? 's' : ''}
         </span>
@@ -264,10 +264,10 @@ function PassagensContent() {
     <div style={{ background: '#fafaf7', minHeight: '100vh' }}>
 
       {/* ── Header com título + toggle de modo ──────────── */}
-      <div style={{ background: 'linear-gradient(135deg, #0d0d0f 0%, #ff5722 60%, #2B9FEE 100%)', padding: '32px 24px 28px' }}>
+      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)', padding: '32px 24px 28px' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
-            <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', color: '#fff', fontSize: '1.6rem', margin: 0 }}>
+            <h1 style={{ fontFamily: 'Nunito, sans-serif', color: '#fff', fontSize: '1.6rem', margin: 0 }}>
               {isMultiDestination ? 'Voos — múltiplos destinos' : 'Buscar passagens'}
             </h1>
 
@@ -283,7 +283,7 @@ function PassagensContent() {
                     padding: '6px 16px', borderRadius: 100, border: 'none', cursor: 'pointer',
                     fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 600,
                     background: searchMode === 'whitelabel' ? '#fff' : 'transparent',
-                    color: searchMode === 'whitelabel' ? '#0d0d0f' : 'rgba(255,255,255,0.7)',
+                    color: searchMode === 'whitelabel' ? '#0F2340' : 'rgba(255,255,255,0.7)',
                     transition: 'all 0.2s',
                   }}
                 >
@@ -295,7 +295,7 @@ function PassagensContent() {
                     padding: '6px 16px', borderRadius: 100, border: 'none', cursor: 'pointer',
                     fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 600,
                     background: searchMode === 'classic' ? '#fff' : 'transparent',
-                    color: searchMode === 'classic' ? '#0d0d0f' : 'rgba(255,255,255,0.7)',
+                    color: searchMode === 'classic' ? '#0F2340' : 'rgba(255,255,255,0.7)',
                     transition: 'all 0.2s',
                   }}
                 >
@@ -426,25 +426,25 @@ function PassagensContent() {
               display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap',
               marginBottom: 20,
             }}>
-              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 600, color: '#6d6d74' }}>
+              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 600, color: '#64748B' }}>
                 {totalFound} voo{totalFound !== 1 ? 's' : ''} encontrado{totalFound !== 1 ? 's' : ''}
                 {isRoundTrip && !isMultiDestination && ' (ida + volta)'}
                 {isMultiDestination && ` em ${parsedLegs.length} trechos`}
               </span>
               <div style={{ display: 'flex', gap: 8, marginLeft: 'auto', flexWrap: 'wrap' }}>
-                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#6d6d74', alignSelf: 'center' }}>Ordenar:</span>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#64748B', alignSelf: 'center' }}>Ordenar:</span>
                 {(['price', 'stops', 'duration'] as SortKey[]).map(key => (
                   <button key={key} onClick={() => setSortBy(key)} style={{
                     padding: '5px 14px', borderRadius: 100, border: 'none', cursor: 'pointer',
                     fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 500,
-                    background: sortBy === key ? '#ff5722' : '#fafaf7',
-                    color: sortBy === key ? '#fff' : '#6d6d74', transition: 'all 0.2s',
+                    background: sortBy === key ? '#1A82D8' : '#fafaf7',
+                    color: sortBy === key ? '#fff' : '#64748B', transition: 'all 0.2s',
                   }}>
                     {key === 'price' ? 'Menor preço' : key === 'stops' ? 'Menos escalas' : 'Menor duração'}
                   </button>
                 ))}
-                <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#6d6d74', cursor: 'pointer' }}>
-                  <input type="checkbox" checked={onlyDirect} onChange={e => setOnlyDirect(e.target.checked)} style={{ accentColor: '#ff5722' }} />
+                <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#64748B', cursor: 'pointer' }}>
+                  <input type="checkbox" checked={onlyDirect} onChange={e => setOnlyDirect(e.target.checked)} style={{ accentColor: '#1A82D8' }} />
                   Só direto
                 </label>
               </div>
@@ -454,8 +454,8 @@ function PassagensContent() {
           {/* ── Loading ──────────────────────────────────── */}
           {status === 'loading' && (
             <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
-              <div style={{ width: 48, height: 48, border: '4px solid #fafaf7', borderTop: '4px solid #ff5722', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 16px' }} />
-              <p style={{ fontFamily: 'Inter, sans-serif', color: '#6d6d74' }}>
+              <div style={{ width: 48, height: 48, border: '4px solid #fafaf7', borderTop: '4px solid #1A82D8', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 16px' }} />
+              <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}>
                 {isMultiDestination
                   ? `Buscando voos para ${parsedLegs.length} trechos...`
                   : dateTo ? 'Buscando voos de ida e volta...' : 'Buscando os melhores voos...'}
@@ -468,14 +468,14 @@ function PassagensContent() {
           {status === 'error' && (
             <div style={{ background: '#fff', borderRadius: 14, padding: 40, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffd600" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#F5A800" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
                   <line x1="12" y1="9" x2="12" y2="13"/>
                   <line x1="12" y1="17" x2="12.01" y2="17"/>
                 </svg>
               </div>
-              <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', color: '#0d0d0f', marginBottom: 10 }}>Não foi possível buscar os voos</h3>
-              <p style={{ fontFamily: 'Inter, sans-serif', color: '#6d6d74', marginBottom: 20, fontSize: '0.9rem' }}>{errorMsg}</p>
+              <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 10 }}>Não foi possível buscar os voos</h3>
+              <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', marginBottom: 20, fontSize: '0.9rem' }}>{errorMsg}</p>
               <button onClick={() => origin && destination && dateFrom && search(origin.iata, destination.iata, dateFrom, dateTo || undefined)} className="btn-primary">
                 Tentar novamente
               </button>
@@ -494,14 +494,14 @@ function PassagensContent() {
             return (
               <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ff5722" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
                   </svg>
                 </div>
-                <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', color: '#0d0d0f', marginBottom: 8 }}>
+                <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 8 }}>
                   Não encontramos voos em nossa base para essa rota
                 </h3>
-                <p style={{ fontFamily: 'Inter, sans-serif', color: '#6d6d74', fontSize: '0.9rem', marginBottom: 28, maxWidth: 460, margin: '0 auto 28px' }}>
+                <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', fontSize: '0.9rem', marginBottom: 28, maxWidth: 460, margin: '0 auto 28px' }}>
                   Nossa base de preços é atualizada periodicamente e pode não ter dados para rotas menos frequentes.
                   Continue sua busca no Trip.com com preços em tempo real, em Português e Reais.
                 </p>
@@ -511,7 +511,7 @@ function PassagensContent() {
                   rel="noopener noreferrer"
                   style={{
                     display: 'inline-block',
-                    background: 'linear-gradient(135deg, #ff5722 0%, #e64e1e 100%)',
+                    background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
                     color: '#fff',
                     fontFamily: 'Inter, sans-serif',
                     fontWeight: 700,
@@ -552,7 +552,7 @@ function PassagensContent() {
                 />
               )}
 
-              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#6d6d74', textAlign: 'center', marginTop: 8 }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#64748B', textAlign: 'center', marginTop: 8 }}>
                 Preços em R$ (BRL) · Via Travelpayouts/Trip.com · Sem markup · Sujeito a disponibilidade
               </p>
             </>
@@ -573,7 +573,7 @@ function PassagensContent() {
                   />
                 )
               ))}
-              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#6d6d74', textAlign: 'center', marginTop: 8 }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#64748B', textAlign: 'center', marginTop: 8 }}>
                 Preços em R$ (BRL) · Via Travelpayouts/Trip.com · Sem markup · Sujeito a disponibilidade
               </p>
             </>
@@ -583,12 +583,12 @@ function PassagensContent() {
           {status === 'idle' && !hasParams && (
             <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ff5722" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
                 </svg>
               </div>
-              <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', color: '#0d0d0f', marginBottom: 8 }}>Busque sua passagem</h3>
-              <p style={{ fontFamily: 'Inter, sans-serif', color: '#6d6d74', fontSize: '0.9rem' }}>
+              <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#0F2340', marginBottom: 8 }}>Busque sua passagem</h3>
+              <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', fontSize: '0.9rem' }}>
                 Preencha origem, destino e data acima para buscar os melhores voos.
               </p>
             </div>
@@ -610,7 +610,7 @@ export default function PassagensPage() {
   return (
     <Suspense fallback={
       <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <p style={{ fontFamily: 'Inter, sans-serif', color: '#6d6d74' }}>Carregando...</p>
+        <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}>Carregando...</p>
       </div>
     }>
       <PassagensContent />

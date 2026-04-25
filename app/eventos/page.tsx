@@ -102,7 +102,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     flag: '🇦🇷',
     category: 'futebol',
     tag: 'Em alta',
-    tagColor: '#ffd600',
+    tagColor: '#F5A800',
     imageUrl: 'https://images.unsplash.com/photo-1551958219-acbc82e6e25b?w=600',
     ticketUrl: 'https://www.conmebol.com/pt/',
     ticketLabel: 'Ingressos — CONMEBOL',
@@ -140,7 +140,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     flag: '🇧🇷',
     category: 'automobilismo',
     tag: 'Em alta',
-    tagColor: '#ffd600',
+    tagColor: '#F5A800',
     imageUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600',
     ticketUrl: 'https://www.formula1.com/en/racing/2025/brazil/tickets.html',
     ticketLabel: 'Ingressos oficiais — Formula1.com',
@@ -197,7 +197,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     flag: '🇧🇷',
     category: 'shows',
     tag: 'Em alta',
-    tagColor: '#ffd600',
+    tagColor: '#F5A800',
     imageUrl: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=600',
     ticketUrl: 'https://www.lollapaloozabr.com/',
     ticketLabel: 'Ingressos — lollapaloozabr.com',
@@ -235,7 +235,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     flag: '🇧🇷',
     category: 'cultura',
     tag: 'Ícone',
-    tagColor: '#ffd600',
+    tagColor: '#F5A800',
     imageUrl: 'https://images.unsplash.com/photo-1518623489648-a173ef7824f3?w=600',
     ticketUrl: 'https://www.liesa.com.br/',
     ticketLabel: 'Ingressos — liesa.com.br',
@@ -254,7 +254,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     flag: '🇯🇵',
     category: 'cultura',
     tag: 'Em alta',
-    tagColor: '#ffd600',
+    tagColor: '#F5A800',
     imageUrl: 'https://images.unsplash.com/photo-1522383225653-ed111181a951?w=600',
     ticketUrl: 'https://www.japan.travel/pt/',
     ticketLabel: 'Guia de viagem — japan.travel',
@@ -331,7 +331,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     flag: '🇩🇪',
     category: 'cultura',
     tag: 'Tradição',
-    tagColor: '#ffd600',
+    tagColor: '#F5A800',
     imageUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600',
     ticketUrl: 'https://www.oktoberfest.de/en/',
     ticketLabel: 'Guia oficial — oktoberfest.de',
@@ -407,7 +407,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     flag: '🇫🇷',
     category: 'esportes',
     tag: 'Ciclismo',
-    tagColor: '#ffd600',
+    tagColor: '#F5A800',
     imageUrl: 'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=600',
     ticketUrl: 'https://www.letour.fr/en/',
     ticketLabel: 'Info — letour.fr',
@@ -445,7 +445,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     flag: '🇮🇹',
     category: 'cultura',
     tag: 'Tradicional',
-    tagColor: '#ffd600',
+    tagColor: '#F5A800',
     imageUrl: 'https://images.unsplash.com/photo-1534430480872-3498386e7856?w=600',
     ticketUrl: 'https://www.carnevale.venezia.it/',
     ticketLabel: 'Info — carnevale.venezia.it',
@@ -502,7 +502,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     flag: '🇺🇸',
     category: 'futebol',
     tag: 'Copa do Mundo',
-    tagColor: '#ffd600',
+    tagColor: '#F5A800',
     imageUrl: 'https://images.unsplash.com/photo-1556816213-354f013c9d40?w=600',
     ticketUrl: 'https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/tickets',
     ticketLabel: 'Ingressos — fifa.com',
@@ -553,7 +553,7 @@ function EventCard({ event }: { event: AnyEvent }) {
         background: '#fff',
         borderRadius: 16,
         overflow: 'hidden',
-        border: '1px solid #e7e6e0',
+        border: '1px solid #E2E8F0',
         boxShadow: '0 2px 12px rgba(13,27,62,0.06)',
         display: 'flex',
         flexDirection: 'column',
@@ -569,7 +569,7 @@ function EventCard({ event }: { event: AnyEvent }) {
       }}
     >
       {/* Imagem */}
-      <div style={{ position: 'relative', height: 200, overflow: 'hidden', background: '#0d0d0f' }}>
+      <div style={{ position: 'relative', height: 200, overflow: 'hidden', background: '#0F2340' }}>
         {event.imageUrl ? (
           <img
             src={event.imageUrl}
@@ -579,7 +579,7 @@ function EventCard({ event }: { event: AnyEvent }) {
         ) : (
           <div style={{
             width: '100%', height: '100%',
-            background: `linear-gradient(135deg, ${event.tagColor}cc 0%, #0d0d0f 100%)`,
+            background: `linear-gradient(135deg, ${event.tagColor}cc 0%, #0F2340 100%)`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2" strokeLinecap="round">
@@ -647,7 +647,7 @@ function EventCard({ event }: { event: AnyEvent }) {
         <div style={{
           fontSize: '0.72rem',
           fontWeight: 600,
-          color: '#ff5722',
+          color: '#1A82D8',
           textTransform: 'uppercase',
           letterSpacing: '1px',
           fontFamily: 'Inter, sans-serif',
@@ -656,10 +656,10 @@ function EventCard({ event }: { event: AnyEvent }) {
           {event.date}
         </div>
         <h3 style={{
-          fontFamily: 'Space Grotesk, sans-serif',
+          fontFamily: 'Nunito, sans-serif',
           fontSize: '1.1rem',
           fontWeight: 700,
-          color: '#0d0d0f',
+          color: '#0F2340',
           margin: '0 0 10px',
           lineHeight: 1.3,
         }}>
@@ -668,7 +668,7 @@ function EventCard({ event }: { event: AnyEvent }) {
         <p style={{
           fontFamily: 'Inter, sans-serif',
           fontSize: '0.85rem',
-          color: '#6d6d74',
+          color: '#64748B',
           lineHeight: 1.6,
           margin: '0 0 16px',
           display: '-webkit-box',
@@ -691,7 +691,7 @@ function EventCard({ event }: { event: AnyEvent }) {
           <div style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: '0.78rem',
-            color: '#6d6d74',
+            color: '#64748B',
             marginBottom: 4,
           }}>
             {event.priceEstimate}
@@ -702,7 +702,7 @@ function EventCard({ event }: { event: AnyEvent }) {
             <div style={{
               fontFamily: 'Inter, sans-serif',
               fontSize: '0.78rem',
-              color: '#ff5722',
+              color: '#1A82D8',
               fontWeight: 600,
             }}>
               {event.flightFrom}
@@ -717,7 +717,7 @@ function EventCard({ event }: { event: AnyEvent }) {
             rel="noopener noreferrer"
             style={{
               display: 'block',
-              background: 'linear-gradient(135deg, #ff5722 0%, #e64e1e 100%)',
+              background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
               color: '#fff',
               fontFamily: 'Inter, sans-serif',
               fontWeight: 600,
@@ -735,7 +735,7 @@ function EventCard({ event }: { event: AnyEvent }) {
             style={{
               display: 'block',
               background: 'transparent',
-              color: '#ff5722',
+              color: '#1A82D8',
               fontFamily: 'Inter, sans-serif',
               fontWeight: 600,
               fontSize: '0.82rem',
@@ -743,7 +743,7 @@ function EventCard({ event }: { event: AnyEvent }) {
               borderRadius: 100,
               textDecoration: 'none',
               textAlign: 'center',
-              border: '1.5px solid #ff5722',
+              border: '1.5px solid #1A82D8',
             }}
           >
             Montar pacote completo
@@ -753,7 +753,7 @@ function EventCard({ event }: { event: AnyEvent }) {
         <p style={{
           fontFamily: 'Inter, sans-serif',
           fontSize: '0.68rem',
-          color: '#6d6d74',
+          color: '#64748B',
           margin: '10px 0 0',
           textAlign: 'center',
         }}>
@@ -772,7 +772,7 @@ function SkeletonCard() {
       background: '#fff',
       borderRadius: 16,
       overflow: 'hidden',
-      border: '1px solid #e7e6e0',
+      border: '1px solid #E2E8F0',
     }}>
       <div style={{ height: 200, background: '#fafaf7' }} />
       <div style={{ padding: 20 }}>
@@ -856,14 +856,14 @@ export default function EventosPage() {
 
       {/* ── HEADER ── */}
       <section style={{
-        background: 'linear-gradient(135deg, #0d0d0f 0%, #ff5722 60%, #2B9FEE 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)',
         padding: '64px 0 48px',
       }}>
         <div className="container" style={{ textAlign: 'center' }}>
           <span style={{
             display: 'inline-block',
-            background: 'rgba(245,166,35,0.15)',
-            color: '#ffd600',
+            background: 'rgba(245,168,0,0.15)',
+            color: '#F5A800',
             fontSize: '0.7rem',
             fontWeight: 700,
             letterSpacing: '2px',
@@ -871,12 +871,12 @@ export default function EventosPage() {
             padding: '5px 14px',
             borderRadius: 50,
             marginBottom: 20,
-            border: '1px solid rgba(245,166,35,0.3)',
+            border: '1px solid rgba(245,168,0,0.3)',
           }}>
             Experiências Reais
           </span>
           <h1 style={{
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: 'clamp(2rem, 5vw, 3rem)',
             fontWeight: 700,
             color: '#fff',
@@ -937,10 +937,10 @@ export default function EventosPage() {
                   padding: '8px 20px',
                   borderRadius: 50,
                   border: activeCategory === cat.value
-                    ? '2px solid #ffd600'
+                    ? '2px solid #F5A800'
                     : '2px solid rgba(255,255,255,0.2)',
-                  background: activeCategory === cat.value ? '#ffd600' : 'transparent',
-                  color: activeCategory === cat.value ? '#0d0d0f' : '#fff',
+                  background: activeCategory === cat.value ? '#F5A800' : 'transparent',
+                  color: activeCategory === cat.value ? '#0F2340' : '#fff',
                   fontFamily: 'Inter, sans-serif',
                   fontWeight: 600,
                   fontSize: '0.85rem',
@@ -963,7 +963,7 @@ export default function EventosPage() {
           {uniqueLive.length > 0 && (
             <div style={{
               background: '#fff',
-              border: '1px solid #e7e6e0',
+              border: '1px solid #E2E8F0',
               borderRadius: 12,
               padding: '14px 20px',
               marginBottom: 28,
@@ -986,7 +986,7 @@ export default function EventosPage() {
               <p style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '0.82rem',
-                color: '#0d0d0f',
+                color: '#0F2340',
                 margin: 0,
               }}>
                 <strong>{uniqueLive.length} evento{uniqueLive.length !== 1 ? 's' : ''}</strong> encontrado{uniqueLive.length !== 1 ? 's' : ''} ao vivo via Ticketmaster
@@ -1024,7 +1024,7 @@ export default function EventosPage() {
             <div style={{
               textAlign: 'center',
               padding: '60px 0',
-              color: '#6d6d74',
+              color: '#64748B',
             }}>
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9aaabb" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -1035,7 +1035,7 @@ export default function EventosPage() {
               <p style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '1rem',
-                color: '#6d6d74',
+                color: '#64748B',
                 marginBottom: 12,
               }}>
                 Nenhum evento encontrado para &ldquo;{keyword}&rdquo;
@@ -1056,13 +1056,13 @@ export default function EventosPage() {
 
       {/* ── CTA ROTEIRO ── */}
       <section style={{
-        background: '#0d0d0f',
+        background: '#0F2340',
         padding: '56px 0',
         textAlign: 'center',
       }}>
         <div className="container">
           <h2 style={{
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: 'clamp(1.5rem, 3vw, 2rem)',
             color: '#fff',
             margin: '0 0 12px',
@@ -1079,8 +1079,8 @@ export default function EventosPage() {
           </p>
           <Link href="/" style={{
             display: 'inline-block',
-            background: '#ffd600',
-            color: '#0d0d0f',
+            background: '#F5A800',
+            color: '#0F2340',
             fontFamily: 'Inter, sans-serif',
             fontWeight: 700,
             fontSize: '0.95rem',

@@ -191,7 +191,7 @@ export async function POST(req: NextRequest) {
             <p style="margin:0 0 24px;font-size:14px;color:#5A6A80;line-height:1.7">
               Obrigado por se cadastrar. Você será um dos primeiros a saber quando a Go Livoo abrir — e vai ter acesso especial antes de todo mundo.
             </p>
-            <div style="background:#FFF8EC;border:1px solid rgba(245,166,35,0.3);border-radius:10px;padding:18px 20px;text-align:left;margin-bottom:24px">
+            <div style="background:#FFF8EC;border:1px solid rgba(245,168,0,0.3);border-radius:10px;padding:18px 20px;text-align:left;margin-bottom:24px">
               <p style="margin:0;font-size:13px;color:#92400e;line-height:1.6">
                 <strong>O que a Go Livoo faz por você:</strong><br>
                 Você descreve a experiência que quer viver — show, evento esportivo, aventura — e a gente monta o pacote completo: voo, hotel, guia e toda a documentação necessária.

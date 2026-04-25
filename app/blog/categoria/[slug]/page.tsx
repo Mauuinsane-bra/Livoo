@@ -9,64 +9,36 @@ export const revalidate = 60
 const CAT_META: Record<string, {
   label: string
   description: string
-  count: number
-  articles: number
-  saved: string
-  reads: string
   keyword: string
 }> = {
   destinos: {
     label: 'Destinos',
     description: 'Os melhores destinos para quem quer uma experiência única — com roteiros práticos, dicas de custo real e o que ninguém te conta antes de ir.',
-    count: 62,
-    articles: 62,
-    saved: '14.8k',
-    reads: '312k',
     keyword: 'Destinos',
   },
   eventos: {
     label: 'Eventos',
     description: 'F1, rock, rally, festivais e tudo que vale uma viagem. Antes, durante e depois do evento — a Go Livoo cobre tudo.',
-    count: 38,
-    articles: 38,
-    saved: '9.2k',
-    reads: '198k',
     keyword: 'Eventos',
   },
   guias: {
     label: 'Guias',
     description: 'Guias práticos e diretos ao ponto. Documentação, vistos, vacinas, câmbio — o que você precisa saber antes de embarcar.',
-    count: 54,
-    articles: 54,
-    saved: '21.3k',
-    reads: '445k',
     keyword: 'Guias',
   },
   economico: {
     label: 'Econômico',
     description: 'Viajar bem gastando pouco é arte. Aqui você encontra as melhores estratégias para maximizar sua experiência sem esvaziar o bolso.',
-    count: 41,
-    articles: 41,
-    saved: '18.6k',
-    reads: '387k',
     keyword: 'Econômico',
   },
   familia: {
     label: 'Família',
     description: 'Roteiros pensados para quem viaja com crianças — destinos family-friendly, dicas de logística e experiências que todo mundo curte.',
-    count: 29,
-    articles: 29,
-    saved: '7.4k',
-    reads: '156k',
     keyword: 'Família',
   },
   solo: {
     label: 'Solo',
     description: 'Viajar sozinho é uma das experiências mais transformadoras que existem. Segurança, liberdade e as melhores rotas para viajantes solo.',
-    count: 24,
-    articles: 24,
-    saved: '5.1k',
-    reads: '108k',
     keyword: 'Solo',
   },
 }
@@ -101,12 +73,12 @@ const STATIC_POSTS_BY_CAT: Record<string, Array<{
 }
 
 const GRADIENTS = [
-  'linear-gradient(135deg,#ff7a45,#ff3e5a)',
+  'linear-gradient(135deg,#1A56DB,#2B6EE6)',
   'linear-gradient(135deg,#2b74ff,#06a06b)',
-  'linear-gradient(135deg,#ff5a1f,#ffb800)',
+  'linear-gradient(135deg,#1445B0,#1A56DB)',
   'linear-gradient(135deg,#06a06b,#2b74ff)',
-  'linear-gradient(135deg,#ff3e5a,#ff5a1f)',
-  'linear-gradient(135deg,#ffb800,#ff7a45)',
+  'linear-gradient(135deg,#2B6EE6,#1A56DB)',
+  'linear-gradient(135deg,#1A56DB,#2b74ff)',
 ]
 
 type Post = SanityBlogPost & { _fallbackImageUrl?: string }
@@ -142,7 +114,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   const meta = CAT_META[slug] ?? {
     label: slug ? slug.charAt(0).toUpperCase() + slug.slice(1) : 'Categoria',
     description: 'Posts desta categoria.',
-    count: 0, articles: 0, saved: '0', reads: '0', keyword: slug,
+    keyword: slug,
   }
 
   let sanityPosts: Post[] = []
@@ -530,37 +502,10 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             <br />sem papo furado.
           </h1>
           <p className="cat-desc">{meta.description}</p>
-          <div className="cat-stats">
-            <div>
-              <div className="cat-stat-val">{meta.articles}</div>
-              <div className="cat-stat-lbl">artigos publicados</div>
-            </div>
-            <div>
-              <div className="cat-stat-val">{meta.saved}</div>
-              <div className="cat-stat-lbl">salvamentos</div>
-            </div>
-            <div>
-              <div className="cat-stat-val">{meta.reads}</div>
-              <div className="cat-stat-lbl">leituras totais</div>
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* Toolbar */}
-      <div className="cat-toolbar">
-        <div className="cat-toolbar-inner">
-          {['Todos', 'Mais recentes', 'Mais salvos', 'Mais lidos', 'Com vídeo'].map((f, i) => (
-            <span key={f} className={`cat-pill${i === 0 ? ' active' : ''}`}>{f}</span>
-          ))}
-          <span className="cat-sort">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M1 3h10M3 6h6M5 9h2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
-            Ordenar
-          </span>
-        </div>
-      </div>
+      {/* Toolbar removida — filtros sem funcionalidade */}
 
       {/* Post list */}
       <div className="cat-list">
@@ -664,26 +609,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           </div>
         )}
 
-        {/* Pagination */}
-        {(hasSanity ? sanityPosts.length : staticFallback.length) > 0 && (
-          <div className="cat-pagination">
-            <span className="cat-page-btn" style={{ opacity: .4, cursor: 'default' }}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M10 12L6 8l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </span>
-            <a href="#" className="cat-page-btn active">1</a>
-            <a href="#" className="cat-page-btn">2</a>
-            <a href="#" className="cat-page-btn">3</a>
-            <span className="cat-page-dots">···</span>
-            <a href="#" className="cat-page-btn">8</a>
-            <a href="#" className="cat-page-btn">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M6 12l4-4-4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </a>
-          </div>
-        )}
+        {/* Paginação removida — sem funcionalidade real */}
       </div>
     </div>
   )

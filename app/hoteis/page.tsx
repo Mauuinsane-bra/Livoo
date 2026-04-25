@@ -18,7 +18,7 @@ function SkeletonCard() {
   return (
     <div style={{
       background: '#fff', borderRadius: 16, overflow: 'hidden',
-      border: '1px solid #e7e6e0', boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+      border: '1px solid #E2E8F0', boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
     }}>
       <div style={{ height: 160, background: '#f0efeb' }} />
       <div style={{ padding: '16px 18px' }}>
@@ -42,7 +42,7 @@ function HotelDealCard({ deal }: { deal: HotelDeal }) {
     >
       <div style={{
         background: '#fff', borderRadius: 16, overflow: 'hidden',
-        border: '1px solid #e7e6e0', boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+        border: '1px solid #E2E8F0', boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
         transition: 'transform 0.2s, box-shadow 0.2s', cursor: 'pointer',
       }}
         onMouseEnter={e => {
@@ -55,7 +55,7 @@ function HotelDealCard({ deal }: { deal: HotelDeal }) {
         }}
       >
         {/* Foto */}
-        <div style={{ position: 'relative', height: 160, overflow: 'hidden', background: '#0d0d0f' }}>
+        <div style={{ position: 'relative', height: 160, overflow: 'hidden', background: '#0F2340' }}>
           <img
             src={deal.photo}
             alt={deal.city}
@@ -91,20 +91,20 @@ function HotelDealCard({ deal }: { deal: HotelDeal }) {
         <div style={{ padding: '14px 16px' }}>
           <div style={{
             fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
-            fontWeight: 600, color: '#6d6d74', textTransform: 'uppercase',
+            fontWeight: 600, color: '#64748B', textTransform: 'uppercase',
             letterSpacing: '0.8px', marginBottom: 4,
           }}>
             {deal.country}
           </div>
           <div style={{
-            fontFamily: 'Space Grotesk, sans-serif', fontSize: '0.95rem',
-            fontWeight: 700, color: '#0d0d0f', marginBottom: 10,
+            fontFamily: 'Nunito, sans-serif', fontSize: '0.95rem',
+            fontWeight: 700, color: '#0F2340', marginBottom: 10,
           }}>
             {deal.city}
           </div>
           <div style={{
-            fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.2rem',
-            fontWeight: 800, color: '#ff5722',
+            fontFamily: 'Nunito, sans-serif', fontSize: '1.2rem',
+            fontWeight: 800, color: '#1A82D8',
           }}>
             {deal.priceLabel}
           </div>
@@ -153,7 +153,7 @@ export default function HoteisPage() {
 
       {/* ── HERO ──────────────────────────────────────────────── */}
       <section style={{
-        background: 'linear-gradient(135deg, #0d0d0f 0%, #1A82D8 60%, #00b4d8 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)',
         padding: '64px 0 52px',
       }}>
         <div className="container" style={{ textAlign: 'center' }}>
@@ -167,7 +167,7 @@ export default function HoteisPage() {
             Hotéis ao redor do mundo
           </span>
           <h1 style={{
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 700,
             color: '#fff', margin: '0 0 16px',
           }}>
@@ -191,9 +191,9 @@ export default function HoteisPage() {
                   fontFamily: 'Inter, sans-serif', fontSize: '0.82rem',
                   fontWeight: 600, padding: '9px 18px', borderRadius: 100,
                   border: '1.5px solid',
-                  borderColor: selectedRegion === r.id ? '#00b4d8' : 'rgba(255,255,255,0.3)',
-                  background: selectedRegion === r.id ? '#00b4d8' : 'transparent',
-                  color: selectedRegion === r.id ? '#0d0d0f' : '#fff',
+                  borderColor: selectedRegion === r.id ? '#1A82D8' : 'rgba(255,255,255,0.3)',
+                  background: selectedRegion === r.id ? '#1A82D8' : 'transparent',
+                  color: selectedRegion === r.id ? '#0F2340' : '#fff',
                   cursor: 'pointer', transition: 'all 0.15s',
                 }}
               >
@@ -211,12 +211,12 @@ export default function HoteisPage() {
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 28 }}>
             <div>
               <h2 style={{
-                fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.35rem',
-                fontWeight: 700, color: '#0d0d0f', margin: '0 0 4px',
+                fontFamily: 'Nunito, sans-serif', fontSize: '1.35rem',
+                fontWeight: 700, color: '#0F2340', margin: '0 0 4px',
               }}>
                 Hotéis em {regionLabel}
               </h2>
-              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#6d6d74', margin: 0 }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#64748B', margin: 0 }}>
                 Preços estimados por noite — clique para ver disponibilidade e reservar
               </p>
             </div>
@@ -237,15 +237,15 @@ export default function HoteisPage() {
             <div style={{
               textAlign: 'center', padding: '60px 24px',
               background: '#fff', borderRadius: 16,
-              border: '1px solid #e7e6e0',
+              border: '1px solid #E2E8F0',
             }}>
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#e7e6e0" strokeWidth="1.5" strokeLinecap="round" style={{ marginBottom: 16 }}>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#E2E8F0" strokeWidth="1.5" strokeLinecap="round" style={{ marginBottom: 16 }}>
                 <path d="M3 21V7l9-4 9 4v14H3z"/><path d="M9 21v-6h6v6"/>
               </svg>
-              <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.1rem', color: '#0d0d0f', margin: '0 0 8px' }}>
+              <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.1rem', color: '#0F2340', margin: '0 0 8px' }}>
                 Hotéis não disponíveis agora
               </h3>
-              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#6d6d74', margin: '0 0 20px' }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#64748B', margin: '0 0 20px' }}>
                 Tente outra região ou selecione um destino no roteiro completo.
               </p>
               <Link
@@ -268,18 +268,18 @@ export default function HoteisPage() {
           {!loading && deals.length > 0 && (
             <div style={{
               marginTop: 48, background: '#fff', borderRadius: 16,
-              border: '1px solid #e7e6e0', padding: '32px',
+              border: '1px solid #E2E8F0', padding: '32px',
               textAlign: 'center',
             }}>
               <h3 style={{
-                fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.15rem',
-                fontWeight: 700, color: '#0d0d0f', margin: '0 0 10px',
+                fontFamily: 'Nunito, sans-serif', fontSize: '1.15rem',
+                fontWeight: 700, color: '#0F2340', margin: '0 0 10px',
               }}>
                 Quer montar o pacote completo?
               </h3>
               <p style={{
                 fontFamily: 'Inter, sans-serif', fontSize: '0.88rem',
-                color: '#6d6d74', margin: '0 0 20px', maxWidth: 420,
+                color: '#64748B', margin: '0 0 20px', maxWidth: 420,
                 marginLeft: 'auto', marginRight: 'auto',
               }}>
                 Voo + hotel + experiências — a Go Livoo monta tudo por você.

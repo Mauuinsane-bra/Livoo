@@ -191,7 +191,7 @@ function buildFlightLink(origin: string, dest: string, departDate?: string): str
 export async function GET(req: NextRequest) {
   const token = process.env.TRAVELPAYOUTS_TOKEN
   if (!token) {
-    return NextResponse.json({ error: 'Token não configurado' }, { status: 500 })
+    return NextResponse.json({ error: 'Serviço de voos temporariamente indisponível', flights: [] }, { status: 503 })
   }
 
   const { searchParams } = new URL(req.url)
@@ -281,6 +281,6 @@ export async function GET(req: NextRequest) {
 
   } catch (err) {
     console.error('[cheap-flights]', err)
-    return NextResponse.json({ error: 'Erro ao buscar preços' }, { status: 500 })
+    return NextResponse.json({ error: 'Erro ao buscar voos baratos', flights: [] }, { status: 500 })
   }
 }

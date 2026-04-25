@@ -49,7 +49,7 @@ function SkeletonCard() {
   return (
     <div style={{
       background: '#fff', borderRadius: 16, overflow: 'hidden',
-      border: '1px solid #e7e6e0', boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+      border: '1px solid #E2E8F0', boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
     }}>
       <div style={{ height: 160, background: '#f0efeb' }} />
       <div style={{ padding: '16px 18px' }}>
@@ -71,7 +71,7 @@ function FlightDealCard({ deal }: { deal: FlightDeal }) {
     >
       <div style={{
         background: '#fff', borderRadius: 16, overflow: 'hidden',
-        border: '1px solid #e7e6e0', boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+        border: '1px solid #E2E8F0', boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
         transition: 'transform 0.2s, box-shadow 0.2s', cursor: 'pointer',
       }}
         onMouseEnter={e => {
@@ -84,7 +84,7 @@ function FlightDealCard({ deal }: { deal: FlightDeal }) {
         }}
       >
         {/* Foto */}
-        <div style={{ position: 'relative', height: 160, overflow: 'hidden', background: '#0d0d0f' }}>
+        <div style={{ position: 'relative', height: 160, overflow: 'hidden', background: '#0F2340' }}>
           <img
             src={deal.destinationPhoto}
             alt={deal.destinationCity}
@@ -118,21 +118,21 @@ function FlightDealCard({ deal }: { deal: FlightDeal }) {
         <div style={{ padding: '14px 16px' }}>
           <div style={{
             fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
-            fontWeight: 600, color: '#6d6d74', textTransform: 'uppercase',
+            fontWeight: 600, color: '#64748B', textTransform: 'uppercase',
             letterSpacing: '0.8px', marginBottom: 4,
           }}>
             {deal.destinationCountry}
           </div>
           <div style={{
-            fontFamily: 'Space Grotesk, sans-serif', fontSize: '0.95rem',
-            fontWeight: 700, color: '#0d0d0f', marginBottom: 10,
+            fontFamily: 'Nunito, sans-serif', fontSize: '0.95rem',
+            fontWeight: 700, color: '#0F2340', marginBottom: 10,
           }}>
             {deal.destinationCity}
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
             <span style={{
-              fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.45rem',
-              fontWeight: 800, color: '#ff5722',
+              fontFamily: 'Nunito, sans-serif', fontSize: '1.45rem',
+              fontWeight: 800, color: '#1A82D8',
             }}>
               {formatPrice(deal.price, deal.currency)}
             </span>
@@ -182,13 +182,13 @@ export default function PromocoesPage() {
 
       {/* ── HERO ──────────────────────────────────────────────── */}
       <section style={{
-        background: 'linear-gradient(135deg, #0d0d0f 0%, #1A82D8 60%, #F5A800 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #F5A800 100%)',
         padding: '64px 0 52px',
       }}>
         <div className="container" style={{ textAlign: 'center' }}>
           <span style={{
             display: 'inline-block',
-            background: 'rgba(245,168,0,0.15)', color: '#ffd600',
+            background: 'rgba(245,168,0,0.15)', color: '#F5A800',
             fontSize: '0.7rem', fontWeight: 700, letterSpacing: '2px',
             textTransform: 'uppercase', padding: '5px 14px', borderRadius: 50,
             marginBottom: 20, border: '1px solid rgba(245,168,0,0.3)',
@@ -196,7 +196,7 @@ export default function PromocoesPage() {
             Voos em promoção
           </span>
           <h1 style={{
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 700,
             color: '#fff', margin: '0 0 16px',
           }}>
@@ -222,7 +222,7 @@ export default function PromocoesPage() {
                   border: '1.5px solid',
                   borderColor: selectedOrigin === o.iata ? '#F5A800' : 'rgba(255,255,255,0.3)',
                   background: selectedOrigin === o.iata ? '#F5A800' : 'transparent',
-                  color: selectedOrigin === o.iata ? '#0d0d0f' : '#fff',
+                  color: selectedOrigin === o.iata ? '#0F2340' : '#fff',
                   cursor: 'pointer', transition: 'all 0.15s',
                 }}
               >
@@ -240,12 +240,12 @@ export default function PromocoesPage() {
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 28 }}>
             <div>
               <h2 style={{
-                fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.35rem',
-                fontWeight: 700, color: '#0d0d0f', margin: '0 0 4px',
+                fontFamily: 'Nunito, sans-serif', fontSize: '1.35rem',
+                fontWeight: 700, color: '#0F2340', margin: '0 0 4px',
               }}>
                 Partindo de {originCity}
               </h2>
-              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#6d6d74', margin: 0 }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#64748B', margin: 0 }}>
                 Preços estimados de ida — clique para ver datas disponíveis no Trip.com
               </p>
             </div>
@@ -266,16 +266,16 @@ export default function PromocoesPage() {
             <div style={{
               textAlign: 'center', padding: '60px 24px',
               background: '#fff', borderRadius: 16,
-              border: '1px solid #e7e6e0',
+              border: '1px solid #E2E8F0',
             }}>
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#e7e6e0" strokeWidth="1.5" strokeLinecap="round" style={{ marginBottom: 16 }}>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#E2E8F0" strokeWidth="1.5" strokeLinecap="round" style={{ marginBottom: 16 }}>
                 <circle cx="11" cy="11" r="8"/>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"/>
               </svg>
-              <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.1rem', color: '#0d0d0f', margin: '0 0 8px' }}>
+              <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.1rem', color: '#0F2340', margin: '0 0 8px' }}>
                 Promoções não disponíveis agora
               </h3>
-              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#6d6d74', margin: '0 0 20px' }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#64748B', margin: '0 0 20px' }}>
                 Tente outra cidade de origem ou configure o TRAVELPAYOUTS_TOKEN para preços ao vivo.
               </p>
               <a
@@ -300,18 +300,18 @@ export default function PromocoesPage() {
           {!loading && deals.length > 0 && (
             <div style={{
               marginTop: 48, background: '#fff', borderRadius: 16,
-              border: '1px solid #e7e6e0', padding: '32px',
+              border: '1px solid #E2E8F0', padding: '32px',
               textAlign: 'center',
             }}>
               <h3 style={{
-                fontFamily: 'Space Grotesk, sans-serif', fontSize: '1.15rem',
-                fontWeight: 700, color: '#0d0d0f', margin: '0 0 10px',
+                fontFamily: 'Nunito, sans-serif', fontSize: '1.15rem',
+                fontWeight: 700, color: '#0F2340', margin: '0 0 10px',
               }}>
                 Encontrou um destino interessante?
               </h3>
               <p style={{
                 fontFamily: 'Inter, sans-serif', fontSize: '0.88rem',
-                color: '#6d6d74', margin: '0 0 20px', maxWidth: 420,
+                color: '#64748B', margin: '0 0 20px', maxWidth: 420,
                 marginLeft: 'auto', marginRight: 'auto',
               }}>
                 Monte o roteiro completo — voo, hotel e experiências — com a Go Livoo.

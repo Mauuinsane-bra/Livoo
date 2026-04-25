@@ -12,14 +12,14 @@ export default function SobrePage() {
 
       {/* Hero */}
       <div style={{
-        background: 'linear-gradient(135deg, #0d0d0f 0%, #ff5722 60%, #2B9FEE 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)',
         padding: '80px 24px 88px',
         textAlign: 'center',
       }}>
         <span style={{
           display: 'inline-block',
-          background: 'rgba(245,166,35,0.15)',
-          color: '#ffd600',
+          background: 'rgba(245,168,0,0.15)',
+          color: '#F5A800',
           fontSize: '0.72rem',
           fontWeight: 700,
           letterSpacing: '2px',
@@ -27,12 +27,12 @@ export default function SobrePage() {
           padding: '5px 14px',
           borderRadius: 50,
           marginBottom: 20,
-          border: '1px solid rgba(245,166,35,0.3)',
+          border: '1px solid rgba(245,168,0,0.3)',
         }}>
           Quem somos
         </span>
         <h1 style={{
-          fontFamily: 'Space Grotesk, sans-serif',
+          fontFamily: 'Nunito, sans-serif',
           fontSize: 'clamp(2rem, 4vw, 3rem)',
           color: '#fff',
           marginBottom: 16,
@@ -62,13 +62,13 @@ export default function SobrePage() {
           borderRadius: 20,
           padding: '48px 52px',
           boxShadow: '0 4px 24px rgba(13,27,62,0.07)',
-          border: '1px solid #e7e6e0',
+          border: '1px solid #E2E8F0',
           marginBottom: 40,
         }}>
           <h2 style={{
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: '1.8rem',
-            color: '#0d0d0f',
+            color: '#0F2340',
             marginBottom: 24,
           }}>
             A origem da ideia
@@ -76,7 +76,7 @@ export default function SobrePage() {
           <p style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: '1rem',
-            color: '#6d6d74',
+            color: '#64748B',
             lineHeight: 1.8,
             marginBottom: 20,
           }}>
@@ -88,7 +88,7 @@ export default function SobrePage() {
           <p style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: '1rem',
-            color: '#6d6d74',
+            color: '#64748B',
             lineHeight: 1.8,
             marginBottom: 20,
           }}>
@@ -100,7 +100,7 @@ export default function SobrePage() {
           <p style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: '1rem',
-            color: '#6d6d74',
+            color: '#64748B',
             lineHeight: 1.8,
           }}>
             Você quer a experiência. A Go Livoo resolve o resto.
@@ -141,22 +141,22 @@ export default function SobrePage() {
               borderRadius: 16,
               padding: '32px 28px',
               boxShadow: '0 2px 12px rgba(13,27,62,0.06)',
-              border: '1px solid #e7e6e0',
+              border: '1px solid #E2E8F0',
             }}>
               <span style={{
                 display: 'inline-block',
-                fontFamily: 'Space Grotesk, sans-serif',
+                fontFamily: 'Nunito, sans-serif',
                 fontSize: '2rem',
                 fontWeight: 700,
-                color: '#ffd600',
+                color: '#F5A800',
                 marginBottom: 16,
               }}>
                 {item.num}
               </span>
               <h3 style={{
-                fontFamily: 'Space Grotesk, sans-serif',
+                fontFamily: 'Nunito, sans-serif',
                 fontSize: '1.15rem',
-                color: '#0d0d0f',
+                color: '#0F2340',
                 marginBottom: 10,
               }}>
                 {item.title}
@@ -164,7 +164,7 @@ export default function SobrePage() {
               <p style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '0.88rem',
-                color: '#6d6d74',
+                color: '#64748B',
                 lineHeight: 1.7,
                 margin: 0,
               }}>
@@ -176,14 +176,14 @@ export default function SobrePage() {
 
         {/* Como funciona resumo */}
         <div style={{
-          background: 'linear-gradient(135deg, #0d0d0f 0%, #1a1a20 100%)',
+          background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)',
           borderRadius: 20,
           padding: '48px 52px',
           marginBottom: 40,
           textAlign: 'center',
         }}>
           <h2 style={{
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Nunito, sans-serif',
             fontSize: '1.6rem',
             color: '#fff',
             marginBottom: 12,
@@ -216,13 +216,13 @@ export default function SobrePage() {
           background: '#fff',
           borderRadius: 16,
           padding: '36px 40px',
-          border: '1px solid #e7e6e0',
+          border: '1px solid #E2E8F0',
         }}>
           <h3 style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: '0.75rem',
             fontWeight: 700,
-            color: '#0d0d0f',
+            color: '#0F2340',
             textTransform: 'uppercase',
             letterSpacing: '1.5px',
             marginBottom: 20,
@@ -248,11 +248,11 @@ export default function SobrePage() {
               <span key={p} style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '0.82rem',
-                color: '#6d6d74',
+                color: '#64748B',
                 background: '#fafaf7',
                 padding: '6px 14px',
                 borderRadius: 50,
-                border: '1px solid #e7e6e0',
+                border: '1px solid #E2E8F0',
               }}>
                 {p}
               </span>

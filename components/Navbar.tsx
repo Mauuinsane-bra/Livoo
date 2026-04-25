@@ -31,7 +31,7 @@ export default function Navbar() {
       {/* ── Header ───────────────────────────────────────── */}
       <header style={{
         background: '#fff',
-        borderBottom: '1px solid #e7e6e0',
+        borderBottom: '1px solid #E2E8F0',
         position: 'sticky',
         top: 0,
         zIndex: 40,
@@ -41,12 +41,12 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" style={{
             display: 'flex', alignItems: 'center', gap: 10,
-            textDecoration: 'none', lineHeight: 1, flexShrink: 0, color: '#0d0d0f',
+            textDecoration: 'none', lineHeight: 1, flexShrink: 0, color: '#0F2340',
           }}>
             <BirdCabecudinha size={45} />
             <span style={{ display: 'inline-flex', flexDirection: 'column', gap: 3, lineHeight: 1, whiteSpace: 'nowrap' }}>
-              <b style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 22, letterSpacing: '-0.035em', color: '#0d0d0f', lineHeight: .95 }}>Go Livoo</b>
-              <small style={{ fontFamily: 'JetBrains Mono, monospace', fontWeight: 500, fontSize: 8.5, color: '#6d6d74', letterSpacing: '.2em', lineHeight: 1, textTransform: 'uppercase' }}>Vá mais longe por menos</small>
+              <b style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: 22, letterSpacing: '-0.035em', color: '#0F2340', lineHeight: .95 }}>Go Livoo</b>
+              <small style={{ fontFamily: 'JetBrains Mono, monospace', fontWeight: 500, fontSize: 8.5, color: '#64748B', letterSpacing: '.2em', lineHeight: 1, textTransform: 'uppercase' }}>Vá mais longe por menos</small>
             </span>
           </Link>
 
@@ -54,7 +54,7 @@ export default function Navbar() {
           <nav style={{ display: 'flex', gap: 4, fontSize: 13.5, marginLeft: 14 }} className="hidden-mobile">
             {navLinks.map(l => (
               <Link key={l.href} href={l.href} style={{
-                padding: '8px 12px', borderRadius: 8, color: '#2a2a30', fontWeight: 500, textDecoration: 'none',
+                padding: '8px 12px', borderRadius: 8, color: '#0F2340', fontWeight: 500, textDecoration: 'none',
               }}
                 onMouseOver={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#fafaf7' }}
                 onMouseOut={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'transparent' }}
@@ -68,19 +68,19 @@ export default function Navbar() {
 
           {/* Right actions */}
           <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0 }} className="hidden-mobile">
-            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 13.5, padding: '8px 12px', color: '#2a2a30' }}>BRL · PT</span>
+            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 13.5, padding: '8px 12px', color: '#0F2340' }}>BRL · PT</span>
 
             <SignedOut>
               <SignInButton mode="modal">
                 <button style={{
-                  fontSize: 13.5, padding: '8px 12px', color: '#2a2a30', background: 'none', cursor: 'pointer',
+                  fontSize: 13.5, padding: '8px 12px', color: '#0F2340', background: 'none', cursor: 'pointer',
                 }}>
                   Entrar
                 </button>
               </SignInButton>
               <SignUpButton mode="modal">
                 <button style={{
-                  background: '#ff5722', color: '#fff', borderRadius: 999, padding: '9px 16px',
+                  background: '#1A82D8', color: '#fff', borderRadius: 999, padding: '9px 16px',
                   fontWeight: 600, fontSize: 13.5, cursor: 'pointer',
                 }}>
                   Criar conta
@@ -111,20 +111,20 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {mobileOpen && (
-          <div style={{ borderTop: '1px solid #e7e6e0', padding: '12px 24px 20px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <div style={{ borderTop: '1px solid #E2E8F0', padding: '12px 24px 20px', display: 'flex', flexDirection: 'column', gap: 4 }}>
             {navLinks.map(l => (
               <Link key={l.href} href={l.href} onClick={() => setMobileOpen(false)}
-                style={{ padding: '10px 8px', fontSize: 15, fontWeight: 500, color: '#2a2a30', textDecoration: 'none', borderRadius: 8 }}>
+                style={{ padding: '10px 8px', fontSize: 15, fontWeight: 500, color: '#0F2340', textDecoration: 'none', borderRadius: 8 }}>
                 {l.label}
               </Link>
             ))}
             <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
               <SignedOut>
                 <SignInButton mode="modal">
-                  <button style={{ flex: 1, padding: '10px', border: '1px solid #e7e6e0', borderRadius: 999, fontSize: 13.5, fontWeight: 600 }}>Entrar</button>
+                  <button style={{ flex: 1, padding: '10px', border: '1px solid #E2E8F0', borderRadius: 999, fontSize: 13.5, fontWeight: 600 }}>Entrar</button>
                 </SignInButton>
                 <SignUpButton mode="modal">
-                  <button style={{ flex: 1, padding: '10px', background: '#ff5722', color: '#fff', borderRadius: 999, fontSize: 13.5, fontWeight: 600 }}>Criar conta</button>
+                  <button style={{ flex: 1, padding: '10px', background: '#1A82D8', color: '#fff', borderRadius: 999, fontSize: 13.5, fontWeight: 600 }}>Criar conta</button>
                 </SignUpButton>
               </SignedOut>
               <SignedIn>

@@ -48,7 +48,7 @@ const CATEGORY_MAP: Record<string, { tag: string; tagColor: string; category: st
   '104': { tag: 'Festival',  tagColor: '#db2777', category: 'cultura'       }, // Film & Media
   '101': { tag: 'Negócios',  tagColor: '#64748b', category: 'cultura'       }, // Business
   '111': { tag: 'Festival',  tagColor: '#7c3aed', category: 'shows'         }, // Entertainment
-  '113': { tag: 'Comunidade','tagColor': '#16a34a', category: 'cultura'     }, // Community
+  '113': { tag: 'Comunidade', tagColor: '#16a34a', category: 'cultura'      }, // Community
 }
 
 function formatDatePT(start?: { utc?: string; local?: string }): string {
