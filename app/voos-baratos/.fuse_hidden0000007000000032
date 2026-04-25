@@ -180,7 +180,7 @@ function FlightCard({ flight }: { flight: CheapFlight }) {
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
           </svg>
-          Ver passagem no Kiwi.com
+          Ver passagem no Trip.com
         </div>
       </div>
     </a>
@@ -275,7 +275,7 @@ export default function VoosBaratosPage() {
             color: 'rgba(255,255,255,.7)', fontSize: 15, marginBottom: 36,
             lineHeight: 1.65, maxWidth: 520,
           }}>
-            Preços reais em Reais (R$) — comparamos centenas de opções para você. Clique num destino e compre direto no Kiwi.com em Português.
+            Preços reais em Reais (R$) — comparamos centenas de opções para você. Clique num destino e compre direto no Trip.com em Português.
           </p>
 
           {/* Chips de origem */}
@@ -388,7 +388,7 @@ export default function VoosBaratosPage() {
           }}>
             Preços baseados no menor valor disponível para os próximos 2 meses.
             Valores finais podem variar no momento da compra.
-            Você é redirecionado para o Kiwi.com em Português com preços em Reais · sem custo adicional para você.
+            Você é redirecionado para o Trip.com em Português com preços em Reais · sem custo adicional para você.
           </p>
         )}
       </div>

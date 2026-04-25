@@ -487,14 +487,9 @@ function PassagensContent() {
             const orig = params.get('origin') ?? origin?.iata ?? ''
             const dest = params.get('destination') ?? destination?.iata ?? ''
             const date = params.get('date') ?? dateFrom
-            const KIWI_AFF = 'travelpayoutsdeeplink_www.golivoo.com.br_a576819c844940aeb1161c401-715532'
-            const kiwiUrl = orig && dest
-              ? (() => {
-                  const p = new URLSearchParams({ affilid: KIWI_AFF, from: orig.toUpperCase(), to: dest.toUpperCase(), lang: 'br', currency: 'BRL' })
-                  if (date && date.length === 10) { const [y,m,d] = date.split('-'); p.set('departure', `${d}-${m}-${y}`) }
-                  return `https://www.kiwi.com/deep?${p.toString()}`
-                })()
-              : 'https://kiwi.tpk.lu/oHyzWHop'
+            const tripUrl = orig && dest
+              ? `https://br.trip.com/flights/showfarefirst?dcity=${orig.toLowerCase()}&acity=${dest.toLowerCase()}${date ? `&ddate=${date}` : ''}&triptype=ow&class=y&quantity=1&locale=pt-BR&curr=BRL`
+              : 'https://br.trip.com/flights'
 
             return (
               <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
@@ -508,10 +503,10 @@ function PassagensContent() {
                 </h3>
                 <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', fontSize: '0.9rem', marginBottom: 28, maxWidth: 460, margin: '0 auto 28px' }}>
                   Nossa base de preços é atualizada periodicamente e pode não ter dados para rotas menos frequentes.
-                  Continue sua busca no Kiwi.com com preços em tempo real, em Português e Reais.
+                  Continue sua busca no Trip.com com preços em tempo real, em Português e Reais.
                 </p>
                 <a
-                  href={kiwiUrl}
+                  href={tripUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
@@ -527,10 +522,10 @@ function PassagensContent() {
                     marginBottom: 16,
                   }}
                 >
-                  Ver voos no Kiwi.com
+                  Ver voos {orig} → {dest} no Trip.com
                 </a>
                 <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#9BA8B8', margin: '12px 0 0' }}>
-                  Você será redirecionado para o Kiwi.com
+                  Você será redirecionado para o Trip.com com a sua busca já preenchida
                 </p>
               </div>
             )
@@ -558,7 +553,7 @@ function PassagensContent() {
               )}
 
               <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#64748B', textAlign: 'center', marginTop: 8 }}>
-                Preços em R$ (BRL) · Via Travelpayouts/Kiwi.com · Sem markup · Sujeito a disponibilidade
+                Preços em R$ (BRL) · Via Travelpayouts/Trip.com · Sem markup · Sujeito a disponibilidade
               </p>
             </>
           )}
@@ -579,7 +574,7 @@ function PassagensContent() {
                 )
               ))}
               <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#64748B', textAlign: 'center', marginTop: 8 }}>
-                Preços em R$ (BRL) · Via Travelpayouts/Kiwi.com · Sem markup · Sujeito a disponibilidade
+                Preços em R$ (BRL) · Via Travelpayouts/Trip.com · Sem markup · Sujeito a disponibilidade
               </p>
             </>
           )}

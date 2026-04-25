@@ -143,7 +143,7 @@ function RegionRow({
 }) {
   const link = minFlight
     ? minFlight.link
-    : 'https://kiwi.tpk.lu/oHyzWHop'
+    : `https://br.trip.com/flights/?locale=pt-BR&curr=BRL`
 
   return (
     <a
@@ -405,7 +405,7 @@ export default function MelhoresDestinosPage() {
             fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
             color: '#9a9aa0', textAlign: 'center', marginTop: 24,
           }}>
-            Preços encontrados nas últimas 48h via Travelpayouts · podem variar conforme disponibilidade · via Kiwi.com
+            Preços encontrados nas últimas 48h via Travelpayouts · podem variar conforme disponibilidade · via Trip.com
           </p>
 
           {/* CTA roteiro */}

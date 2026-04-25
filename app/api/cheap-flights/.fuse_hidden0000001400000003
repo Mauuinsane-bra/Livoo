@@ -156,28 +156,36 @@ function getAirlineName(code: string): string {
   return map[code] || code
 }
 
-// Kiwi.com — deeplink com origem/destino/data pré-preenchidos
-// PT + BRL + tracking de comissão ativo via affilid
-const KIWI_AFFILID = 'travelpayoutsdeeplink_www.golivoo.com.br_a576819c844940aeb1161c401-715532'
-const KIWI_FALLBACK = 'https://kiwi.tpk.lu/oHyzWHop'
+// Trip.com (br.trip.com) — deeplink em Português com preços em BRL
+// Aceita códigos IATA em lowercase (ex: gru, cwb, lhr)
+// Travelpayouts program ID: 121 — requer aprovação do programa para tracking via tp.media
+// Para ativar comissão: conectar ao programa Trip.com em app.travelpayouts.com/programs/121
+// e então envolver a URL com: https://tp.media/r?marker={MARKER}&p=121&u={encoded_url}
+function buildFlightLink(origin: string, dest: string, departDate?: string): string {
+  const o = origin.toLowerCase()
+  const d = dest.toLowerCase()
 
-function buildFlightLink(origin?: string, dest?: string, date?: string): string {
-  if (!origin || !dest) return KIWI_FALLBACK
-
+  const baseUrl = 'https://br.trip.com/flights/showfarefirst'
   const params = new URLSearchParams({
-    affilid:  KIWI_AFFILID,
-    from:     origin.toUpperCase(),
-    to:       dest.toUpperCase(),
-    lang:     'br',
-    currency: 'BRL',
+    dcity:    o,
+    acity:    d,
+    triptype: 'ow',
+    class:    'y',
+    quantity: '1',
+    locale:   'pt-BR',
+    curr:     'BRL',
   })
-
-  if (date && date.length >= 10) {
-    const [y, m, d] = date.slice(0, 10).split('-')
-    params.set('departure', `${d}-${m}-${y}`)
+  if (departDate && departDate.length === 10) {
+    params.set('ddate', departDate)
   }
 
-  return `https://www.kiwi.com/deep?${params.toString()}`
+  const tripUrl = `${baseUrl}?${params.toString()}`
+
+  // Quando o programa Trip.com for aprovado no Travelpayouts, descomentar:
+  // const marker = process.env.TRAVELPAYOUTS_MARKER
+  // if (marker) return `https://tp.media/r?marker=${marker}&p=121&u=${encodeURIComponent(tripUrl)}`
+
+  return tripUrl
 }
 
 export async function GET(req: NextRequest) {

@@ -4,7 +4,7 @@ import { Suspense, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
-// Mapa de IATA -> nome da cidade em portugues (para exibicao no header)
+// Mapa de IATA → nome da cidade em português (para exibição no header)
 const CITY_NAMES: Record<string, string> = {
   GRU: 'São Paulo', SAO: 'São Paulo',
   GIG: 'Rio de Janeiro', SDU: 'Rio de Janeiro', RIO: 'Rio de Janeiro',
@@ -34,21 +34,23 @@ function formatDate(dateStr: string): string {
   return `${parseInt(day, 10)} de ${months[m] ?? ''} de ${year}`
 }
 
-const KIWI_AFFILID = 'travelpayoutsdeeplink_www.golivoo.com.br_a576819c844940aeb1161c401-715532'
-
-function buildKiwiDeeplink(origin: string, dest: string, date: string): string {
+/**
+ * Monta a URL do Trip.com em PT-BR/BRL.
+ * Trip.com aceita códigos IATA em lowercase diretamente.
+ */
+function buildTripUrl(origin: string, dest: string, date: string): string {
+  const base = 'https://br.trip.com/flights/showfarefirst'
   const params = new URLSearchParams({
-    affilid:  KIWI_AFFILID,
-    from:     origin.toUpperCase(),
-    to:       dest.toUpperCase(),
-    lang:     'br',
-    currency: 'BRL',
+    dcity:    origin.toLowerCase(),
+    acity:    dest.toLowerCase(),
+    triptype: 'ow',
+    class:    'y',
+    quantity: '1',
+    locale:   'pt-BR',
+    curr:     'BRL',
   })
-  if (date && date.length === 10) {
-    const [y, m, d] = date.split('-')
-    params.set('departure', `${d}-${m}-${y}`)
-  }
-  return `https://www.kiwi.com/deep?${params.toString()}`
+  if (date && date.length === 10) params.set('ddate', date)
+  return `${base}?${params.toString()}`
 }
 
 function FlightSearchContent() {
@@ -61,18 +63,21 @@ function FlightSearchContent() {
   const originCity = CITY_NAMES[origin] || origin
   const destCity   = CITY_NAMES[dest]   || dest
 
-  const kiwiUrl = dest ? buildKiwiDeeplink(origin, dest, date) : ''
+  const tripUrl = dest ? buildTripUrl(origin, dest, date) : ''
 
+  // Redireciona automaticamente para Trip.com quando há origem + destino definidos.
+  // Usuário vê a tela de transição por ~1.5s (mostra o que está acontecendo).
   useEffect(() => {
-    if (!kiwiUrl) return
+    if (!tripUrl) return
     const t = setTimeout(() => {
-      window.location.href = kiwiUrl
+      window.location.href = tripUrl
     }, 1500)
     return () => clearTimeout(t)
-  }, [kiwiUrl])
+  }, [tripUrl])
 
   return (
     <>
+      {/* ── Hero ── */}
       <section style={{
         background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)',
         padding: '40px 24px 36px',
@@ -116,9 +121,11 @@ function FlightSearchContent() {
         </div>
       </section>
 
+      {/* ── Conteúdo ── */}
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '48px 20px 80px', textAlign: 'center' }}>
-        {kiwiUrl ? (
+        {tripUrl ? (
           <>
+            {/* Spinner de redirecionamento */}
             <div style={{
               width: 56, height: 56, margin: '0 auto 20px',
               border: '3px solid #E2E8F0', borderTopColor: '#1A82D8',
@@ -128,7 +135,7 @@ function FlightSearchContent() {
               fontFamily: 'Nunito, sans-serif', fontSize: '1.4rem',
               color: '#0F2340', marginBottom: 10,
             }}>
-              Abrindo sua busca no Kiwi.com
+              Abrindo sua busca no Trip.com
             </h2>
             <p style={{
               fontFamily: 'Inter, sans-serif', fontSize: 14,
@@ -139,7 +146,7 @@ function FlightSearchContent() {
               <strong style={{ color: '#0F2340' }}>Reais (R$)</strong>.
             </p>
             <a
-              href={kiwiUrl}
+              href={tripUrl}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
@@ -149,7 +156,7 @@ function FlightSearchContent() {
                 boxShadow: '0 4px 16px rgba(26,130,216,.3)',
               }}
             >
-              Abrir agora no Kiwi.com
+              Abrir agora no Trip.com
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <path d="M5 12h14M13 5l7 7-7 7"/>
               </svg>

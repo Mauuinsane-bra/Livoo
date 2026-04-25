@@ -141,7 +141,7 @@ function FlightDealCard({ deal }: { deal: FlightDeal }) {
             fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
             color: '#9a9aa0', marginTop: 4,
           }}>
-            {deal.isRoundTrip ? 'Ida + volta' : 'Só ida'} · {deal.stops === 0 ? 'voo direto' : `${deal.stops} escala`} · via Kiwi.com
+            {deal.isRoundTrip ? 'Ida + volta' : 'Só ida'} · {deal.stops === 0 ? 'voo direto' : `${deal.stops} escala`} · via Trip.com
           </div>
         </div>
       </div>
@@ -246,7 +246,7 @@ export default function PromocoesPage() {
                 Partindo de {originCity}
               </h2>
               <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#64748B', margin: 0 }}>
-                Preços estimados de ida — clique para ver datas disponíveis no Kiwi.com
+                Preços estimados de ida — clique para ver datas disponíveis no Trip.com
               </p>
             </div>
             <span style={{
@@ -279,13 +279,13 @@ export default function PromocoesPage() {
                 Tente outra cidade de origem ou configure o TRAVELPAYOUTS_TOKEN para preços ao vivo.
               </p>
               <a
-                href={`https://kiwi.tpk.lu/oHyzWHop`}
+                href={`https://br.trip.com/flights/?locale=pt-BR&curr=BRL`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary"
                 style={{ display: 'inline-block', padding: '12px 24px', textDecoration: 'none' }}
               >
-                Buscar no Kiwi.com →
+                Buscar no Trip.com →
               </a>
             </div>
           ) : (

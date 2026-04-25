@@ -238,7 +238,7 @@ export default function SobrePage() {
           }}>
             {[
               'Travelpayouts (voos e hotéis)',
-              'Kiwi.com (passagens internacionais)',
+              'Trip.com (passagens internacionais)',
               'Rentcars (aluguel de carros)',
               'Stripe (pagamentos seguros)',
               'Clerk (autenticação)',
