@@ -49,13 +49,13 @@ const ShieldIcon = () => (
 )
 
 const products = [
-  { icon: <PlaneIcon />,  label: 'Passagens', desc: '500+ companhias', href: '/passagens' },
-  { icon: <HotelIcon />,  label: 'Hotéis',    desc: '2M+ hospedagens', href: '/hoteis' },
+  { icon: <PlaneIcon />,  label: 'Passagens', desc: 'Busca de passagens', href: '/passagens' },
+  { icon: <HotelIcon />,  label: 'Hotéis',    desc: 'Hotéis ao redor do mundo', href: '/hoteis' },
   { icon: <PackageIcon />,label: 'Pacotes',   desc: 'Voo + hotel combinados', href: '/pacotes' },
   { icon: <CarIcon />,    label: 'Carros',    desc: '38 locadoras', href: '/carros' },
-  { icon: <BusIcon />,    label: 'Ônibus',   desc: '+200 empresas', href: '/onibus' },
+  { icon: <BusIcon />,    label: 'Ônibus',   desc: 'Brasil e Europa', href: '/onibus' },
   { icon: <GuideIcon />,  label: 'Guias',     desc: 'Locais em PT', href: '/guias' },
-  { icon: <ShieldIcon />, label: 'Seguro',    desc: 'A partir de R$ 9/dia', href: '/prep' },
+  { icon: <ShieldIcon />, label: 'Seguro',    desc: 'Visto, vacinas e docs', href: '/prep' },
 ]
 
 const destinations = [
@@ -73,12 +73,12 @@ const calDays = [
 ]
 
 const catalogEvents = [
-  { month: 'MAI', day: '24', tag: '-17%', tagType: 'hot', cat: 'F1 · DOMINGO', rating: '4.9', title: 'GP de Mônaco — Tribuna K', loc: 'Monte Carlo, Mônaco', chips: ['Voo', 'Hotel: 4 noites', 'Ingresso', 'Heli'], price: 'R$ 12.400', parcelas: '12x sem juros', href: '/eventos/f1-monaco', bg: 'Monte Carlo' },
-  { month: 'SET', day: '03', tag: 'POPULAR', tagType: '', cat: 'FESTIVAL · 3 DIAS', rating: '4.8', title: 'Rock in Rio 2026', loc: 'Rio de Janeiro · Brasil', chips: ['Voo', 'Hotel: 3 noites Copa', 'Ingresso'], price: 'R$ 1.890', parcelas: '10x sem juros', href: '/eventos/rock-in-rio', bg: 'Cidade do Rock' },
-  { month: 'SET', day: '20', tag: '-22%', tagType: 'sale', cat: 'CULTURA · 16 DIAS', rating: '4.7', title: 'Oktoberfest de Munique', loc: 'Munique, Alemanha', chips: ['Voo', 'Hotel: 5 noites', 'Tenda reservada'], price: 'R$ 7.200', parcelas: '12x sem juros', href: '/eventos', bg: 'Theresienwiese' },
-  { month: 'JUL', day: '17', tag: 'ÚLTIMAS 12', tagType: 'hot', cat: 'FESTIVAL · 5 DIAS', rating: '4.9', title: 'Tomorrowland 2026', loc: 'Boom, Bélgica', chips: ['Voo', 'Dreamville', 'Full Madness'], price: 'R$ 9.800', parcelas: '12x sem juros', href: '/eventos', bg: 'Dreamville' },
-  { month: 'JUN', day: '15', tag: 'COPA 26', tagType: '', cat: 'FUTEBOL · 3 JOGOS', rating: '4.8', title: 'Copa do Mundo — Fase Grupos', loc: 'Cidade do México', chips: ['Voo', 'Hotel: 5 noites', '3 ingressos'], price: 'R$ 8.990', parcelas: '12x sem juros', href: '/eventos', bg: 'Cidade do México' },
-  { month: 'NOV', day: '08', tag: 'AUTORAL', tagType: 'sale', cat: 'GASTRONOMIA · 7 NOITES', rating: '5.0', title: 'Rota Omakase em Tóquio', loc: 'Tóquio, Japão', chips: ['Voo', 'Hotel: Ginza', '6 balcões'], price: 'R$ 14.200', parcelas: '12x sem juros', href: '/eventos', bg: 'Ginza · Tóquio' },
+  { month: 'MAI', day: '24', tag: 'Mônaco 2026', tagType: '', cat: 'F1 · DOMINGO', rating: '', title: 'GP de Mônaco — Tribuna K', loc: 'Monte Carlo, Mônaco', chips: ['Voo', 'Hotel: 4 noites', 'Ingresso', 'Heli'], price: 'R$ 12.400', parcelas: '12x sem juros', href: '/eventos/f1-monaco', bg: 'Monte Carlo' },
+  { month: 'SET', day: '03', tag: 'POPULAR', tagType: '', cat: 'FESTIVAL · 3 DIAS', rating: '', title: 'Rock in Rio 2026', loc: 'Rio de Janeiro · Brasil', chips: ['Voo', 'Hotel: 3 noites Copa', 'Ingresso'], price: 'R$ 1.890', parcelas: '10x sem juros', href: '/eventos/rock-in-rio', bg: 'Cidade do Rock' },
+  { month: 'OUT', day: '03', tag: 'Outubro 2026', tagType: '', cat: 'CULTURA · 16 DIAS', rating: '', title: 'Oktoberfest de Munique', loc: 'Munique, Alemanha', chips: ['Voo', 'Hotel: 5 noites', 'Tenda reservada'], price: 'R$ 7.200', parcelas: '12x sem juros', href: '/eventos', bg: 'Theresienwiese' },
+  { month: 'JUL', day: '17', tag: 'Julho 2026', tagType: '', cat: 'FESTIVAL · 5 DIAS', rating: '', title: 'Tomorrowland 2026', loc: 'Boom, Bélgica', chips: ['Voo', 'Dreamville', 'Full Madness'], price: 'R$ 9.800', parcelas: '12x sem juros', href: '/eventos', bg: 'Dreamville' },
+  { month: 'JUN', day: '15', tag: 'COPA 26', tagType: '', cat: 'FUTEBOL · 3 JOGOS', rating: '', title: 'Copa do Mundo — Fase Grupos', loc: 'Cidade do México', chips: ['Voo', 'Hotel: 5 noites', '3 ingressos'], price: 'R$ 8.990', parcelas: '12x sem juros', href: '/eventos', bg: 'Cidade do México' },
+  { month: 'NOV', day: '08', tag: 'Novembro 2026', tagType: '', cat: 'GASTRONOMIA · 7 NOITES', rating: '', title: 'Rota Omakase em Tóquio', loc: 'Tóquio, Japão', chips: ['Voo', 'Hotel: Ginza', '6 balcões'], price: 'R$ 14.200', parcelas: '12x sem juros', href: '/eventos', bg: 'Ginza · Tóquio' },
 ]
 
 const filterCats = ['Todos', 'Shows & Festivais', 'Esportes', 'Automobilismo', 'Gastronomia', 'Cultura', 'Aventura', 'Ecoturismo', 'Artes']
@@ -101,8 +101,8 @@ export default async function HomePage() {
               ,<br />com a viagem inteira junto.
             </h1>
             <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11.5, letterSpacing: '.08em', textTransform: 'uppercase', color: '#6d6d74', textAlign: 'right', flexShrink: 0 }}>
-              <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 38, color: '#0d0d0f', fontWeight: 700, letterSpacing: '-.02em', display: 'block', lineHeight: 1 }}>128</span>
-              eventos em 48 países<br />74 novos esta semana
+              <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 38, color: '#0d0d0f', fontWeight: 700, letterSpacing: '-.02em', display: 'block', lineHeight: 1 }}>+20</span>
+              eventos internacionais<br />selecionados a dedo
             </div>
           </div>
 
@@ -129,7 +129,7 @@ export default async function HomePage() {
               background: 'linear-gradient(180deg, rgba(0,0,0,.05) 30%, rgba(0,0,0,.75) 100%), repeating-linear-gradient(135deg,#b57f4e 0 14px,#9e6d3f 14px 28px)',
               display: 'flex', alignItems: 'flex-end', color: '#fff', padding: 30, textDecoration: 'none',
             }}>
-              <span style={{ position: 'absolute', top: 20, left: 20, background: '#ffd600', color: '#0d0d0f', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 12, padding: '6px 12px', borderRadius: 999, letterSpacing: '.02em' }}>EM ALTA · 3ª semana</span>
+              <span style={{ position: 'absolute', top: 20, left: 20, background: '#ffd600', color: '#0d0d0f', fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 12, padding: '6px 12px', borderRadius: 999, letterSpacing: '.02em' }}>Mônaco · Maio 2026</span>
               <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%', gap: 20 }}>
                 <div style={{ maxWidth: 560 }}>
                   <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, letterSpacing: '.14em', textTransform: 'uppercase', opacity: .85, marginBottom: 10 }}>24 Mai 2026 · Domingo · 15h</div>
@@ -363,8 +363,8 @@ export default async function HomePage() {
             <div>
               <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10.5, letterSpacing: '.16em', textTransform: 'uppercase', color: '#ffd600', marginBottom: 12, position: 'relative' }}>Preparativos · Livoo Prep</div>
               <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 44, fontWeight: 700, letterSpacing: '-.025em', margin: '0 0 14px', lineHeight: 1.02, position: 'relative', maxWidth: 460 }}>
-                Visto, seguro, câmbio —{' '}
-                <em style={{ fontStyle: 'normal', background: '#ffd600', color: '#0d0d0f', padding: '0 8px', borderRadius: 6 }}>pronto</em>.
+                Documentação de viagem —{' '}
+                <em style={{ fontStyle: 'normal', background: '#ffd600', color: '#0d0d0f', padding: '0 8px', borderRadius: 6 }}>simplificada</em>.
               </h2>
               <p style={{ color: '#b6b6bd', fontSize: 14.5, maxWidth: 420, margin: '0 0 20px', position: 'relative' }}>
                 Para cada evento, montamos um checklist completo com tudo o que você precisa antes do voo — e resolvemos o que quiser delegar.
@@ -375,11 +375,11 @@ export default async function HomePage() {
             </div>
             <div style={{ background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.12)', borderRadius: 16, padding: 8, position: 'relative' }}>
               {[
-                { n: '01', t: 'Visto Schengen', sub: 'Entrada em 90 dias · emitido por nós', v: 'INCLUÍDO' },
-                { n: '02', t: 'Seguro viagem', sub: 'Cobertura € 30.000 · exigido em Mônaco', v: 'R$ 147/PP' },
-                { n: '03', t: 'Câmbio Euro · 0% IOF', sub: 'Cartão Livoo · € 1 = R$ 6,24', v: 'SOLICITAR' },
-                { n: '04', t: 'Adaptador C/F', sub: 'Tomada europeia · entregue no hotel', v: 'R$ 89' },
-                { n: '05', t: 'Chip internacional', sub: '10 GB Europa · ativação automática', v: 'R$ 129' },
+                { n: '01', t: 'Visto', sub: 'Verificação de requisitos por país', v: 'VERIFICAR' },
+                { n: '02', t: 'Passaporte', sub: 'Validade mínima exigida', v: 'VERIFICAR' },
+                { n: '03', t: 'Vacinas', sub: 'Obrigatórias e recomendadas', v: 'VERIFICAR' },
+                { n: '04', t: 'Seguro viagem', sub: 'Links para parceiros de seguro', v: 'CONSULTAR' },
+                { n: '05', t: 'Documentos', sub: 'Checklist personalizado por destino', v: 'BAIXAR PDF' },
               ].map((item, idx) => (
                 <div key={item.n} style={{ display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: 12, alignItems: 'center', padding: '11px 14px', borderTop: idx > 0 ? '1px solid rgba(255,255,255,.08)' : 'none' }}>
                   <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: '#6c6c74', letterSpacing: '.1em' }}>{item.n}</div>
@@ -450,9 +450,16 @@ export default async function HomePage() {
                 Receba curadoria de experiências + alertas de queda de preço diretamente no e-mail.
               </p>
             </div>
-            <div style={{ background: '#fff', borderRadius: 12, padding: 6, display: 'flex', gap: 6 }}>
-              <input placeholder="seu@email.com" style={{ flex: 1, border: 0, padding: '12px 14px', fontSize: 14, fontFamily: 'inherit', color: '#0d0d0f', outline: 'none', background: 'transparent' }} />
-              <button type="button" style={{ background: '#0d0d0f', color: '#fff', padding: '10px 18px', borderRadius: 8, fontWeight: 700, fontSize: 13, cursor: 'pointer', border: 0 }}>Receber</button>
+            <div>
+              <div style={{ background: '#fff', borderRadius: 12, padding: 6, display: 'flex', gap: 6 }}>
+                <input placeholder="seu@email.com" style={{ flex: 1, border: 0, padding: '12px 14px', fontSize: 14, fontFamily: 'inherit', color: '#0d0d0f', outline: 'none', background: 'transparent' }} />
+                <button type="button" style={{ background: '#0d0d0f', color: '#fff', padding: '10px 18px', borderRadius: 8, fontWeight: 700, fontSize: 13, cursor: 'pointer', border: 0 }}>Receber</button>
+              </div>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, color: '#9a9aa0', margin: '6px 0 0' }}>
+                Ao assinar, você concorda com nossa{' '}
+                <a href="/privacidade" style={{ color: '#ff5722', textDecoration: 'underline' }}>Política de Privacidade</a>.
+                Cancele quando quiser.
+              </p>
             </div>
           </div>
         </div>

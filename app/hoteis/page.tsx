@@ -112,7 +112,7 @@ function HotelDealCard({ deal }: { deal: HotelDeal }) {
             fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
             color: '#9a9aa0', marginTop: 4,
           }}>
-            {deal.priceUSD ? 'Preço real · 7 noites · via Booking.com' : 'Clique para ver preços disponíveis'}
+            {deal.priceUSD ? 'Preço estimado · 7 noites · sujeito a disponibilidade' : 'Clique para ver preços disponíveis'}
           </div>
         </div>
       </div>
@@ -178,7 +178,7 @@ export default function HoteisPage() {
             color: 'rgba(255,255,255,0.75)', maxWidth: 500,
             margin: '0 auto 36px', lineHeight: 1.7,
           }}>
-            Preços reais atualizados via Hotellook — agrega Booking.com, Hotels.com, Agoda e mais numa única busca.
+            Compare preços de hotéis nos principais destinos do mundo. Clique para ver disponibilidade e reservar.
           </p>
 
           {/* Seletor de região */}
@@ -217,14 +217,14 @@ export default function HoteisPage() {
                 Hotéis em {regionLabel}
               </h2>
               <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#6d6d74', margin: 0 }}>
-                Preços por noite — clique para ver disponibilidade e reservar no Booking.com
+                Preços estimados por noite — clique para ver disponibilidade e reservar
               </p>
             </div>
             <span style={{
               fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
               color: '#9a9aa0', flexShrink: 0,
             }}>
-              Via Hotellook
+              Preços sujeitos a disponibilidade
             </span>
           </div>
 
@@ -246,17 +246,15 @@ export default function HoteisPage() {
                 Hotéis não disponíveis agora
               </h3>
               <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#6d6d74', margin: '0 0 20px' }}>
-                Tente outra região ou busque diretamente no Booking.com.
+                Tente outra região ou selecione um destino no roteiro completo.
               </p>
-              <a
-                href="https://www.booking.com/?aid=356980"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/roteiro"
                 className="btn-primary"
                 style={{ display: 'inline-block', padding: '12px 24px', textDecoration: 'none' }}
               >
-                Buscar no Booking.com →
-              </a>
+                Montar roteiro com hotel →
+              </Link>
             </div>
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 20 }}>

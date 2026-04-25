@@ -372,7 +372,8 @@ function GuiasContent() {
                 Experiências em {current.destination}
               </h2>
               <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#6d6d74' }}>
-                Redirecionando para GetYourGuide — maior plataforma de experiências do mundo
+                A Go Livoo está conectando você ao GetYourGuide — plataforma parceira de experiências.
+                Você será atendido diretamente pelo site deles.
               </p>
             </div>
 

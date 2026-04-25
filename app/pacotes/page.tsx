@@ -71,7 +71,7 @@ function buildPackages(): Package[] {
       priceNote:     'Voo + hotel + ingresso · valor calculado em tempo real',
       duration:      '4 dias / 3 noites',
       includes:      ['Voo ida e volta', 'Hotel na região do circuito', 'Ingresso para o fim de semana', 'Transfer circuito', 'Guia do evento com horários e dicas', 'Verificação de documentos e visto'],
-      highlights:    ['GP Mônaco: o mais icônico do mundo', 'GP Brasil: eleito pelos pilotos como favorito', 'Acesso aos boxes em pacotes premium'],
+      highlights:    ['GP Mônaco: o mais icônico do mundo', 'GP Brasil: eleito pelos pilotos como favorito'],
       events:        autoSelected,
       eventIatas:    getUniqueIatas(autoSelected),
       imageUrl:      'https://images.unsplash.com/photo-1615483585256-a5e24a069ee1?w=800',

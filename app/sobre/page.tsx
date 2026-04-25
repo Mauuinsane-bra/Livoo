@@ -198,7 +198,7 @@ export default function SobrePage() {
             margin: '0 auto 32px',
             lineHeight: 1.75,
           }}>
-            A plataforma é completamente gratuita para você. A Go Livoo ganha uma comissão dos parceiros
+            A plataforma é gratuita para consulta de roteiros e eventos. O Livoo Prep (R$ 39/viagem) é opcional. A Go Livoo ganha uma comissão dos parceiros
             (companhias aéreas, hotéis, experiências) quando você reserva — sem nenhum custo adicional.
           </p>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -240,8 +240,7 @@ export default function SobrePage() {
               'Travelpayouts (voos e hotéis)',
               'Trip.com (passagens internacionais)',
               'Rentcars (aluguel de carros)',
-              'Ticketmaster (eventos)',
-              'Stripe (pagamentos)',
+              'Stripe (pagamentos seguros)',
               'Clerk (autenticação)',
               'Supabase (banco de dados)',
               'Vercel (infraestrutura)',

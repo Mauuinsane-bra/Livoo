@@ -151,7 +151,11 @@ export default function TermosPage() {
               os requisitos com as autoridades consulares competentes.
             </P>
             <P>
-              O valor pago pelo Livoo Prep não é reembolsável após a geração do relatório.
+              Em conformidade com o Art. 49 do Código de Defesa do Consumidor, o usuário tem direito
+              ao cancelamento e reembolso integral em até 7 (sete) dias corridos após a contratação,
+              desde que o relatório ainda não tenha sido gerado. Após a geração do relatório,
+              o valor não é reembolsável, pois o serviço digital foi integralmente prestado.
+              Para solicitar cancelamento dentro do prazo, entre em contato pelo e-mail contato@golivoo.com.br.
             </P>
           </Section>
 

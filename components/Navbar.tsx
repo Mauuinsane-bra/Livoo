@@ -67,25 +67,7 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Search */}
-          <div style={{ flex: 1, maxWidth: 420, marginLeft: 'auto', position: 'relative' }} className="hidden-mobile">
-            <svg style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)' }} width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6d6d74" strokeWidth="2" strokeLinecap="round">
-              <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-            </svg>
-            <input
-              placeholder="Buscar evento, artista, cidade…"
-              style={{
-                width: '100%', padding: '10px 14px 10px 38px',
-                borderRadius: 10, border: '1px solid #e7e6e0',
-                background: '#fafaf7', fontSize: 13.5, fontFamily: 'inherit', outline: 'none',
-              }}
-            />
-            <span style={{
-              position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)',
-              fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: '#6d6d74',
-              background: '#fff', border: '1px solid #e7e6e0', padding: '2px 6px', borderRadius: 4,
-            }}>K</span>
-          </div>
+          {/* Search — em breve */}
 
           {/* Right actions */}
           <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0 }} className="hidden-mobile">

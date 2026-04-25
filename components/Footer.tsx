@@ -63,8 +63,6 @@ export default function Footer() {
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               {[
                 { label: 'Instagram', href: 'https://www.instagram.com/livoo_travel' },
-                { label: 'TikTok', href: '#' },
-                { label: 'YouTube', href: '#' },
               ].map(s => (
                 <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
                   style={{
@@ -112,8 +110,8 @@ export default function Footer() {
           display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8,
           fontFamily: 'Inter, sans-serif', fontSize: 11.5, color: '#6d6d74',
         }}>
-          <span>© 2026 Go Livoo. Empresa em constituição.</span>
-          <span>v0.1 · PT-BR · BRL</span>
+          <span>© 2026 Go Livoo.</span>
+          <span>PT-BR · BRL</span>
         </div>
       </div>
 

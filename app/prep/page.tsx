@@ -587,8 +587,6 @@ function PrepContent() {
                       { done: false, text: 'Seguro viagem contratado' },
                       ...result.vaccinesRequired.map(v => ({ done: false, text: `Vacina obrigatória: ${v.name}` })),
                       ...result.vaccinesRecommended.map(v => ({ done: false, text: `Vacina recomendada: ${v.name}` })),
-                      { done: false, text: 'Câmbio / cartão internacional' },
-                      { done: false, text: 'Adaptador de tomada (se necessário)' },
                       { done: false, text: 'Cópia digital dos documentos no celular' },
                     ].map((item, i) => (
                       <div key={i} style={{

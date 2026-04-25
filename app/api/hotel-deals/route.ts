@@ -132,7 +132,7 @@ export async function GET(req: NextRequest) {
         photo:      dest.photo,
         region:     dest.region,
         priceUSD:   best.priceFrom!,
-        priceLabel: `a partir de R$ ${brl.toLocaleString('pt-BR')}/noite`,
+        priceLabel: `estimado R$ ${brl.toLocaleString('pt-BR')}/noite`,
         link:       buildBookingLink(dest.bookingSlug, checkIn, checkOut),
         hotelName:  best.hotelName || '',
         stars:      best.stars ?? 0,
