@@ -207,7 +207,7 @@ export default async function HomePage() {
           {/* Toolbar */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '28px 0 14px', gap: 14, flexWrap: 'wrap' }}>
             <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11.5, color: 'var(--muted)', letterSpacing: '.04em', textTransform: 'uppercase' }}>
-              Mostrando <strong style={{ color: 'var(--ink)' }}>48</strong> de 128 eventos · pacote inclui voo + hotel + ingresso
+              Eventos internacionais selecionados · pacote inclui voo + hotel + ingresso
             </div>
             <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
               <select style={{ padding: '8px 14px', border: '1px solid var(--line)', borderRadius: 10, background: '#fff', fontSize: 13, fontFamily: 'inherit', fontWeight: 500 }}>
