@@ -19,7 +19,10 @@ interface FlightDeal {
   airlineCode:         string
   stops:               number
   departDate:          string
+  returnDate:          string
+  isRoundTrip:         boolean
   link:                string
+  region:              string
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────
@@ -138,7 +141,7 @@ function FlightDealCard({ deal }: { deal: FlightDeal }) {
             fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
             color: '#9a9aa0', marginTop: 4,
           }}>
-            Ida · {deal.stops === 0 ? 'voo direto' : `${deal.stops} escala`} · via Trip.com
+            {deal.isRoundTrip ? 'Ida + volta' : 'Só ida'} · {deal.stops === 0 ? 'voo direto' : `${deal.stops} escala`} · via Trip.com
           </div>
         </div>
       </div>

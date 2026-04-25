@@ -96,8 +96,53 @@ export interface CheapFlight {
   airline:             string
   airlineCode:         string
   stops:               number
-  departDate:          string  // YYYY-MM-DD — data do voo mais barato
+  departDate:          string  // YYYY-MM-DD — data de partida
+  returnDate:          string  // YYYY-MM-DD — data de retorno ('' se só ida)
+  isRoundTrip:         boolean // true quando return_at está presente na resposta
   link:                string
+  region:              string  // para agrupamento em /melhores-destinos
+}
+
+// Mapeamento de IATA → região para agrupamento em /melhores-destinos
+const REGION_MAP: Record<string, string> = {
+  // Brasil
+  GRU: 'brasil', SAO: 'brasil', GIG: 'brasil', SDU: 'brasil', BSB: 'brasil',
+  SSA: 'brasil', FOR: 'brasil', REC: 'brasil', CWB: 'brasil', POA: 'brasil',
+  FLN: 'brasil', BHZ: 'brasil', CNF: 'brasil', MAO: 'brasil', BEL: 'brasil',
+  IGU: 'brasil', NAT: 'brasil', MCZ: 'brasil', JPA: 'brasil', VIX: 'brasil',
+  GYN: 'brasil', SLZ: 'brasil', AJU: 'brasil', CGR: 'brasil', CGB: 'brasil',
+  JOI: 'brasil', NVT: 'brasil', LDB: 'brasil', RIO: 'brasil', MOC: 'brasil',
+  PMW: 'brasil', THE: 'brasil', SJP: 'brasil', JDO: 'brasil', PNZ: 'brasil',
+  IOS: 'brasil', BPS: 'brasil',
+  // Europa
+  LIS: 'europa', OPO: 'europa', MAD: 'europa', BCN: 'europa', CDG: 'europa',
+  LHR: 'europa', FCO: 'europa', MXP: 'europa', FRA: 'europa', AMS: 'europa',
+  ARN: 'europa', CPH: 'europa', HEL: 'europa', ZRH: 'europa', VIE: 'europa',
+  BRU: 'europa', DUB: 'europa', ATH: 'europa', IST: 'europa', WAW: 'europa',
+  // EUA
+  MIA: 'eua', JFK: 'eua', MCO: 'eua', LAX: 'eua', ORD: 'eua',
+  BOS: 'eua', SFO: 'eua', IAH: 'eua', ATL: 'eua', DFW: 'eua',
+  // Canadá
+  YYZ: 'canada', YVR: 'canada', YUL: 'canada', YYC: 'canada',
+  // América do Sul
+  EZE: 'america-sul', BUE: 'america-sul', SCL: 'america-sul', BOG: 'america-sul',
+  LIM: 'america-sul', UIO: 'america-sul', MVD: 'america-sul', ASU: 'america-sul',
+  GEO: 'america-sul', BRC: 'america-sul', SRZ: 'america-sul',
+  // Caribe e México
+  CUN: 'caribe', MEX: 'caribe', HAV: 'caribe', PTY: 'caribe', SJO: 'caribe',
+  SDQ: 'caribe', PUJ: 'caribe', MBJ: 'caribe',
+  // Oriente Médio e Ásia
+  DXB: 'oriente-medio', TBS: 'asia', NRT: 'asia', HND: 'asia',
+  BKK: 'asia', SIN: 'asia', KUL: 'asia', ICN: 'asia', HKG: 'asia',
+  DEL: 'asia', BOM: 'asia', CMB: 'asia',
+  // África
+  JNB: 'africa', CAI: 'africa', CMN: 'africa', NBO: 'africa', LOS: 'africa',
+  // Oceania
+  SYD: 'oceania', MEL: 'oceania', AKL: 'oceania',
+}
+
+function getRegion(iata: string): string {
+  return REGION_MAP[iata] || 'outros'
 }
 
 function getAirlineName(code: string): string {
@@ -175,20 +220,30 @@ export async function GET(req: NextRequest) {
     const [d1, d2] = await Promise.all([r1.json(), r2.json()])
 
     // Mescla resultados, mantendo menor preço por destino
-    const priceMap: Record<string, { price: number; airline: string; stops: number; departDate: string }> = {}
+    const priceMap: Record<string, {
+      price: number; airline: string; stops: number
+      departDate: string; returnDate: string; isRoundTrip: boolean
+    }> = {}
 
     for (const dataset of [d1, d2]) {
       if (!dataset.success || !dataset.data) continue
-      for (const [dest, flights] of Object.entries(dataset.data as Record<string, Record<string, { price: number; airline: string; number_of_changes: number; departure_at?: string }>>)) {
+      for (const [dest, flights] of Object.entries(dataset.data as Record<string, Record<string, {
+        price: number; airline: string; number_of_changes: number
+        departure_at?: string; return_at?: string
+      }>>)) {
         for (const flight of Object.values(flights)) {
           if (!priceMap[dest] || flight.price < priceMap[dest].price) {
-            // departure_at vem como ISO string (ex: "2026-06-15T00:00:00") — extrai só YYYY-MM-DD
-            const departDate = flight.departure_at ? flight.departure_at.substring(0, 10) : ''
+            // departure_at e return_at vêm como ISO string — extrai só YYYY-MM-DD
+            const departDate  = flight.departure_at ? flight.departure_at.substring(0, 10) : ''
+            const returnDate  = flight.return_at    ? flight.return_at.substring(0, 10)    : ''
+            const isRoundTrip = !!flight.return_at
             priceMap[dest] = {
-              price:      flight.price,
-              airline:    flight.airline,
-              stops:      flight.number_of_changes ?? 0,
+              price: flight.price,
+              airline: flight.airline,
+              stops: flight.number_of_changes ?? 0,
               departDate,
+              returnDate,
+              isRoundTrip,
             }
           }
         }
@@ -213,7 +268,10 @@ export async function GET(req: NextRequest) {
           airlineCode:        info.airline,
           stops:              info.stops,
           departDate:         info.departDate,
+          returnDate:         info.returnDate,
+          isRoundTrip:        info.isRoundTrip,
           link:               buildFlightLink(origin, dest, info.departDate),
+          region:             getRegion(dest),
         }
       })
       .sort((a, b) => a.price - b.price)
