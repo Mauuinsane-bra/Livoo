@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import BirdAzulNavy from '../../components/BirdAzulNavy'
 
 const CATS = [
   { label: 'Tudo', slug: '', count: 248 },
@@ -19,7 +20,8 @@ export default function BlogSubnav() {
   return (
     <nav className="blog-subnav">
       <div className="inner">
-        <Link href="/blog" className="brand">
+        <Link href="/blog" className="brand" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <BirdAzulNavy size={34} />
           Blog da <span className="d">Go Livoo</span>
         </Link>
         <div className="cats">

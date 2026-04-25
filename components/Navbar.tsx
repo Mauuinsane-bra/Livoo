@@ -3,15 +3,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
-
-/* ── Logo andorinha SVG (direção 04) ──────────────────── */
-function LogoMark({ size = 45 }: { size?: number }) {
-  return (
-    <svg viewBox="0 0 64 40" width={size} height={size * 0.625} xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Go Livoo" fill="currentColor">
-      <path d="M32 22.5c-5.5-6-11-10.8-16.5-14.5-5-3.4-10-5.8-15-7.3-.7-.2-.8.8-.2 1.1 4.5 2.2 8.8 5.1 12.9 8.6 4 3.4 7.8 7.4 11.3 11.9-3.5 1.1-6.9 3-10.1 5.6-3.2 2.6-6.3 5.9-9.2 9.9-.3.4.2.9.6.6 3.5-2.6 7-4.6 10.5-5.9 3.5-1.3 7.1-1.9 10.8-1.7 1.6.1 3.2.4 4.9.9 1.7-.5 3.3-.8 4.9-.9 3.7-.2 7.3.4 10.8 1.7 3.5 1.3 7 3.3 10.5 5.9.4.3.9-.2.6-.6-2.9-4-6-7.3-9.2-9.9-3.2-2.6-6.6-4.5-10.1-5.6 3.5-4.5 7.3-8.5 11.3-11.9C56 8.9 60.3 6 64.8 3.8c.6-.3.5-1.3-.2-1.1-5 1.5-10 3.9-15 7.3C44.1 13.7 38.6 18.5 33.1 24.5c-.4.4-.8.4-1.1 0z"/>
-    </svg>
-  )
-}
+import BirdCabecudinha from './BirdCabecudinha'
 
 const navLinks = [
   { label: 'Eventos',    href: '/eventos' },
@@ -46,7 +38,7 @@ export default function Navbar() {
             display: 'flex', alignItems: 'center', gap: 10,
             textDecoration: 'none', lineHeight: 1, flexShrink: 0, color: '#0d0d0f',
           }}>
-            <LogoMark size={45} />
+            <BirdCabecudinha size={45} />
             <span style={{ display: 'inline-flex', flexDirection: 'column', gap: 3, lineHeight: 1, whiteSpace: 'nowrap' }}>
               <b style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, fontSize: 22, letterSpacing: '-0.035em', color: '#0d0d0f', lineHeight: .95 }}>Go Livoo</b>
               <small style={{ fontFamily: 'JetBrains Mono, monospace', fontWeight: 500, fontSize: 8.5, color: '#6d6d74', letterSpacing: '.2em', lineHeight: 1, textTransform: 'uppercase' }}>Vá mais longe por menos</small>
