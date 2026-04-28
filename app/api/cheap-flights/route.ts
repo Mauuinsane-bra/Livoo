@@ -242,9 +242,9 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // Formata resultado final, filtrando destinos conhecidos (excluindo a própria origem)
+    // Formata resultado final — só destinos mapeados (exclui códigos sem nome/foto)
     const flights: CheapFlight[] = Object.entries(priceMap)
-      .filter(([dest]) => dest !== origin)
+      .filter(([dest]) => dest !== origin && DESTINATIONS[dest])
       .map(([dest, info]) => {
         const meta = DESTINATIONS[dest]
         return {

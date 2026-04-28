@@ -2,7 +2,6 @@
 
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import Script from 'next/script'
 import FlightCard from '@/components/FlightCard'
 import FlightDrawer from '@/components/FlightDrawer'
 import AirportSearch, { type Airport } from '@/components/AirportSearch'
@@ -93,8 +92,7 @@ interface LegResult {
   legIndex: number
 }
 
-// ── Toggle entre White Label e busca clássica ───────────
-type SearchMode = 'whitelabel' | 'classic'
+// ── Modo de busca (White Label desativado — 503) ────────
 
 function PassagensContent() {
   const params = useSearchParams()
@@ -107,11 +105,8 @@ function PassagensContent() {
   })()
   const isMultiDestination = parsedLegs.length >= 2
 
-  // Se veio da URL com parâmetros de busca, usa modo clássico
-  const hasUrlParams = !!(params.get('origin') && params.get('destination') && params.get('date'))
-  const defaultMode: SearchMode = (isMultiDestination || hasUrlParams) ? 'classic' : 'whitelabel'
-
-  const [searchMode, setSearchMode] = useState<SearchMode>(defaultMode)
+  // Sempre modo clássico (White Label Travelpayouts desativado — retornava 503)
+  const searchMode = 'classic' as const
 
   const [origin,      setOrigin]      = useState<Airport | null>(null)
   const [destination, setDestination] = useState<Airport | null>(null)
@@ -271,38 +266,7 @@ function PassagensContent() {
               {isMultiDestination ? 'Voos — múltiplos destinos' : 'Buscar passagens'}
             </h1>
 
-            {/* Toggle White Label / Clássico (só quando não é multi-destino) */}
-            {!isMultiDestination && (
-              <div style={{
-                display: 'flex', gap: 4, background: 'rgba(255,255,255,0.12)',
-                borderRadius: 100, padding: 3,
-              }}>
-                <button
-                  onClick={() => setSearchMode('whitelabel')}
-                  style={{
-                    padding: '6px 16px', borderRadius: 100, border: 'none', cursor: 'pointer',
-                    fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 600,
-                    background: searchMode === 'whitelabel' ? '#fff' : 'transparent',
-                    color: searchMode === 'whitelabel' ? '#0F2340' : 'rgba(255,255,255,0.7)',
-                    transition: 'all 0.2s',
-                  }}
-                >
-                  Busca completa
-                </button>
-                <button
-                  onClick={() => setSearchMode('classic')}
-                  style={{
-                    padding: '6px 16px', borderRadius: 100, border: 'none', cursor: 'pointer',
-                    fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 600,
-                    background: searchMode === 'classic' ? '#fff' : 'transparent',
-                    color: searchMode === 'classic' ? '#0F2340' : 'rgba(255,255,255,0.7)',
-                    transition: 'all 0.2s',
-                  }}
-                >
-                  Busca rápida
-                </button>
-              </div>
-            )}
+            {/* Toggle removido — White Label desativado */}
           </div>
 
           {/* ── Formulário clássico (só no modo classic ou multi-destino) */}
@@ -375,42 +339,7 @@ function PassagensContent() {
         </div>
       </div>
 
-      {/* ════════════════════════════════════════════════════ */}
-      {/* ── MODO WHITE LABEL ─────────────────────────────── */}
-      {/* ════════════════════════════════════════════════════ */}
-      {searchMode === 'whitelabel' && !isMultiDestination && (
-        <div style={{ maxWidth: 1100, margin: '-8px auto 0', padding: '0 16px 60px' }}>
-          {/* Script do Travelpayouts White Label */}
-          <Script
-            id="tpwl-script"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
-                (function () {
-                  var script = document.createElement("script");
-                  script.async = 1;
-                  script.type = "module";
-                  script.src = "https://tpwdgt.com/wl_web/main.js?wl_id=16516";
-                  document.head.appendChild(script);
-                })();
-              `,
-            }}
-          />
-
-          {/* Container do formulário de busca */}
-          <div id="tpwl-search" style={{ marginBottom: 24 }} />
-
-          {/* Container dos resultados de voos */}
-          <div id="tpwl-tickets" />
-
-          <p style={{
-            fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#9BA8B8',
-            textAlign: 'center', marginTop: 24, lineHeight: 1.6,
-          }}>
-            Preços em R$ (BRL) · Busca e comparação via Travelpayouts · Sem markup · Sujeito a disponibilidade
-          </p>
-        </div>
-      )}
+      {/* White Label Travelpayouts removido — retornava 503 */}
 
       {/* ════════════════════════════════════════════════════ */}
       {/* ── MODO CLÁSSICO (resultados da API) ────────────── */}

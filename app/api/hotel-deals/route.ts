@@ -35,7 +35,7 @@ const DESTINATIONS: DestinationMeta[] = [
   { city: 'Santiago',        country: 'Chile',           flag: '🇨🇱', region: 'americas', hlCity: 'Santiago',         bookingSlug: 'santiago',         photo: U('1689850543263-01a52ccc6943') },
   // Oriente Médio / Ásia
   { city: 'Dubai',           country: 'Emirados Árabes', flag: '🇦🇪', region: 'asia',     hlCity: 'Dubai',            bookingSlug: 'dubai',            photo: U('1512453979798-5ea266f8880c') },
-  { city: 'Tóquio',          country: 'Japão',           flag: '🇯🇵', region: 'asia',     hlCity: 'Tokyo',            bookingSlug: 'tokyo',            photo: U('1540959733-8819b1890-61c') },
+  { city: 'Tóquio',          country: 'Japão',           flag: '🇯🇵', region: 'asia',     hlCity: 'Tokyo',            bookingSlug: 'tokyo',            photo: U('1540959733332-eab44bc62f3c') },
   { city: 'Tbilisi',         country: 'Geórgia',         flag: '🇬🇪', region: 'asia',     hlCity: 'Tbilisi',          bookingSlug: 'tbilisi',          photo: U('1603350576276-24747f7bbf40') },
 ]
 

@@ -155,7 +155,7 @@ function CarDealCard({ deal }: { deal: CarDeal }) {
             fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
             color: '#9a9aa0', marginTop: 4,
           }}>
-            Preço estimado · compara Localiza, Movida, Unidas e mais
+            Preço estimado · via Rentcars
           </div>
         </div>
       </div>
@@ -209,7 +209,7 @@ export default function CarrosPage() {
             color: 'rgba(255,255,255,0.75)', maxWidth: 520,
             margin: '0 auto 36px', lineHeight: 1.7,
           }}>
-            Compare Localiza, Movida, Unidas, Hertz, Avis e mais — tudo em uma busca pelo Rentcars, o maior agregador do Brasil.
+            Compare as melhores locadoras em uma busca pelo Rentcars, o maior agregador do Brasil.
           </p>
 
           {/* Seletor de categoria */}

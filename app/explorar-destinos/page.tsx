@@ -81,7 +81,7 @@ const REGIONS: Region[] = [
     id: 'asia',
     label: 'Ásia',
     subtitle: 'Tailândia, Japão, Maldivas, China, Índia e mais',
-    photo: 'https://images.unsplash.com/photo-1540959733-8819b1890-61c?w=120&h=80&fit=crop',
+    photo: 'https://images.unsplash.com/photo-1540959733332-eab44bc62f3c?w=120&h=80&fit=crop',
   },
   {
     id: 'canada',
@@ -234,6 +234,7 @@ function RegionRow({
 
 export default function MelhoresDestinosPage() {
   const [origin, setOrigin]         = useState('GRU')
+  const [destRegion, setDestRegion] = useState('')
   const [month, setMonth]           = useState('')
   const [flights, setFlights]       = useState<CheapFlight[]>([])
   const [loading, setLoading]       = useState(true)
@@ -339,6 +340,62 @@ export default function MelhoresDestinosPage() {
 
             <div style={{ width: 1, height: 36, background: '#E2E8F0' }} />
 
+            {/* Destino (região) */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+              <label style={{
+                fontFamily: 'Inter, sans-serif', fontSize: '0.62rem',
+                fontWeight: 700, color: '#64748B', textTransform: 'uppercase',
+                letterSpacing: '1px', marginBottom: 3,
+              }}>
+                Destino
+              </label>
+              <select
+                value={destRegion}
+                onChange={e => setDestRegion(e.target.value)}
+                style={{
+                  fontFamily: 'Nunito, sans-serif', fontSize: '0.95rem',
+                  fontWeight: 700, color: '#0F2340', border: 'none',
+                  outline: 'none', background: 'transparent', cursor: 'pointer',
+                  minWidth: 160,
+                }}
+              >
+                <option value="">Todas as regiões</option>
+                {REGIONS.map(r => (
+                  <option key={r.id} value={r.id}>{r.label}</option>
+                ))}
+              </select>
+            </div>
+
+            <div style={{ width: 1, height: 36, background: '#E2E8F0' }} />
+
+            {/* Destino (região) */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+              <label style={{
+                fontFamily: 'Inter, sans-serif', fontSize: '0.62rem',
+                fontWeight: 700, color: '#64748B', textTransform: 'uppercase',
+                letterSpacing: '1px', marginBottom: 3,
+              }}>
+                Destino
+              </label>
+              <select
+                value={destRegion}
+                onChange={e => setDestRegion(e.target.value)}
+                style={{
+                  fontFamily: 'Nunito, sans-serif', fontSize: '0.95rem',
+                  fontWeight: 700, color: '#0F2340', border: 'none',
+                  outline: 'none', background: 'transparent', cursor: 'pointer',
+                  minWidth: 160,
+                }}
+              >
+                <option value="">Todas as regiões</option>
+                {REGIONS.map(r => (
+                  <option key={r.id} value={r.id}>{r.label}</option>
+                ))}
+              </select>
+            </div>
+
+            <div style={{ width: 1, height: 36, background: '#E2E8F0' }} />
+
             {/* Mês */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
               <label style={{
@@ -389,7 +446,7 @@ export default function MelhoresDestinosPage() {
             </div>
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-              {REGIONS.map(region => (
+              {REGIONS.filter(r => !destRegion || r.id === destRegion).map(region => (
                 <RegionRow
                   key={region.id}
                   region={region}
@@ -399,6 +456,7 @@ export default function MelhoresDestinosPage() {
               ))}
             </div>
           )}
+
 
           {/* Disclaimer */}
           <p style={{

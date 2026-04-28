@@ -268,7 +268,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
         </div>
 
         {/* O que inclui */}
-        <div style={{ marginBottom: 20 }}>
+        <div style={{ marginBottom: 20, minHeight: 90 }}>
           <h3 style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: '0.75rem', fontWeight: 700,
@@ -286,6 +286,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '0.82rem', color: '#64748B',
                 display: 'flex', alignItems: 'center', gap: 6,
+                lineHeight: 1.3,
               }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
                   <polyline points="20 6 9 17 4 12"/>

@@ -40,7 +40,7 @@ const DEALS_SP: BusDeal[] = [
     origin: 'São Paulo', destination: 'Curitiba', destCountry: 'Brasil', flag: '🇧🇷',
     photo: U('1616642325314-fe17e194b380'), priceLabel: 'a partir de R$ 49',
     duration: '5h', provider: 'Buser', category: 'saida-sp',
-    link: 'https://www.buser.com.br/passagem-de-onibus/sao-paulo/curitiba',
+    link: 'https://www.buser.com.br/onibus/sao-paulo-sp',
   },
   {
     origin: 'São Paulo', destination: 'Foz do Iguaçu', destCountry: 'Brasil', flag: '🇧🇷',
@@ -58,7 +58,7 @@ const DEALS_SP: BusDeal[] = [
     origin: 'São Paulo', destination: 'Belo Horizonte', destCountry: 'Brasil', flag: '🇧🇷',
     photo: U('1568688503154-9edd877da0c7'), priceLabel: 'a partir de R$ 55',
     duration: '7h', provider: 'Buser', category: 'saida-sp',
-    link: 'https://www.buser.com.br/passagem-de-onibus/sao-paulo/belo-horizonte',
+    link: 'https://www.buser.com.br/onibus/sao-paulo-sp',
   },
 ]
 
