@@ -126,7 +126,7 @@ export default async function HomePage() {
             {/* Big card */}
             <Link href="/eventos/f1-monaco" style={{
               position: 'relative', borderRadius: 24, overflow: 'hidden', aspectRatio: '16/11',
-              background: 'linear-gradient(180deg, rgba(0,0,0,.05) 30%, rgba(0,0,0,.75) 100%), repeating-linear-gradient(135deg,#b57f4e 0 14px,#9e6d3f 14px 28px)',
+              background: 'linear-gradient(180deg, rgba(0,0,0,.05) 30%, rgba(0,0,0,.75) 100%), url(https://images.unsplash.com/photo-1504274066651-8d31a536b11a?auto=format&fit=crop&w=900&q=80) center/cover',
               display: 'flex', alignItems: 'flex-end', color: '#fff', padding: 30, textDecoration: 'none',
             }}>
               <span style={{ position: 'absolute', top: 20, left: 20, background: '#F5A800', color: '#0F2340', fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: 12, padding: '6px 12px', borderRadius: 999, letterSpacing: '.02em' }}>Mônaco · Maio 2026</span>
@@ -145,7 +145,7 @@ export default async function HomePage() {
               <Link href="/eventos/rock-in-rio" style={{
                 position: 'relative', borderRadius: 20, overflow: 'hidden', padding: 24, color: '#fff',
                 display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 190,
-                background: 'linear-gradient(160deg,#0c1d5e,#1a1fff)', textDecoration: 'none',
+                background: 'linear-gradient(160deg, rgba(12,29,94,.75), rgba(26,31,255,.7)), url(https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=600&q=80) center/cover', textDecoration: 'none',
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ background: 'rgba(255,255,255,.2)', padding: '4px 10px', borderRadius: 999, fontSize: 11, fontWeight: 600 }}>FESTIVAL</span>
@@ -163,7 +163,7 @@ export default async function HomePage() {
               <Link href="/eventos" style={{
                 position: 'relative', borderRadius: 20, overflow: 'hidden', padding: 24, color: '#fff',
                 display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 190,
-                background: 'linear-gradient(160deg,#1A82D8,#E11D48)', textDecoration: 'none',
+                background: 'linear-gradient(160deg, rgba(26,130,216,.7), rgba(225,29,72,.65)), url(https://images.unsplash.com/photo-1572883454114-1cf0031ede2a?auto=format&fit=crop&w=600&q=80) center/cover', textDecoration: 'none',
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ background: 'rgba(255,255,255,.2)', padding: '4px 10px', borderRadius: 999, fontSize: 11, fontWeight: 600 }}>-22% HOJE</span>
