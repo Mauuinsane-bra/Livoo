@@ -59,9 +59,9 @@ const products = [
 ]
 
 const destinations = [
-  { name: 'Monte Carlo', sub: 'Mônaco · EU', n: 3, href: '/eventos/f1-monaco', photo: 'https://images.unsplash.com/photo-1615483585256-a5e24a069ee1?auto=format&fit=crop&w=600&q=80' },
+  { name: 'Monte Carlo', sub: 'Mônaco · EU', n: 3, href: '/eventos/f1-monaco', photo: 'https://images.unsplash.com/photo-1588193263421-389147656e41?auto=format&fit=crop&w=600&q=80' },
   { name: 'Rio de Janeiro', sub: 'Brasil · SA', n: 8, href: '/eventos', photo: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=600&q=80' },
-  { name: 'Munique', sub: 'Alemanha · EU', n: 5, href: '/eventos', photo: 'https://images.unsplash.com/photo-1595168517039-39c27e413ea8?auto=format&fit=crop&w=600&q=80' },
+  { name: 'Munique', sub: 'Alemanha · EU', n: 5, href: '/eventos', photo: 'https://images.unsplash.com/photo-1774627201261-9ceb5318979c?auto=format&fit=crop&w=600&q=80' },
   { name: 'Paris', sub: 'França · EU', n: 5, href: '/eventos', photo: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=600&q=80' },
   { name: 'São Paulo', sub: 'Brasil · SA', n: 12, href: '/eventos', photo: 'https://images.unsplash.com/photo-1554168848-228452c09d60?auto=format&fit=crop&w=600&q=80' },
 ]
@@ -126,7 +126,7 @@ export default async function HomePage() {
             {/* Big card */}
             <Link href="/eventos/f1-monaco" style={{
               position: 'relative', borderRadius: 24, overflow: 'hidden', aspectRatio: '16/11',
-              background: 'linear-gradient(180deg, rgba(0,0,0,.05) 30%, rgba(0,0,0,.75) 100%), url(https://images.unsplash.com/photo-1504274066651-8d31a536b11a?auto=format&fit=crop&w=900&q=80) center/cover',
+              background: 'linear-gradient(180deg, rgba(0,0,0,.05) 30%, rgba(0,0,0,.75) 100%), url(https://images.unsplash.com/photo-1752884991193-f40e0018e483?auto=format&fit=crop&w=900&q=80) center/cover',
               display: 'flex', alignItems: 'flex-end', color: '#fff', padding: 30, textDecoration: 'none',
             }}>
               <span style={{ position: 'absolute', top: 20, left: 20, background: '#F5A800', color: '#0F2340', fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: 12, padding: '6px 12px', borderRadius: 999, letterSpacing: '.02em' }}>Mônaco · Maio 2026</span>
@@ -145,7 +145,7 @@ export default async function HomePage() {
               <Link href="/eventos/rock-in-rio" style={{
                 position: 'relative', borderRadius: 20, overflow: 'hidden', padding: 24, color: '#fff',
                 display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 190,
-                background: 'linear-gradient(160deg, rgba(12,29,94,.75), rgba(26,31,255,.7)), url(https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=600&q=80) center/cover', textDecoration: 'none',
+                background: 'linear-gradient(160deg, rgba(12,29,94,.75), rgba(26,31,255,.7)), url(https://images.unsplash.com/photo-1521547480571-2b6061babf76?auto=format&fit=crop&w=600&q=80) center/cover', textDecoration: 'none',
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ background: 'rgba(255,255,255,.2)', padding: '4px 10px', borderRadius: 999, fontSize: 11, fontWeight: 600 }}>FESTIVAL</span>
@@ -163,7 +163,7 @@ export default async function HomePage() {
               <Link href="/eventos" style={{
                 position: 'relative', borderRadius: 20, overflow: 'hidden', padding: 24, color: '#fff',
                 display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 190,
-                background: 'linear-gradient(160deg, rgba(26,130,216,.7), rgba(225,29,72,.65)), url(https://images.unsplash.com/photo-1572883454114-1cf0031ede2a?auto=format&fit=crop&w=600&q=80) center/cover', textDecoration: 'none',
+                background: 'linear-gradient(160deg, rgba(26,130,216,.7), rgba(225,29,72,.65)), url(https://images.unsplash.com/photo-1669778631871-7bb6d5411c4b?auto=format&fit=crop&w=600&q=80) center/cover', textDecoration: 'none',
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ background: 'rgba(255,255,255,.2)', padding: '4px 10px', borderRadius: 999, fontSize: 11, fontWeight: 600 }}>-22% HOJE</span>
