@@ -74,7 +74,7 @@ function SkeletonCard() {
 // ── Car Deal Card ──────────────────────────────────────────────────────────
 
 function CarDealCard({ deal }: { deal: CarDeal }) {
-  const link = `https://www.rentcars.com/pt-br/aluguel-de-carros/${deal.rentcarsSlug}/?requestorid=10582&utm_source=golivoo&utm_medium=afiliado`
+  const link = `https://www.rentcars.com/pt-br/?requestorid=10582&utm_source=www.golivoo.com.br&utm_medium=afiliado-link&utm_campaign=${deal.rentcarsSlug}`
 
   return (
     <a
