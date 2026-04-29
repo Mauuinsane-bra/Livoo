@@ -3,6 +3,7 @@ import Image from 'next/image'
 import HomeEventsGrid from '@/components/HomeEventsGrid'
 import { getLatestPosts } from '@/lib/sanity-queries'
 import { urlFor, categoryColor, type SanityBlogPost } from '@/lib/sanity'
+import { getTrendingDestinations, type TrendingDestination } from '@/lib/trending-destinations'
 
 function blogImgUrl(post: SanityBlogPost & { _fallbackImageUrl?: string }): string {
   if (post.coverImage) {
@@ -58,12 +59,13 @@ const products = [
   { icon: <ShieldIcon />, label: 'Seguro',    desc: 'Visto, vacinas e docs', href: '/prep' },
 ]
 
-const destinations = [
-  { name: 'Monte Carlo', sub: 'Mônaco · EU', n: 3, href: '/eventos/f1-monaco', photo: 'https://images.unsplash.com/photo-1588193263421-389147656e41?auto=format&fit=crop&w=600&q=80' },
-  { name: 'Rio de Janeiro', sub: 'Brasil · SA', n: 8, href: '/eventos', photo: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=600&q=80' },
-  { name: 'Munique', sub: 'Alemanha · EU', n: 5, href: '/eventos', photo: 'https://images.unsplash.com/photo-1774627201261-9ceb5318979c?auto=format&fit=crop&w=600&q=80' },
-  { name: 'Paris', sub: 'França · EU', n: 5, href: '/eventos', photo: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=600&q=80' },
-  { name: 'São Paulo', sub: 'Brasil · SA', n: 12, href: '/eventos', photo: 'https://images.unsplash.com/photo-1554168848-228452c09d60?auto=format&fit=crop&w=600&q=80' },
+// Fallback estático caso a API Travelpayouts esteja offline
+const FALLBACK_DESTINATIONS = [
+  { name: 'Lisboa', sub: 'Portugal · EU', price: 0, href: '/explorar-destinos', photo: 'https://images.unsplash.com/photo-1518241354-e57c7e99e5ce?auto=format&fit=crop&w=600&q=80' },
+  { name: 'Buenos Aires', sub: 'Argentina · SA', price: 0, href: '/explorar-destinos', photo: 'https://images.unsplash.com/photo-1589909202802-8f4aadce1849?auto=format&fit=crop&w=600&q=80' },
+  { name: 'Paris', sub: 'França · EU', price: 0, href: '/explorar-destinos', photo: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=600&q=80' },
+  { name: 'Miami', sub: 'EUA · NA', price: 0, href: '/explorar-destinos', photo: 'https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?auto=format&fit=crop&w=600&q=80' },
+  { name: 'Santiago', sub: 'Chile · SA', price: 0, href: '/explorar-destinos', photo: 'https://images.unsplash.com/photo-1689850543263-01a52ccc6943?auto=format&fit=crop&w=600&q=80' },
 ]
 
 const calDays = [
@@ -84,7 +86,14 @@ const catalogEvents = [
 const filterCats = ['Todos', 'Shows & Festivais', 'Esportes', 'Automobilismo', 'Gastronomia', 'Cultura', 'Aventura', 'Ecoturismo', 'Artes']
 
 export default async function HomePage() {
-  const latestPosts = (await getLatestPosts(4)) as (SanityBlogPost & { _fallbackImageUrl?: string })[]
+  const [latestPostsRaw, trendingRaw] = await Promise.all([
+    getLatestPosts(4),
+    getTrendingDestinations('GRU', 5),
+  ])
+  const latestPosts = latestPostsRaw as (SanityBlogPost & { _fallbackImageUrl?: string })[]
+  const destinations = trendingRaw.length > 0
+    ? trendingRaw.map(d => ({ name: d.name, sub: d.sub, price: d.price, href: d.href, photo: d.photo }))
+    : FALLBACK_DESTINATIONS
 
   return (
     <>
@@ -301,7 +310,7 @@ export default async function HomePage() {
         <div className="wrap">
           <div className="sec-head">
             <h2 className="display">Destinos em <em>alta</em></h2>
-            <Link href="/eventos" className="all">Ver todos os destinos →</Link>
+            <Link href="/explorar-destinos" className="all">Ver todos os destinos →</Link>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 10 }} className="dest-grid">
             {destinations.map(dest => (
@@ -320,7 +329,11 @@ export default async function HomePage() {
                 {/* Gradiente sobre a foto */}
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.72) 100%)' }} />
                 {/* Conteúdo */}
-                <span style={{ position: 'absolute', top: 12, right: 12, background: '#F5A800', color: '#0F2340', fontSize: 11, padding: '3px 8px', borderRadius: 999, fontWeight: 700, zIndex: 1 }}>{dest.n}</span>
+                {dest.price > 0 && (
+                  <span style={{ position: 'absolute', top: 12, right: 12, background: '#F5A800', color: '#0F2340', fontSize: 11, padding: '3px 8px', borderRadius: 999, fontWeight: 700, zIndex: 1 }}>
+                    {'R$ ' + dest.price.toLocaleString('pt-BR')}
+                  </span>
+                )}
                 <span style={{ position: 'absolute', top: 14, left: 14, fontSize: 10, fontFamily: 'JetBrains Mono, monospace', letterSpacing: '.12em', textTransform: 'uppercase', fontWeight: 500, opacity: .85, zIndex: 1 }}>{dest.sub}</span>
                 <span style={{ position: 'relative', zIndex: 1 }}>{dest.name}</span>
               </Link>
