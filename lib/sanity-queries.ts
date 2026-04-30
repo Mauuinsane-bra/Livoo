@@ -174,12 +174,13 @@ export async function getPostsByCategory(category: string): Promise<SanityBlogPo
   try {
     const posts = await sanityClient.fetch<SanityBlogPost[]>(
       `*[_type == "blogPost" && (
-        string::lower(category) == $cat ||
         category == $catExact ||
+        string::lower(category) == $cat ||
         ($cat == "copa-do-mundo" && (
-          category == "Copa do Mundo 2026" ||
-          string::lower(category) match "*copa*mundo*" ||
-          string::lower(category) match "*world*cup*"
+          category in ["Copa do Mundo 2026", "Esportes", "Futebol"] ||
+          title match "Copa" ||
+          title match "Copa do Mundo" ||
+          title match "World Cup"
         ))
       )] | order(publishedAt desc) { ${POST_FIELDS} }`,
       { cat: category.toLowerCase(), catExact: sanityCat }
