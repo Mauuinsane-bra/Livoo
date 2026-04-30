@@ -1,24 +1,19 @@
 // app/api/waitlist/route.ts
-// POST /api/waitlist — registra inscrito e envia emails via Resend (fetch nativo)
-// Storage: arquivo JSON local (sem Supabase por ora)
+// POST /api/waitlist — registra inscrito via Resend Contacts + envia emails de confirmação
+// Storage: Resend Contacts API (persistente, não depende de filesystem efêmero)
 
 import { NextRequest, NextResponse } from 'next/server'
-import path from 'path'
-import fs from 'fs'
 
-// ── Rate limiting (in-memory, por IP) ─────────────────
+// ── Rate limiting (in-memory, por IP) ─────────────────────────────────────────
 // Máximo: 3 tentativas por IP em 10 minutos
-const RATE_LIMIT_MAX      = 3
-const RATE_LIMIT_WINDOW   = 10 * 60 * 1000  // 10 min em ms
+const RATE_LIMIT_MAX    = 3
+const RATE_LIMIT_WINDOW = 10 * 60 * 1000  // 10 min em ms
 const ipAttempts = new Map<string, { count: number; resetAt: number }>()
 
 function getClientIp(req: NextRequest): string {
-  // Em ambientes de proxy confiáveis (Vercel, Cloudflare), x-forwarded-for é seguro.
-  // Em outros ambientes, considere usar o IP do socket.
-  // NOTA: Em Vercel, o primeiro IP do x-forwarded-for é injetado pela plataforma.
+  // Em Vercel, x-forwarded-for é injetado pela plataforma (confiável).
   const forwarded = req.headers.get('x-forwarded-for')
   if (forwarded) {
-    // Pega o ÚLTIMO IP (adicionado pelo proxy confiável mais próximo)
     const ips = forwarded.split(',').map(s => s.trim())
     return ips[ips.length - 1] || 'unknown'
   }
@@ -43,66 +38,81 @@ function checkRateLimit(ip: string): { allowed: boolean; retryAfter?: number } {
   return { allowed: true }
 }
 
-// ── Storage JSON com file locking simples ─────────────
-const DATA_FILE = path.join(process.cwd(), 'data', 'waitlist.json')
-let writeLock = false
-
-function readList(): Array<Record<string, unknown>> {
-  try {
-    if (!fs.existsSync(DATA_FILE)) return []
-    return JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'))
-  } catch {
-    return []
-  }
-}
-
-async function writeListSafe(entries: Array<Record<string, unknown>>) {
-  // Espera lock liberar (timeout de 5s)
-  const start = Date.now()
-  while (writeLock && Date.now() - start < 5000) {
-    await new Promise(r => setTimeout(r, 50))
-  }
-  writeLock = true
-  try {
-    const dir = path.dirname(DATA_FILE)
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
-    fs.writeFileSync(DATA_FILE, JSON.stringify(entries, null, 2), 'utf-8')
-  } finally {
-    writeLock = false
-  }
-}
-
-// ── Validação ─────────────────────────────────────────
+// ── Validação ─────────────────────────────────────────────────────────────────
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 const VALID_INTERESTS = [
   'Futebol', 'Automobilismo', 'Shows', 'Cultura',
   'Aventura', 'Gastronomia', 'Praias', 'Intercâmbio',
 ]
-const MAX_NAME_LENGTH = 100
+const MAX_NAME_LENGTH  = 100
 const MAX_EMAIL_LENGTH = 254
 
-// ── Resend via fetch nativo ────────────────────────────
+// ── Resend Contacts API — storage persistente ──────────────────────────────────
+// Documentação: https://resend.com/docs/api-reference/contacts/create-contact
+// Configure RESEND_AUDIENCE_ID em resend.com → Audiences → Create
+async function addToResendContacts(
+  email: string,
+  firstName: string,
+  interests: string[],
+): Promise<{ ok: boolean; duplicate: boolean }> {
+  const apiKey     = process.env.RESEND_API_KEY
+  const audienceId = process.env.RESEND_AUDIENCE_ID
+
+  if (!apiKey || !audienceId) {
+    // Sem configuração de Audience: log de alerta, mas não bloqueia o fluxo
+    console.warn('[waitlist] RESEND_API_KEY ou RESEND_AUDIENCE_ID não configurado — contato não persistido no Resend Contacts')
+    return { ok: false, duplicate: false }
+  }
+
+  const res = await fetch(`https://api.resend.com/audiences/${audienceId}/contacts`, {
+    method: 'POST',
+    headers: {
+      Authorization:  `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email,
+      first_name:   firstName,
+      unsubscribed: false,
+      // Interesses armazenados como campo customizado (Resend não tem campos custom nativos,
+      // então incluímos no first_name como sufixo legível ou ignoramos — mantemos separado no email de notificação)
+    }),
+  })
+
+  // 409 = contato já existe nesta audience
+  if (res.status === 409) return { ok: false, duplicate: true }
+
+  if (!res.ok) {
+    const body = await res.text().catch(() => '')
+    console.error('[waitlist] Resend Contacts API erro:', res.status, body)
+    return { ok: false, duplicate: false }
+  }
+
+  return { ok: true, duplicate: false }
+}
+
+// ── Resend email via fetch nativo ─────────────────────────────────────────────
 async function sendEmail(to: string, subject: string, html: string) {
   return fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+      Authorization:  `Bearer ${process.env.RESEND_API_KEY}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ from: 'Livoo <onboarding@resend.dev>', to, subject, html }),
+    body: JSON.stringify({ from: 'Go Livoo <onboarding@resend.dev>', to, subject, html }),
   })
 }
 
-// ── POST — novo inscrito ───────────────────────────────
+// ── POST — novo inscrito ───────────────────────────────────────────────────────
 export async function POST(req: NextRequest) {
   try {
     // Rate limiting por IP
-    const ip = getClientIp(req)
+    const ip   = getClientIp(req)
     const rate = checkRateLimit(ip)
     if (!rate.allowed) {
       return NextResponse.json(
         { error: `Muitas tentativas. Aguarde ${rate.retryAfter} segundos.` },
-        { status: 429, headers: { 'Retry-After': String(rate.retryAfter) } }
+        { status: 429, headers: { 'Retry-After': String(rate.retryAfter) } },
       )
     }
 
@@ -127,35 +137,28 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Email inválido.' }, { status: 400 })
     }
 
-    // Validação de interests — aceitar apenas valores conhecidos
+    // Validação de interesses — apenas valores permitidos
     let validInterests: string[] = []
     if (Array.isArray(interests)) {
       validInterests = interests
         .filter((i): i is string => typeof i === 'string')
         .filter(i => VALID_INTERESTS.includes(i))
-        .slice(0, 10) // máximo 10 interesses
+        .slice(0, 10)
     }
 
-    const list = readList()
-    const emailNorm = email.trim().toLowerCase()
+    const emailNorm  = email.trim().toLowerCase()
+    const firstName  = name.trim().split(' ')[0]
 
-    if (list.some(e => e.email === emailNorm)) {
+    // ── Persistência via Resend Contacts ──────────────────────────────────────
+    const { duplicate } = await addToResendContacts(emailNorm, firstName, validInterests)
+
+    if (duplicate) {
       return NextResponse.json({ error: 'Este email já está na lista de espera.' }, { status: 409 })
     }
 
-    // Salva localmente com file locking
-    list.push({
-      name: name.trim().slice(0, MAX_NAME_LENGTH),
-      email: emailNorm,
-      interests: validInterests,
-      createdAt: new Date().toISOString(),
-    })
-    await writeListSafe(list)
-
-    // Emails (best-effort — não quebra o fluxo se falhar)
-    const notifyEmail = process.env.RESEND_NOTIFY_EMAIL
+    // ── Emails de notificação e confirmação (best-effort) ─────────────────────
+    const notifyEmail  = process.env.RESEND_NOTIFY_EMAIL
     if (process.env.RESEND_API_KEY && notifyEmail) {
-      const firstName   = name.trim().split(' ')[0]
       const interestsTxt = validInterests.length > 0
         ? validInterests.join(', ')
         : 'Não informado'
@@ -175,7 +178,6 @@ export async function POST(req: NextRequest) {
               <tr><td style="padding:8px 0;border-bottom:1px solid #EEF4FF;color:#5A6A80">Interesses</td><td style="padding:8px 0;border-bottom:1px solid #EEF4FF;color:#0D1B3E">${escapeHtml(interestsTxt)}</td></tr>
               <tr><td style="padding:8px 0;color:#5A6A80">Cadastrado em</td><td style="padding:8px 0;color:#0D1B3E">${submittedAt} (BRT)</td></tr>
             </table>
-            <p style="margin:20px 0 0;font-size:12px;color:#5A6A80">Total na lista: <strong>${list.length}</strong> inscritos</p>
           </div>
         </div>`
 
@@ -212,24 +214,4 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ ok: true })
-  } catch (err) {
-    console.error('[waitlist] Erro inesperado')
-    if (err instanceof SyntaxError) {
-      return NextResponse.json({ error: 'Corpo da requisição inválido.' }, { status: 400 })
-    }
-    return NextResponse.json({ error: 'Erro interno. Tente novamente.' }, { status: 500 })
-  }
-}
-
-// GET removido — dados de waitlist não devem ser expostos publicamente.
-// Para acesso admin, use: npm run db:studio
-
-// ── Helpers ───────────────────────────────────────────
-function escapeHtml(str: string): string {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;')
-}
+  
