@@ -6,6 +6,9 @@
 // Funciona imediatamente, sem configurar nenhuma chave de API.
 
 import { NextRequest, NextResponse } from 'next/server'
+import { createRateLimiter } from '@/lib/rate-limit'
+
+const rateLimit = createRateLimiter('airports', { maxRequests: 60, windowMs: 60_000 })
 
 // ── Lista estática de fallback (usada apenas se a API falhar) ───
 const STATIC_AIRPORTS = [
@@ -61,6 +64,9 @@ const STATIC_AIRPORTS = [
 ]
 
 export async function GET(req: NextRequest) {
+  const blocked = rateLimit(req)
+  if (blocked) return blocked
+
   const { searchParams } = new URL(req.url)
   const query = (searchParams.get('q') ?? '').trim().slice(0, 50) // limitar tamanho
 
@@ -83,11 +89,4 @@ export async function GET(req: NextRequest) {
   // Fallback: filtra lista estática
   const q = query.toLowerCase()
   const filtered = STATIC_AIRPORTS.filter(a =>
-    a.iata.toLowerCase().includes(q) ||
-    a.city.toLowerCase().includes(q) ||
-    a.name.toLowerCase().includes(q) ||
-    a.country.toLowerCase().includes(q)
-  ).slice(0, 10)
-
-  return NextResponse.json({ airports: filtered })
-}
+    a.iata.toLowerCase().i

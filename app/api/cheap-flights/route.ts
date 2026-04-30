@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createRateLimiter, isValidIATA } from '@/lib/rate-limit'
 
 // force-dynamic: cada chamada com ?origin= diferente retorna resultado fresco
 // (a cache de 6h é feita nas chamadas fetch individuais para o Travelpayouts)
 export const dynamic = 'force-dynamic'
+
+const rateLimit = createRateLimiter('cheap-flights', { maxRequests: 20, windowMs: 60_000 })
 
 const DATA_API_URL = 'https://api.travelpayouts.com'
 
@@ -181,6 +184,9 @@ function buildFlightLink(origin?: string, dest?: string, date?: string): string 
 }
 
 export async function GET(req: NextRequest) {
+  const blocked = rateLimit(req)
+  if (blocked) return blocked
+
   const token = process.env.TRAVELPAYOUTS_TOKEN
   if (!token) {
     return NextResponse.json({ error: 'Serviço de voos temporariamente indisponível', flights: [] }, { status: 503 })
@@ -188,6 +194,10 @@ export async function GET(req: NextRequest) {
 
   const { searchParams } = new URL(req.url)
   const origin = (searchParams.get('origin') || 'GRU').toUpperCase()
+
+  if (!isValidIATA(origin)) {
+    return NextResponse.json({ error: 'Código de aeroporto inválido', flights: [] }, { status: 400 })
+  }
 
   // Mês atual e próximo para cobrir mais opções
   const now        = new Date()
@@ -263,16 +273,4 @@ export async function GET(req: NextRequest) {
           returnDate:         info.returnDate,
           isRoundTrip:        info.isRoundTrip,
           link:               buildFlightLink(origin, dest, info.departDate),
-          region:             getRegion(dest),
-        }
-      })
-      .sort((a, b) => a.price - b.price)
-      .slice(0, 24)
-
-    return NextResponse.json({ flights, origin, updatedAt: new Date().toISOString() })
-
-  } catch (err) {
-    console.error('[cheap-flights]', err)
-    return NextResponse.json({ error: 'Erro ao buscar voos baratos', flights: [] }, { status: 500 })
-  }
-}
+          region:    

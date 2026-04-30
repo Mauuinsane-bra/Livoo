@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createRateLimiter } from '@/lib/rate-limit'
 
 export const dynamic = 'force-dynamic'
+
+const rateLimit = createRateLimiter('hotel-deals', { maxRequests: 20, windowMs: 60_000 })
 
 // ── Destinos curados com metadados visuais ─────────────────────────────────
 const U = (id: string) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=800&q=80`
@@ -62,6 +65,9 @@ function usdToBRL(usd: number): number {
 }
 
 export async function GET(req: NextRequest) {
+  const blocked = rateLimit(req)
+  if (blocked) return blocked
+
   const { searchParams } = new URL(req.url)
   const region = searchParams.get('region') || 'europa'
 
@@ -152,11 +158,4 @@ export async function GET(req: NextRequest) {
       region:     dest.region,
       priceUSD:   null,
       priceLabel: 'Ver preços',
-      link:       buildBookingLink(dest.bookingSlug, checkIn, checkOut),
-      hotelName:  '',
-      stars:      0,
-    } as HotelDeal
-  })
-
-  return NextResponse.json({ deals, checkIn, checkOut, isDemoMode: false })
-}
+      link:

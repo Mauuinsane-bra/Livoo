@@ -27,7 +27,7 @@ import { sanityClient } from '@/lib/sanity'
 // ─── Verificação de assinatura do Sanity ─────────────────────────────────────
 async function verifySanitySignature(req: NextRequest, body: string): Promise<boolean> {
   const secret = process.env.SANITY_WEBHOOK_SECRET
-  if (!secret) return true // sem secret configurado: aceitar (dev)
+  if (!secret) return false // sem secret configurado: rejeitar (segurança)
 
   const signature = req.headers.get('sanity-webhook-signature')
   if (!signature) return false
@@ -248,6 +248,4 @@ export async function POST(req: NextRequest) {
     ok: true,
     caption: caption.slice(0, 100) + '...',
     instagram: igOk,
-    facebook: fbOk,
-  })
-}
+    f
