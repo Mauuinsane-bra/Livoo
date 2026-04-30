@@ -235,7 +235,14 @@ export default async function BlogPost({ params }: Props) {
             /* Sanity sem imagens no corpo → usa HTML local com imagens Unsplash */
             <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(post._fallbackContent, {
               allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'figure', 'figcaption']),
-              allowedAttributes: { ...sanitizeHtml.defaults.allowedAttributes, img: ['src', 'alt', 'width', 'height', 'loading'] },
+              allowedAttributes: {
+                ...sanitizeHtml.defaults.allowedAttributes,
+                img: ['src', 'alt', 'width', 'height', 'loading'],
+                ul: ['class'],
+                li: ['class'],
+                figure: ['class'],
+                figcaption: ['class'],
+              },
             }) }} className="blog-fallback-content" />
           ) : post.content && post.content.length > 0 ? (
             <PortableText value={post.content} components={ptComponents} />
@@ -321,9 +328,16 @@ export default async function BlogPost({ params }: Props) {
         .article-grid { grid-template-columns: 260px minmax(0,720px) 320px; }
         .rel-grid { grid-template-columns: repeat(3, 1fr); }
         .blog-fallback-content h2 { font-family: 'Archivo', sans-serif; font-weight: 900; font-size: 32px; color: var(--ink); margin: 32px 0 14px; }
+        .blog-fallback-content h3 { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 22px; color: var(--ink); margin: 24px 0 10px; }
         .blog-fallback-content p { font-size: 17.5px; color: var(--ink-2); line-height: 1.65; margin-bottom: 16px; font-weight: 500; }
         .blog-fallback-content a { color: var(--orange-dk); font-weight: 700; border-bottom: 2px solid var(--sun); }
         .blog-fallback-content ul, .blog-fallback-content ol { font-size: 16px; color: var(--ink-2); padding-left: 22px; line-height: 1.65; margin-bottom: 16px; }
+        .blog-fallback-content figure { margin: 28px 0; border-radius: 16px; overflow: hidden; }
+        .blog-fallback-content figure img { width: 100%; height: auto; display: block; border-radius: 16px; }
+        .blog-fallback-content figcaption { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); text-align: center; margin-top: 8px; font-style: italic; line-height: 1.5; padding: 0 8px; }
+        .blog-fallback-content ul.jogos { list-style: none; padding: 0; margin: 16px 0 28px; display: flex; flex-direction: column; gap: 8px; }
+        .blog-fallback-content ul.jogos li { display: flex; align-items: flex-start; gap: 12px; background: var(--bg-soft); border: 1px solid var(--line); border-left: 4px solid var(--orange); border-radius: 10px; padding: 12px 16px; font-size: 15px; line-height: 1.45; color: var(--ink-2); }
+        .blog-fallback-content ul.jogos li strong { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; margin-right: 4px; }
         @media (max-width: 1100px) {
           .article-grid { grid-template-columns: 1fr !important; }
           .rel-grid { grid-template-columns: repeat(2, 1fr) !important; }

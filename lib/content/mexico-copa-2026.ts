@@ -44,7 +44,7 @@ export const MEXICO_COPA_2026_HTML = `
 </figure>
 
 <p><strong>Jogos no Estádio Azteca:</strong></p>
-<ul>
+<ul class="jogos">
   <li><strong>Abertura (Grupo A):</strong> México x África do Sul — 11 de junho de 2026</li>
   <li><strong>Fase de Grupos (Grupo K):</strong> Uzbequistão x Colômbia — 17 de junho de 2026</li>
   <li><strong>Fase de Grupos (Grupo A):</strong> México x Vencedor da Repescagem Europeia D — 24 de junho de 2026</li>
@@ -88,7 +88,7 @@ export const MEXICO_COPA_2026_HTML = `
 </figure>
 
 <p><strong>Jogos no Estádio BBVA — Monterrey:</strong></p>
-<ul>
+<ul class="jogos">
   <li>Suécia x Tunísia — 14 de junho de 2026</li>
   <li>Japão x Tunísia — 20 de junho de 2026</li>
   <li>África do Sul x República da Coreia — 24 de junho de 2026</li>
@@ -115,7 +115,7 @@ export const MEXICO_COPA_2026_HTML = `
 </figure>
 
 <p><strong>Jogos no Estádio Akron — Guadalajara:</strong></p>
-<ul>
+<ul class="jogos">
   <li>Coreia do Sul x Vencedor da Repescagem Europeia — 11 de junho de 2026</li>
   <li>México x Coreia do Sul — 18 de junho de 2026</li>
   <li>Colômbia x Vencedor da Repescagem Mundial — 23 de junho de 2026</li>
