@@ -44,7 +44,7 @@ const VALID_INTERESTS = [
 const MAX_NAME_LENGTH  = 100
 const MAX_EMAIL_LENGTH = 254
 
-const NOTIFY_EMAIL = 'contato@golivoo.com.br'
+const NOTIFY_EMAIL = process.env.RESEND_NOTIFY_EMAIL ?? 'contato@golivoo.com.br'
 
 // ── Envio de email via Resend ─────────────────────────────────────────────────
 async function sendEmail(to: string, subject: string, html: string) {
@@ -149,11 +149,17 @@ export async function POST(req: NextRequest) {
           </div>
         </div>`
 
-      // Dispara em paralelo sem bloquear a resposta
-      Promise.all([
-        sendEmail(NOTIFY_EMAIL, `[Livoo Waitlist] ${name.trim()} — ${emailNorm}`, notifyHtml),
-        sendEmail(emailNorm, 'Você está na lista da Livoo!', confirmHtml),
-      ]).catch(err => console.warn('[waitlist] Falha ao enviar emails:', err))
+      try {
+        await Promise.all([
+          sendEmail(NOTIFY_EMAIL, `[Livoo Waitlist] ${name.trim()} — ${emailNorm}`, notifyHtml),
+          sendEmail(emailNorm, 'Você está na lista da Livoo!', confirmHtml),
+        ])
+        console.info('[waitlist] Emails enviados para', NOTIFY_EMAIL, 'e', emailNorm)
+      } catch (emailErr) {
+        console.error('[waitlist] Falha ao enviar email via Resend:', emailErr)
+      }
+    } else {
+      console.warn('[waitlist] RESEND_API_KEY não configurado — email não enviado')
     }
 
     return NextResponse.json({ ok: true })
