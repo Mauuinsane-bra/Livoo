@@ -6,7 +6,7 @@ import BirdAzulNavy from '../../components/BirdAzulNavy'
 
 const CATS = [
   { label: 'Tudo', slug: '' },
-  { label: '🏆 Copa 2026', slug: 'copa-do-mundo' },
+  { label: 'Copa 2026', slug: 'copa-do-mundo' },
   { label: 'Destinos', slug: 'destinos' },
   { label: 'Eventos', slug: 'eventos' },
   { label: 'Guias', slug: 'guias' },
