@@ -183,13 +183,13 @@ export default async function BlogHome() {
           <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 40, alignItems: 'center' }} className="nl-grid">
             <div>
               <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11.5, fontWeight: 700, color: 'var(--ink)', letterSpacing: '.14em', textTransform: 'uppercase', marginBottom: 12 }}>
-                ◆ Newsletter semanal
+                ◆ Newsletter Go Livoo
               </div>
               <h3 style={{ fontFamily: "'Archivo', sans-serif", fontWeight: 900, fontSize: 'clamp(32px, 4vw, 48px)', letterSpacing: '-.035em', lineHeight: .98, margin: '0 0 14px', color: 'var(--ink)' }}>
                 Promoção boa<br />não espera.
               </h3>
               <p style={{ fontSize: 16, color: 'var(--ink-2)', margin: 0, maxWidth: 440, fontWeight: 500 }}>
-                Receba curadoria de experiências + alertas de queda de preço toda sexta-feira.
+                Receba curadoria de experiências, alertas de preço e guias de viagem em primeira mão.
               </p>
               <NewsletterForm variant="hero" />
             </div>
@@ -198,7 +198,7 @@ export default async function BlogHome() {
                 Dicas de destinos, alertas de preço e guias práticos direto no seu email.
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12.5, color: '#b8b0a3', fontWeight: 500 }}>Toda sexta-feira na sua caixa de entrada</span>
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12.5, color: '#b8b0a3', fontWeight: 500 }}>Novidades em primeira mão na sua caixa de entrada</span>
               </div>
             </div>
           </div>

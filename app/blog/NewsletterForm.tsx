@@ -23,7 +23,7 @@ export default function NewsletterForm({ variant = 'hero' }: { variant?: Variant
       const data = await res.json()
       if (res.ok) {
         setStatus('ok')
-        setMsg('Cadastro confirmado! Nos vemos na sexta 📩')
+        setMsg('Cadastro confirmado! Em breve novidades no seu email 📩')
         setEmail('')
       } else {
         setStatus('error')

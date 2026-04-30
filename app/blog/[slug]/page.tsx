@@ -295,9 +295,9 @@ export default async function BlogPost({ params }: Props) {
               Newsletter
             </div>
             <h5 style={{ fontFamily: "'Archivo', sans-serif", fontWeight: 900, fontSize: 22, letterSpacing: '-.025em', lineHeight: 1.05, margin: '0 0 8px' }}>
-              Receba dicas de viagem toda semana
+              Receba dicas de viagem
             </h5>
-            <p style={{ fontSize: 13, color: 'var(--muted)', margin: '0 0 14px', lineHeight: 1.5, fontWeight: 500 }}>Guias, destinos e alertas de preço toda sexta.</p>
+            <p style={{ fontSize: 13, color: 'var(--muted)', margin: '0 0 14px', lineHeight: 1.5, fontWeight: 500 }}>Guias, destinos e alertas de preço direto no seu email.</p>
             <NewsletterForm variant="sidebar" />
           </div>
         </aside>
