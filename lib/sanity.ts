@@ -37,6 +37,8 @@ export interface SanityBlogPost {
   tags?: string[]
   featured?: boolean
   autoPost?: boolean
+  authorName?: string
+  authorImage?: SanityImageSource & { alt?: string }
 }
 
 // Mapa de cor por categoria (mantido local para evitar dados no CMS)

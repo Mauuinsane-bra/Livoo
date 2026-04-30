@@ -126,6 +126,21 @@ export const blogPost = defineType({
       initialValue: false,
     }),
     defineField({
+      name: 'authorName',
+      title: 'Nome do autor',
+      type: 'string',
+      description: 'Nome que aparecerá no post. Ex: "Mauricio Casagrande" ou "Redação Go Livoo"',
+    }),
+    defineField({
+      name: 'authorImage',
+      title: 'Foto do autor',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [
+        { name: 'alt', type: 'string', title: 'Texto alternativo' },
+      ],
+    }),
+    defineField({
       name: 'autoPost',
       title: 'Publicar automaticamente no Instagram e Facebook?',
       description: 'Quando ativado, ao publicar este post o sistema gera uma legenda com IA e posta nas redes sociais.',

@@ -184,10 +184,16 @@ export default async function BlogPost({ params }: Props) {
           {/* Byline */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 22, flexWrap: 'wrap', padding: '22px 24px', background: 'var(--bg)', borderRadius: 18, border: '1.5px solid var(--line)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <div style={{ width: 44, height: 44, borderRadius: 999, background: 'linear-gradient(135deg,var(--orange),var(--coral))', flexShrink: 0 }} />
+              {post.authorImage ? (
+                <div style={{ width: 44, height: 44, borderRadius: 999, overflow: 'hidden', flexShrink: 0, position: 'relative' }}>
+                  <Image src={urlFor(post.authorImage).width(88).height(88).url()} alt={post.authorName ?? 'Autor'} fill style={{ objectFit: 'cover' }} />
+                </div>
+              ) : (
+                <div style={{ width: 44, height: 44, borderRadius: 999, background: 'linear-gradient(135deg,var(--orange),var(--coral))', flexShrink: 0 }} />
+              )}
               <div>
-                <b style={{ display: 'block', fontWeight: 700, fontSize: 14.5, color: 'var(--ink)' }}>Equipe Go Livoo</b>
-                <span style={{ display: 'block', fontSize: 12, color: 'var(--muted)', fontWeight: 500, marginTop: 2 }}>Editores de conteúdo</span>
+                <b style={{ display: 'block', fontWeight: 700, fontSize: 14.5, color: 'var(--ink)' }}>{post.authorName ?? 'Equipe Go Livoo'}</b>
+                <span style={{ display: 'block', fontSize: 12, color: 'var(--muted)', fontWeight: 500, marginTop: 2 }}>Redação Go Livoo</span>
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: 'var(--muted)', fontWeight: 600, letterSpacing: '.04em' }}>

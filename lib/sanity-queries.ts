@@ -15,7 +15,9 @@ const POST_FIELDS = `
   publishedAt,
   readTime,
   tags,
-  featured
+  featured,
+  authorName,
+  authorImage { asset, alt }
 `
 
 // ─── Queries ────────────────────────────────────────────────────────────────
@@ -59,6 +61,20 @@ function findRichContent(title = '', category = ''): string | null {
   return null
 }
 
+// ─── Fallback de imagem de capa por título ───────────────────────────────────
+// Injeta _fallbackImageUrl para posts Sanity sem coverImage nem coverImageUrl.
+const COVER_IMAGE_MAP: Array<[RegExp, string]> = [
+  [/mexico|méxico|copa.*mundo|copa do mundo|azteca|guadalajara|monterrey/i, '/blog-imgs/cdmx.jpg'],
+]
+
+function findCoverImage(title = '', category = ''): string | null {
+  const text = title + ' ' + category
+  for (const [re, url] of COVER_IMAGE_MAP) {
+    if (re.test(text)) return url
+  }
+  return null
+}
+
 export async function getAllPosts(): Promise<SanityBlogPost[]> {
   try {
     const posts = await sanityClient.fetch<(SanityBlogPost & { coverImageUrl?: string })[]>(
@@ -69,6 +85,12 @@ export async function getAllPosts(): Promise<SanityBlogPost[]> {
       return posts.map(p => {
         if (!p.coverImage && p.coverImageUrl) {
           (p as SanityBlogPost & { _fallbackImageUrl?: string })._fallbackImageUrl = sanitizeImageUrl(p.coverImageUrl, p.title)
+        }
+        // Sem nenhuma imagem → tentar por título
+        const typed = p as SanityBlogPost & { _fallbackImageUrl?: string }
+        if (!p.coverImage && !typed._fallbackImageUrl) {
+          const cover = findCoverImage(p.title, p.category)
+          if (cover) typed._fallbackImageUrl = cover
         }
         return p
       })
@@ -131,6 +153,12 @@ export async function getPostBySlug(slug: string): Promise<(SanityBlogPost & { _
       // Se não tem imagem Sanity mas tem URL externa, usa como fallback
       if (!post.coverImage && post.coverImageUrl) {
         (post as SanityBlogPost & { _fallbackImageUrl?: string })._fallbackImageUrl = sanitizeImageUrl(post.coverImageUrl, post.title)
+      }
+      // Sem nenhuma imagem → tentar por título
+      const typedPost = post as SanityBlogPost & { _fallbackImageUrl?: string }
+      if (!post.coverImage && !typedPost._fallbackImageUrl) {
+        const cover = findCoverImage(post.title, post.category)
+        if (cover) typedPost._fallbackImageUrl = cover
       }
       // Se o Sanity não tem imagens no corpo do artigo, injeta conteúdo rico local
       const hasContentImages = Array.isArray(post.content) && post.content.some((b: any) => b._type === 'image')
