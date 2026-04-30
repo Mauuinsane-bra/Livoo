@@ -231,15 +231,15 @@ export default async function BlogPost({ params }: Props) {
 
         {/* Article body */}
         <article style={{ fontSize: 17.5, lineHeight: 1.65, color: 'var(--ink-2)', fontWeight: 500 }}>
-          {post.content && (
-            <PortableText value={post.content} components={ptComponents} />
-          )}
-          {!post.content && post._fallbackContent && (
+          {post._fallbackContent ? (
+            /* Sanity sem imagens no corpo → usa HTML local com imagens Unsplash */
             <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(post._fallbackContent, {
               allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'figure', 'figcaption']),
               allowedAttributes: { ...sanitizeHtml.defaults.allowedAttributes, img: ['src', 'alt', 'width', 'height', 'loading'] },
             }) }} className="blog-fallback-content" />
-          )}
+          ) : post.content && post.content.length > 0 ? (
+            <PortableText value={post.content} components={ptComponents} />
+          ) : null}
           {!post.content && !post._fallbackContent && (
             <>
               <p style={{ fontSize: 22, lineHeight: 1.4, color: 'var(--ink)', fontWeight: 600, marginBottom: 32 }}>

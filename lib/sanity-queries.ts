@@ -1,6 +1,7 @@
 // lib/sanity-queries.ts — GROQ queries reutilizáveis
 import { sanityClient, type SanityBlogPost } from './sanity'
 import { BLOG_POSTS } from './blog-data'
+import { MEXICO_COPA_2026_HTML } from './content/mexico-copa-2026'
 
 // Campos comuns sem content (para listagens)
 const POST_FIELDS = `
@@ -41,6 +42,21 @@ export function sanitizeImageUrl(url: string | undefined, hint?: string): string
     return 'https://images.unsplash.com/photo-1488085061387-422e29b40080?auto=format&fit=crop&w=1400&q=80'
   }
   return url
+}
+
+
+// ─── Fallback de conteúdo rico por palavra-chave ─────────────────────────────
+// Injeta _fallbackContent em posts do Sanity que vieram sem imagens no corpo.
+const RICH_CONTENT_MAP: Array<[RegExp, string]> = [
+  [/mexico|méxico|copa.*mundo.*2026|copa do mundo 2026/i, MEXICO_COPA_2026_HTML],
+]
+
+function findRichContent(title = '', category = ''): string | null {
+  const text = title + ' ' + category
+  for (const [re, html] of RICH_CONTENT_MAP) {
+    if (re.test(text)) return html
+  }
+  return null
 }
 
 export async function getAllPosts(): Promise<SanityBlogPost[]> {
@@ -115,6 +131,14 @@ export async function getPostBySlug(slug: string): Promise<(SanityBlogPost & { _
       // Se não tem imagem Sanity mas tem URL externa, usa como fallback
       if (!post.coverImage && post.coverImageUrl) {
         (post as SanityBlogPost & { _fallbackImageUrl?: string })._fallbackImageUrl = sanitizeImageUrl(post.coverImageUrl, post.title)
+      }
+      // Se o Sanity não tem imagens no corpo do artigo, injeta conteúdo rico local
+      const hasContentImages = Array.isArray(post.content) && post.content.some((b: any) => b._type === 'image')
+      if (!hasContentImages) {
+        const richHtml = findRichContent(post.title, post.category)
+        if (richHtml) {
+          (post as SanityBlogPost & { _fallbackContent?: string })._fallbackContent = richHtml
+        }
       }
       return post
     }
