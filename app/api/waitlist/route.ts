@@ -1,17 +1,14 @@
 // app/api/waitlist/route.ts
-// POST /api/waitlist — registra inscrito via Resend Contacts + envia emails de confirmação
-// Storage: Resend Contacts API (persistente, não depende de filesystem efêmero)
+// POST /api/waitlist — envia notificação por email quando alguém se cadastra na waitlist
 
 import { NextRequest, NextResponse } from 'next/server'
 
 // ── Rate limiting (in-memory, por IP) ─────────────────────────────────────────
-// Máximo: 3 tentativas por IP em 10 minutos
 const RATE_LIMIT_MAX    = 3
 const RATE_LIMIT_WINDOW = 10 * 60 * 1000  // 10 min em ms
 const ipAttempts = new Map<string, { count: number; resetAt: number }>()
 
 function getClientIp(req: NextRequest): string {
-  // Em Vercel, x-forwarded-for é injetado pela plataforma (confiável).
   const forwarded = req.headers.get('x-forwarded-for')
   if (forwarded) {
     const ips = forwarded.split(',').map(s => s.trim())
@@ -47,51 +44,9 @@ const VALID_INTERESTS = [
 const MAX_NAME_LENGTH  = 100
 const MAX_EMAIL_LENGTH = 254
 
-// ── Resend Contacts API — storage persistente ──────────────────────────────────
-// Documentação: https://resend.com/docs/api-reference/contacts/create-contact
-// Configure RESEND_AUDIENCE_ID em resend.com → Audiences → Create
-async function addToResendContacts(
-  email: string,
-  firstName: string,
-  interests: string[],
-): Promise<{ ok: boolean; duplicate: boolean }> {
-  const apiKey     = process.env.RESEND_API_KEY
-  const audienceId = process.env.RESEND_AUDIENCE_ID
+const NOTIFY_EMAIL = 'contato@golivo.com.br'
 
-  if (!apiKey || !audienceId) {
-    // Sem configuração de Audience: log de alerta, mas não bloqueia o fluxo
-    console.warn('[waitlist] RESEND_API_KEY ou RESEND_AUDIENCE_ID não configurado — contato não persistido no Resend Contacts')
-    return { ok: false, duplicate: false }
-  }
-
-  const res = await fetch(`https://api.resend.com/audiences/${audienceId}/contacts`, {
-    method: 'POST',
-    headers: {
-      Authorization:  `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      email,
-      first_name:   firstName,
-      unsubscribed: false,
-      // Interesses armazenados como campo customizado (Resend não tem campos custom nativos,
-      // então incluímos no first_name como sufixo legível ou ignoramos — mantemos separado no email de notificação)
-    }),
-  })
-
-  // 409 = contato já existe nesta audience
-  if (res.status === 409) return { ok: false, duplicate: true }
-
-  if (!res.ok) {
-    const body = await res.text().catch(() => '')
-    console.error('[waitlist] Resend Contacts API erro:', res.status, body)
-    return { ok: false, duplicate: false }
-  }
-
-  return { ok: true, duplicate: false }
-}
-
-// ── Resend email via fetch nativo ─────────────────────────────────────────────
+// ── Envio de email via Resend ─────────────────────────────────────────────────
 async function sendEmail(to: string, subject: string, html: string) {
   return fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -137,7 +92,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Email inválido.' }, { status: 400 })
     }
 
-    // Validação de interesses — apenas valores permitidos
+    // Validação de interesses
     let validInterests: string[] = []
     if (Array.isArray(interests)) {
       validInterests = interests
@@ -146,25 +101,13 @@ export async function POST(req: NextRequest) {
         .slice(0, 10)
     }
 
-    const emailNorm  = email.trim().toLowerCase()
-    const firstName  = name.trim().split(' ')[0]
+    const emailNorm    = email.trim().toLowerCase()
+    const firstName    = name.trim().split(' ')[0]
+    const interestsTxt = validInterests.length > 0 ? validInterests.join(', ') : 'Não informado'
+    const submittedAt  = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
 
-    // ── Persistência via Resend Contacts ──────────────────────────────────────
-    const { duplicate } = await addToResendContacts(emailNorm, firstName, validInterests)
-
-    if (duplicate) {
-      return NextResponse.json({ error: 'Este email já está na lista de espera.' }, { status: 409 })
-    }
-
-    // ── Emails de notificação e confirmação (best-effort) ─────────────────────
-    const notifyEmail  = process.env.RESEND_NOTIFY_EMAIL
-    if (process.env.RESEND_API_KEY && notifyEmail) {
-      const interestsTxt = validInterests.length > 0
-        ? validInterests.join(', ')
-        : 'Não informado'
-      const submittedAt = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
-
-      // 1 — Notificação para admin
+    if (process.env.RESEND_API_KEY) {
+      // 1 — Notificação para contato@golivo.com.br
       const notifyHtml = `
         <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #D0DCF0">
           <div style="background:#0D1B3E;padding:20px 24px">
@@ -206,12 +149,30 @@ export async function POST(req: NextRequest) {
           </div>
         </div>`
 
-      // Dispara em paralelo, sem bloquear a resposta
+      // Dispara em paralelo sem bloquear a resposta
       Promise.all([
-        sendEmail(notifyEmail, `[Livoo Waitlist] ${escapeHtml(name.trim())} — ${emailNorm}`, notifyHtml),
+        sendEmail(NOTIFY_EMAIL, `[Livoo Waitlist] ${name.trim()} — ${emailNorm}`, notifyHtml),
         sendEmail(emailNorm, 'Você está na lista da Livoo!', confirmHtml),
       ]).catch(err => console.warn('[waitlist] Falha ao enviar emails:', err))
     }
 
     return NextResponse.json({ ok: true })
-  
+  } catch (err) {
+    console.error('[waitlist] Erro inesperado')
+    if (err instanceof SyntaxError) {
+      return NextResponse.json({ error: 'Corpo da requisição inválido.' }, { status: 400 })
+    }
+    return NextResponse.json({ error: 'Erro interno. Tente novamente.' }, { status: 500 })
+  }
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
