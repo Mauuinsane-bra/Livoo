@@ -79,6 +79,7 @@ export const blogPost = defineType({
       type: 'string',
       options: {
         list: [
+          { title: 'Copa do Mundo 2026', value: 'Copa do Mundo 2026' },
           { title: 'Automobilismo', value: 'Automobilismo' },
           { title: 'Festivais', value: 'Festivais' },
           { title: 'Cultura', value: 'Cultura' },
@@ -131,23 +132,16 @@ export const blogPost = defineType({
       type: 'boolean',
       initialValue: false,
     }),
-  ],
-  preview: {
-    select: {
-      title: 'title',
-      category: 'category',
-      media: 'coverImage',
-      publishedAt: 'publishedAt',
-    },
-    prepare({ title, category, media, publishedAt }) {
-      const date = publishedAt
-        ? new Date(publishedAt).toLocaleDateString('pt-BR')
-        : ''
-      return {
-        title: title || 'Sem título',
-        subtitle: `${category || ''} · ${date}`,
-        media,
-      }
-    },
-  },
-})
+    defineField({
+      name: 'authorName',
+      title: 'Nome do autor',
+      type: 'string',
+      description: 'Nome que aparecerá no post. Ex: "Mauricio Casagrande" ou "Redação Go Livoo"',
+    }),
+    defineField({
+      name: 'authorImage',
+      title: 'Foto do autor',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [
+        { name: 'alt', type: 'str
