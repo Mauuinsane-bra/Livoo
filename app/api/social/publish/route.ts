@@ -248,4 +248,6 @@ export async function POST(req: NextRequest) {
     ok: true,
     caption: caption.slice(0, 100) + '...',
     instagram: igOk,
-    f
+    facebook: fbOk,
+  })
+}

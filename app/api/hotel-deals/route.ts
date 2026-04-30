@@ -158,4 +158,11 @@ export async function GET(req: NextRequest) {
       region:     dest.region,
       priceUSD:   null,
       priceLabel: 'Ver preços',
-      link:
+      link:       buildBookingLink(dest.bookingSlug, checkIn, checkOut),
+      hotelName:  '',
+      stars:      0,
+    } as HotelDeal
+  })
+
+  return NextResponse.json({ deals, checkIn, checkOut, isDemoMode: false })
+}

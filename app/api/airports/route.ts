@@ -89,4 +89,11 @@ export async function GET(req: NextRequest) {
   // Fallback: filtra lista estática
   const q = query.toLowerCase()
   const filtered = STATIC_AIRPORTS.filter(a =>
-    a.iata.toLowerCase().i
+    a.iata.toLowerCase().includes(q) ||
+    a.city.toLowerCase().includes(q) ||
+    a.name.toLowerCase().includes(q) ||
+    a.country.toLowerCase().includes(q)
+  ).slice(0, 10)
+
+  return NextResponse.json({ airports: filtered })
+}

@@ -130,4 +130,19 @@ export async function getPostsByCategory(category: string): Promise<SanityBlogPo
     )
     if (posts && posts.length > 0) return posts
   } catch (err) {
-    console.info('[Go Livoo] Sanity getPostsB
+    console.info('[Go Livoo] Sanity getPostsByCategory: usando fallback local', err)
+  }
+  return []
+}
+
+export async function getAllSlugs(): Promise<string[]> {
+  try {
+    const slugs = await sanityClient.fetch<{ slug: string }[]>(
+      `*[_type == "blogPost"]{ "slug": slug.current }`
+    )
+    if (slugs?.length > 0) return slugs.map(s => s.slug)
+  } catch (err) {
+    console.info('[Go Livoo] Sanity getAllSlugs: usando fallback local', err)
+  }
+  return BLOG_POSTS.map(p => p.slug)
+}
