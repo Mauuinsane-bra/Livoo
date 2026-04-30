@@ -19,6 +19,30 @@ const POST_FIELDS = `
 
 // ─── Queries ────────────────────────────────────────────────────────────────
 
+
+// ─── Fallback de imagem — Wikipedia bloqueia hotlinking ─────────────────────
+// Mapa de palavras-chave de URL do Wikipedia → imagem Unsplash equivalente
+const WIKI_TO_UNSPLASH: Array<[RegExp, string]> = [
+  [/mexico|méxico|zocalo|cidade.*mexico|mexico.*city/i, 'https://images.unsplash.com/photo-1518638150340-f706e86654de?auto=format&fit=crop&w=1400&q=80'],
+  [/estadio|stadium|arena|futbol|football/i, 'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?auto=format&fit=crop&w=1400&q=80'],
+  [/cancun|cancún|guadalajara|monterrey/i, 'https://images.unsplash.com/photo-1512813389649-acb9131ced20?auto=format&fit=crop&w=1400&q=80'],
+  [/copa.*mundo|world.*cup|fifa/i, 'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=1400&q=80'],
+]
+
+export function sanitizeImageUrl(url: string | undefined, hint?: string): string {
+  if (!url) return ''
+  // Wikipedia e Wikimedia bloqueiam hotlinking — substituir por Unsplash
+  if (url.includes('wikimedia.org') || url.includes('wikipedia.org')) {
+    const text = (hint ?? '') + url
+    for (const [re, replacement] of WIKI_TO_UNSPLASH) {
+      if (re.test(text)) return replacement
+    }
+    // Fallback genérico de viagem
+    return 'https://images.unsplash.com/photo-1488085061387-422e29b40080?auto=format&fit=crop&w=1400&q=80'
+  }
+  return url
+}
+
 export async function getAllPosts(): Promise<SanityBlogPost[]> {
   try {
     const posts = await sanityClient.fetch<(SanityBlogPost & { coverImageUrl?: string })[]>(
@@ -28,7 +52,7 @@ export async function getAllPosts(): Promise<SanityBlogPost[]> {
       // Propaga coverImageUrl como _fallbackImageUrl para posts sem Sanity image
       return posts.map(p => {
         if (!p.coverImage && p.coverImageUrl) {
-          (p as SanityBlogPost & { _fallbackImageUrl?: string })._fallbackImageUrl = p.coverImageUrl
+          (p as SanityBlogPost & { _fallbackImageUrl?: string })._fallbackImageUrl = sanitizeImageUrl(p.coverImageUrl, p.title)
         }
         return p
       })
@@ -90,7 +114,7 @@ export async function getPostBySlug(slug: string): Promise<(SanityBlogPost & { _
     if (post?._id) {
       // Se não tem imagem Sanity mas tem URL externa, usa como fallback
       if (!post.coverImage && post.coverImageUrl) {
-        (post as SanityBlogPost & { _fallbackImageUrl?: string })._fallbackImageUrl = post.coverImageUrl
+        (post as SanityBlogPost & { _fallbackImageUrl?: string })._fallbackImageUrl = sanitizeImageUrl(post.coverImageUrl, post.title)
       }
       return post
     }

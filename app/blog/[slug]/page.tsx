@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { PortableText } from '@portabletext/react'
 import sanitizeHtml from 'sanitize-html'
-import { getPostBySlug, getAllSlugs, getAllPosts } from '@/lib/sanity-queries'
+import { getPostBySlug, getAllSlugs, getAllPosts, sanitizeImageUrl } from '@/lib/sanity-queries'
 import { urlFor, type SanityBlogPost } from '@/lib/sanity'
 
 export const revalidate = 60     // cache de 1 minuto — posts novos aparecem rápido sem sobrecarregar Sanity
@@ -106,8 +106,9 @@ const ptComponents = {
       if (value?.asset) {
         try { src = urlFor(value).width(800).url() } catch { /* */ }
       }
-      if (!src && value?.url) src = value.url
-      if (!src && value?.asset?.url) src = value.asset.url
+      // Sanitize external URLs (Wikipedia bloqueia hotlinking)
+      if (!src && value?.url) src = sanitizeImageUrl(value.url, value.alt)
+      if (!src && value?.asset?.url) src = sanitizeImageUrl(value.asset.url, value.alt)
       if (!src) return null
       return (
         <figure style={{ margin: '28px 0' }}>
