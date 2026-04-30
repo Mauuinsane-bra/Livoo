@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getAllPosts } from '@/lib/sanity-queries'
 import { urlFor, type SanityBlogPost } from '@/lib/sanity'
+import NewsletterForm from './NewsletterForm'
 
 export const revalidate = 60
 
@@ -182,30 +183,22 @@ export default async function BlogHome() {
           <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 40, alignItems: 'center' }} className="nl-grid">
             <div>
               <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11.5, fontWeight: 700, color: 'var(--ink)', letterSpacing: '.14em', textTransform: 'uppercase', marginBottom: 12 }}>
-                ◆ Newsletter semanal
+                ◆ Newsletter Go Livoo
               </div>
               <h3 style={{ fontFamily: "'Archivo', sans-serif", fontWeight: 900, fontSize: 'clamp(32px, 4vw, 48px)', letterSpacing: '-.035em', lineHeight: .98, margin: '0 0 14px', color: 'var(--ink)' }}>
                 Promoção boa<br />não espera.
               </h3>
               <p style={{ fontSize: 16, color: 'var(--ink-2)', margin: 0, maxWidth: 440, fontWeight: 500 }}>
-                Receba curadoria de experiências + alertas de queda de preço toda sexta-feira.
+                Receba curadoria de experiências e novidades em primeira mão.
               </p>
-              <div style={{ display: 'flex', gap: 8, marginTop: 22, flexWrap: 'wrap' }}>
-                <input
-                  placeholder="seu@email.com"
-                  style={{ flex: 1, minWidth: 240, padding: '14px 18px', border: '2px solid var(--ink)', borderRadius: 14, background: '#fff', fontFamily: 'inherit', fontSize: 15, fontWeight: 500, outline: 'none' }}
-                />
-                <button style={{ background: 'var(--ink)', color: '#fff', padding: '14px 24px', borderRadius: 14, fontWeight: 800, fontSize: 14, fontFamily: "'Archivo', sans-serif", letterSpacing: '-.01em', boxShadow: '0 3px 0 #000', border: 0, cursor: 'pointer' }}>
-                  Quero receber
-                </button>
-              </div>
+              <NewsletterForm variant="hero" />
             </div>
             <div style={{ background: 'var(--ink)', color: '#fff', borderRadius: 20, padding: 24, fontFamily: "'Archivo', sans-serif", fontWeight: 700 }}>
               <div style={{ fontSize: 22, lineHeight: 1.2, letterSpacing: '-.02em', marginBottom: 16 }}>
                 Dicas de destinos, alertas de preço e guias práticos direto no seu email.
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12.5, color: '#b8b0a3', fontWeight: 500 }}>Toda sexta-feira na sua caixa de entrada</span>
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12.5, color: '#b8b0a3', fontWeight: 500 }}>Novidades em primeira mão na sua caixa de entrada</span>
               </div>
             </div>
           </div>
@@ -219,14 +212,13 @@ export default async function BlogHome() {
         </h3>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
           {[
-            { label: 'Praias', slug: 'destinos' },
+            { label: '🏆 Copa do Mundo 2026', slug: 'copa-do-mundo' },
+            { label: 'Destinos', slug: 'destinos' },
             { label: 'Shows & Festivais', slug: 'eventos' },
             { label: 'Automobilismo', slug: 'eventos' },
             { label: 'Aventura', slug: 'guias' },
-            { label: 'Família', slug: 'familia' },
-            { label: 'Solo Trip', slug: 'solo' },
-            { label: 'Econômico', slug: 'economico' },
             { label: 'Gastronomia', slug: 'destinos' },
+            { label: 'Guias de Viagem', slug: 'guias' },
           ].map(t => (
             <Link key={t.label} href={`/blog/categoria/${t.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '10px 18px', background: 'var(--bg-2)', border: '1.5px solid var(--line)', borderRadius: 999, fontSize: 14, fontWeight: 700, color: 'var(--ink)', transition: 'border-color .15s' }} className="tag-pill">
               {t.label}
@@ -249,3 +241,4 @@ export default async function BlogHome() {
     </>
   )
 }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           

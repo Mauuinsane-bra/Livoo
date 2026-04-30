@@ -6,6 +6,7 @@ import { PortableText } from '@portabletext/react'
 import sanitizeHtml from 'sanitize-html'
 import { getPostBySlug, getAllSlugs, getAllPosts } from '@/lib/sanity-queries'
 import { urlFor, type SanityBlogPost } from '@/lib/sanity'
+import NewsletterForm from '../NewsletterForm'
 
 export const revalidate = 60     // cache de 1 minuto — posts novos aparecem rápido sem sobrecarregar Sanity
 export const dynamicParams = true // slugs fora do generateStaticParams são gerados on-demand
@@ -269,16 +270,13 @@ export default async function BlogPost({ params }: Props) {
           {/* Newsletter card */}
           <div style={{ background: 'var(--bg-2)', borderRadius: 18, padding: 20, border: '1.5px solid var(--line)' }}>
             <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10.5, fontWeight: 700, color: 'var(--orange)', letterSpacing: '.14em', textTransform: 'uppercase', marginBottom: 8 }}>
-              Newsletter
+              Newsletter Go Livoo
             </div>
             <h5 style={{ fontFamily: "'Archivo', sans-serif", fontWeight: 900, fontSize: 22, letterSpacing: '-.025em', lineHeight: 1.05, margin: '0 0 8px' }}>
-              Receba dicas de viagem toda semana
+              Novidades em primeira mão
             </h5>
-            <p style={{ fontSize: 13, color: 'var(--muted)', margin: '0 0 14px', lineHeight: 1.5, fontWeight: 500 }}>Guias, destinos e alertas de preço toda sexta.</p>
-            <input placeholder="seu@email.com" style={{ width: '100%', padding: '11px 14px', border: '1.5px solid var(--line-2)', borderRadius: 10, fontFamily: 'inherit', fontSize: 13.5, background: '#fff', outline: 'none', marginBottom: 8, boxSizing: 'border-box' }} />
-            <button style={{ width: '100%', background: 'var(--ink)', color: '#fff', padding: '11px', borderRadius: 10, fontWeight: 800, fontSize: 13, fontFamily: "'Archivo', sans-serif", border: 0, cursor: 'pointer' }}>
-              Quero receber
-            </button>
+            <p style={{ fontSize: 13, color: 'var(--muted)', margin: '0 0 14px', lineHeight: 1.5, fontWeight: 500 }}>Guias, destinos e alertas de preço direto no seu email.</p>
+            <NewsletterForm variant="sidebar" />
           </div>
         </aside>
       </div>
@@ -328,3 +326,4 @@ export default async function BlogPost({ params }: Props) {
     </>
   )
 }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    
