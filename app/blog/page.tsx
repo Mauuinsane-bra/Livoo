@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import NewsletterForm from './NewsletterForm'
 import Image from 'next/image'
 import { getAllPosts } from '@/lib/sanity-queries'
 import { urlFor, type SanityBlogPost } from '@/lib/sanity'
@@ -190,15 +191,7 @@ export default async function BlogHome() {
               <p style={{ fontSize: 16, color: 'var(--ink-2)', margin: 0, maxWidth: 440, fontWeight: 500 }}>
                 Receba curadoria de experiências + alertas de queda de preço toda sexta-feira.
               </p>
-              <div style={{ display: 'flex', gap: 8, marginTop: 22, flexWrap: 'wrap' }}>
-                <input
-                  placeholder="seu@email.com"
-                  style={{ flex: 1, minWidth: 240, padding: '14px 18px', border: '2px solid var(--ink)', borderRadius: 14, background: '#fff', fontFamily: 'inherit', fontSize: 15, fontWeight: 500, outline: 'none' }}
-                />
-                <button style={{ background: 'var(--ink)', color: '#fff', padding: '14px 24px', borderRadius: 14, fontWeight: 800, fontSize: 14, fontFamily: "'Archivo', sans-serif", letterSpacing: '-.01em', boxShadow: '0 3px 0 #000', border: 0, cursor: 'pointer' }}>
-                  Quero receber
-                </button>
-              </div>
+              <NewsletterForm variant="hero" />
             </div>
             <div style={{ background: 'var(--ink)', color: '#fff', borderRadius: 20, padding: 24, fontFamily: "'Archivo', sans-serif", fontWeight: 700 }}>
               <div style={{ fontSize: 22, lineHeight: 1.2, letterSpacing: '-.02em', marginBottom: 16 }}>

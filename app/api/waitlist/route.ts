@@ -44,7 +44,7 @@ const VALID_INTERESTS = [
 const MAX_NAME_LENGTH  = 100
 const MAX_EMAIL_LENGTH = 254
 
-const NOTIFY_EMAIL = 'contato@golivo.com.br'
+const NOTIFY_EMAIL = 'contato@golivoo.com.br'
 
 // ── Envio de email via Resend ─────────────────────────────────────────────────
 async function sendEmail(to: string, subject: string, html: string) {
@@ -107,7 +107,7 @@ export async function POST(req: NextRequest) {
     const submittedAt  = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
 
     if (process.env.RESEND_API_KEY) {
-      // 1 — Notificação para contato@golivo.com.br
+      // 1 — Notificação para contato@golivoo.com.br
       const notifyHtml = `
         <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #D0DCF0">
           <div style="background:#0D1B3E;padding:20px 24px">

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { PortableText } from '@portabletext/react'
 import sanitizeHtml from 'sanitize-html'
+import NewsletterForm from '../NewsletterForm'
 import { getPostBySlug, getAllSlugs, getAllPosts, sanitizeImageUrl } from '@/lib/sanity-queries'
 import { urlFor, type SanityBlogPost } from '@/lib/sanity'
 
@@ -297,10 +298,7 @@ export default async function BlogPost({ params }: Props) {
               Receba dicas de viagem toda semana
             </h5>
             <p style={{ fontSize: 13, color: 'var(--muted)', margin: '0 0 14px', lineHeight: 1.5, fontWeight: 500 }}>Guias, destinos e alertas de preço toda sexta.</p>
-            <input placeholder="seu@email.com" style={{ width: '100%', padding: '11px 14px', border: '1.5px solid var(--line-2)', borderRadius: 10, fontFamily: 'inherit', fontSize: 13.5, background: '#fff', outline: 'none', marginBottom: 8, boxSizing: 'border-box' }} />
-            <button style={{ width: '100%', background: 'var(--ink)', color: '#fff', padding: '11px', borderRadius: 10, fontWeight: 800, fontSize: 13, fontFamily: "'Archivo', sans-serif", border: 0, cursor: 'pointer' }}>
-              Quero receber
-            </button>
+            <NewsletterForm variant="sidebar" />
           </div>
         </aside>
       </div>
