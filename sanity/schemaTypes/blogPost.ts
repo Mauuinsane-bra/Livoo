@@ -79,6 +79,7 @@ export const blogPost = defineType({
       type: 'string',
       options: {
         list: [
+          { title: '🏆 Copa do Mundo 2026', value: 'Copa do Mundo 2026' },
           { title: 'Automobilismo', value: 'Automobilismo' },
           { title: 'Festivais', value: 'Festivais' },
           { title: 'Cultura', value: 'Cultura' },

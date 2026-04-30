@@ -104,7 +104,7 @@ export const MEXICO_COPA_2026_HTML = `
   <figcaption>Catedral de Guadalajara — cartão-postal da capital do estado de Jalisco. Foto: Wikimedia Commons (CC BY-SA)</figcaption>
 </figure>
 
-<p>Para chegar a Guadalajara, a melhor opção é escala na <strong>Cidade do México</strong>. Outra excelente alternativa é <strong>alugar um carro</strong> e fazer o percurso por terra.</p>
+<p>Para chegar a Guadalajara, a melhor opção é escala na <strong>Cidade do México</strong>. Outra excelente alternativa é <strong>alugar um carro</strong> e fazer o percurso por terra — especialmente para quem quer explorar o país no próprio ritmo.</p>
 
 <h3>Estádio Akron — a casa do Chivas</h3>
 <p>O <strong>Estádio Akron</strong>, com capacidade para quase <strong>50.000 visitantes</strong>, é a casa do <strong>Chivas de Guadalajara</strong> — um dos clubes mais tradicionais do México.</p>
@@ -129,7 +129,14 @@ export const MEXICO_COPA_2026_HTML = `
 
 <h2>Aluguel de carro no México</h2>
 
-<p>Para quem vai explorar mais de uma cidade, <strong>alugar um carro é a melhor alternativa</strong>. Use o cupom <strong>GOLIVOO</strong> na <strong>RentCars</strong> e economize <strong>5%</strong> na primeira locação — pagamento em reais, sem IOF, parcelado em até 12x.</p>
+<p>Para quem vai explorar mais de uma cidade durante a Copa — especialmente Guadalajara e Monterrey —, alugar um carro é a alternativa mais econômica e flexível. Você faz o seu próprio roteiro, no seu ritmo.</p>
+
+<blockquote class="cta-rentcars">
+  <strong>🚗 Economize no aluguel de carro com a RentCars</strong><br>
+  Use o cupom <strong>GOLIVOO</strong> e garanta <strong>5% de desconto</strong> na sua primeira locação.<br>
+  ✔ Pagamento em reais &nbsp;·&nbsp; ✔ Sem IOF &nbsp;·&nbsp; ✔ Parcele em até 12x &nbsp;·&nbsp; ✔ Suporte em português<br>
+  <a href="https://www.rentcars.com" target="_blank" rel="noopener sponsored">Acesse rentcars.com e use o cupom GOLIVOO →</a>
+</blockquote>
 
 <h2>Ficou com alguma dúvida?</h2>
 

@@ -242,6 +242,8 @@ export default async function BlogPost({ params }: Props) {
                 li: ['class'],
                 figure: ['class'],
                 figcaption: ['class'],
+                blockquote: ['class'],
+                a: ['href', 'target', 'rel'],
               },
             }) }} className="blog-fallback-content" />
           ) : post.content && post.content.length > 0 ? (
@@ -335,6 +337,10 @@ export default async function BlogPost({ params }: Props) {
         .blog-fallback-content figure { margin: 28px 0; border-radius: 16px; overflow: hidden; }
         .blog-fallback-content figure img { width: 100%; height: auto; display: block; border-radius: 16px; }
         .blog-fallback-content figcaption { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); text-align: center; margin-top: 8px; font-style: italic; line-height: 1.5; padding: 0 8px; }
+        .blog-fallback-content blockquote { margin: 28px 0; padding: 20px 24px; border-left: 5px solid var(--orange); background: var(--bg-soft); border-radius: 0 12px 12px 0; font-style: normal; }
+        .blog-fallback-content blockquote.cta-rentcars { background: linear-gradient(135deg, #fff8f0 0%, #fff3e0 100%); border-left: 5px solid var(--orange); border-radius: 0 16px 16px 0; padding: 22px 28px; line-height: 1.7; }
+        .blog-fallback-content blockquote.cta-rentcars strong { color: var(--ink); }
+        .blog-fallback-content blockquote.cta-rentcars a { display: inline-block; margin-top: 12px; font-weight: 700; color: var(--orange-dk); border-bottom: 2px solid var(--sun); text-decoration: none; }
         .blog-fallback-content ul.jogos { list-style: none; padding: 0; margin: 16px 0 28px; display: flex; flex-direction: column; gap: 8px; }
         .blog-fallback-content ul.jogos li { display: flex; align-items: flex-start; gap: 12px; background: var(--bg-soft); border: 1px solid var(--line); border-left: 4px solid var(--orange); border-radius: 10px; padding: 12px 16px; font-size: 15px; line-height: 1.45; color: var(--ink-2); }
         .blog-fallback-content ul.jogos li strong { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--orange); text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; margin-right: 4px; }
