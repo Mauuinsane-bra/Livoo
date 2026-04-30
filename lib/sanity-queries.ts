@@ -10,6 +10,7 @@ const POST_FIELDS = `
   excerpt,
   category,
   coverImage { asset, alt },
+  coverImageUrl,
   publishedAt,
   readTime,
   tags,
@@ -20,10 +21,18 @@ const POST_FIELDS = `
 
 export async function getAllPosts(): Promise<SanityBlogPost[]> {
   try {
-    const posts = await sanityClient.fetch<SanityBlogPost[]>(
+    const posts = await sanityClient.fetch<(SanityBlogPost & { coverImageUrl?: string })[]>(
       `*[_type == "blogPost"] | order(publishedAt desc) { ${POST_FIELDS} }`
     )
-    if (posts && posts.length > 0) return posts
+    if (posts && posts.length > 0) {
+      // Propaga coverImageUrl como _fallbackImageUrl para posts sem Sanity image
+      return posts.map(p => {
+        if (!p.coverImage && p.coverImageUrl) {
+          (p as SanityBlogPost & { _fallbackImageUrl?: string })._fallbackImageUrl = p.coverImageUrl
+        }
+        return p
+      })
+    }
   } catch (err) {
     console.info('[Go Livoo] Sanity getAllPosts: usando fallback local', err)
   }
@@ -68,16 +77,23 @@ export async function getLatestPosts(limit = 3): Promise<SanityBlogPost[]> {
 
 export async function getPostBySlug(slug: string): Promise<(SanityBlogPost & { _fallbackImageUrl?: string; _fallbackContent?: string }) | null> {
   try {
-    const post = await sanityClient.fetch<SanityBlogPost>(
+    const post = await sanityClient.fetch<SanityBlogPost & { coverImageUrl?: string }>(
       `*[_type == "blogPost" && slug.current == $slug][0] {
         ${POST_FIELDS},
         content,
-        autoPost
+        autoPost,
+        coverImageUrl
       }`,
       { slug },
       { cache: 'no-store' }   // força busca sempre fresh, nunca usa cache do Next.js
     )
-    if (post?._id) return post
+    if (post?._id) {
+      // Se não tem imagem Sanity mas tem URL externa, usa como fallback
+      if (!post.coverImage && post.coverImageUrl) {
+        (post as SanityBlogPost & { _fallbackImageUrl?: string })._fallbackImageUrl = post.coverImageUrl
+      }
+      return post
+    }
     // post retornou mas sem _id → loga para diagnóstico
     if (post !== null && post !== undefined) {
       console.error('[Go Livoo] getPostBySlug: Sanity retornou objeto sem _id para slug:', slug, post)
@@ -105,38 +121,13 @@ export async function getPostBySlug(slug: string): Promise<(SanityBlogPost & { _
 }
 
 export async function getPostsByCategory(category: string): Promise<SanityBlogPost[]> {
+  // "copa-do-mundo" slug → filtra por categoria "Copa do Mundo 2026" no Sanity
+  const sanityCat = category === 'copa-do-mundo' ? 'Copa do Mundo 2026' : category
   try {
     const posts = await sanityClient.fetch<SanityBlogPost[]>(
-      `*[_type == "blogPost" && string::lower(category) == $cat] | order(publishedAt desc) { ${POST_FIELDS} }`,
-      { cat: category.toLowerCase() }
+      `*[_type == "blogPost" && (string::lower(category) == $cat || category == $catExact)] | order(publishedAt desc) { ${POST_FIELDS} }`,
+      { cat: category.toLowerCase(), catExact: sanityCat }
     )
     if (posts && posts.length > 0) return posts
   } catch (err) {
-    console.info('[Go Livoo] Sanity getPostsByCategory: usando fallback local', err)
-  }
-  return BLOG_POSTS.filter(p => p.category?.toLowerCase() === category.toLowerCase()).map(p => ({
-    _id: p.slug,
-    title: p.title,
-    slug: p.slug,
-    excerpt: p.excerpt,
-    category: p.category,
-    coverImage: undefined,
-    publishedAt: p.date,
-    readTime: p.readTime,
-    tags: p.tags,
-    featured: p.featured,
-    _fallbackImageUrl: p.imageUrl,
-  } as SanityBlogPost & { _fallbackImageUrl?: string }))
-}
-
-export async function getAllSlugs(): Promise<string[]> {
-  try {
-    const slugs = await sanityClient.fetch<{ slug: string }[]>(
-      `*[_type == "blogPost"]{ "slug": slug.current }`
-    )
-    if (slugs?.length > 0) return slugs.map(s => s.slug)
-  } catch (err) {
-    console.info('[Go Livoo] Sanity getAllSlugs: usando fallback local', err)
-  }
-  return BLOG_POSTS.map(p => p.slug)
-}
+    console.info('[Go Livoo] Sanity getPostsB

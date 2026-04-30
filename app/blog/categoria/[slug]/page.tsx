@@ -26,50 +26,23 @@ const CAT_META: Record<string, {
     description: 'Guias práticos e diretos ao ponto. Documentação, vistos, vacinas, câmbio — o que você precisa saber antes de embarcar.',
     keyword: 'Guias',
   },
-  economico: {
-    label: 'Econômico',
-    description: 'Viajar bem gastando pouco é arte. Aqui você encontra as melhores estratégias para maximizar sua experiência sem esvaziar o bolso.',
-    keyword: 'Econômico',
-  },
-  familia: {
-    label: 'Família',
-    description: 'Roteiros pensados para quem viaja com crianças — destinos family-friendly, dicas de logística e experiências que todo mundo curte.',
-    keyword: 'Família',
-  },
-  solo: {
-    label: 'Solo',
-    description: 'Viajar sozinho é uma das experiências mais transformadoras que existem. Segurança, liberdade e as melhores rotas para viajantes solo.',
-    keyword: 'Solo',
+  'copa-do-mundo': {
+    label: 'Copa do Mundo 2026',
+    description: 'Tudo sobre a Copa do Mundo 2026 no México, Canadá e EUA — visto, cidades-sede, estádios, voos, hospedagem e dicas de viagem.',
+    keyword: 'Copa do Mundo 2026',
   },
 }
 
+// Posts mockados removidos — todo o conteúdo vem do Sanity CMS.
+// Quando novos posts forem publicados no Sanity, aparecerão automaticamente (ISR 60s).
 const STATIC_POSTS_BY_CAT: Record<string, Array<{
   slug: string; title: string; excerpt: string; category: string;
   date: string; readTime: string; author: string; imageUrl: string; tags: string[]
 }>> = {
-  destinos: [
-    { slug: 'georgia-um-destino-que-poucos-conhecem', title: 'Geórgia: o destino europeu que poucos brasileiros conhecem (e por que você deveria ir)', excerpt: 'Tbilisi tem vinho milenar, montanhas absurdas e custo de vida menor que o Brasil. Um guia completo para chegar, se hospedar e aproveitar o melhor da Geórgia.', category: 'Destinos', date: '2026-04-12', readTime: '11 min', author: 'Equipe Go Livoo', imageUrl: 'https://images.unsplash.com/photo-1565008576549-57569a49371d?w=640&q=80', tags: ['Geórgia', 'Europa', 'Aventura'] },
-    { slug: 'monaco-alem-da-formula-1', title: 'Mônaco além da Fórmula 1: o que fazer nos outros 364 dias do ano', excerpt: 'O principado mais famoso do mundo tem muito mais a oferecer do que uma corrida. Cassinos, praias, gastronomia estrelada e roteiros para todos os bolsos.', category: 'Destinos', date: '2026-03-28', readTime: '9 min', author: 'Equipe Go Livoo', imageUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=640&q=80', tags: ['Mônaco', 'Europa', 'Luxo'] },
-    { slug: 'rio-de-janeiro-para-estrangeiros', title: 'Rio de Janeiro visto por quem mora aqui: o guia sem mentira', excerpt: 'Esqueça o roteiro clichê. Este é o Rio dos bairros escondidos, dos botequins reais e das praias que os turistas ainda não descobriram.', category: 'Destinos', date: '2026-03-15', readTime: '13 min', author: 'Equipe Go Livoo', imageUrl: 'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=640&q=80', tags: ['Rio', 'Brasil', 'Praia'] },
-    { slug: 'toquio-guia-completo-2026', title: 'Tóquio 2026: guia completo para a primeira viagem', excerpt: 'Da chegada ao aeroporto ao último bowl de ramen antes de voltar. Tudo que você precisa saber para aproveitar Tóquio sem estresse e sem gastar uma fortuna.', category: 'Destinos', date: '2026-02-20', readTime: '15 min', author: 'Equipe Go Livoo', imageUrl: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=640&q=80', tags: ['Japão', 'Ásia', 'Cultura'] },
-  ],
-  eventos: [
-    { slug: 'rock-in-rio-2026-guia-completo', title: 'Rock in Rio 2026: guia completo para quem vai pela primeira vez', excerpt: 'Datas, line-up confirmado, como comprar ingresso, onde se hospedar em SP e o que levar na mochila. Tudo que você precisa saber antes de entrar na Cidade do Rock.', category: 'Eventos', date: '2026-04-10', readTime: '10 min', author: 'Equipe Go Livoo', imageUrl: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=640&q=80', tags: ['Rock in Rio', 'Festival', 'Brasil'] },
-    { slug: 'gp-monaco-2026-como-assistir', title: 'GP de Mônaco 2026: como assistir ao vivo sem pagar uma fortuna', excerpt: 'Os ingressos são caros, sim. Mas existem estratégias para assistir ao GP mais glamouroso do mundo por uma fração do preço oficial. Confira.', category: 'Eventos', date: '2026-04-05', readTime: '8 min', author: 'Equipe Go Livoo', imageUrl: 'https://images.unsplash.com/photo-1541773367336-d3f401e89a16?w=640&q=80', tags: ['F1', 'Mônaco', 'Europa'] },
-  ],
-  guias: [
-    { slug: 'visto-para-georgia-brasileiro', title: 'Visto para a Geórgia: brasileiro precisa? Tudo sobre entrada, prazo e documentação', excerpt: 'A boa notícia: brasileiros têm entrada gratuita na Geórgia por até 365 dias. A má notícia: muita gente ainda não sabe disso e desiste antes de pesquisar.', category: 'Guias', date: '2026-04-08', readTime: '7 min', author: 'Equipe Go Livoo', imageUrl: 'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=640&q=80', tags: ['Visto', 'Documentação', 'Geórgia'] },
-    { slug: 'passaporte-brasileiro-2026', title: 'Passaporte brasileiro em 2026: como renovar, prazo e quanto custa', excerpt: 'O passaporte vencido é o motivo número 1 de viagens canceladas em cima da hora. Veja como renovar online, o prazo atual e quando vale a pena pagar a taxa de urgência.', category: 'Guias', date: '2026-03-22', readTime: '6 min', author: 'Equipe Go Livoo', imageUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=640&q=80', tags: ['Passaporte', 'Documentação', 'Brasil'] },
-  ],
-  economico: [
-    { slug: 'voos-baratos-europa-2026', title: 'Como encontrar voos baratos para a Europa em 2026', excerpt: 'Alertas de preço, janelas de compra, aeroportos alternativos e os erros que fazem a maioria das pessoas pagar muito mais do que precisa.', category: 'Econômico', date: '2026-04-14', readTime: '9 min', author: 'Equipe Go Livoo', imageUrl: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=640&q=80', tags: ['Voos', 'Europa', 'Economia'] },
-  ],
-  familia: [
-    { slug: 'orlando-com-criancas-guia-2026', title: 'Orlando com crianças em 2026: o guia definitivo sem mentira', excerpt: 'Parques, hotéis, quanto custa de verdade e as dicas que só quem foi com crianças pequenas sabe. Planejamento de A a Z para uma viagem sem estresse.', category: 'Família', date: '2026-03-10', readTime: '14 min', author: 'Equipe Go Livoo', imageUrl: 'https://images.unsplash.com/photo-1568849676085-51415703900f?w=640&q=80', tags: ['Orlando', 'Família', 'EUA'] },
-  ],
-  solo: [
-    { slug: 'viajar-solo-pela-primeira-vez', title: 'Viajar sozinho pela primeira vez: o guia honesto para quem tem medo', excerpt: 'O medo é normal. A solidão dura três dias. Depois disso, você entende por que tanta gente nunca mais quis viajar de outro jeito. Guia prático e sem romantismo excessivo.', category: 'Solo', date: '2026-03-05', readTime: '12 min', author: 'Equipe Go Livoo', imageUrl: 'https://images.unsplash.com/photo-1501555088652-021faa106b9b?w=640&q=80', tags: ['Solo', 'Iniciante', 'Mindset'] },
-  ],
+  destinos: [],
+  eventos: [],
+  guias: [],
+  'copa-do-mundo': [],
 }
 
 const GRADIENTS = [
@@ -614,3 +587,4 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
     </div>
   )
 }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     

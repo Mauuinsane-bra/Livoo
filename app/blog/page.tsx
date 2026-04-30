@@ -219,14 +219,13 @@ export default async function BlogHome() {
         </h3>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
           {[
-            { label: 'Praias', slug: 'destinos' },
+            { label: '🏆 Copa do Mundo 2026', slug: 'copa-do-mundo' },
+            { label: 'Destinos', slug: 'destinos' },
             { label: 'Shows & Festivais', slug: 'eventos' },
             { label: 'Automobilismo', slug: 'eventos' },
             { label: 'Aventura', slug: 'guias' },
-            { label: 'Família', slug: 'familia' },
-            { label: 'Solo Trip', slug: 'solo' },
-            { label: 'Econômico', slug: 'economico' },
             { label: 'Gastronomia', slug: 'destinos' },
+            { label: 'Guias de Viagem', slug: 'guias' },
           ].map(t => (
             <Link key={t.label} href={`/blog/categoria/${t.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '10px 18px', background: 'var(--bg-2)', border: '1.5px solid var(--line)', borderRadius: 999, fontSize: 14, fontWeight: 700, color: 'var(--ink)', transition: 'border-color .15s' }} className="tag-pill">
               {t.label}
@@ -249,3 +248,4 @@ export default async function BlogHome() {
     </>
   )
 }
+                          
