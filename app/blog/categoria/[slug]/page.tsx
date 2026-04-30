@@ -494,7 +494,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
               <Link key={post._id} href={`/blog/${post.slug ?? post._id}`} className="cat-post">
                 <div className="cat-post-img">
                   {img ? (
-                    <Image src={img} alt={post.title} fill style={{ objectFit: 'cover' }} unoptimized />
+                    <Image src={img} alt={post.title} fill style={{ objectFit: 'cover' }} />
                   ) : (
                     <div className="cat-post-img-placeholder" style={{ background: GRADIENTS[idx % GRADIENTS.length] }}>
                       <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
@@ -530,7 +530,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             <Link key={post.slug} href={`/blog/${post.slug}`} className="cat-post">
               <div className="cat-post-img">
                 {post.imageUrl ? (
-                  <Image src={post.imageUrl} alt={post.title} fill style={{ objectFit: 'cover' }} unoptimized />
+                  <Image src={post.imageUrl} alt={post.title} fill style={{ objectFit: 'cover' }} />
                 ) : (
                   <div className="cat-post-img-placeholder" style={{ background: GRADIENTS[idx % GRADIENTS.length] }}>
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none">

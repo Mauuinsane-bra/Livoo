@@ -13,6 +13,10 @@ const nextConfig = {
       { protocol: 'https', hostname: 'photo.hotellook.com' },
       { protocol: 'https', hostname: '**.getyourguide.com' },
       { protocol: 'https', hostname: 'cdn.sanity.io' },
+      // Imagens de conteúdo do blog (Wikipedia/Wikimedia)
+      { protocol: 'https', hostname: 'upload.wikimedia.org' },
+      { protocol: 'https', hostname: '**.wikimedia.org' },
+      { protocol: 'https', hostname: 'commons.wikimedia.org' },
     ],
   },
   serverExternalPackages: ['amadeus'],

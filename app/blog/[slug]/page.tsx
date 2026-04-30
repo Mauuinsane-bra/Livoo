@@ -101,12 +101,18 @@ const ptComponents = {
   },
   types: {
     image: ({ value }: any) => {
-      const src = value?.asset ? urlFor(value).width(800).url() : null
+      // Suporta imagens Sanity (asset._ref) e URLs externas (url ou asset.url)
+      let src: string | null = null
+      if (value?.asset) {
+        try { src = urlFor(value).width(800).url() } catch { /* */ }
+      }
+      if (!src && value?.url) src = value.url
+      if (!src && value?.asset?.url) src = value.asset.url
       if (!src) return null
       return (
         <figure style={{ margin: '28px 0' }}>
           <div style={{ aspectRatio: '16/9', borderRadius: 16, overflow: 'hidden', position: 'relative', background: GRADIENTS[0] }}>
-            <Image src={src} alt={value.alt ?? ''} fill style={{ objectFit: 'cover' }} unoptimized />
+            <Image src={src} alt={value.alt ?? ''} fill style={{ objectFit: 'cover' }} />
           </div>
           {value.caption && <figcaption style={{ textAlign: 'center', fontFamily: "'JetBrains Mono', monospace", fontSize: 12.5, color: 'var(--muted)', marginTop: 8, fontStyle: 'italic' }}>{value.caption}</figcaption>}
         </figure>
@@ -195,7 +201,7 @@ export default async function BlogPost({ params }: Props) {
       {/* ── COVER ─────────────────────────────────────── */}
       <div style={{ aspectRatio: '21/9', position: 'relative', overflow: 'hidden', background: cover ? undefined : GRADIENTS[0] }}>
         {cover ? (
-          <Image src={cover} alt={post.title} fill style={{ objectFit: 'cover' }} priority unoptimized />
+          <Image src={cover} alt={post.title} fill style={{ objectFit: 'cover' }} priority />
         ) : (
           <div style={{ position: 'absolute', inset: 0, background: GRADIENTS[0] }} />
         )}
@@ -294,7 +300,7 @@ export default async function BlogPost({ params }: Props) {
               {related.map((r: Post) => (
                 <Link key={r._id} href={`/blog/${r.slug}`} className="blog-post-card" style={{ textDecoration: 'none' }}>
                   <div style={{ aspectRatio: '4/3', position: 'relative', background: GRADIENTS[0] }}>
-                    {r._fallbackImageUrl && <Image src={r._fallbackImageUrl} alt={r.title} fill style={{ objectFit: 'cover' }} unoptimized />}
+                    {r._fallbackImageUrl && <Image src={r._fallbackImageUrl} alt={r.title} fill style={{ objectFit: 'cover' }} />}
                   </div>
                   <div style={{ padding: '14px 16px 18px' }}>
                     <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10.5, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--orange)', marginBottom: 6 }}>{r.category}</div>

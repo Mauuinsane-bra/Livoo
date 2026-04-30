@@ -77,7 +77,7 @@ export default async function BlogHome() {
               {/* Imagem */}
               <div style={{ aspectRatio: '4/3', position: 'relative', background: postImg(featured) ? undefined : GRADIENTS[0] }}>
                 {postImg(featured) ? (
-                  <Image src={postImg(featured)} alt={featured.title} fill style={{ objectFit: 'cover' }} priority unoptimized />
+                  <Image src={postImg(featured)} alt={featured.title} fill style={{ objectFit: 'cover' }} priority />
                 ) : (
                   <div style={{ position: 'absolute', inset: 0, background: GRADIENTS[0] }} />
                 )}
@@ -137,7 +137,7 @@ export default async function BlogHome() {
               <Link key={post._id} href={`/blog/${post.slug}`} className="blog-post-card" style={{ textDecoration: 'none' }}>
                 <div style={{ aspectRatio: '4/3', position: 'relative', overflow: 'hidden', background: GRADIENTS[i % GRADIENTS.length] }}>
                   {postImg(post) && (
-                    <Image src={postImg(post)} alt={post.title} fill style={{ objectFit: 'cover' }} unoptimized />
+                    <Image src={postImg(post)} alt={post.title} fill style={{ objectFit: 'cover' }} />
                   )}
                   <div style={{ position: 'absolute', top: 10, left: 10, background: '#fafaf8', color: 'var(--ink)', padding: '5px 10px', borderRadius: 999, fontSize: 10.5, fontWeight: 800, letterSpacing: '.02em', boxShadow: '0 1px 2px rgba(0,0,0,.1)' }}>
                     {BADGES[i % BADGES.length]}
