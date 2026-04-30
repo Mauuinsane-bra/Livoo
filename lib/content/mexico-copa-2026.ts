@@ -1,7 +1,6 @@
 // lib/content/mexico-copa-2026.ts
 // Conteúdo HTML rico para o post sobre o México na Copa do Mundo 2026.
-// Usado como _fallbackContent quando o Sanity retorna o post sem imagens no corpo.
-// Imagens: Unsplash (livre para uso editorial).
+// Imagens: as fotos originais escolhidas, servidas via /public/blog-imgs/
 
 export const MEXICO_COPA_2026_HTML = `
 <p>Faltam menos de 50 dias para a Copa do Mundo 2026 começar, e o <strong>México</strong> já está esquentando os motores. Aqui no <strong>Go Livoo</strong>, estamos lançando uma série completa sobre a Copa do Mundo 2026 — e o México é o nosso primeiro capítulo.</p>
@@ -9,8 +8,8 @@ export const MEXICO_COPA_2026_HTML = `
 <p>Teremos a maior Copa do Mundo da história, com 48 seleções disputando em 3 países sede: Canadá, México e Estados Unidos. A competição começa em <strong>11 de junho de 2026</strong>, com a cerimônia de abertura no lendário Estádio Azteca, e encerra no dia <strong>19 de julho de 2026</strong> no MetLife Stadium, em East Rutherford, Nova Jersey.</p>
 
 <figure>
-  <img src="https://images.unsplash.com/photo-1518638150340-f706e86654de?auto=format&fit=crop&w=1200&q=80" alt="Vista panorâmica do Zócalo da Cidade do México ao anoitecer" loading="eager" width="1200" height="675">
-  <figcaption>Zócalo da Cidade do México ao anoitecer — coração histórico da capital mexicana.</figcaption>
+  <img src="/blog-imgs/cdmx.jpg" alt="Vista panorâmica do Zócalo da Cidade do México ao anoitecer" loading="eager" width="1200" height="675">
+  <figcaption>Zócalo da Cidade do México ao anoitecer. Foto: Wikimedia Commons (CC BY-SA)</figcaption>
 </figure>
 
 <h2>Por onde começar — o visto eletrônico</h2>
@@ -40,8 +39,8 @@ export const MEXICO_COPA_2026_HTML = `
 <p>A CDMX sediará <strong>5 partidas da Copa do Mundo 2026</strong> no lendário <strong>Estádio Azteca</strong>, que já recebeu duas edições da Copa (1970 e 1986) e tem capacidade para <strong>83.000 pessoas</strong>. O jogo de abertura acontece em <strong>11 de junho de 2026</strong>, com México x África do Sul.</p>
 
 <figure>
-  <img src="https://images.unsplash.com/photo-1560272564-c83b66b1ad12?auto=format&fit=crop&w=1200&q=80" alt="Interior do Estádio Azteca — Cidade do México" loading="lazy" width="1200" height="675">
-  <figcaption>Estádio Azteca, CDMX — capacidade para 83.000 torcedores e sede de duas Copas do Mundo.</figcaption>
+  <img src="/blog-imgs/azteca.jpg" alt="Interior do Estádio Azteca — Cidade do México" loading="lazy" width="1200" height="675">
+  <figcaption>Estádio Azteca, CDMX — capacidade para 83.000 torcedores e sede de duas Copas do Mundo. Foto: Wikimedia Commons (CC BY-SA)</figcaption>
 </figure>
 
 <p><strong>Jogos no Estádio Azteca:</strong></p>
@@ -60,8 +59,13 @@ export const MEXICO_COPA_2026_HTML = `
 <p>Os voos internacionais chegam ao <strong>Benito Juárez</strong> (BJX). Mas a CDMX tem o <strong>Aeroporto Felipe Ângeles (AIFA / NLU)</strong>, a 40km do Benito Juárez. Ao comprar passagens com escala, confirme sempre o aeroporto correto.</p>
 
 <figure>
-  <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80" alt="Terminal moderno de aeroporto internacional" loading="lazy" width="1200" height="675">
-  <figcaption>Aeroporto Internacional Benito Juárez (BJX) — principal aeroporto da Cidade do México.</figcaption>
+  <img src="/blog-imgs/benito.jpg" alt="Terminal 2 do Aeroporto Internacional Benito Juárez — Cidade do México" loading="lazy" width="1200" height="675">
+  <figcaption>Terminal 2 do Aeroporto Internacional Benito Juárez (BJX) — o maior aeroporto do México. Foto: Wikimedia Commons (CC BY-SA)</figcaption>
+</figure>
+
+<figure>
+  <img src="/blog-imgs/aifa.jpg" alt="Aeroporto Internacional Felipe Ângeles (AIFA) — Estado do México" loading="lazy" width="1200" height="675">
+  <figcaption>Aeroporto Internacional Felipe Ângeles (AIFA / NLU) — inaugurado em 2022, fica a 40km do Benito Juárez. Foto: Wikimedia Commons (CC BY-SA)</figcaption>
 </figure>
 
 <h2>Monterrey e o Estádio BBVA</h2>
@@ -69,8 +73,8 @@ export const MEXICO_COPA_2026_HTML = `
 <p>A segunda cidade com mais jogos na Copa fica ao <strong>norte do país</strong>, a 930 km da CDMX e 200 km da fronteira com o Texas. Monterrey é um polo industrial com mais de <strong>5 milhões de habitantes</strong>.</p>
 
 <figure>
-  <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80" alt="Paisagem montanhosa — região de Monterrey, México" loading="lazy" width="1200" height="675">
-  <figcaption>Monterrey é marcada pelo espetacular Cerro de la Silla, símbolo natural da cidade.</figcaption>
+  <img src="/blog-imgs/monterrey.jpg" alt="Cerro de la Silla, símbolo natural de Monterrey, México" loading="lazy" width="1200" height="675">
+  <figcaption>Cerro de la Silla — símbolo de Monterrey e ponto turístico imperdível. Foto: Wikimedia Commons (CC BY-SA)</figcaption>
 </figure>
 
 <p>Não há voos diretos do Brasil até Monterrey. A melhor opção é escala <strong>na Cidade do México</strong> ou <strong>no Panamá</strong> (via Copa Airlines).</p>
@@ -79,8 +83,8 @@ export const MEXICO_COPA_2026_HTML = `
 <p>O moderno <strong>Estádio BBVA</strong> — com capacidade para <strong>53.000 espectadores</strong> — é a casa dos <em>Rayados</em> de Monterrey.</p>
 
 <figure>
-  <img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=1200&q=80" alt="Estádio moderno de futebol — El Gigante de Acero, Monterrey" loading="lazy" width="1200" height="675">
-  <figcaption>Estádio BBVA (El Gigante de Acero) — um dos mais modernos do continente.</figcaption>
+  <img src="/blog-imgs/bbva.jpg" alt="Estádio BBVA Bancomer — El Gigante de Acero — Monterrey, México" loading="lazy" width="1200" height="675">
+  <figcaption>Estádio BBVA (El Gigante de Acero) — casa dos Rayados de Monterrey. Foto: Wikimedia Commons (CC BY-SA)</figcaption>
 </figure>
 
 <p><strong>Jogos no Estádio BBVA — Monterrey:</strong></p>
@@ -96,8 +100,8 @@ export const MEXICO_COPA_2026_HTML = `
 <p><strong>Guadalajara</strong>, com cerca de <strong>1,4 milhão de habitantes</strong>, é o berço da cultura mexicana — de onde vieram o mariachi, a tequila e o jarabe tapatío. Fica a aproximadamente <strong>600 km da Cidade do México</strong>.</p>
 
 <figure>
-  <img src="https://images.unsplash.com/photo-1568021735466-58e01b80fd44?auto=format&fit=crop&w=1200&q=80" alt="Arquitetura histórica de Guadalajara, Jalisco, México" loading="lazy" width="1200" height="675">
-  <figcaption>Guadalajara — capital de Jalisco e berço da cultura mexicana.</figcaption>
+  <img src="/blog-imgs/guadalajara.jpg" alt="Catedral de Guadalajara, Jalisco, México" loading="lazy" width="1200" height="675">
+  <figcaption>Catedral de Guadalajara — cartão-postal da capital do estado de Jalisco. Foto: Wikimedia Commons (CC BY-SA)</figcaption>
 </figure>
 
 <p>Para chegar a Guadalajara, a melhor opção é escala na <strong>Cidade do México</strong>. Outra excelente alternativa é <strong>alugar um carro</strong> e fazer o percurso por terra.</p>
@@ -106,8 +110,8 @@ export const MEXICO_COPA_2026_HTML = `
 <p>O <strong>Estádio Akron</strong>, com capacidade para quase <strong>50.000 visitantes</strong>, é a casa do <strong>Chivas de Guadalajara</strong> — um dos clubes mais tradicionais do México.</p>
 
 <figure>
-  <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1200&q=80" alt="Interior do Estádio Akron, Guadalajara" loading="lazy" width="1200" height="675">
-  <figcaption>Estádio Akron, Guadalajara — casa do Chivas e sede de quatro jogos da Copa 2026.</figcaption>
+  <img src="/blog-imgs/akron.jpg" alt="Estádio Akron, Guadalajara — casa do Chivas de Guadalajara" loading="lazy" width="1200" height="675">
+  <figcaption>Estádio Akron, Guadalajara — casa do Chivas e sede de quatro jogos da Copa 2026. Foto: Wikimedia Commons (CC BY-SA)</figcaption>
 </figure>
 
 <p><strong>Jogos no Estádio Akron — Guadalajara:</strong></p>
