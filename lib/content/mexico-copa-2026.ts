@@ -144,7 +144,7 @@ export const MEXICO_COPA_2026_HTML = `
   <p style="margin:0 0 10px;font-size:15px;font-weight:800;color:#0D1B3E">Siga a Go Livoo nas redes sociais</p>
   <p style="margin:0;font-size:14px;color:#334;line-height:1.7">
     <a href="https://instagram.com/golivoo_travel" target="_blank" rel="noopener" style="color:#1A56DB;font-weight:700;text-decoration:none">📸 @golivoo_travel no Instagram</a> — bastidores de viagem, dicas em tempo real e alertas de promoção.<br>
-    <a href="https://tiktok.com/@golivoo_travel" target="_blank" rel="noopener" style="color:#1A56DB;font-weight:700;text-decoration:none">🎬 @golivoo_travel no TikTok</a> — reels de destinos, guias rápidos e novidades da Copa 2026.
+    <a href="https://tiktok.com/@golivoo_travel" target="_blank" rel="noopener" style="color:#1A56DB;font-weight:700;text-decoration:none">🎬 Go Livoo no TikTok</a> — reels de destinos, guias rápidos e novidades da Copa 2026.
   </p>
 </div>
 `
