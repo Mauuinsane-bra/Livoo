@@ -1,6 +1,7 @@
 // lib/sanity-queries.ts — GROQ queries reutilizáveis
 import { sanityClient, type SanityBlogPost } from './sanity'
 import { BLOG_POSTS } from './blog-data'
+import { MEXICO_COPA_2026_HTML } from './content/mexico-copa-2026'
 
 // Campos comuns sem content (para listagens)
 const POST_FIELDS = `
@@ -14,10 +15,65 @@ const POST_FIELDS = `
   publishedAt,
   readTime,
   tags,
-  featured
+  featured,
+  authorName,
+  authorImage { asset, alt }
 `
 
 // ─── Queries ────────────────────────────────────────────────────────────────
+
+
+// ─── Fallback de imagem — Wikipedia bloqueia hotlinking ─────────────────────
+// Mapa de palavras-chave de URL do Wikipedia → imagem Unsplash equivalente
+const WIKI_TO_UNSPLASH: Array<[RegExp, string]> = [
+  [/mexico|méxico|zocalo|cidade.*mexico|mexico.*city/i, 'https://images.unsplash.com/photo-1518638150340-f706e86654de?auto=format&fit=crop&w=1400&q=80'],
+  [/estadio|stadium|arena|futbol|football/i, 'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?auto=format&fit=crop&w=1400&q=80'],
+  [/cancun|cancún|guadalajara|monterrey/i, 'https://images.unsplash.com/photo-1512813389649-acb9131ced20?auto=format&fit=crop&w=1400&q=80'],
+  [/copa.*mundo|world.*cup|fifa/i, 'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=1400&q=80'],
+]
+
+export function sanitizeImageUrl(url: string | undefined, hint?: string): string {
+  if (!url) return ''
+  // Wikipedia e Wikimedia bloqueiam hotlinking — substituir por Unsplash
+  if (url.includes('wikimedia.org') || url.includes('wikipedia.org')) {
+    const text = (hint ?? '') + url
+    for (const [re, replacement] of WIKI_TO_UNSPLASH) {
+      if (re.test(text)) return replacement
+    }
+    // Fallback genérico de viagem
+    return 'https://images.unsplash.com/photo-1488085061387-422e29b40080?auto=format&fit=crop&w=1400&q=80'
+  }
+  return url
+}
+
+
+// ─── Fallback de conteúdo rico por palavra-chave ─────────────────────────────
+// Injeta _fallbackContent em posts do Sanity que vieram sem imagens no corpo.
+const RICH_CONTENT_MAP: Array<[RegExp, string]> = [
+  [/mexico|méxico|copa.*mundo.*2026|copa do mundo 2026/i, MEXICO_COPA_2026_HTML],
+]
+
+function findRichContent(title = '', category = ''): string | null {
+  const text = title + ' ' + category
+  for (const [re, html] of RICH_CONTENT_MAP) {
+    if (re.test(text)) return html
+  }
+  return null
+}
+
+// ─── Fallback de imagem de capa por título ───────────────────────────────────
+// Injeta _fallbackImageUrl para posts Sanity sem coverImage nem coverImageUrl.
+const COVER_IMAGE_MAP: Array<[RegExp, string]> = [
+  [/mexico|méxico|copa.*mundo|copa do mundo|azteca|guadalajara|monterrey/i, '/blog-imgs/cdmx.jpg'],
+]
+
+function findCoverImage(title = '', category = ''): string | null {
+  const text = title + ' ' + category
+  for (const [re, url] of COVER_IMAGE_MAP) {
+    if (re.test(text)) return url
+  }
+  return null
+}
 
 export async function getAllPosts(): Promise<SanityBlogPost[]> {
   try {
@@ -28,7 +84,13 @@ export async function getAllPosts(): Promise<SanityBlogPost[]> {
       // Propaga coverImageUrl como _fallbackImageUrl para posts sem Sanity image
       return posts.map(p => {
         if (!p.coverImage && p.coverImageUrl) {
-          (p as SanityBlogPost & { _fallbackImageUrl?: string })._fallbackImageUrl = p.coverImageUrl
+          (p as SanityBlogPost & { _fallbackImageUrl?: string })._fallbackImageUrl = sanitizeImageUrl(p.coverImageUrl, p.title)
+        }
+        // Sem nenhuma imagem → tentar por título
+        const typed = p as SanityBlogPost & { _fallbackImageUrl?: string }
+        if (!p.coverImage && !typed._fallbackImageUrl) {
+          const cover = findCoverImage(p.title, p.category)
+          if (cover) typed._fallbackImageUrl = cover
         }
         return p
       })
@@ -90,7 +152,21 @@ export async function getPostBySlug(slug: string): Promise<(SanityBlogPost & { _
     if (post?._id) {
       // Se não tem imagem Sanity mas tem URL externa, usa como fallback
       if (!post.coverImage && post.coverImageUrl) {
-        (post as SanityBlogPost & { _fallbackImageUrl?: string })._fallbackImageUrl = post.coverImageUrl
+        (post as SanityBlogPost & { _fallbackImageUrl?: string })._fallbackImageUrl = sanitizeImageUrl(post.coverImageUrl, post.title)
+      }
+      // Sem nenhuma imagem → tentar por título
+      const typedPost = post as SanityBlogPost & { _fallbackImageUrl?: string }
+      if (!post.coverImage && !typedPost._fallbackImageUrl) {
+        const cover = findCoverImage(post.title, post.category)
+        if (cover) typedPost._fallbackImageUrl = cover
+      }
+      // Se o Sanity não tem imagens no corpo do artigo, injeta conteúdo rico local
+      const hasContentImages = Array.isArray(post.content) && post.content.some((b: any) => b._type === 'image')
+      if (!hasContentImages) {
+        const richHtml = findRichContent(post.title, post.category)
+        if (richHtml) {
+          (post as SanityBlogPost & { _fallbackContent?: string })._fallbackContent = richHtml
+        }
       }
       return post
     }
@@ -125,26 +201,23 @@ export async function getPostsByCategory(category: string): Promise<SanityBlogPo
   const sanityCat = category === 'copa-do-mundo' ? 'Copa do Mundo 2026' : category
   try {
     const posts = await sanityClient.fetch<SanityBlogPost[]>(
-      `*[_type == "blogPost" && (string::lower(category) == $cat || category == $catExact)] | order(publishedAt desc) { ${POST_FIELDS} }`,
+      `*[_type == "blogPost" && (
+        category == $catExact ||
+        string::lower(category) == $cat ||
+        ($cat == "copa-do-mundo" && (
+          category in ["Copa do Mundo 2026", "Esportes", "Futebol"] ||
+          title match "Copa" ||
+          title match "Copa do Mundo" ||
+          title match "World Cup"
+        ))
+      )] | order(publishedAt desc) { ${POST_FIELDS} }`,
       { cat: category.toLowerCase(), catExact: sanityCat }
     )
     if (posts && posts.length > 0) return posts
   } catch (err) {
     console.info('[Go Livoo] Sanity getPostsByCategory: usando fallback local', err)
   }
-  return BLOG_POSTS.filter(p => p.category?.toLowerCase() === category.toLowerCase()).map(p => ({
-    _id: p.slug,
-    title: p.title,
-    slug: p.slug,
-    excerpt: p.excerpt,
-    category: p.category,
-    coverImage: undefined,
-    publishedAt: p.date,
-    readTime: p.readTime,
-    tags: p.tags,
-    featured: p.featured,
-    _fallbackImageUrl: p.imageUrl,
-  } as SanityBlogPost & { _fallbackImageUrl?: string }))
+  return []
 }
 
 export async function getAllSlugs(): Promise<string[]> {
