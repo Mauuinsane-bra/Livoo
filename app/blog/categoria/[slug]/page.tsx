@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import BlogImage from '../BlogImage'
+import BlogImage from '../../BlogImage'
 import { getPostsByCategory, getAllPosts } from '@/lib/sanity-queries'
 import { urlFor, type SanityBlogPost } from '@/lib/sanity'
 
