@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
+import BlogImage from '../BlogImage'
 import { getPostsByCategory, getAllPosts } from '@/lib/sanity-queries'
 import { urlFor, type SanityBlogPost } from '@/lib/sanity'
 
@@ -70,12 +71,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 }
 
-function postImg(post: Post, idx: number): string {
+function postImg(post: Post): string {
   if (post.coverImage) {
     try { return urlFor(post.coverImage).width(560).url() } catch { /* */ }
   }
-  if (post._fallbackImageUrl) return post._fallbackImageUrl
-  return ''
+  return post._fallbackImageUrl ?? ''
 }
 
 function fmtDate(iso: string) {
@@ -488,13 +488,13 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
         {hasSanity ? (
           sanityPosts.map((post, idx) => {
-            const img = postImg(post, idx)
+            const img = postImg(post)
             const av = 'G'
             return (
               <Link key={post._id} href={`/blog/${post.slug ?? post._id}`} className="cat-post">
                 <div className="cat-post-img">
                   {img ? (
-                    <Image src={img} alt={post.title} fill style={{ objectFit: 'cover' }} unoptimized />
+                    <BlogImage src={img} fallback={post._fallbackImageUrl} alt={post.title} />
                   ) : (
                     <div className="cat-post-img-placeholder" style={{ background: GRADIENTS[idx % GRADIENTS.length] }}>
                       <svg width="32" height="32" viewBox="0 0 24 24" fill="none">

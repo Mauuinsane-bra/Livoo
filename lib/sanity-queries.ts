@@ -197,8 +197,8 @@ export async function getPostBySlug(slug: string): Promise<(SanityBlogPost & { _
 }
 
 export async function getPostsByCategory(category: string): Promise<SanityBlogPost[]> {
-  // "copa-do-mundo" slug → filtra por categoria "Copa do Mundo 2026" no Sanity
   const sanityCat = category === 'copa-do-mundo' ? 'Copa do Mundo 2026' : category
+  const catKeywords = ['Copa do Mundo 2026', 'Esportes', 'Futebol']
   try {
     const posts = await sanityClient.fetch<SanityBlogPost[]>(
       `*[_type == "blogPost" && (
@@ -213,11 +213,33 @@ export async function getPostsByCategory(category: string): Promise<SanityBlogPo
       )] | order(publishedAt desc) { ${POST_FIELDS} }`,
       { cat: category.toLowerCase(), catExact: sanityCat }
     )
-    if (posts && posts.length > 0) return posts
+    if (posts && posts.length > 0) {
+      return posts.map(p => {
+        const typed = p as SanityBlogPost & { _fallbackImageUrl?: string }
+        const localCover = findCoverImage(p.title, p.category)
+        if (localCover) {
+          typed._fallbackImageUrl = localCover
+          p.coverImage = undefined
+        } else if ((p as any).coverImageUrl) {
+          typed._fallbackImageUrl = sanitizeImageUrl((p as any).coverImageUrl, p.title)
+        }
+        return p
+      })
+    }
   } catch (err) {
     console.info('[Go Livoo] Sanity getPostsByCategory: usando fallback local', err)
   }
-  return []
+  // Fallback: posts locais que correspondem à categoria
+  const localCat = sanityCat.toLowerCase()
+  return BLOG_POSTS
+    .filter(p => p.category.toLowerCase() === localCat ||
+      (category === 'copa-do-mundo' && catKeywords.map(c => c.toLowerCase()).includes(p.category.toLowerCase())))
+    .map(p => ({
+      _id: p.slug, title: p.title, slug: p.slug, excerpt: p.excerpt,
+      category: p.category, coverImage: undefined, publishedAt: p.date,
+      readTime: p.readTime, tags: p.tags, featured: p.featured,
+      _fallbackImageUrl: p.imageUrl,
+    } as SanityBlogPost & { _fallbackImageUrl?: string }))
 }
 
 export async function getAllSlugs(): Promise<string[]> {
