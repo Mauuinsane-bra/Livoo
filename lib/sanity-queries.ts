@@ -81,14 +81,14 @@ export async function getAllPosts(): Promise<SanityBlogPost[]> {
       `*[_type == "blogPost"] | order(publishedAt desc) { ${POST_FIELDS} }`
     )
     if (posts && posts.length > 0) {
-      // Propaga coverImageUrl como _fallbackImageUrl para posts sem Sanity image
       return posts.map(p => {
-        if (!p.coverImage && p.coverImageUrl) {
-          (p as SanityBlogPost & { _fallbackImageUrl?: string })._fallbackImageUrl = sanitizeImageUrl(p.coverImageUrl, p.title)
-        }
-        // Sem nenhuma imagem → tentar por título
         const typed = p as SanityBlogPost & { _fallbackImageUrl?: string }
-        if (!p.coverImage && !typed._fallbackImageUrl) {
+        // coverImageUrl externo (ex: Wikipedia) → sanitizar e guardar como fallback
+        if (p.coverImageUrl) {
+          typed._fallbackImageUrl = sanitizeImageUrl(p.coverImageUrl, p.title)
+        }
+        // Sempre tentar fallback local por título — usado como onError no BlogImage
+        if (!typed._fallbackImageUrl) {
           const cover = findCoverImage(p.title, p.category)
           if (cover) typed._fallbackImageUrl = cover
         }
@@ -231,3 +231,4 @@ export async function getAllSlugs(): Promise<string[]> {
   }
   return BLOG_POSTS.map(p => p.slug)
 }
+                                           

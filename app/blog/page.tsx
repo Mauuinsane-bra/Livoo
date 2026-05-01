@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
 import { getAllPosts } from '@/lib/sanity-queries'
 import { urlFor, type SanityBlogPost } from '@/lib/sanity'
 import NewsletterForm from './NewsletterForm'
+import BlogImage from './BlogImage'
 
 export const revalidate = 60
 
@@ -76,12 +76,8 @@ export default async function BlogHome() {
               </div>
 
               {/* Imagem */}
-              <div style={{ aspectRatio: '4/3', position: 'relative', background: postImg(featured) ? undefined : GRADIENTS[0] }}>
-                {postImg(featured) ? (
-                  <Image src={postImg(featured)} alt={featured.title} fill style={{ objectFit: 'cover' }} priority unoptimized />
-                ) : (
-                  <div style={{ position: 'absolute', inset: 0, background: GRADIENTS[0] }} />
-                )}
+              <div style={{ aspectRatio: '4/3', position: 'relative', background: GRADIENTS[0] }}>
+                <BlogImage src={postImg(featured)} fallback={featured._fallbackImageUrl} alt={featured.title} priority />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg,rgba(0,0,0,.1) 40%,rgba(0,0,0,.6) 100%)' }} />
               </div>
 
@@ -137,9 +133,7 @@ export default async function BlogHome() {
             post ? (
               <Link key={post._id} href={`/blog/${post.slug}`} className="blog-post-card" style={{ textDecoration: 'none' }}>
                 <div style={{ aspectRatio: '4/3', position: 'relative', overflow: 'hidden', background: GRADIENTS[i % GRADIENTS.length] }}>
-                  {postImg(post) && (
-                    <Image src={postImg(post)} alt={post.title} fill style={{ objectFit: 'cover' }} unoptimized />
-                  )}
+                  <BlogImage src={postImg(post)} fallback={post._fallbackImageUrl} alt={post.title} />
                   <div style={{ position: 'absolute', top: 10, left: 10, background: '#fafaf8', color: 'var(--ink)', padding: '5px 10px', borderRadius: 999, fontSize: 10.5, fontWeight: 800, letterSpacing: '.02em', boxShadow: '0 1px 2px rgba(0,0,0,.1)' }}>
                     {BADGES[i % BADGES.length]}
                   </div>
@@ -241,3 +235,4 @@ export default async function BlogHome() {
     </>
   )
 }
+                                                                                                                                                                                                                                                                                         
