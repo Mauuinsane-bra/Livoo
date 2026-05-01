@@ -364,4 +364,22 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'mexico-copa-2026',
     title: 'México na Copa do Mundo 2026: tudo o que você precisa saber',
-    excerpt: 'Guia completo para quem vai ao México na Copa do Mundo 2026: vistos, estádios, cidad
+    excerpt: 'Guia completo para quem vai ao México na Copa do Mundo 2026: vistos, estádios, cidades-sede, dicas de transporte e muito mais.',
+    category: 'Copa do Mundo 2026',
+    categoryColor: '#1A56DB',
+    date: '2026-04-30',
+    readTime: 10,
+    imageUrl: '/blog-imgs/cdmx.jpg',
+    tags: ['copa do mundo 2026', 'méxico', 'futebol', 'viagem', 'guia'],
+    featured: false,
+    content: '',  // conteúdo via RICH_CONTENT_MAP em sanity-queries.ts
+  },
+]
+
+export function getPost(slug: string): BlogPost | undefined {
+  return BLOG_POSTS.find(p => p.slug === slug)
+}
+
+export function getFeaturedPosts(): BlogPost[] {
+  return BLOG_POSTS.filter(p => p.featured)
+}
