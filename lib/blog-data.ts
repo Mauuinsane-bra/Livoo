@@ -361,12 +361,7 @@ export const BLOG_POSTS: BlogPost[] = [
 </p>
     `,
   },
-]
-
-export function getPost(slug: string): BlogPost | undefined {
-  return BLOG_POSTS.find(p => p.slug === slug)
-}
-
-export function getFeaturedPosts(): BlogPost[] {
-  return BLOG_POSTS.filter(p => p.featured)
-}
+  {
+    slug: 'mexico-copa-2026',
+    title: 'México na Copa do Mundo 2026: tudo o que você precisa saber',
+    excerpt: 'Guia completo para quem vai ao México na Copa do Mundo 2026: vistos, estádios, cidad

@@ -1,3 +1,0 @@
-module.exports=[67652,e=>{"use strict";var t=e.i(24389);let s=process.env.NEXT_PUBLIC_SUPABASE_URL,r=process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,n=process.env.SUPABASE_SERVICE_ROLE_KEY;(0,t.createClient)(s,r);let i=(0,t.createClient)(s,n,{auth:{autoRefreshToken:!1,persistSession:!1}});async function a(e){let{data:t,error:s}=await i.from("itineraries").insert(e).select().single();if(s)throw s;return t}async function c(e){let{data:t,error:s}=await i.from("prep_checks").insert(e).select().single();if(s)throw s;return t}e.s(["saveItinerary",0,a,"savePrepCheck",0,c])}];
-
-//# sourceMappingURL=lib_supabase_ts_0li8sjd._.js.map
