@@ -28,8 +28,6 @@ const GRADIENTS = [
 const BADGES = ['VIRAL', 'PROMO', 'TOP 10', 'NOVO', 'VIRAL', 'PROMO', 'NOVO', 'TOP 10']
 
 function postImg(post: Post): string {
-  // Path local (/blog-imgs/...) tem prioridade — é confiável e não depende de CDN externo
-  if (post._fallbackImageUrl?.startsWith('/')) return post._fallbackImageUrl
   if (post.coverImage) {
     try { return urlFor(post.coverImage).width(640).url() } catch { /* empty */ }
   }

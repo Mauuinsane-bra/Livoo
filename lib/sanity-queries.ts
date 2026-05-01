@@ -83,10 +83,11 @@ export async function getAllPosts(): Promise<SanityBlogPost[]> {
     if (posts && posts.length > 0) {
       const sanityPosts = posts.map(p => {
         const typed = p as SanityBlogPost & { _fallbackImageUrl?: string }
-        // Local map tem prioridade absoluta — path /blog-imgs/ é confiável
         const localCover = findCoverImage(p.title, p.category)
         if (localCover) {
+          // Tem imagem local confiável: limpa coverImage para postImg() usar o fallback
           typed._fallbackImageUrl = localCover
+          p.coverImage = undefined
         } else if (p.coverImageUrl) {
           typed._fallbackImageUrl = sanitizeImageUrl(p.coverImageUrl, p.title)
         }
@@ -153,10 +154,11 @@ export async function getPostBySlug(slug: string): Promise<(SanityBlogPost & { _
     )
     if (post?._id) {
       const typedPost = post as SanityBlogPost & { _fallbackImageUrl?: string; _fallbackContent?: string }
-      // Local map tem prioridade absoluta — path /blog-imgs/ é confiável
       const localCoverSlug = findCoverImage(post.title, post.category)
       if (localCoverSlug) {
+        // Tem imagem local confiável: limpa coverImage para o render usar o fallback
         typedPost._fallbackImageUrl = localCoverSlug
+        post.coverImage = undefined
       } else if (post.coverImageUrl) {
         typedPost._fallbackImageUrl = sanitizeImageUrl(post.coverImageUrl, post.title)
       }
