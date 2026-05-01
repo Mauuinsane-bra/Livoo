@@ -83,12 +83,12 @@ export async function getAllPosts(): Promise<SanityBlogPost[]> {
     if (posts && posts.length > 0) {
       const sanityPosts = posts.map(p => {
         const typed = p as SanityBlogPost & { _fallbackImageUrl?: string }
-        if (p.coverImageUrl) {
+        // Local map tem prioridade absoluta — path /blog-imgs/ é confiável
+        const localCover = findCoverImage(p.title, p.category)
+        if (localCover) {
+          typed._fallbackImageUrl = localCover
+        } else if (p.coverImageUrl) {
           typed._fallbackImageUrl = sanitizeImageUrl(p.coverImageUrl, p.title)
-        }
-        if (!typed._fallbackImageUrl) {
-          const cover = findCoverImage(p.title, p.category)
-          if (cover) typed._fallbackImageUrl = cover
         }
         return p
       })
@@ -153,14 +153,12 @@ export async function getPostBySlug(slug: string): Promise<(SanityBlogPost & { _
     )
     if (post?._id) {
       const typedPost = post as SanityBlogPost & { _fallbackImageUrl?: string; _fallbackContent?: string }
-      // coverImageUrl externo → sanitizar (Wikipedia → Unsplash)
-      if (post.coverImageUrl) {
+      // Local map tem prioridade absoluta — path /blog-imgs/ é confiável
+      const localCoverSlug = findCoverImage(post.title, post.category)
+      if (localCoverSlug) {
+        typedPost._fallbackImageUrl = localCoverSlug
+      } else if (post.coverImageUrl) {
         typedPost._fallbackImageUrl = sanitizeImageUrl(post.coverImageUrl, post.title)
-      }
-      // Sempre tentar fallback local por título (usado como onError no BlogImage)
-      if (!typedPost._fallbackImageUrl) {
-        const cover = findCoverImage(post.title, post.category)
-        if (cover) typedPost._fallbackImageUrl = cover
       }
       // Se não há imagens no corpo do artigo, injeta HTML rico com fotos locais
       const hasContentImages = Array.isArray(post.content) && post.content.some((b: any) => b._type === 'image')
