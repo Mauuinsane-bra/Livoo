@@ -225,16 +225,15 @@ export default async function BlogPost({ params }: Props) {
 
         {/* Article body */}
         <article style={{ fontSize: 17.5, lineHeight: 1.65, color: 'var(--ink-2)', fontWeight: 500 }}>
-          {post.content && (
-            <PortableText value={post.content} components={ptComponents} />
-          )}
-          {!post.content && post._fallbackContent && (
+          {post._fallbackContent ? (
+            /* HTML rico com fotos locais — prioridade sobre PortableText sem imagens */
             <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(post._fallbackContent, {
               allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'figure', 'figcaption']),
-              allowedAttributes: { ...sanitizeHtml.defaults.allowedAttributes, img: ['src', 'alt', 'width', 'height', 'loading'] },
+              allowedAttributes: { ...sanitizeHtml.defaults.allowedAttributes, img: ['src', 'alt', 'width', 'height', 'loading', 'style'] },
             }) }} className="blog-fallback-content" />
-          )}
-          {!post.content && !post._fallbackContent && (
+          ) : post.content ? (
+            <PortableText value={post.content} components={ptComponents} />
+          ) : (
             <>
               <p style={{ fontSize: 22, lineHeight: 1.4, color: 'var(--ink)', fontWeight: 600, marginBottom: 32 }}>
                 {post.excerpt}

@@ -150,23 +150,21 @@ export async function getPostBySlug(slug: string): Promise<(SanityBlogPost & { _
       { cache: 'no-store' }   // força busca sempre fresh, nunca usa cache do Next.js
     )
     if (post?._id) {
-      // Se não tem imagem Sanity mas tem URL externa, usa como fallback
-      if (!post.coverImage && post.coverImageUrl) {
-        (post as SanityBlogPost & { _fallbackImageUrl?: string })._fallbackImageUrl = sanitizeImageUrl(post.coverImageUrl, post.title)
+      const typedPost = post as SanityBlogPost & { _fallbackImageUrl?: string; _fallbackContent?: string }
+      // coverImageUrl externo → sanitizar (Wikipedia → Unsplash)
+      if (post.coverImageUrl) {
+        typedPost._fallbackImageUrl = sanitizeImageUrl(post.coverImageUrl, post.title)
       }
-      // Sem nenhuma imagem → tentar por título
-      const typedPost = post as SanityBlogPost & { _fallbackImageUrl?: string }
-      if (!post.coverImage && !typedPost._fallbackImageUrl) {
+      // Sempre tentar fallback local por título (usado como onError no BlogImage)
+      if (!typedPost._fallbackImageUrl) {
         const cover = findCoverImage(post.title, post.category)
         if (cover) typedPost._fallbackImageUrl = cover
       }
-      // Se o Sanity não tem imagens no corpo do artigo, injeta conteúdo rico local
+      // Se não há imagens no corpo do artigo, injeta HTML rico com fotos locais
       const hasContentImages = Array.isArray(post.content) && post.content.some((b: any) => b._type === 'image')
       if (!hasContentImages) {
         const richHtml = findRichContent(post.title, post.category)
-        if (richHtml) {
-          (post as SanityBlogPost & { _fallbackContent?: string })._fallbackContent = richHtml
-        }
+        if (richHtml) typedPost._fallbackContent = richHtml
       }
       return post
     }
