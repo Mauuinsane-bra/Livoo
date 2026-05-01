@@ -28,7 +28,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const post = await getPostBySlug(slug) as Post | null
   if (!post) return {}
-  const img = post.coverImage ? urlFor(post.coverImage).width(1200).url() : post._fallbackImageUrl
+  // Path local tem prioridade sobre Sanity CDN (imagem confiável)
+  const img = post._fallbackImageUrl?.startsWith('/') ? post._fallbackImageUrl : (post.coverImage ? urlFor(post.coverImage).width(1200).url() : post._fallbackImageUrl)
   return {
     title: post.title,
     description: post.excerpt,
@@ -228,8 +229,14 @@ export default async function BlogPost({ params }: Props) {
           {post._fallbackContent ? (
             /* HTML rico com fotos locais — prioridade sobre PortableText sem imagens */
             <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(post._fallbackContent, {
-              allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'figure', 'figcaption']),
-              allowedAttributes: { ...sanitizeHtml.defaults.allowedAttributes, img: ['src', 'alt', 'width', 'height', 'loading', 'style'] },
+              allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'figure', 'figcaption', 'span']),
+              allowedAttributes: {
+                ...sanitizeHtml.defaults.allowedAttributes,
+                img: ['src', 'alt', 'width', 'height', 'loading', 'style'],
+                div: ['style'], span: ['style'], p: ['style'],
+                a: ['href', 'target', 'rel', 'style'],
+                figure: ['style'], figcaption: ['style'],
+              },
             }) }} className="blog-fallback-content" />
           ) : post.content ? (
             <PortableText value={post.content} components={ptComponents} />

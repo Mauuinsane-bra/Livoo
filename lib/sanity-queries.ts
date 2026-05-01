@@ -81,35 +81,37 @@ export async function getAllPosts(): Promise<SanityBlogPost[]> {
       `*[_type == "blogPost"] | order(publishedAt desc) { ${POST_FIELDS} }`
     )
     if (posts && posts.length > 0) {
-      return posts.map(p => {
+      const sanityPosts = posts.map(p => {
         const typed = p as SanityBlogPost & { _fallbackImageUrl?: string }
-        // coverImageUrl externo (ex: Wikipedia) → sanitizar e guardar como fallback
         if (p.coverImageUrl) {
           typed._fallbackImageUrl = sanitizeImageUrl(p.coverImageUrl, p.title)
         }
-        // Sempre tentar fallback local por título — usado como onError no BlogImage
         if (!typed._fallbackImageUrl) {
           const cover = findCoverImage(p.title, p.category)
           if (cover) typed._fallbackImageUrl = cover
         }
         return p
       })
+      // Mesclar com posts locais que não existem no Sanity (por slug)
+      const sanitySlugs = new Set(sanityPosts.map((p: SanityBlogPost) => p.slug))
+      const localOnly = BLOG_POSTS
+        .filter(p => !sanitySlugs.has(p.slug))
+        .map(p => ({
+          _id: p.slug, title: p.title, slug: p.slug, excerpt: p.excerpt,
+          category: p.category, coverImage: undefined, publishedAt: p.date,
+          readTime: p.readTime, tags: p.tags, featured: p.featured,
+          _fallbackImageUrl: p.imageUrl,
+        } as SanityBlogPost & { _fallbackImageUrl?: string }))
+      return [...sanityPosts, ...localOnly]
     }
   } catch (err) {
     console.info('[Go Livoo] Sanity getAllPosts: usando fallback local', err)
   }
-  // Fallback para dados locais (lib/blog-data.ts) enquanto Sanity não tem posts
+  // Fallback total para dados locais
   return BLOG_POSTS.map(p => ({
-    _id: p.slug,
-    title: p.title,
-    slug: p.slug,
-    excerpt: p.excerpt,
-    category: p.category,
-    coverImage: undefined,
-    publishedAt: p.date,
-    readTime: p.readTime,
-    tags: p.tags,
-    featured: p.featured,
+    _id: p.slug, title: p.title, slug: p.slug, excerpt: p.excerpt,
+    category: p.category, coverImage: undefined, publishedAt: p.date,
+    readTime: p.readTime, tags: p.tags, featured: p.featured,
     _fallbackImageUrl: p.imageUrl,
   } as SanityBlogPost & { _fallbackImageUrl?: string }))
 }
