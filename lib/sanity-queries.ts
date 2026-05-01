@@ -231,4 +231,3 @@ export async function getAllSlugs(): Promise<string[]> {
   }
   return BLOG_POSTS.map(p => p.slug)
 }
-                                           
