@@ -108,3 +108,17 @@ export async function savePrepCheck(check: PrepCheck) {
   if (error) throw error
   return data
 }
+
+export async function getUserItineraries(userId: string): Promise<Itinerary[]> {
+  const { data, error } = await supabaseAdmin
+    .from('itineraries')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false })
+    .limit(20)
+  if (error) {
+    console.error('[supabase] getUserItineraries:', error)
+    return []
+  }
+  return data ?? []
+}

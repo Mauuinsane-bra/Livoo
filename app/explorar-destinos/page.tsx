@@ -294,7 +294,7 @@ export default function MelhoresDestinosPage() {
             fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', fontWeight: 700,
             color: '#fff', margin: '0 0 10px',
           }}>
-            Passagens aéreas baratas
+            Explorar Destinos
           </h1>
           <p style={{
             fontFamily: 'Inter, sans-serif', color: 'rgba(255,255,255,0.75)',
@@ -366,35 +366,6 @@ export default function MelhoresDestinosPage() {
               </select>
             </div>
 
-            <div style={{ width: 1, height: 36, background: '#E2E8F0' }} />
-
-            {/* Destino (região) */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-              <label style={{
-                fontFamily: 'Inter, sans-serif', fontSize: '0.62rem',
-                fontWeight: 700, color: '#64748B', textTransform: 'uppercase',
-                letterSpacing: '1px', marginBottom: 3,
-              }}>
-                Destino
-              </label>
-              <select
-                value={destRegion}
-                onChange={e => setDestRegion(e.target.value)}
-                style={{
-                  fontFamily: 'Nunito, sans-serif', fontSize: '0.95rem',
-                  fontWeight: 700, color: '#0F2340', border: 'none',
-                  outline: 'none', background: 'transparent', cursor: 'pointer',
-                  minWidth: 160,
-                }}
-              >
-                <option value="">Todas as regiões</option>
-                {REGIONS.map(r => (
-                  <option key={r.id} value={r.id}>{r.label}</option>
-                ))}
-              </select>
-            </div>
-
-            <div style={{ width: 1, height: 36, background: '#E2E8F0' }} />
 
             {/* Mês */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>

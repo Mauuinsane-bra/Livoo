@@ -146,16 +146,16 @@ function CarDealCard({ deal }: { deal: CarDeal }) {
             {deal.city}
           </div>
           <div style={{
-            fontFamily: 'Nunito, sans-serif', fontSize: '1.2rem',
-            fontWeight: 800, color: '#1A82D8',
+            fontFamily: 'Inter, sans-serif', fontSize: '0.82rem',
+            fontWeight: 600, color: '#1A82D8', marginTop: 6,
           }}>
-            {deal.priceLabel}
+            Ver disponibilidade →
           </div>
           <div style={{
             fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
-            color: '#9a9aa0', marginTop: 4,
+            color: '#9a9aa0', marginTop: 3,
           }}>
-            Preço estimado · via Rentcars
+            via Rentcars · preço confirmado no site do parceiro
           </div>
         </div>
       </div>

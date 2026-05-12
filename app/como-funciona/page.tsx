@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Como Funciona — Go Livoo',
-  description: 'Entenda como a Go Livoo funciona: descreva a experiência que quer ter e receba um pacote completo com voo, hotel, guia e documentação. Grátis para o viajante.',
+  description: 'Entenda como a Go Livoo funciona: descreva a experiência que quer ter e receba um roteiro completo gerado por IA com voo, hotel, guia e documentação. Grátis para o viajante.',
 }
 
 export default function ComoFuncionaPage() {

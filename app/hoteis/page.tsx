@@ -112,7 +112,7 @@ function HotelDealCard({ deal }: { deal: HotelDeal }) {
             fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
             color: '#9a9aa0', marginTop: 4,
           }}>
-            {deal.priceUSD ? 'Preço estimado · 7 noites · sujeito a disponibilidade' : 'Clique para ver preços disponíveis'}
+            {deal.priceUSD ? 'A partir de · 7 noites · sujeito a disponibilidade' : 'Clique para ver preços disponíveis'}
           </div>
         </div>
       </div>
@@ -275,7 +275,7 @@ export default function HoteisPage() {
                 fontFamily: 'Nunito, sans-serif', fontSize: '1.15rem',
                 fontWeight: 700, color: '#0F2340', margin: '0 0 10px',
               }}>
-                Quer montar o pacote completo?
+                Quer montar o roteiro completo?
               </h3>
               <p style={{
                 fontFamily: 'Inter, sans-serif', fontSize: '0.88rem',

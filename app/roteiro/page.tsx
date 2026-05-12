@@ -1,10 +1,21 @@
 'use client'
+import { useUser } from '@clerk/nextjs'
+import type { Metadata } from 'next'
 
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import type { PreviewData, FullItinerary, BudgetCategory, DayPlan, ChecklistSection } from '@/app/api/roteiro/route'
 
+export const metadata: Metadata = {
+  title: 'Monte seu Roteiro de Viagem',
+  description: 'Descreva a experiência que você quer viver e receba um roteiro completo dia a dia — voos, hotel, ingressos e documentação incluídos. Grátis para começar.',
+  openGraph: {
+    title: 'Monte seu Roteiro de Viagem | Go Livoo',
+    description: 'Você descreve a experiência. A Go Livoo monta o roteiro completo.',
+    images: ['https://images.unsplash.com/photo-1488085061387-422e29b40080?auto=format&fit=crop&w=1200&h=630&q=80'],
+  },
+}
 // ── Constantes ─────────────────────────────────────────────────────────────
 
 const BUDGET_OPTIONS = [
@@ -280,6 +291,45 @@ function FormStep({
   )
 }
 
+// ── Componente: Nudge de conta pós-preview ────────────────────────────────
+
+function AccountNudge() {
+  const { isSignedIn, isLoaded } = useUser()
+  if (!isLoaded || isSignedIn) return null
+
+  return (
+    <div style={{
+      background: '#EFF6FF', border: '1.5px solid #BFDBFE',
+      borderRadius: 14, padding: '16px 20px',
+      display: 'flex', alignItems: 'center', gap: 14,
+      marginBottom: 8,
+    }}>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+        <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-6v2m0-8v4" stroke="#1A82D8" strokeWidth="1.8" strokeLinecap="round"/>
+      </svg>
+      <div style={{ flex: 1 }}>
+        <p style={{ margin: 0, fontSize: 13.5, fontWeight: 700, color: '#1E40AF' }}>
+          Seu roteiro foi gerado. Crie uma conta para salvá-lo.
+        </p>
+        <p style={{ margin: '2px 0 0', fontSize: 12.5, color: '#3B82F6' }}>
+          Acesse seus roteiros a qualquer momento em <strong>Meus Roteiros</strong>.
+        </p>
+      </div>
+      <a
+        href="/cadastro"
+        style={{
+          background: '#1A82D8', color: '#fff',
+          padding: '8px 16px', borderRadius: 8,
+          fontWeight: 700, fontSize: 12.5, textDecoration: 'none',
+          whiteSpace: 'nowrap', flexShrink: 0,
+        }}
+      >
+        Criar conta grátis
+      </a>
+    </div>
+  )
+}
+
 // ── Componente: Preview gratuito ───────────────────────────────────────────
 
 function PreviewStep({
@@ -387,6 +437,9 @@ function PreviewStep({
             </div>
           ))}
         </div>
+
+        {/* Account nudge — visible only when logged out */}
+        <AccountNudge />
 
         {/* Paywall */}
         <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1E3A6E 100%)', borderRadius: 20, padding: 36, position: 'relative', overflow: 'hidden' }}>

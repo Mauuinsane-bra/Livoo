@@ -13,7 +13,7 @@ const navLinks = [
   { label: 'Promoções',         href: '/promocoes' },
   { label: 'Explorar Destinos', href: '/explorar-destinos' },
   { label: 'Hotéis',           href: '/hoteis' },
-  { label: 'Pacotes',    href: '/pacotes' },
+  { label: 'Roteiros',   href: '/roteiros-curados' },
   { label: 'Carros',     href: '/carros' },
   { label: 'Ônibus',    href: '/onibus' },
   { label: 'Blog',       href: '/blog' },
@@ -89,6 +89,9 @@ export default function Navbar() {
             </SignedOut>
 
             <SignedIn>
+              <Link href="/meus-roteiros" style={{ fontSize: 13, fontWeight: 600, color: 'var(--gray)', textDecoration: 'none', padding: '6px 10px', borderRadius: 8 }}>
+                Meus Roteiros
+              </Link>
               <UserButton afterSignOutUrl="/" />
             </SignedIn>
           </div>

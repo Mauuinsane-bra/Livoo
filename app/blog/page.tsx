@@ -206,7 +206,7 @@ export default async function BlogHome() {
         </h3>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
           {[
-            { label: '🏆 Copa do Mundo 2026', slug: 'copa-do-mundo' },
+            { label: 'Copa do Mundo 2026', slug: 'copa-do-mundo' },
             { label: 'Destinos', slug: 'destinos' },
             { label: 'Shows & Festivais', slug: 'eventos' },
             { label: 'Automobilismo', slug: 'eventos' },

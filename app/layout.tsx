@@ -11,11 +11,11 @@ export const metadata: Metadata = {
     template: '%s | Go Livoo',
   },
   description:
-    'Go Livoo é a plataforma de soluções para viajantes que transforma sua experiência em um pacote completo: voo, hotel, guia local e toda a documentação necessária.',
+    'Go Livoo é a plataforma de soluções para viajantes — roteiro completo gerado por IA, voos, hotéis, guias e documentação. Você quer a experiência. A Go Livoo resolve o resto.',
   keywords: [
     'agência de viagens para eventos',
     'roteiro personalizado viagem',
-    'pacote completo viagem',
+    'roteiro completo viagem',
     'visto para brasileiro',
     'golivoo',
     'go livoo',
@@ -28,6 +28,20 @@ export const metadata: Metadata = {
     siteName:  'Go Livoo',
     title:     'Go Livoo — Vá mais longe por menos',
     description: 'Você quer a experiência. A Go Livoo resolve o resto.',
+    images: [
+      {
+        url: 'https://images.unsplash.com/photo-1488085061387-422e29b40080?auto=format&fit=crop&w=1200&h=630&q=80',
+        width: 1200,
+        height: 630,
+        alt: 'Go Livoo — plataforma de soluções para viajantes',
+      },
+    ],
+  },
+  twitter: {
+    card:        'summary_large_image',
+    title:       'Go Livoo — Vá mais longe por menos',
+    description: 'Você quer a experiência. A Go Livoo resolve o resto.',
+    images: ['https://images.unsplash.com/photo-1488085061387-422e29b40080?auto=format&fit=crop&w=1200&h=630&q=80'],
   },
   robots: { index: true, follow: true },
 }

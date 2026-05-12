@@ -575,7 +575,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
               </svg>
             </div>
             <p style={{ fontSize: 16, fontWeight: 600, color: 'var(--ink-2)', marginBottom: 8 }}>Nenhum post encontrado</p>
-            <p style={{ fontSize: 14 }}>Em breve novos artigos sobre {meta.label}.</p>
+            <p style={{ fontSize: 14 }}>Ainda não temos artigos nesta categoria — explore as outras categorias abaixo.</p>
             <Link href="/blog" style={{ display: 'inline-block', marginTop: 20, padding: '10px 24px', background: 'var(--ink)', color: '#fff', borderRadius: 8, fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>
               Ver todos os posts
             </Link>

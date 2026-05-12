@@ -194,7 +194,7 @@ export async function POST(req: NextRequest) {
             <div style="background:#FFF8EC;border:1px solid rgba(245,168,0,0.3);border-radius:10px;padding:18px 20px;text-align:left;margin-bottom:24px">
               <p style="margin:0;font-size:13px;color:#92400e;line-height:1.6">
                 <strong>O que a Go Livoo faz por você:</strong><br>
-                Você descreve a experiência que quer viver — show, evento esportivo, aventura — e a gente monta o pacote completo: voo, hotel, guia e toda a documentação necessária.
+                Você descreve a experiência que quer viver — show, evento esportivo, aventura — e a gente monta o roteiro completo: voo, hotel, guia e toda a documentação necessária.
               </p>
             </div>
             <p style="margin:0;font-size:12px;color:#5A6A80">Até breve!</p>

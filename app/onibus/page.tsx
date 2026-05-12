@@ -221,16 +221,16 @@ function BusDealCard({ deal }: { deal: BusDeal }) {
             {deal.destination}
           </div>
           <div style={{
-            fontFamily: 'Nunito, sans-serif', fontSize: '1.3rem',
-            fontWeight: 800, color: '#1A82D8',
+            fontFamily: 'Inter, sans-serif', fontSize: '0.82rem',
+            fontWeight: 600, color: '#1A82D8', marginTop: 6,
           }}>
-            {deal.priceLabel}
+            Ver disponibilidade →
           </div>
           <div style={{
             fontFamily: 'Inter, sans-serif', fontSize: '0.72rem',
-            color: '#9a9aa0', marginTop: 4,
+            color: '#9a9aa0', marginTop: 3,
           }}>
-            Duração: {deal.duration} · via {deal.provider}
+            Duração: {deal.duration} · via {deal.provider} · preço no site do parceiro
           </div>
         </div>
       </div>
@@ -258,13 +258,13 @@ export default function OnibusPage() {
 
       {/* ── HERO ──────────────────────────────────────────────── */}
       <section style={{
-        background: 'linear-gradient(135deg, #0F2340 0%, #7c3aed 60%, #a78bfa 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1260A8 100%)',
         padding: '64px 0 52px',
       }}>
         <div className="container" style={{ textAlign: 'center' }}>
           <span style={{
             display: 'inline-block',
-            background: 'rgba(124,58,237,0.15)', color: '#c4b5fd',
+            background: 'rgba(124,58,237,0.15)', color: '#93c5fd',
             fontSize: '0.7rem', fontWeight: 700, letterSpacing: '2px',
             textTransform: 'uppercase', padding: '5px 14px', borderRadius: 50,
             marginBottom: 20, border: '1px solid rgba(124,58,237,0.3)',
@@ -296,8 +296,8 @@ export default function OnibusPage() {
                   fontFamily: 'Inter, sans-serif', fontSize: '0.82rem',
                   fontWeight: 600, padding: '9px 18px', borderRadius: 100,
                   border: '1.5px solid',
-                  borderColor: selectedCategory === c.id ? '#c4b5fd' : 'rgba(255,255,255,0.3)',
-                  background: selectedCategory === c.id ? '#c4b5fd' : 'transparent',
+                  borderColor: selectedCategory === c.id ? '#93c5fd' : 'rgba(255,255,255,0.3)',
+                  background: selectedCategory === c.id ? '#93c5fd' : 'transparent',
                   color: selectedCategory === c.id ? '#0F2340' : '#fff',
                   cursor: 'pointer', transition: 'all 0.15s',
                 }}

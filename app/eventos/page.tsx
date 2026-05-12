@@ -1,4 +1,5 @@
 'use client'
+import type { Metadata } from 'next'
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
@@ -6,6 +7,15 @@ import type { TMEvent } from '@/app/api/events/route'
 import type { EBEvent } from '@/app/api/eventbrite/route'
 import EventPriceTag from '@/components/EventPriceTag'
 
+export const metadata: Metadata = {
+  title: 'Eventos Internacionais',
+  description: 'Encontre os maiores eventos do mundo — F1, festivais de música, Oktoberfest, Copa do Mundo e mais. Monte o roteiro completo com voo e hotel incluídos.',
+  openGraph: {
+    title: 'Eventos Internacionais | Go Livoo',
+    description: 'GP de Mônaco, Rock in Rio, Oktoberfest e muito mais. Voo + hotel + ingresso.',
+    images: ['https://images.unsplash.com/photo-1521547480571-2b6061babf76?auto=format&fit=crop&w=1200&h=630&q=80'],
+  },
+}
 // ── Tipos ──────────────────────────────────────────────────
 
 type Category = 'todos' | 'futebol' | 'automobilismo' | 'shows' | 'cultura' | 'esportes'
@@ -106,7 +116,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     imageUrl: 'https://images.unsplash.com/photo-1551958219-acbc82e6e25b?w=600',
     ticketUrl: 'https://www.conmebol.com/pt/',
     ticketLabel: 'Ingressos — CONMEBOL',
-    priceEstimate: 'Preço estimado a partir de R$ 800',
+    priceEstimate: 'A partir de R$ 800',
     flightFrom: 'Voos para Buenos Aires a partir de R$ 1.200',
     destinationIata: 'EZE',
     source: 'static',
@@ -122,10 +132,10 @@ const STATIC_EVENTS: StaticEvent[] = [
     category: 'automobilismo',
     tag: 'Esgotando',
     tagColor: '#dc2626',
-    imageUrl: 'https://images.unsplash.com/photo-1615483585256-a5e24a069ee1?w=600',
+    imageUrl: 'https://images.unsplash.com/photo-1752884991193-f40e0018e483?w=600',
     ticketUrl: 'https://www.formula1.com/en/racing/2026/monaco/tickets.html',
     ticketLabel: 'Ingressos oficiais — Formula1.com',
-    priceEstimate: 'Preço estimado a partir de R$ 22.000',
+    priceEstimate: 'A partir de R$ 22.000',
     flightFrom: 'Voos para Nice a partir de R$ 6.800',
     destinationIata: 'NCE',
     source: 'static',
@@ -144,7 +154,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     imageUrl: 'https://images.unsplash.com/photo-1504274066651-8d31a536b11a?w=600',
     ticketUrl: 'https://www.formula1.com/en/racing/2026/brazil/tickets.html',
     ticketLabel: 'Ingressos oficiais — Formula1.com',
-    priceEstimate: 'Preço estimado a partir de R$ 1.800',
+    priceEstimate: 'A partir de R$ 1.800',
     flightFrom: 'Voos para São Paulo a partir de R$ 320',
     destinationIata: 'GRU',
     source: 'static',
@@ -163,7 +173,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     imageUrl: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=600',
     ticketUrl: 'https://www.nhra.com/tickets',
     ticketLabel: 'Ingressos oficiais — NHRA.com',
-    priceEstimate: 'Preço estimado a partir de R$ 2.400',
+    priceEstimate: 'A partir de R$ 2.400',
     flightFrom: 'Voos para Orlando a partir de R$ 3.200',
     destinationIata: 'IND',
     source: 'static',
@@ -182,7 +192,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     imageUrl: 'https://images.unsplash.com/photo-1581092160607-ee67df4e6350?w=600',
     ticketUrl: 'https://www.fiaworldrallycross.com/',
     ticketLabel: 'Ingressos — FIA World RX',
-    priceEstimate: 'Preço estimado a partir de R$ 8.900',
+    priceEstimate: 'A partir de R$ 8.900',
     flightFrom: 'Voos para Tbilisi a partir de R$ 5.400',
     destinationIata: 'TBS',
     source: 'static',
@@ -217,7 +227,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     category: 'shows',
     tag: 'Esgotando',
     tagColor: '#dc2626',
-    imageUrl: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=600',
+    imageUrl: 'https://images.unsplash.com/photo-1521547480571-2b6061babf76?w=600',
     ticketUrl: 'https://rockinrio.com/rio/ingressos/',
     ticketLabel: 'Ingressos — rockinrio.com',
     priceEstimate: 'Ingressos a partir de R$ 395',
@@ -258,7 +268,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     imageUrl: 'https://images.unsplash.com/photo-1522383225653-ed111181a951?w=600',
     ticketUrl: 'https://www.japan.travel/pt/',
     ticketLabel: 'Guia de viagem — japan.travel',
-    priceEstimate: 'Preço estimado a partir de R$ 15.800',
+    priceEstimate: 'A partir de R$ 15.800',
     flightFrom: 'Voos para Tóquio a partir de R$ 7.200',
     destinationIata: 'NRT',
     source: 'static',
@@ -313,7 +323,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     category: 'shows',
     tag: 'Eletrônica',
     tagColor: '#7c3aed',
-    imageUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600',
+    imageUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80',
     ticketUrl: 'https://www.tomorrowland.com/',
     ticketLabel: 'Ingressos — tomorrowland.com',
     priceEstimate: 'A partir de €250 (≈ R$ 1.560)',
@@ -332,7 +342,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     category: 'cultura',
     tag: 'Tradição',
     tagColor: '#F5A800',
-    imageUrl: 'https://images.unsplash.com/photo-1572883454114-1cf0031ede2a?w=600',
+    imageUrl: 'https://images.unsplash.com/photo-1669778631871-7bb6d5411c4b?w=600',
     ticketUrl: 'https://www.oktoberfest.de/en/',
     ticketLabel: 'Guia oficial — oktoberfest.de',
     priceEstimate: 'Entrada gratuita (consumação à parte)',
@@ -680,35 +690,13 @@ function EventCard({ event }: { event: AnyEvent }) {
         </p>
       </div>
 
-      {/* Preços + ações */}
+      {/* Ações */}
       <div style={{ padding: '0 20px 20px' }}>
-        <div style={{
-          background: '#fafaf7',
-          borderRadius: 10,
-          padding: '12px 14px',
-          marginBottom: 14,
-        }}>
-          <div style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '0.78rem',
-            color: '#64748B',
-            marginBottom: 4,
-          }}>
-            {event.priceEstimate}
-          </div>
-          {'destinationIata' in event && event.destinationIata ? (
+        {'destinationIata' in event && event.destinationIata && (
+          <div style={{ marginBottom: 10 }}>
             <EventPriceTag iata={event.destinationIata} variant="line" />
-          ) : 'flightFrom' in event && event.flightFrom ? (
-            <div style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '0.78rem',
-              color: '#1A82D8',
-              fontWeight: 600,
-            }}>
-              {event.flightFrom}
-            </div>
-          ) : null}
-        </div>
+          </div>
+        )}
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <a
@@ -746,7 +734,7 @@ function EventCard({ event }: { event: AnyEvent }) {
               border: '1.5px solid #1A82D8',
             }}
           >
-            Montar pacote completo
+            Montar roteiro
           </Link>
         </div>
 
@@ -892,7 +880,7 @@ export default function EventosPage() {
             margin: '0 auto 32px',
             lineHeight: 1.7,
           }}>
-            Escolha o evento. A Go Livoo monta o pacote completo — voo, hotel e toda a logística.
+            Escolha o evento. A Go Livoo monta o roteiro completo — voo, hotel e toda a logística.
           </p>
 
           {/* Search */}
@@ -1045,7 +1033,7 @@ export default function EventosPage() {
                 fontSize: '0.85rem',
                 color: '#8A9AB5',
               }}>
-                Tente outro termo ou descreva a experiência abaixo — montamos o pacote do zero.
+                Tente outro termo ou descreva a experiência abaixo — montamos o roteiro do zero.
               </p>
             </div>
           )}
@@ -1075,7 +1063,7 @@ export default function EventosPage() {
             color: 'rgba(255,255,255,0.65)',
             margin: '0 0 28px',
           }}>
-            Descreva a experiência que você quer viver e montamos o pacote do zero.
+            Descreva a experiência que você quer viver e montamos o roteiro do zero.
           </p>
           <Link href="/" style={{
             display: 'inline-block',

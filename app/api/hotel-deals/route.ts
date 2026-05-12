@@ -19,7 +19,7 @@ interface DestinationMeta {
 }
 
 const DESTINATIONS: DestinationMeta[] = [
-  // Europa
+  // Europa — IDs verificados
   { city: 'Lisboa',          country: 'Portugal',        flag: '🇵🇹', region: 'europa',   hlCity: 'Lisbon',           bookingSlug: 'lisbon',           photo: U('1518241354-e57c7e99e5ce') },
   { city: 'Porto',           country: 'Portugal',        flag: '🇵🇹', region: 'europa',   hlCity: 'Porto',            bookingSlug: 'porto',            photo: U('1555881406-6b46ba2b4c26') },
   { city: 'Paris',           country: 'França',          flag: '🇫🇷', region: 'europa',   hlCity: 'Paris',            bookingSlug: 'paris',            photo: U('1502602898657-3e91760cbb34') },

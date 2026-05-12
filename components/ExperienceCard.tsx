@@ -126,7 +126,7 @@ export default function ExperienceCard({
             className="btn-primary"
             style={{ fontSize: '0.8rem', padding: '8px 16px' }}
           >
-            Montar pacote
+            Montar roteiro
           </Link>
         </div>
       </div>

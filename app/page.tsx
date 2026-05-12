@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import HomeEventsGrid from '@/components/HomeEventsGrid'
+import { Testimonials } from '@/components/Testimonials'
+import { WelcomeModal } from '@/components/WelcomeModal'
 import { getLatestPosts } from '@/lib/sanity-queries'
 import { urlFor, categoryColor, type SanityBlogPost } from '@/lib/sanity'
 import { getTrendingDestinations, type TrendingDestination } from '@/lib/trending-destinations'
@@ -52,11 +54,11 @@ const ShieldIcon = () => (
 const products = [
   { icon: <PlaneIcon />,  label: 'Passagens', desc: 'Busca de passagens', href: '/passagens' },
   { icon: <HotelIcon />,  label: 'Hotéis',    desc: 'Hotéis ao redor do mundo', href: '/hoteis' },
-  { icon: <PackageIcon />,label: 'Pacotes',   desc: 'Voo + hotel combinados', href: '/pacotes' },
+  { icon: <PackageIcon />,label: 'Roteiros',  desc: 'Roteiro personalizado por IA', href: '/roteiros-curados' },
   { icon: <CarIcon />,    label: 'Carros',    desc: '38 locadoras', href: '/carros' },
   { icon: <BusIcon />,    label: 'Ônibus',   desc: 'Brasil e Europa', href: '/onibus' },
   { icon: <GuideIcon />,  label: 'Guias',     desc: 'Locais em PT', href: '/guias' },
-  { icon: <ShieldIcon />, label: 'Seguro',    desc: 'Visto, vacinas e docs', href: '/prep' },
+  { icon: <ShieldIcon />, label: 'Documentação', desc: 'Visto, vacinas e docs', href: '/roteiro' },
 ]
 
 // Fallback estático caso a API Travelpayouts esteja offline
@@ -75,12 +77,12 @@ const calDays = [
 ]
 
 const catalogEvents = [
-  { month: 'MAI', day: '24', tag: 'Mônaco 2026', tagType: '', cat: 'F1 · DOMINGO', rating: '', title: 'GP de Mônaco — Tribuna K', loc: 'Monte Carlo, Mônaco', chips: ['Voo', 'Hotel: 4 noites', 'Ingresso', 'Heli'], price: 'R$ 12.400', parcelas: '12x sem juros', href: '/eventos/f1-monaco', bg: 'Monte Carlo' },
-  { month: 'SET', day: '03', tag: 'POPULAR', tagType: '', cat: 'FESTIVAL · 3 DIAS', rating: '', title: 'Rock in Rio 2026', loc: 'Rio de Janeiro · Brasil', chips: ['Voo', 'Hotel: 3 noites Copa', 'Ingresso'], price: 'R$ 1.890', parcelas: '10x sem juros', href: '/eventos/rock-in-rio', bg: 'Cidade do Rock' },
-  { month: 'OUT', day: '03', tag: 'Outubro 2026', tagType: '', cat: 'CULTURA · 16 DIAS', rating: '', title: 'Oktoberfest de Munique', loc: 'Munique, Alemanha', chips: ['Voo', 'Hotel: 5 noites', 'Tenda reservada'], price: 'R$ 7.200', parcelas: '12x sem juros', href: '/eventos', bg: 'Theresienwiese' },
-  { month: 'JUL', day: '17', tag: 'Julho 2026', tagType: '', cat: 'FESTIVAL · 5 DIAS', rating: '', title: 'Tomorrowland 2026', loc: 'Boom, Bélgica', chips: ['Voo', 'Dreamville', 'Full Madness'], price: 'R$ 9.800', parcelas: '12x sem juros', href: '/eventos', bg: 'Dreamville' },
-  { month: 'JUN', day: '15', tag: 'COPA 26', tagType: '', cat: 'FUTEBOL · 3 JOGOS', rating: '', title: 'Copa do Mundo — Fase Grupos', loc: 'Cidade do México', chips: ['Voo', 'Hotel: 5 noites', '3 ingressos'], price: 'R$ 8.990', parcelas: '12x sem juros', href: '/eventos', bg: 'Cidade do México' },
-  { month: 'NOV', day: '08', tag: 'Novembro 2026', tagType: '', cat: 'GASTRONOMIA · 7 NOITES', rating: '', title: 'Rota Omakase em Tóquio', loc: 'Tóquio, Japão', chips: ['Voo', 'Hotel: Ginza', '6 balcões'], price: 'R$ 14.200', parcelas: '12x sem juros', href: '/eventos', bg: 'Ginza · Tóquio' },
+  { month: 'MAI', day: '24', tag: 'Mônaco 2026', tagType: '', cat: 'F1 · DOMINGO', rating: '', title: 'GP de Mônaco — Tribuna K', loc: 'Monte Carlo, Mônaco', chips: ['Voo', 'Hotel: 4 noites', 'Ingresso', 'Heli'], href: '/eventos/f1-monaco', imageUrl: 'https://images.unsplash.com/photo-1752884991193-f40e0018e483?auto=format&fit=crop&w=600&q=80' },
+  { month: 'SET', day: '03', tag: 'POPULAR', tagType: '', cat: 'FESTIVAL · 3 DIAS', rating: '', title: 'Rock in Rio 2026', loc: 'Rio de Janeiro · Brasil', chips: ['Voo', 'Hotel: 3 noites Copa', 'Ingresso'], href: '/eventos/rock-in-rio', imageUrl: 'https://images.unsplash.com/photo-1521547480571-2b6061babf76?auto=format&fit=crop&w=600&q=80' },
+  { month: 'OUT', day: '03', tag: 'Outubro 2026', tagType: '', cat: 'CULTURA · 16 DIAS', rating: '', title: 'Oktoberfest de Munique', loc: 'Munique, Alemanha', chips: ['Voo', 'Hotel: 5 noites', 'Tenda reservada'], href: '/eventos', imageUrl: 'https://images.unsplash.com/photo-1669778631871-7bb6d5411c4b?auto=format&fit=crop&w=600&q=80' },
+  { month: 'JUL', day: '17', tag: 'Julho 2026', tagType: '', cat: 'FESTIVAL · 5 DIAS', rating: '', title: 'Tomorrowland 2026', loc: 'Boom, Bélgica', chips: ['Voo', 'Dreamville', 'Full Madness'], href: '/eventos', imageUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80' },
+  { month: 'JUN', day: '15', tag: 'COPA 26', tagType: '', cat: 'FUTEBOL · 3 JOGOS', rating: '', title: 'Copa do Mundo — Fase Grupos', loc: 'Cidade do México', chips: ['Voo', 'Hotel: 5 noites', '3 ingressos'], href: '/eventos', imageUrl: 'https://images.unsplash.com/photo-1556816213-354f013c9d40?auto=format&fit=crop&w=600&q=80' },
+  { month: 'NOV', day: '08', tag: 'Novembro 2026', tagType: '', cat: 'GASTRONOMIA · 7 NOITES', rating: '', title: 'Rota Omakase em Tóquio', loc: 'Tóquio, Japão', chips: ['Voo', 'Hotel: Ginza', '6 balcões'], href: '/eventos', imageUrl: 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=600&q=80' },
 ]
 
 const filterCats = ['Todos', 'Shows & Festivais', 'Esportes', 'Automobilismo', 'Gastronomia', 'Cultura', 'Aventura', 'Ecoturismo', 'Artes']
@@ -91,6 +93,19 @@ export default async function HomePage() {
     getTrendingDestinations('GRU', 5),
   ])
   const latestPosts = latestPostsRaw as (SanityBlogPost & { _fallbackImageUrl?: string })[]
+
+  // Contador de roteiros gerados
+  let roteiroCount = 47
+  try {
+    const statsRes = await fetch(
+      `${process.env.NEXT_PUBLIC_URL || 'https://livoo-two.vercel.app'}/api/stats`,
+      { next: { revalidate: 300 } }
+    )
+    if (statsRes.ok) {
+      const statsJson = await statsRes.json()
+      roteiroCount = statsJson.count ?? 47
+    }
+  } catch { /* silencia — fallback */ }
   const destinations = trendingRaw.length > 0
     ? trendingRaw.map(d => ({ name: d.name, sub: d.sub, price: d.price, href: d.href, photo: d.photo }))
     : FALLBACK_DESTINATIONS
@@ -109,9 +124,15 @@ export default async function HomePage() {
               <em style={{ fontStyle: 'normal', background: '#F5A800', padding: '0 10px', borderRadius: 6 }}>experiências</em>
               ,<br />com a viagem inteira junto.
             </h1>
-            <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11.5, letterSpacing: '.08em', textTransform: 'uppercase', color: '#64748B', textAlign: 'right', flexShrink: 0 }}>
-              <span style={{ fontFamily: 'Nunito, sans-serif', fontSize: 38, color: '#0F2340', fontWeight: 700, letterSpacing: '-.02em', display: 'block', lineHeight: 1 }}>+20</span>
-              eventos internacionais<br />selecionados a dedo
+            <div style={{ display: 'flex', gap: 24, alignItems: 'flex-end', flexShrink: 0 }}>
+              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11.5, letterSpacing: '.08em', textTransform: 'uppercase', color: '#64748B', textAlign: 'right' }}>
+                <span style={{ fontFamily: 'Nunito, sans-serif', fontSize: 38, color: '#0F2340', fontWeight: 700, letterSpacing: '-.02em', display: 'block', lineHeight: 1 }}>+20</span>
+                eventos internacionais<br />selecionados a dedo
+              </div>
+              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11.5, letterSpacing: '.08em', textTransform: 'uppercase', color: '#64748B', textAlign: 'right' }}>
+                <span style={{ fontFamily: 'Nunito, sans-serif', fontSize: 38, color: '#1A82D8', fontWeight: 700, letterSpacing: '-.02em', display: 'block', lineHeight: 1 }}>+{roteiroCount}</span>
+                roteiros<br />montados
+              </div>
             </div>
           </div>
 
@@ -143,9 +164,9 @@ export default async function HomePage() {
                 <div style={{ maxWidth: 560 }}>
                   <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, letterSpacing: '.14em', textTransform: 'uppercase', opacity: .85, marginBottom: 10 }}>24 Mai 2026 · Domingo · 15h</div>
                   <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 52, lineHeight: .98, fontWeight: 700, letterSpacing: '-.03em', margin: '0 0 8px' }}>GP de Mônaco — F1 2026</h3>
-                  <div style={{ fontSize: 15, opacity: .9 }}>Circuit de Monaco, Mônaco · Pacote 4 noites</div>
+                  <div style={{ fontSize: 15, opacity: .9 }}>Circuit de Monaco, Mônaco · Roteiro 4 noites</div>
                 </div>
-                <span style={{ background: '#1A82D8', color: '#fff', padding: '14px 20px', borderRadius: 999, fontWeight: 700, fontSize: 13.5, whiteSpace: 'nowrap' }}>ver pacote · R$ 12.400 →</span>
+                <span style={{ background: '#1A82D8', color: '#fff', padding: '14px 20px', borderRadius: 999, fontWeight: 700, fontSize: 13.5, whiteSpace: 'nowrap' }}>Montar roteiro →</span>
               </div>
             </Link>
 
@@ -165,7 +186,7 @@ export default async function HomePage() {
                     <h4 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 28, lineHeight: 1, fontWeight: 700, letterSpacing: '-.02em', margin: '0 0 4px' }}>Rock in Rio 2026</h4>
                     <div style={{ fontSize: 13, opacity: .85 }}>Rio de Janeiro · Cidade do Rock</div>
                   </div>
-                  <div style={{ fontFamily: 'Nunito, sans-serif', fontSize: 22, fontWeight: 700, flexShrink: 0 }}>R$ 1.890<small style={{ fontWeight: 400, fontSize: 11, opacity: .7, display: 'block', letterSpacing: '.05em', textTransform: 'uppercase' }}>a partir de</small></div>
+                  <Link href="/eventos/rock-in-rio" style={{ background: 'rgba(255,255,255,.2)', color: '#fff', padding: '9px 16px', borderRadius: 999, fontWeight: 700, fontSize: 12.5, whiteSpace: 'nowrap', textDecoration: 'none', flexShrink: 0 }}>Ver roteiro →</Link>
                 </div>
               </Link>
 
@@ -175,15 +196,15 @@ export default async function HomePage() {
                 background: 'linear-gradient(160deg, rgba(26,130,216,.7), rgba(225,29,72,.65)), url(https://images.unsplash.com/photo-1669778631871-7bb6d5411c4b?auto=format&fit=crop&w=600&q=80) center/cover', textDecoration: 'none',
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ background: 'rgba(255,255,255,.2)', padding: '4px 10px', borderRadius: 999, fontSize: 11, fontWeight: 600 }}>-22% HOJE</span>
-                  <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, letterSpacing: '.12em', opacity: .8 }}>20 SET · 2026</span>
+                  <span style={{ background: 'rgba(255,255,255,.2)', padding: '4px 10px', borderRadius: 999, fontSize: 11, fontWeight: 600 }}>CULTURA</span>
+                  <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, letterSpacing: '.12em', opacity: .8 }}>SET–OUT · 2026</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 14 }}>
                   <div>
                     <h4 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 28, lineHeight: 1, fontWeight: 700, letterSpacing: '-.02em', margin: '0 0 4px' }}>Oktoberfest Munique</h4>
                     <div style={{ fontSize: 13, opacity: .85 }}>Alemanha · com tenda reservada</div>
                   </div>
-                  <div style={{ fontFamily: 'Nunito, sans-serif', fontSize: 22, fontWeight: 700, flexShrink: 0 }}>R$ 7.200<small style={{ fontWeight: 400, fontSize: 11, opacity: .7, display: 'block', letterSpacing: '.05em', textTransform: 'uppercase' }}>a partir de</small></div>
+                  <Link href="/eventos" style={{ background: 'rgba(255,255,255,.2)', color: '#fff', padding: '9px 16px', borderRadius: 999, fontWeight: 700, fontSize: 12.5, whiteSpace: 'nowrap', textDecoration: 'none', flexShrink: 0 }}>Ver roteiro →</Link>
                 </div>
               </Link>
             </div>
@@ -216,12 +237,11 @@ export default async function HomePage() {
           {/* Toolbar */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '28px 0 14px', gap: 14, flexWrap: 'wrap' }}>
             <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11.5, color: 'var(--muted)', letterSpacing: '.04em', textTransform: 'uppercase' }}>
-              Eventos internacionais selecionados · pacote inclui voo + hotel + ingresso
+              Eventos internacionais selecionados · roteiro inclui voo + hotel + ingresso
             </div>
             <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
               <select style={{ padding: '8px 14px', border: '1px solid var(--line)', borderRadius: 10, background: '#fff', fontSize: 13, fontFamily: 'inherit', fontWeight: 500 }}>
                 <option>Ordenar · Em alta</option>
-                <option>Preço crescente</option>
                 <option>Data mais próxima</option>
                 <option>Recém-adicionados</option>
               </select>
@@ -240,7 +260,7 @@ export default async function HomePage() {
                 { title: 'Categoria', opts: [['Shows & Festivais', 42, true], ['Esportes', 34, true], ['Automobilismo', 12, false], ['Gastronomia', 18, false], ['Cultura', 7, false], ['Aventura', 15, false]] },
                 { title: 'Continente', opts: [['América do Sul', 38, true], ['Europa', 54, true], ['América do Norte', 22, false], ['Ásia', 10, false]] },
                 { title: 'Período', opts: [['Próximos 30 dias', 22, true], ['2º semestre 2026', 86, true], ['2027', 20, false]] },
-                { title: 'Inclui no pacote', opts: [['Voo direto', 54, true], ['Traslado', 92, true], ['Guia falando PT', 48, false], ['Seguro incluído', 88, false]] },
+                { title: 'O que inclui', opts: [['Voo direto', 54, true], ['Traslado', 92, true], ['Guia falando PT', 48, false], ['Seguro incluído', 88, false]] },
               ].map(({ title, opts }) => (
                 <div key={title} style={{ padding: '6px 10px 10px', borderBottom: '1px solid var(--line)' }}>
                   <h5 style={{ margin: '14px 6px 8px', fontFamily: 'Nunito, sans-serif', fontSize: 12, letterSpacing: '.04em', textTransform: 'uppercase', color: 'var(--muted)', fontWeight: 700 }}>{title}</h5>
@@ -263,10 +283,11 @@ export default async function HomePage() {
                 <Link key={ev.title} href={ev.href} className="ev" style={{ textDecoration: 'none', display: 'block' }}>
                   <div className="ev-img" style={{
                     aspectRatio: '16/10',
-                    background: `repeating-linear-gradient(135deg,#d6cfbb 0 12px,#c7beab 12px 24px)`,
+                    background: ev.imageUrl
+                      ? `linear-gradient(180deg,rgba(0,0,0,.08) 0%,rgba(0,0,0,.55) 100%), url(${ev.imageUrl}) center/cover`
+                      : `repeating-linear-gradient(135deg,#d6cfbb 0 12px,#c7beab 12px 24px)`,
                     position: 'relative',
                   }}>
-                    <span style={{ position: 'absolute', right: 12, bottom: 10, color: '#fff', fontSize: 9.5, fontFamily: 'JetBrains Mono, monospace', letterSpacing: '.12em', textTransform: 'uppercase', background: 'rgba(0,0,0,.5)', padding: '3px 7px', borderRadius: 4 }}>{ev.bg}</span>
                     <span className={`tag${ev.tagType === 'hot' ? ' hot' : ev.tagType === 'sale' ? ' sale' : ''}`}>{ev.tag}</span>
                     <div style={{ position: 'absolute', bottom: 12, left: 12, background: '#fff', color: 'var(--ink)', padding: '6px 10px', borderRadius: 8, fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: 12, display: 'flex', gap: 10, alignItems: 'center', lineHeight: 1 }}>
                       <div>
@@ -288,8 +309,7 @@ export default async function HomePage() {
                       ))}
                     </div>
                     <div className="ev-foot">
-                      <div className="p">{ev.price}<small style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 400, fontSize: 10.5, color: 'var(--muted)', letterSpacing: '.04em', textTransform: 'uppercase', marginTop: -2 }}>{ev.parcelas}</small></div>
-                      <span className="buy">Ver pacote →</span>
+                      <span className="buy" style={{ width: '100%', textAlign: 'center' }}>Montar roteiro →</span>
                     </div>
                   </div>
                 </Link>
@@ -364,50 +384,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Prep (Livoo Prep) ──────────────────────────── */}
-      <section className="section" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <div style={{
-            background: '#0F2340', color: '#fff', borderRadius: 24, padding: 40,
-            display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 40, alignItems: 'center',
-            position: 'relative', overflow: 'hidden',
-          }} className="prep-grid">
-            <div style={{ position: 'absolute', right: -80, bottom: -80, width: 320, height: 320, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,214,0,.25), transparent 60%)', pointerEvents: 'none' }} />
-            <div>
-              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10.5, letterSpacing: '.16em', textTransform: 'uppercase', color: '#F5A800', marginBottom: 12, position: 'relative' }}>Preparativos · Livoo Prep</div>
-              <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 44, fontWeight: 700, letterSpacing: '-.025em', margin: '0 0 14px', lineHeight: 1.02, position: 'relative', maxWidth: 460 }}>
-                Documentação de viagem —{' '}
-                <em style={{ fontStyle: 'normal', background: '#F5A800', color: '#0F2340', padding: '0 8px', borderRadius: 6 }}>simplificada</em>.
-              </h2>
-              <p style={{ color: '#b6b6bd', fontSize: 14.5, maxWidth: 420, margin: '0 0 20px', position: 'relative' }}>
-                Para cada evento, montamos um checklist completo com tudo o que você precisa antes do voo — e resolvemos o que quiser delegar.
-              </p>
-              <Link href="/prep" style={{ background: '#F5A800', color: '#0F2340', padding: '13px 20px', borderRadius: 999, fontWeight: 700, fontSize: 13.5, display: 'inline-flex', gap: 8, alignItems: 'center', textDecoration: 'none' }}>
-                Montar checklist →
-              </Link>
-            </div>
-            <div style={{ background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.12)', borderRadius: 16, padding: 8, position: 'relative' }}>
-              {[
-                { n: '01', t: 'Visto', sub: 'Verificação de requisitos por país', v: 'VERIFICAR' },
-                { n: '02', t: 'Passaporte', sub: 'Validade mínima exigida', v: 'VERIFICAR' },
-                { n: '03', t: 'Vacinas', sub: 'Obrigatórias e recomendadas', v: 'VERIFICAR' },
-                { n: '04', t: 'Seguro viagem', sub: 'Links para parceiros de seguro', v: 'CONSULTAR' },
-                { n: '05', t: 'Documentos', sub: 'Checklist personalizado por destino', v: 'BAIXAR PDF' },
-              ].map((item, idx) => (
-                <div key={item.n} style={{ display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: 12, alignItems: 'center', padding: '11px 14px', borderTop: idx > 0 ? '1px solid rgba(255,255,255,.08)' : 'none' }}>
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: '#6c6c74', letterSpacing: '.1em' }}>{item.n}</div>
-                  <div>
-                    <div style={{ fontFamily: 'Nunito, sans-serif', fontSize: 15, fontWeight: 600 }}>{item.t}</div>
-                    <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 11.5, color: '#9c9ca5', marginTop: 2 }}>{item.sub}</div>
-                  </div>
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10.5, color: '#F5A800', letterSpacing: '.1em', whiteSpace: 'nowrap' }}>{item.v}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ── Blog ───────────────────────────────────────── */}
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="wrap">
@@ -444,7 +420,10 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Newsletter ─────────────────────────────────── */}
+      {/* ── Testimonials ───────────────────────────────── */}
+      <Testimonials />
+
+      {/* ── Newsletter ─────────────────────────────────── */}}
       <section className="section" style={{ paddingTop: 0, paddingBottom: 56 }}>
         <div className="wrap">
           <div style={{
@@ -477,6 +456,8 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <WelcomeModal />
 
       <style>{`
         .prod-card:hover { border-color: #0F2340 !important; transform: translateY(-2px); }

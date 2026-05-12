@@ -13,11 +13,10 @@ const cols = {
     { label: 'Explorar Destinos', href: '/explorar-destinos' },
     { label: 'Hotéis',           href: '/hoteis' },
     { label: 'Voos Baratos',    href: '/voos-baratos' },
-    { label: 'Pacotes',         href: '/pacotes' },
+    { label: 'Roteiros',        href: '/roteiros-curados' },
     { label: 'Carros',          href: '/carros' },
     { label: 'Ônibus',         href: '/onibus' },
     { label: 'Guias',           href: '/guias' },
-    { label: 'Livoo Prep',      href: '/prep' },
   ],
   Empresa: [
     { label: 'Sobre a Go Livoo', href: '/sobre' },

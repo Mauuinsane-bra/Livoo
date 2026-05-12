@@ -45,13 +45,13 @@ export async function GET(req: NextRequest) {
       nationality,
       visaRequired:        false,
       visaType:            'not_required',
-      visaInfo:            'Configure SHERPA_API_KEY para dados reais em tempo real.',
+      visaInfo:            'Verifique os requisitos de entrada no site da embaixada do país de destino ou no portal do Ministério das Relações Exteriores.',
       passportValidity:    'Mín. 6 meses após retorno (regra geral)',
       vaccinesRequired:    [],
       vaccinesRecommended: [{ name: 'Febre Amarela', status: 'recommended', details: 'Recomendada para viajantes do Brasil' }],
       entryRestrictions:   [],
       lastUpdated:         new Date().toISOString(),
-      source:              'Modo demonstração',
+      source:              'Go Livoo — recomendações gerais',
       isDemoMode:          true,
     }
 

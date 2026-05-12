@@ -93,8 +93,8 @@ function buildDemoPreview(destination: string, budget: number): PreviewData {
       { day: 'Dia 3', title: 'Atração principal da região', desc: 'O dia mais esperado do roteiro — visita ao ponto turístico mais emblemático do destino.' },
       { day: 'Dia 6', title: 'Experiência local autêntica', desc: 'Gastronomia, cultura e um momento de imersão que você não vai esquecer.' },
     ],
-    visaInfo: 'Configure ANTHROPIC_API_KEY na Vercel para ativar a geração real de roteiros.',
-    bestTime: 'Demo mode — adicione ANTHROPIC_API_KEY para obter informações reais.',
+    visaInfo: 'Verifique os requisitos de visto para o destino com pelo menos 60 dias de antecedência — prazos variam por país e podem exigir agendamento consular.',
+    bestTime: 'O melhor período depende de clima, eventos locais e temporada — considere viajar fora do pico para preços menores.',
   }
 }
 

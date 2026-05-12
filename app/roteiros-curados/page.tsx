@@ -203,7 +203,7 @@ export default function RoteirosCuradosPage() {
                 {/* Conteúdo */}
                 <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
                   <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
-                    {[r.duration, r.budgetRange].map(chip => (
+                    {[r.duration, r.category].map(chip => (
                       <span key={chip} style={{ background: '#F1F5F9', color: '#475569', fontSize: '0.72rem', padding: '4px 10px', borderRadius: 999, fontFamily: 'Inter, sans-serif', fontWeight: 600, whiteSpace: 'nowrap' }}>
                         {chip}
                       </span>
