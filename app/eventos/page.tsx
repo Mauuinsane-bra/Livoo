@@ -1,21 +1,10 @@
 'use client'
-import type { Metadata } from 'next'
-
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import type { TMEvent } from '@/app/api/events/route'
 import type { EBEvent } from '@/app/api/eventbrite/route'
 import EventPriceTag from '@/components/EventPriceTag'
 
-export const metadata: Metadata = {
-  title: 'Eventos Internacionais',
-  description: 'Encontre os maiores eventos do mundo — F1, festivais de música, Oktoberfest, Copa do Mundo e mais. Monte o roteiro completo com voo e hotel incluídos.',
-  openGraph: {
-    title: 'Eventos Internacionais | Go Livoo',
-    description: 'GP de Mônaco, Rock in Rio, Oktoberfest e muito mais. Voo + hotel + ingresso.',
-    images: ['https://images.unsplash.com/photo-1521547480571-2b6061babf76?auto=format&fit=crop&w=1200&h=630&q=80'],
-  },
-}
 // ── Tipos ──────────────────────────────────────────────────
 
 type Category = 'todos' | 'futebol' | 'automobilismo' | 'shows' | 'cultura' | 'esportes'
