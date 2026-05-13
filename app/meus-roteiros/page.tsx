@@ -4,6 +4,7 @@ import { auth, currentUser } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { getUserItineraries } from '@/lib/supabase'
+import { PageHero } from '@/components/PageHero'
 
 export const metadata: Metadata = {
   title: 'Meus Roteiros',
@@ -34,17 +35,12 @@ export default async function MeusRoteirosPage() {
   return (
     <>
       <div style={{ minHeight: '100vh', background: 'var(--bg-alt)', paddingBottom: 80 }}>
-        {/* Header */}
-        <div style={{ background: 'var(--navy)', color: '#fff', padding: '48px 0 36px' }}>
-          <div className="container">
-            <p style={{ margin: '0 0 8px', fontSize: 13, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', opacity: .6 }}>
-              Olá, {firstName}
-            </p>
-            <h1 style={{ margin: 0, fontFamily: 'Nunito, sans-serif', fontSize: 'clamp(28px, 5vw, 42px)', fontWeight: 800 }}>
-              Meus Roteiros
-            </h1>
-          </div>
-        </div>
+        {/* Header padronizado com PageHero — antes era navy sólido, agora segue o gradient da home/hoteis/eventos */}
+        <PageHero
+          eyebrow={`Olá, ${firstName}`}
+          title="Meus Roteiros"
+          subtitle="Veja, revise e gere novamente todos os roteiros que você já montou."
+        />
 
         <div className="container" style={{ paddingTop: 36 }}>
           {itineraries.length === 0 ? (

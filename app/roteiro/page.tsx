@@ -531,7 +531,7 @@ function FullItineraryStep({ itinerary }: { itinerary: FullItinerary }) {
             <span style={{ fontSize: '1.4rem' }}>✈️</span>
             <div>
               <div style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '0.95rem' }}>Buscar voos</div>
-              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', opacity: 0.8 }}>Melhores preços via Trip.com</div>
+              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', opacity: 0.8 }}>Melhores preços via Kiwi.com</div>
             </div>
           </a>
           <a href={itinerary.hotelLink} target="_blank" rel="noopener noreferrer" style={{

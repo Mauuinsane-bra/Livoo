@@ -172,22 +172,42 @@ interface TpRawFlight {
 const KIWI_AFFILID = 'travelpayoutsdeeplink_www.golivoo.com.br_a576819c844940aeb1161c401-715532'
 const KIWI_FALLBACK = 'https://kiwi.tpk.lu/oHyzWHop'
 
-export function buildKiwiUrl(origin?: string, destination?: string, date?: string): string {
+/**
+ * Constrói deeplink Kiwi.com com todos os parâmetros relevantes.
+ * Per CLAUDE.md regra 5b: incluir returnDate e adults quando disponíveis
+ * pra evitar deeplinks "simplistas" que abrem tela genérica no Kiwi.
+ */
+export function buildKiwiUrl(
+  origin?: string,
+  destination?: string,
+  date?: string,
+  returnDate?: string,
+  adults: number = 1,
+): string {
   if (!origin || !destination) return KIWI_FALLBACK
 
   const params = new URLSearchParams({
-    affilid: KIWI_AFFILID,
-    from:    origin.toUpperCase(),
-    to:      destination.toUpperCase(),
-    lang:    'br',
+    affilid:  KIWI_AFFILID,
+    from:     origin.toUpperCase(),
+    to:       destination.toUpperCase(),
+    lang:     'br',
     currency: 'BRL',
   })
 
-  // Kiwi /deep espera data no formato DD-MM-YYYY
-  if (date && date.length === 10) {
-    const [y, m, d] = date.split('-')
-    params.set('departure', `${d}-${m}-${y}`)
+  const toKiwiDate = (iso: string): string | null => {
+    if (!iso || iso.length !== 10) return null
+    const [y, m, d] = iso.split('-')
+    if (!y || !m || !d) return null
+    return `${d}-${m}-${y}`
   }
+
+  const dep = date ? toKiwiDate(date) : null
+  if (dep) params.set('departure', dep)
+
+  const ret = returnDate ? toKiwiDate(returnDate) : null
+  if (ret) params.set('return', ret)
+
+  if (adults && adults > 0) params.set('adults', String(adults))
 
   return `https://www.kiwi.com/deep?${params.toString()}`
 }

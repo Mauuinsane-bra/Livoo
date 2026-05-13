@@ -3,6 +3,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createRateLimiter, sanitizeString } from '@/lib/rate-limit'
+import { buildKiwiUrl } from '@/lib/travelpayouts'
 import Anthropic from '@anthropic-ai/sdk'
 
 const rateLimit = createRateLimiter('roteiro', { maxRequests: 10, windowMs: 60_000 })
@@ -197,7 +198,7 @@ Retorne este JSON exato (sem markdown):
       ]
     }
   ],
-  "flightLink": "https://br.trip.com/flights/showfarefirst?dcity=gru&acity=${preview.destinationIATA.toLowerCase()}&triptype=rt&class=y&quantity=1&locale=pt-BR&curr=BRL",
+  "flightLink": "${buildKiwiUrl('GRU', preview.destinationIATA, checkIn, checkOut, 1)}",
   "hotelLink": "https://hotellook.com/search?destination=${encodeURIComponent(preview.destination)}&adults=1",
   "checklist": [
     {"category":"Documentos","items":["Passaporte válido","Seguro viagem obrigatório"]},
@@ -284,7 +285,7 @@ export async function POST(req: NextRequest) {
               ],
             },
           ],
-          flightLink: `https://br.trip.com/flights/showfarefirst?dcity=gru&acity=lis&triptype=rt&class=y&quantity=1&locale=pt-BR&curr=BRL`,
+          flightLink: buildKiwiUrl('GRU', demoPreview.destinationIATA, checkIn, checkOut, 1),
           hotelLink: `https://hotellook.com/search?destination=${encodeURIComponent(destination)}&adults=1`,
           checklist: [
             { category: 'Documentos', items: ['Passaporte válido por 6 meses', 'Seguro viagem'] },

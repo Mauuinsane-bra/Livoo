@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import HomeEventsGrid from '@/components/HomeEventsGrid'
-import { Testimonials } from '@/components/Testimonials'
 import { WelcomeModal } from '@/components/WelcomeModal'
 import { getLatestPosts } from '@/lib/sanity-queries'
 import { urlFor, categoryColor, type SanityBlogPost } from '@/lib/sanity'
@@ -70,11 +69,7 @@ const FALLBACK_DESTINATIONS = [
   { name: 'Santiago', sub: 'Chile · SA', price: 0, href: '/explorar-destinos', photo: 'https://images.unsplash.com/photo-1689850543263-01a52ccc6943?auto=format&fit=crop&w=600&q=80' },
 ]
 
-const calDays = [
-  { m: 'Qua', d: '13' }, { m: 'Qui', d: '14', dot: true }, { m: 'Sex', d: '15' },
-  { m: 'Sáb', d: '16', dot: true }, { m: 'Dom', d: '17' }, { m: 'Seg', d: '18' },
-  { m: 'Dom', d: '24', active: true, dot: true }, { m: 'Ter', d: '26' }, { m: 'Sex', d: '29', dot: true },
-]
+// calDays gerado dinamicamente dentro do componente HomePage — usa new Date() em tempo de render
 
 const catalogEvents = [
   { month: 'MAI', day: '24', tag: 'Mônaco 2026', tagType: '', cat: 'F1 · DOMINGO', rating: '', title: 'GP de Mônaco — Tribuna K', loc: 'Monte Carlo, Mônaco', chips: ['Voo', 'Hotel: 4 noites', 'Ingresso', 'Heli'], href: '/eventos/f1-monaco', imageUrl: 'https://images.unsplash.com/photo-1752884991193-f40e0018e483?auto=format&fit=crop&w=600&q=80' },
@@ -106,6 +101,24 @@ export default async function HomePage() {
       roteiroCount = statsJson.count ?? 47
     }
   } catch { /* silencia — fallback */ }
+
+  // Calendar strip dinâmico — gera 9 dias a partir de hoje, marca hoje como "active"
+  const today = new Date()
+  const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
+  const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+  const calDays = Array.from({ length: 9 }, (_, i) => {
+    const date = new Date(today)
+    date.setDate(today.getDate() + i)
+    return {
+      m: dayNames[date.getDay()],
+      d: String(date.getDate()),
+      active: i === 0,
+      dot: i > 0 && i % 2 === 1,
+    }
+  })
+  const calMonthLabel = monthNames[today.getMonth()]
+  const calYearLabel = String(today.getFullYear())
+
   const destinations = trendingRaw.length > 0
     ? trendingRaw.map(d => ({ name: d.name, sub: d.sub, price: d.price, href: d.href, photo: d.photo }))
     : FALLBACK_DESTINATIONS
@@ -212,7 +225,7 @@ export default async function HomePage() {
 
           {/* Calendar strip */}
           <div style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: 20, padding: 14, marginTop: 8, display: 'flex', alignItems: 'center', gap: 14 }}>
-            <div style={{ fontFamily: 'Nunito, sans-serif', fontSize: 18, fontWeight: 700, paddingLeft: 8, whiteSpace: 'nowrap' }}>Maio<br />2026</div>
+            <div style={{ fontFamily: 'Nunito, sans-serif', fontSize: 18, fontWeight: 700, paddingLeft: 8, whiteSpace: 'nowrap' }}>{calMonthLabel}<br />{calYearLabel}</div>
             <div style={{ flex: 1, display: 'grid', gridTemplateColumns: 'repeat(9,1fr)', gap: 6 }} className="cal-grid">
               {calDays.map(({ m, d, dot, active }) => (
                 <div key={d} style={{
@@ -421,7 +434,38 @@ export default async function HomePage() {
       </section>
 
       {/* ── Testimonials ───────────────────────────────── */}
-      <Testimonials />
+      {/* ── Como funciona — substituiu testemunhos fabricados em 13/mai/2026 ── */}
+      <section style={{ background: 'var(--bg-alt)', padding: '72px 0' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--primary)', marginBottom: 12 }}>
+              Como funciona
+            </p>
+            <h2 style={{ fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 800, fontFamily: 'Nunito, sans-serif', color: 'var(--navy)', margin: 0, maxWidth: 640, marginInline: 'auto' }}>
+              Você foca na experiência. A Go Livoo resolve o resto.
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24 }}>
+            {[
+              { step: '01', title: 'Descreva o que quer viver', desc: 'Não precisa saber datas, voos ou hotéis. Só o sonho — "GP de Mônaco", "Rock in Rio", "Hanami em Tóquio".' },
+              { step: '02', title: 'Receba o roteiro completo', desc: 'Voo + hospedagem perto do evento + documentação necessária (visto, passaporte, vacinas) + dicas do destino. Tudo em um só lugar.' },
+              { step: '03', title: 'Reserve direto com nossos parceiros', desc: 'Você compra direto nos sites parceiros (Kiwi, Booking, Rentcars). A Go Livoo é gratuita — vivemos da comissão dos parceiros.' },
+            ].map((item) => (
+              <div key={item.step} style={{ background: '#fff', borderRadius: 'var(--radius)', padding: '32px 28px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: 'var(--navy)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 16, fontFamily: 'Nunito, sans-serif', letterSpacing: '0.02em' }}>{item.step}</div>
+                <h3 style={{ fontSize: 20, fontWeight: 800, fontFamily: 'Nunito, sans-serif', color: 'var(--navy)', margin: 0, lineHeight: 1.2 }}>{item.title}</h3>
+                <p style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--gray)', margin: 0 }}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div style={{ textAlign: 'center', marginTop: 40 }}>
+            <Link href="/roteiro" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', fontSize: 15, fontWeight: 700 }}>
+              Começar agora — é grátis
+              <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* ── Newsletter ─────────────────────────────────── */}
       <section className="section" style={{ paddingTop: 0, paddingBottom: 56 }}>

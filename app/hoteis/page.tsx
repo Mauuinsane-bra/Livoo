@@ -33,6 +33,10 @@ function SkeletonCard() {
 // ── Hotel Deal Card ────────────────────────────────────────────────────────
 
 function HotelDealCard({ deal }: { deal: HotelDeal }) {
+  // Per CLAUDE.md regra 4: imagens Unsplash podem falhar (ID inválido ou foto deletada).
+  // Se a img falhar, renderizamos só o container com gradiente diagonal navy→azul
+  // — visualmente coerente com a marca, sem card "vazio".
+  const [imgError, setImgError] = useState(false)
   return (
     <a
       href={deal.link}
@@ -54,13 +58,22 @@ function HotelDealCard({ deal }: { deal: HotelDeal }) {
           ;(e.currentTarget as HTMLDivElement).style.boxShadow = '0 2px 8px rgba(0,0,0,0.05)'
         }}
       >
-        {/* Foto */}
-        <div style={{ position: 'relative', height: 160, overflow: 'hidden', background: '#0F2340' }}>
-          <img
-            src={deal.photo}
-            alt={deal.city}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
+        {/* Foto — com fallback gradiente se a img Unsplash falhar */}
+        <div style={{
+          position: 'relative', height: 160, overflow: 'hidden',
+          background: imgError || !deal.photo
+            ? 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)'
+            : '#0F2340',
+        }}>
+          {!imgError && deal.photo && (
+            <img
+              src={deal.photo}
+              alt={deal.city}
+              onError={() => setImgError(true)}
+              loading="lazy"
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          )}
           <div style={{
             position: 'absolute', inset: 0,
             background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%)',
