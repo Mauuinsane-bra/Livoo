@@ -1,10 +1,13 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
 // Rotas que requerem autenticação
+// Nota (13/mai/2026): /roteiro foi REMOVIDA daqui — preview gratuito do roteiro
+// deve ser acessível sem login. A proteção do roteiro pago (R$19,90) acontece
+// no /api/roteiro/checkout (Stripe), não no middleware. Ver CLAUDE.md.
 const isProtectedRoute = createRouteMatcher([
   '/dashboard(.*)',
-  '/roteiro(.*)',   // roteiro completo requer login
-  '/prep(.*)',      // Livoo Prep requer login
+  '/meus-roteiros(.*)',  // histórico do usuário — requer login
+  '/prep(.*)',           // Livoo Prep requer login
 ])
 
 export default clerkMiddleware(async (auth, req) => {
