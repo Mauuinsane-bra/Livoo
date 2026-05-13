@@ -423,7 +423,7 @@ export default async function HomePage() {
       {/* ── Testimonials ───────────────────────────────── */}
       <Testimonials />
 
-      {/* ── Newsletter ─────────────────────────────────── */}}
+      {/* ── Newsletter ─────────────────────────────────── */}
       <section className="section" style={{ paddingTop: 0, paddingBottom: 56 }}>
         <div className="wrap">
           <div style={{
