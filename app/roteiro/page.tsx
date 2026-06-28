@@ -3,8 +3,22 @@ import { useUser } from '@clerk/nextjs'
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
+import CitySearch from '@/components/CitySearch'
 import type { PreviewData, FullItinerary, BudgetCategory, DayPlan, ChecklistSection } from '@/app/api/roteiro/route'
 // ── Constantes ─────────────────────────────────────────────────────────────
+
+const ORIGIN_CITIES = [
+  { label: 'São Paulo (GRU)',      city: 'São Paulo',      iata: 'GRU' },
+  { label: 'Rio de Janeiro (GIG)', city: 'Rio de Janeiro', iata: 'GIG' },
+  { label: 'Brasília (BSB)',       city: 'Brasília',       iata: 'BSB' },
+  { label: 'Curitiba (CWB)',      city: 'Curitiba',       iata: 'CWB' },
+  { label: 'Belo Horizonte (CNF)',city: 'Belo Horizonte', iata: 'CNF' },
+  { label: 'Fortaleza (FOR)',     city: 'Fortaleza',      iata: 'FOR' },
+  { label: 'Porto Alegre (POA)',  city: 'Porto Alegre',   iata: 'POA' },
+  { label: 'Recife (REC)',        city: 'Recife',         iata: 'REC' },
+  { label: 'Salvador (SSA)',      city: 'Salvador',       iata: 'SSA' },
+  { label: 'Campinas (VCP)',      city: 'Campinas',       iata: 'VCP' },
+]
 
 const BUDGET_OPTIONS = [
   { label: 'Até R$ 3.000',     value: 3000 },
@@ -30,6 +44,45 @@ const CATEGORY_COLORS: Record<string, string> = {
   'Experiências':     '#7c3aed',
   'Reserva':          '#64748B',
 }
+
+
+const MOBILITY_OPTIONS = [
+  { id: 'a-pe',              label: 'Adoro andar a pé',        icon: '🚶' },
+  { id: 'transporte-publico', label: 'Transporte público',     icon: '🚇' },
+  { id: 'carro',             label: 'Prefiro carro',           icon: '🚗' },
+]
+
+const RADIUS_OPTIONS = [
+  { label: 'Só o destino',     value: 0 },
+  { label: '50 km',            value: 50 },
+  { label: '100 km',           value: 100 },
+  { label: '200 km',           value: 200 },
+  { label: '500 km',           value: 500 },
+]
+
+const EXPERIENCE_TYPES = [
+  { id: 'cultura',      label: 'Cultura e historia' },
+  { id: 'aventura',     label: 'Aventura e natureza' },
+  { id: 'gastronomia',  label: 'Gastronomia' },
+  { id: 'esportes',     label: 'Esportes e eventos' },
+  { id: 'relaxar',      label: 'Relaxar e descansar' },
+  { id: 'nightlife',    label: 'Vida noturna' },
+]
+
+const DURATION_OPTIONS = [
+  { label: '3-5 dias',   value: '3-5' },
+  { label: '6-8 dias',   value: '6-8' },
+  { label: '9-14 dias',  value: '9-14' },
+  { label: '15+ dias',   value: '15+' },
+]
+
+const SEASON_OPTIONS = [
+  { label: 'Qualquer',    value: 'qualquer' },
+  { label: 'Jan-Mar',     value: 'jan-mar' },
+  { label: 'Abr-Jun',     value: 'abr-jun' },
+  { label: 'Jul-Set',     value: 'jul-set' },
+  { label: 'Out-Dez',     value: 'out-dez' },
+]
 
 // ── Ícones SVG ─────────────────────────────────────────────────────────────
 
@@ -75,29 +128,68 @@ function FormStep({
   onSubmit,
   initialValues,
 }: {
-  onSubmit: (v: { destination: string; checkIn: string; checkOut: string; budgetBRL: number; priorities: string[] }) => void
-  initialValues?: { destination?: string; checkIn?: string; checkOut?: string; budgetBRL?: number; priorities?: string[] }
+  onSubmit: (v: { origin: string; originIATA: string; destinations: string[]; checkIn: string; checkOut: string; flexDates: boolean; budgetBRL: number; priorities: string[]; mobility: string; surprise: boolean; radius: number; suggestMode: boolean; expTypes: string[]; prefDuration: string; prefSeason: string }) => void
+  initialValues?: { origin?: string; originIATA?: string; destinations?: string[]; destination?: string; checkIn?: string; checkOut?: string; flexDates?: boolean; budgetBRL?: number; priorities?: string[]; mobility?: string; surprise?: boolean; radius?: number; suggestMode?: boolean; expTypes?: string[]; prefDuration?: string; prefSeason?: string }
 }) {
-  const [destination, setDestination] = useState(initialValues?.destination ?? '')
+  const [origin,       setOrigin]       = useState(initialValues?.origin ?? '')
+  const [originIATA,   setOriginIATA]   = useState(initialValues?.originIATA ?? '')
+  const [destinations, setDestinations] = useState<string[]>(
+    initialValues?.destinations?.length ? initialValues.destinations : [initialValues?.destination ?? '']
+  )
   const [checkIn,     setCheckIn]     = useState(initialValues?.checkIn ?? '')
   const [checkOut,    setCheckOut]    = useState(initialValues?.checkOut ?? '')
   const [budgetBRL,   setBudgetBRL]   = useState(initialValues?.budgetBRL ?? 0)
   const [priorities,  setPriorities]  = useState<string[]>(initialValues?.priorities ?? [])
+  const [suggestMode, setSuggestMode] = useState(false)
+  const [expTypes,     setExpTypes]    = useState<string[]>([])
+  const [prefDuration, setPrefDuration] = useState('')
+  const [prefSeason,   setPrefSeason]   = useState('')
+  const [flexDates,   setFlexDates]   = useState(initialValues?.flexDates ?? false)
+  const [mobility,    setMobility]    = useState(initialValues?.mobility ?? '')
+  const [surprise,    setSurprise]    = useState(initialValues?.surprise ?? false)
+  const [radius,      setRadius]      = useState(initialValues?.radius ?? 0)
   const [error,       setError]       = useState('')
 
   function togglePriority(id: string) {
     setPriorities(prev => prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id])
   }
 
+  function handleOriginChange(iata: string) {
+    const city = ORIGIN_CITIES.find(c => c.iata === iata)
+    if (city) {
+      setOrigin(city.city)
+      setOriginIATA(city.iata)
+    }
+  }
+
+  function updateDestination(index: number, value: string) {
+    setDestinations(prev => prev.map((d, i) => i === index ? value : d))
+  }
+
+  function addDestination() {
+    if (destinations.length < 5) setDestinations(prev => [...prev, ''])
+  }
+
+  function removeDestination(index: number) {
+    if (destinations.length > 1) setDestinations(prev => prev.filter((_, i) => i !== index))
+  }
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
-    if (!destination.trim()) return setError('Informe o destino.')
-    if (!checkIn)            return setError('Informe a data de ida.')
-    if (!checkOut)           return setError('Informe a data de volta.')
-    if (checkOut <= checkIn) return setError('A volta deve ser depois da ida.')
+    if (!originIATA)         return setError('Selecione de onde você sai.')
+    const cleanDests = suggestMode ? [] : destinations.map(d => d.trim()).filter(Boolean)
+    if (!suggestMode && cleanDests.length === 0) return setError('Informe pelo menos um destino.')
+    if (!flexDates) {
+      if (!checkIn)            return setError('Informe a data de ida.')
+      if (!checkOut)           return setError('Informe a data de volta.')
+      if (checkOut <= checkIn) return setError('A volta deve ser depois da ida.')
+    }
     if (!budgetBRL)          return setError('Selecione o orçamento.')
-    onSubmit({ destination: destination.trim(), checkIn, checkOut, budgetBRL, priorities })
+    const submitData = suggestMode
+      ? { origin, originIATA, destinations: ['ME_SUGIRA'], checkIn, checkOut, flexDates: true, budgetBRL, priorities, mobility, surprise, radius, suggestMode: true, expTypes, prefDuration, prefSeason }
+      : { origin, originIATA, destinations: cleanDests, checkIn, checkOut, flexDates, budgetBRL, priorities, mobility, surprise, radius, suggestMode: false, expTypes: [], prefDuration: '', prefSeason: '' }
+    onSubmit(submitData)
   }
 
   const today = new Date().toISOString().split('T')[0]
@@ -124,62 +216,256 @@ function FormStep({
       <div style={{ maxWidth: 640, margin: '-48px auto 0', padding: '0 24px 80px' }}>
         <form onSubmit={handleSubmit} style={{ background: '#fff', borderRadius: 20, padding: 36, boxShadow: '0 8px 40px rgba(15,35,64,0.12)' }}>
 
-          {/* Destino */}
+          {/* Origem */}
           <div style={{ marginBottom: 24 }}>
             <label style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '1px', display: 'block', marginBottom: 8 }}>
-              Para onde você quer ir?
+              De onde você sai?
             </label>
             <div style={{ position: 'relative' }}>
-              <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }}>
-                <MapPinIcon />
+              <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', pointerEvents: 'none' }}>
+                <PlaneIcon />
               </span>
-              <input
-                type="text"
-                value={destination}
-                onChange={e => setDestination(e.target.value)}
-                placeholder="Ex: Lisboa, Paris, Tokyo, Buenos Aires..."
+              <select
+                value={originIATA}
+                onChange={e => handleOriginChange(e.target.value)}
                 style={{
                   width: '100%', padding: '14px 14px 14px 40px', fontSize: '0.95rem',
-                  border: '1.5px solid #E2E8F0', borderRadius: 12, fontFamily: 'Inter, sans-serif',
-                  color: '#0F2340', outline: 'none', boxSizing: 'border-box',
-                  transition: 'border-color 0.15s',
+                  border: `1.5px solid ${originIATA ? '#1A82D8' : '#E2E8F0'}`, borderRadius: 12, fontFamily: 'Inter, sans-serif',
+                  color: originIATA ? '#0F2340' : '#9BA8BC', outline: 'none', boxSizing: 'border-box',
+                  transition: 'border-color 0.15s', background: '#fff',
+                  appearance: 'none', WebkitAppearance: 'none', cursor: 'pointer',
                 }}
-                onFocus={e => { e.currentTarget.style.borderColor = '#1A82D8' }}
-                onBlur={e => { e.currentTarget.style.borderColor = '#E2E8F0' }}
-              />
+              >
+                <option value="" disabled>Selecione sua cidade de partida</option>
+                {ORIGIN_CITIES.map(c => (
+                  <option key={c.iata} value={c.iata}>{c.label}</option>
+                ))}
+              </select>
+              <span style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', pointerEvents: 'none' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </span>
             </div>
           </div>
 
-          {/* Datas */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 24 }}>
-            {[
-              { label: 'Ida', value: checkIn, onChange: setCheckIn },
-              { label: 'Volta', value: checkOut, onChange: setCheckOut },
-            ].map(({ label, value, onChange }) => (
-              <div key={label}>
-                <label style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '1px', display: 'block', marginBottom: 8 }}>
-                  {label}
-                </label>
-                <div style={{ position: 'relative' }}>
-                  <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }}>
-                    <CalendarIcon />
-                  </span>
-                  <input
-                    type="date"
-                    value={value}
-                    min={today}
-                    onChange={e => onChange(e.target.value)}
-                    style={{
-                      width: '100%', padding: '13px 12px 13px 36px', fontSize: '0.9rem',
-                      border: '1.5px solid #E2E8F0', borderRadius: 12, fontFamily: 'Inter, sans-serif',
-                      color: '#0F2340', outline: 'none', boxSizing: 'border-box', cursor: 'pointer',
-                    }}
-                    onFocus={e => { e.currentTarget.style.borderColor = '#1A82D8' }}
-                    onBlur={e => { e.currentTarget.style.borderColor = '#E2E8F0' }}
-                  />
+          {/* Destinos */}
+          <div style={{ marginBottom: 24 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+              <label style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                {suggestMode ? 'Me sugira onde ir' : destinations.length > 1 ? 'Destinos da viagem' : 'Para onde você quer ir?'}
+              </label>
+              <button
+                type="button"
+                onClick={() => { setSuggestMode(!suggestMode); if (!suggestMode) { setDestinations(['']); setFlexDates(true); setCheckIn(''); setCheckOut('') } }}
+                style={{
+                  background: suggestMode ? '#FFF8EC' : 'transparent',
+                  border: `1.5px solid ${suggestMode ? '#F5A800' : '#CBD5E1'}`,
+                  borderRadius: 999, padding: '4px 12px', cursor: 'pointer',
+                  fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', fontWeight: 600,
+                  color: suggestMode ? '#92400e' : '#64748B', transition: 'all 0.15s',
+                  display: 'flex', alignItems: 'center', gap: 5,
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill={suggestMode ? '#F5A800' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                Me sugira
+              </button>
+            </div>
+
+            {suggestMode ? (
+              <div style={{ background: '#FFFBF0', border: '1.5px solid #FDE68A', borderRadius: 14, padding: 20 }}>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#92400e', margin: '0 0 16px', lineHeight: 1.5 }}>
+                  Conte o que voce quer viver e a Go Livoo sugere 3 destinos perfeitos pra voce.
+                </p>
+
+                {/* Tipo de experiencia */}
+                <div style={{ marginBottom: 14 }}>
+                  <label style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '1px', display: 'block', marginBottom: 6 }}>
+                    Que tipo de experiencia?
+                  </label>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                    {EXPERIENCE_TYPES.map(et => {
+                      const active = expTypes.includes(et.id)
+                      return (
+                        <button key={et.id} type="button" onClick={() => setExpTypes(prev => active ? prev.filter(x => x !== et.id) : [...prev, et.id])}
+                          style={{
+                            padding: '7px 14px', borderRadius: 999, fontSize: '0.8rem', fontWeight: 600,
+                            fontFamily: 'Inter, sans-serif', cursor: 'pointer', transition: 'all 0.15s',
+                            border: `1.5px solid ${active ? '#F5A800' : '#E2E8F0'}`,
+                            background: active ? '#FFF8EC' : '#fff', color: active ? '#92400e' : '#0F2340',
+                          }}
+                        >{et.label}</button>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* Duracao + Epoca */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                  <div>
+                    <label style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '1px', display: 'block', marginBottom: 6 }}>
+                      Duracao
+                    </label>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                      {DURATION_OPTIONS.map(d => (
+                        <button key={d.value} type="button" onClick={() => setPrefDuration(prefDuration === d.value ? '' : d.value)}
+                          style={{
+                            padding: '6px 12px', borderRadius: 999, fontSize: '0.78rem', fontWeight: 600,
+                            fontFamily: 'Inter, sans-serif', cursor: 'pointer',
+                            border: `1.5px solid ${prefDuration === d.value ? '#F5A800' : '#E2E8F0'}`,
+                            background: prefDuration === d.value ? '#FFF8EC' : '#fff',
+                            color: prefDuration === d.value ? '#92400e' : '#0F2340',
+                          }}
+                        >{d.label}</button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '1px', display: 'block', marginBottom: 6 }}>
+                      Epoca do ano
+                    </label>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                      {SEASON_OPTIONS.map(s => (
+                        <button key={s.value} type="button" onClick={() => setPrefSeason(prefSeason === s.value ? '' : s.value)}
+                          style={{
+                            padding: '6px 12px', borderRadius: 999, fontSize: '0.78rem', fontWeight: 600,
+                            fontFamily: 'Inter, sans-serif', cursor: 'pointer',
+                            border: `1.5px solid ${prefSeason === s.value ? '#F5A800' : '#E2E8F0'}`,
+                            background: prefSeason === s.value ? '#FFF8EC' : '#fff',
+                            color: prefSeason === s.value ? '#92400e' : '#0F2340',
+                          }}
+                        >{s.label}</button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
-            ))}
+            ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {destinations.map((dest, i) => (
+                <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                  {destinations.length > 1 && (
+                    <span style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '0.75rem', color: '#1A82D8', background: '#EBF5FF', borderRadius: 8, padding: '4px 8px', minWidth: 20, textAlign: 'center', flexShrink: 0 }}>
+                      {i + 1}
+                    </span>
+                  )}
+                  <div style={{ flex: 1 }}>
+                    <CitySearch
+                      value={dest}
+                      onChange={(v) => updateDestination(i, v)}
+                      placeholder={i === 0 ? 'Ex: Lisboa, Paris, Tokyo...' : 'Próximo destino...'}
+                      dark={false}
+                      inputStyle={{
+                        padding: '14px', fontSize: '0.95rem',
+                        borderRadius: 12, border: '1.5px solid #E2E8F0',
+                      }}
+                    />
+                  </div>
+                  {destinations.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeDestination(i)}
+                      style={{
+                        background: 'none', border: '1.5px solid #E2E8F0', borderRadius: 10,
+                        width: 38, height: 38, cursor: 'pointer', display: 'flex',
+                        alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                        color: '#94a3b8', transition: 'all 0.15s',
+                      }}
+                      title="Remover destino"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                  )}
+                </div>
+              ))}
+            {destinations.length < 5 && (
+              <button
+                type="button"
+                onClick={addDestination}
+                style={{
+                  marginTop: 10, background: 'none', border: '1.5px dashed #CBD5E1',
+                  borderRadius: 12, padding: '10px 16px', width: '100%',
+                  fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', fontWeight: 600,
+                  color: '#64748B', cursor: 'pointer', transition: 'all 0.15s',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Adicionar destino
+              </button>
+            )}
+            </div>
+            )}
+          </div>
+
+          {/* Datas */}
+          <div style={{ marginBottom: 24 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+              <label style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                Quando?
+              </label>
+              <button
+                type="button"
+                onClick={() => { setFlexDates(!flexDates); if (!flexDates) { setCheckIn(''); setCheckOut('') } }}
+                style={{
+                  background: flexDates ? '#EBF5FF' : 'transparent',
+                  border: `1.5px solid ${flexDates ? '#1A82D8' : '#CBD5E1'}`,
+                  borderRadius: 999, padding: '4px 12px', cursor: 'pointer',
+                  fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', fontWeight: 600,
+                  color: flexDates ? '#1A82D8' : '#64748B', transition: 'all 0.15s',
+                  display: 'flex', alignItems: 'center', gap: 5,
+                }}
+              >
+                <CalendarIcon />
+                Ainda não decidi
+              </button>
+            </div>
+            {flexDates ? (
+              <div style={{
+                background: '#F0F9FF', border: '1.5px solid #BAE6FD', borderRadius: 12,
+                padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 10,
+              }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284C7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+                </svg>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#0369A1', lineHeight: 1.5 }}>
+                  Sem problema! A Go Livoo vai sugerir a melhor época para o seu destino, considerando clima, eventos e preços.
+                </span>
+              </div>
+            ) : (
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                {[
+                  { label: 'Ida', value: checkIn, onChange: setCheckIn },
+                  { label: 'Volta', value: checkOut, onChange: setCheckOut },
+                ].map(({ label, value, onChange }) => (
+                  <div key={label}>
+                    <label style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 600, color: '#94a3b8', display: 'block', marginBottom: 6 }}>
+                      {label}
+                    </label>
+                    <div style={{ position: 'relative' }}>
+                      <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }}>
+                        <CalendarIcon />
+                      </span>
+                      <input
+                        type="date"
+                        value={value}
+                        min={today}
+                        onChange={e => onChange(e.target.value)}
+                        style={{
+                          width: '100%', padding: '13px 12px 13px 36px', fontSize: '0.9rem',
+                          border: '1.5px solid #E2E8F0', borderRadius: 12, fontFamily: 'Inter, sans-serif',
+                          color: '#0F2340', outline: 'none', boxSizing: 'border-box', cursor: 'pointer',
+                        }}
+                        onFocus={e => { e.currentTarget.style.borderColor = '#1A82D8' }}
+                        onBlur={e => { e.currentTarget.style.borderColor = '#E2E8F0' }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Orçamento */}
@@ -205,6 +491,84 @@ function FormStep({
                 </button>
               ))}
             </div>
+          </div>
+
+          {/* Mobilidade */}
+          <div style={{ marginBottom: 24 }}>
+            <label style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '1px', display: 'block', marginBottom: 8 }}>
+              Como você se locomove? (opcional)
+            </label>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {MOBILITY_OPTIONS.map(opt => {
+                const active = mobility === opt.id
+                return (
+                  <button
+                    key={opt.id}
+                    type="button"
+                    onClick={() => setMobility(active ? '' : opt.id)}
+                    style={{
+                      padding: '10px 16px', borderRadius: 12, fontSize: '0.85rem', fontWeight: 600,
+                      fontFamily: 'Inter, sans-serif', cursor: 'pointer', transition: 'all 0.15s',
+                      border: `1.5px solid ${active ? '#1A82D8' : '#E2E8F0'}`,
+                      background: active ? '#EBF5FF' : '#fff',
+                      color: active ? '#1A82D8' : '#0F2340',
+                      display: 'flex', alignItems: 'center', gap: 6,
+                    }}
+                  >
+                    <span style={{ fontSize: '1rem' }}>{opt.icon}</span>
+                    {opt.label}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Raio de exploração + Me surpreenda */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 16, marginBottom: 24, alignItems: 'end' }}>
+            <div>
+              <label style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '1px', display: 'block', marginBottom: 8 }}>
+                Raio de exploração (opcional)
+              </label>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                {RADIUS_OPTIONS.map(opt => {
+                  const active = radius === opt.value
+                  return (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      onClick={() => setRadius(active ? 0 : opt.value)}
+                      style={{
+                        padding: '8px 14px', borderRadius: 10, fontSize: '0.78rem', fontWeight: 600,
+                        fontFamily: 'Inter, sans-serif', cursor: 'pointer', transition: 'all 0.15s',
+                        border: `1.5px solid ${active ? '#1A82D8' : '#E2E8F0'}`,
+                        background: active ? '#EBF5FF' : '#fff',
+                        color: active ? '#1A82D8' : '#0F2340',
+                      }}
+                    >
+                      {opt.label}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setSurprise(!surprise)}
+              title="Quando ativado, o roteiro inclui cidades menos conhecidas próximas ao destino"
+              style={{
+                padding: '10px 16px', borderRadius: 12, fontSize: '0.82rem', fontWeight: 700,
+                fontFamily: 'Inter, sans-serif', cursor: 'pointer', transition: 'all 0.15s',
+                border: `1.5px solid ${surprise ? '#F5A800' : '#E2E8F0'}`,
+                background: surprise ? '#FFF8EC' : '#fff',
+                color: surprise ? '#92400e' : '#64748B',
+                display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap',
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill={surprise ? '#F5A800' : 'none'} />
+              </svg>
+              Me surpreenda
+            </button>
           </div>
 
           {/* Prioridades */}
@@ -327,14 +691,15 @@ function PreviewStep({
   isPaying,
 }: {
   preview: PreviewData
-  params: { destination: string; checkIn: string; checkOut: string; budgetBRL: number; priorities: string[] }
+  params: { destinations: string[]; checkIn: string; checkOut: string; flexDates: boolean; budgetBRL: number; priorities: string[]; mobility: string; surprise: boolean; radius: number }
   onPay: () => void
   isPaying: boolean
 }) {
-  const nights = Math.round(
-    (new Date(params.checkOut).getTime() - new Date(params.checkIn).getTime()) / (1000 * 60 * 60 * 24)
-  )
-  const formatDate = (d: string) => new Date(d + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })
+  const hasExactDates = params.checkIn && params.checkOut && !params.flexDates
+  const nights = hasExactDates
+    ? Math.round((new Date(params.checkOut).getTime() - new Date(params.checkIn).getTime()) / (1000 * 60 * 60 * 24))
+    : 0
+  const formatDate = (d: string) => d ? new Date(d + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }) : ''
 
   return (
     <div style={{ background: '#fafaf7', minHeight: '100vh', paddingBottom: 80 }}>
@@ -350,8 +715,9 @@ function PreviewStep({
           </h1>
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
             {[
-              `${formatDate(params.checkIn)} → ${formatDate(params.checkOut)}`,
-              `${nights} noite${nights !== 1 ? 's' : ''}`,
+              ...(hasExactDates
+                ? [`${formatDate(params.checkIn)} → ${formatDate(params.checkOut)}`, `${nights} noite${nights !== 1 ? 's' : ''}`]
+                : ['Datas flexíveis']),
               `R$ ${params.budgetBRL.toLocaleString('pt-BR')}`,
             ].map(chip => (
               <span key={chip} style={{ background: 'rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.9)', fontSize: '0.82rem', padding: '5px 12px', borderRadius: 999, fontFamily: 'Inter, sans-serif' }}>
@@ -491,6 +857,15 @@ function PreviewStep({
 
 // ── Componente: Roteiro completo ───────────────────────────────────────────
 
+function DayNote({ label, color, text }: { label: string; color: string; text: string }) {
+  return (
+    <div>
+      <div style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '0.68rem', letterSpacing: '0.6px', textTransform: 'uppercase', color, marginBottom: 3 }}>{label}</div>
+      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#374151', lineHeight: 1.5 }}>{text}</div>
+    </div>
+  )
+}
+
 function FullItineraryStep({ itinerary }: { itinerary: FullItinerary }) {
   const [openDay, setOpenDay] = useState(1)
 
@@ -591,6 +966,26 @@ function FullItineraryStep({ itinerary }: { itinerary: FullItinerary }) {
                         </div>
                       </div>
                     ))}
+
+                    {(day.curiosity || day.hiddenGem || day.travelerTip || (day.restaurants && day.restaurants.length > 0)) && (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '12px 18px 4px', borderTop: '1px solid #F1F5F9', marginTop: 4 }}>
+                        {day.curiosity && <DayNote label="Curiosidade" color="#1A82D8" text={day.curiosity} />}
+                        {day.hiddenGem && <DayNote label="Por perto" color="#16a34a" text={day.hiddenGem} />}
+                        {day.travelerTip && <DayNote label="Dica de viajante" color="#F5A800" text={day.travelerTip} />}
+                        {day.restaurants && day.restaurants.length > 0 && (
+                          <div>
+                            <div style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '0.68rem', letterSpacing: '0.6px', textTransform: 'uppercase', color: '#9333ea', marginBottom: 6 }}>Onde comer</div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                              {day.restaurants.map((r, ri) => (
+                                <div key={ri} style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#374151', lineHeight: 1.5 }}>
+                                  <span style={{ fontWeight: 700, color: '#0F2340' }}>{r.name}</span>{r.desc ? ` — ${r.desc}` : ''}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -653,6 +1048,8 @@ function RoteiroContent() {
 
   // Detectar retorno do Stripe
   const paid         = params.get('paid') === 'true'
+  const origin       = params.get('origin') ?? ''
+  const originIATA   = params.get('originIATA') ?? 'GRU'
   const destination  = params.get('destination') ?? ''
   const checkIn      = params.get('checkIn') ?? ''
   const checkOut     = params.get('checkOut') ?? ''
@@ -664,17 +1061,19 @@ function RoteiroContent() {
   const [itinerary,    setItinerary]    = useState<FullItinerary | null>(null)
   const [errorMsg,     setErrorMsg]     = useState('')
   const [isPaying,     setIsPaying]     = useState(false)
-  const [formValues,   setFormValues]   = useState({ destination, checkIn, checkOut, budgetBRL, priorities })
+  const destinations   = destination ? destination.split(' → ').filter(Boolean) : []
+  const [formValues,   setFormValues]   = useState({ origin, originIATA, destinations, checkIn, checkOut, flexDates: false, budgetBRL, priorities, mobility: '', surprise: false, radius: 0, suggestMode: false, expTypes: [] as string[], prefDuration: '', prefSeason: '' })
 
   // Se veio do Stripe com ?paid=true, gerar roteiro completo automaticamente
   useEffect(() => {
     if (paid && destination && checkIn && checkOut && budgetBRL) {
-      setFormValues({ destination, checkIn, checkOut, budgetBRL, priorities })
+      const dests = destination.split(' → ').filter(Boolean)
+      setFormValues({ origin, originIATA, destinations: dests, checkIn, checkOut, flexDates: false, budgetBRL, priorities, mobility: '', surprise: false, radius: 0, suggestMode: false, expTypes: [], prefDuration: '', prefSeason: '' })
       setPageState('loading-full')
       fetch('/api/roteiro', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ destination, checkIn, checkOut, budgetBRL, priorities, mode: 'full' }),
+        body: JSON.stringify({ origin, originIATA, destination, checkIn, checkOut, budgetBRL, priorities, mode: 'full' }),
       })
         .then(r => r.json())
         .then(data => {
@@ -694,11 +1093,12 @@ function RoteiroContent() {
   async function handleFormSubmit(values: typeof formValues) {
     setFormValues(values)
     setPageState('loading-preview')
+    const destinationStr = values.suggestMode ? 'ME_SUGIRA' : values.destinations.join(' \u2192 ')
     try {
       const res = await fetch('/api/roteiro', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...values, mode: 'preview' }),
+        body: JSON.stringify({ ...values, destination: destinationStr, mode: 'preview', flexDates: values.flexDates, mobility: values.mobility, surprise: values.surprise, radius: values.radius, suggestMode: values.suggestMode, expTypes: values.expTypes, prefDuration: values.prefDuration, prefSeason: values.prefSeason }),
       })
       const data = await res.json()
       if (data.success && data.preview) {
@@ -716,11 +1116,12 @@ function RoteiroContent() {
 
   async function handlePay() {
     setIsPaying(true)
+    const destinationStr = formValues.destinations.join(' → ')
     try {
       const res = await fetch('/api/roteiro/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formValues, previewData: preview }),
+        body: JSON.stringify({ ...formValues, destination: destinationStr, previewData: preview, flexDates: formValues.flexDates, mobility: formValues.mobility, surprise: formValues.surprise, radius: formValues.radius }),
       })
       const data = await res.json()
       if (data.url) {

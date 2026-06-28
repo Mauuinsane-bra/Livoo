@@ -1,6 +1,6 @@
 // app/api/roteiro/checkout/route.ts
 // POST /api/roteiro/checkout
-// Cria sessão Stripe para desbloquear roteiro completo (R$19,90)
+// Cria sessao Stripe para desbloquear roteiro completo (R$19,90)
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createRateLimiter } from '@/lib/rate-limit'
@@ -14,28 +14,40 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({}))
 
   const {
+    origin = '',
+    originIATA = 'GRU',
     destination = '',
     checkIn = '',
     checkOut = '',
+    flexDates = false,
     budgetBRL = 0,
     priorities = [],
+    mobility = '',
+    surprise = false,
+    radius = 0,
     previewData = null,
   } = body as {
+    origin: string
+    originIATA: string
     destination: string
     checkIn: string
     checkOut: string
+    flexDates: boolean
     budgetBRL: number
     priorities: string[]
+    mobility: string
+    surprise: boolean
+    radius: number
     previewData: unknown
   }
 
-  if (!destination || !checkIn || !checkOut) {
+  if (!destination || (!flexDates && (!checkIn || !checkOut))) {
     return NextResponse.json({ error: 'Dados do roteiro incompletos.' }, { status: 400 })
   }
 
   if (!process.env.STRIPE_SECRET_KEY) {
     return NextResponse.json(
-      { error: 'Pagamento não configurado. Adicione STRIPE_SECRET_KEY.' },
+      { error: 'Pagamento nao configurado. Adicione STRIPE_SECRET_KEY.' },
       { status: 503 }
     )
   }
@@ -46,16 +58,22 @@ export async function POST(req: NextRequest) {
 
     const baseUrl = process.env.NEXT_PUBLIC_URL ?? 'http://localhost:3000'
 
-    // Passar parâmetros do roteiro via query string na URL de sucesso
-    // (não contém dados sensíveis — só parâmetros de busca)
     const params = new URLSearchParams({
       paid: 'true',
+      origin,
+      originIATA,
       destination,
       checkIn,
       checkOut,
+      flexDates: String(flexDates),
       budgetBRL: String(budgetBRL),
       priorities: (priorities as string[]).join(','),
+      mobility,
+      surprise: String(surprise),
+      radius: String(radius),
     })
+
+    const descPeriod = checkIn && checkOut ? `de ${checkIn} a ${checkOut}` : 'com datas flexiveis'
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -63,10 +81,10 @@ export async function POST(req: NextRequest) {
         {
           price_data: {
             currency: 'brl',
-            unit_amount: 1990, // R$19,90 em centavos
+            unit_amount: 1990,
             product_data: {
-              name: `Roteiro completo — ${destination}`,
-              description: `Plano dia a dia de ${checkIn} a ${checkOut} com links de reserva e checklist de documentação`,
+              name: 'Roteiro completo - ' + destination,
+              description: 'Plano dia a dia ' + descPeriod + ' com links de reserva e checklist',
               images: [],
             },
           },
@@ -74,8 +92,8 @@ export async function POST(req: NextRequest) {
         },
       ],
       mode: 'payment',
-      success_url: `${baseUrl}/roteiro?${params.toString()}`,
-      cancel_url: `${baseUrl}/roteiro?destination=${encodeURIComponent(destination)}&checkIn=${checkIn}&checkOut=${checkOut}&budgetBRL=${budgetBRL}&priorities=${(priorities as string[]).join(',')}`,
+      success_url: baseUrl + '/roteiro?' + params.toString(),
+      cancel_url: baseUrl + '/roteiro?destination=' + encodeURIComponent(destination) + '&checkIn=' + checkIn + '&checkOut=' + checkOut + '&budgetBRL=' + budgetBRL,
       metadata: {
         destination,
         checkIn,
@@ -85,7 +103,7 @@ export async function POST(req: NextRequest) {
         previewData: previewData ? JSON.stringify(previewData).slice(0, 500) : '',
       },
       payment_intent_data: {
-        description: `Go Livoo — Roteiro ${destination} ${checkIn}→${checkOut}`,
+        description: 'Go Livoo - Roteiro ' + destination,
       },
       locale: 'pt-BR',
     })
@@ -94,6 +112,6 @@ export async function POST(req: NextRequest) {
 
   } catch (err) {
     console.error('[roteiro/checkout] erro Stripe:', err)
-    return NextResponse.json({ error: 'Erro ao criar sessão de pagamento.' }, { status: 500 })
+    return NextResponse.json({ error: 'Erro ao criar sessao de pagamento.' }, { status: 500 })
   }
 }
