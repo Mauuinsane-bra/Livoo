@@ -5,6 +5,7 @@ import { WelcomeModal } from '@/components/WelcomeModal'
 import { getLatestPosts } from '@/lib/sanity-queries'
 import { urlFor, categoryColor, type SanityBlogPost } from '@/lib/sanity'
 import { getTrendingDestinations, type TrendingDestination } from '@/lib/trending-destinations'
+import { STATIC_HOME_EVENTS, getUpcomingEvents, monthDayLabel } from '@/lib/home-events'
 
 function blogImgUrl(post: SanityBlogPost & { _fallbackImageUrl?: string }): string {
   if (post.coverImage) {
@@ -71,16 +72,7 @@ const FALLBACK_DESTINATIONS = [
 
 // calDays gerado dinamicamente dentro do componente HomePage — usa new Date() em tempo de render
 
-const catalogEvents = [
-  { month: 'MAI', day: '24', tag: 'Mônaco 2026', tagType: '', cat: 'F1 · DOMINGO', rating: '', title: 'GP de Mônaco — Tribuna K', loc: 'Monte Carlo, Mônaco', chips: ['Voo', 'Hotel: 4 noites', 'Ingresso', 'Heli'], href: '/eventos/f1-monaco', imageUrl: 'https://images.unsplash.com/photo-1752884991193-f40e0018e483?auto=format&fit=crop&w=600&q=80' },
-  { month: 'SET', day: '03', tag: 'POPULAR', tagType: '', cat: 'FESTIVAL · 3 DIAS', rating: '', title: 'Rock in Rio 2026', loc: 'Rio de Janeiro · Brasil', chips: ['Voo', 'Hotel: 3 noites Copa', 'Ingresso'], href: '/eventos/rock-in-rio', imageUrl: 'https://images.unsplash.com/photo-1521547480571-2b6061babf76?auto=format&fit=crop&w=600&q=80' },
-  { month: 'OUT', day: '03', tag: 'Outubro 2026', tagType: '', cat: 'CULTURA · 16 DIAS', rating: '', title: 'Oktoberfest de Munique', loc: 'Munique, Alemanha', chips: ['Voo', 'Hotel: 5 noites', 'Tenda reservada'], href: '/eventos', imageUrl: 'https://images.unsplash.com/photo-1669778631871-7bb6d5411c4b?auto=format&fit=crop&w=600&q=80' },
-  { month: 'JUL', day: '17', tag: 'Julho 2026', tagType: '', cat: 'FESTIVAL · 5 DIAS', rating: '', title: 'Tomorrowland 2026', loc: 'Boom, Bélgica', chips: ['Voo', 'Dreamville', 'Full Madness'], href: '/eventos', imageUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80' },
-  { month: 'JUN', day: '15', tag: 'COPA 26', tagType: '', cat: 'FUTEBOL · 3 JOGOS', rating: '', title: 'Copa do Mundo — Fase Grupos', loc: 'Cidade do México', chips: ['Voo', 'Hotel: 5 noites', '3 ingressos'], href: '/eventos', imageUrl: 'https://images.unsplash.com/photo-1556816213-354f013c9d40?auto=format&fit=crop&w=600&q=80' },
-  { month: 'NOV', day: '08', tag: 'Novembro 2026', tagType: '', cat: 'GASTRONOMIA · 7 NOITES', rating: '', title: 'Rota Omakase em Tóquio', loc: 'Tóquio, Japão', chips: ['Voo', 'Hotel: Ginza', '6 balcões'], href: '/eventos', imageUrl: 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=600&q=80' },
-]
-
-const filterCats = ['Todos', 'Shows & Festivais', 'Esportes', 'Automobilismo', 'Gastronomia', 'Cultura', 'Aventura', 'Ecoturismo', 'Artes']
+const filterCats =['Todos', 'Shows & Festivais', 'Esportes', 'Automobilismo', 'Gastronomia', 'Cultura', 'Aventura', 'Ecoturismo', 'Artes']
 
 export default async function HomePage() {
   const [latestPostsRaw, trendingRaw] = await Promise.all([
@@ -123,6 +115,16 @@ export default async function HomePage() {
     ? trendingRaw.map(d => ({ name: d.name, sub: d.sub, price: d.price, href: d.href, photo: d.photo }))
     : FALLBACK_DESTINATIONS
 
+  // Eventos da home — só os futuros, ordenados do mais próximo ao mais distante.
+  // Eventos vencidos somem sozinhos (ver lib/home-events.ts).
+  const upcomingEvents = getUpcomingEvents(STATIC_HOME_EVENTS, today)
+  const heroBig = upcomingEvents[0]
+  const heroSmall = upcomingEvents.slice(1, 3)
+  const heroSmallGradients = [
+    'linear-gradient(160deg, rgba(12,29,94,.75), rgba(26,31,255,.7))',
+    'linear-gradient(160deg, rgba(26,130,216,.7), rgba(225,29,72,.65))',
+  ]
+
   return (
     <>
       {/* ── Hero ───────────────────────────────────────── */}
@@ -164,20 +166,21 @@ export default async function HomePage() {
             ))}
           </div>
 
-          {/* Featured grid */}
+          {/* Featured grid — montado a partir dos eventos futuros (lib/home-events.ts) */}
+          {heroBig && (
           <div style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 16, marginBottom: 16 }} className="feat-grid">
             {/* Big card */}
-            <Link href="/eventos/f1-monaco" style={{
+            <Link href={heroBig.href} style={{
               position: 'relative', borderRadius: 24, overflow: 'hidden', aspectRatio: '16/11',
-              background: 'linear-gradient(180deg, rgba(0,0,0,.05) 30%, rgba(0,0,0,.75) 100%), url(https://images.unsplash.com/photo-1752884991193-f40e0018e483?auto=format&fit=crop&w=900&q=80) center/cover',
+              background: `linear-gradient(180deg, rgba(0,0,0,.05) 30%, rgba(0,0,0,.75) 100%), url(${heroBig.imageUrl}) center/cover`,
               display: 'flex', alignItems: 'flex-end', color: '#fff', padding: 30, textDecoration: 'none',
             }}>
-              <span style={{ position: 'absolute', top: 20, left: 20, background: '#F5A800', color: '#0F2340', fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: 12, padding: '6px 12px', borderRadius: 999, letterSpacing: '.02em' }}>Mônaco · Maio 2026</span>
+              <span style={{ position: 'absolute', top: 20, left: 20, background: '#F5A800', color: '#0F2340', fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: 12, padding: '6px 12px', borderRadius: 999, letterSpacing: '.02em' }}>{heroBig.tag}</span>
               <div style={{ position: 'relative', zIndex: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%', gap: 20 }}>
                 <div style={{ maxWidth: 560 }}>
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, letterSpacing: '.14em', textTransform: 'uppercase', opacity: .85, marginBottom: 10 }}>24 Mai 2026 · Domingo · 15h</div>
-                  <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 52, lineHeight: .98, fontWeight: 700, letterSpacing: '-.03em', margin: '0 0 8px' }}>GP de Mônaco — F1 2026</h3>
-                  <div style={{ fontSize: 15, opacity: .9 }}>Circuit de Monaco, Mônaco · Roteiro 4 noites</div>
+                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, letterSpacing: '.14em', textTransform: 'uppercase', opacity: .85, marginBottom: 10 }}>{monthDayLabel(heroBig.date).day} {monthDayLabel(heroBig.date).month} {heroBig.date.slice(0, 4)} · {heroBig.cat}</div>
+                  <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 52, lineHeight: .98, fontWeight: 700, letterSpacing: '-.03em', margin: '0 0 8px' }}>{heroBig.title}</h3>
+                  <div style={{ fontSize: 15, opacity: .9 }}>{heroBig.loc}</div>
                 </div>
                 <span style={{ background: '#1A82D8', color: '#fff', padding: '14px 20px', borderRadius: 999, fontWeight: 700, fontSize: 13.5, whiteSpace: 'nowrap' }}>Montar roteiro →</span>
               </div>
@@ -185,43 +188,28 @@ export default async function HomePage() {
 
             {/* Small stack */}
             <div style={{ display: 'grid', gridTemplateRows: '1fr 1fr', gap: 16 }}>
-              <Link href="/eventos/rock-in-rio" style={{
+              {heroSmall.map((ev, i) => (
+              <Link key={ev.href + ev.date} href={ev.href} style={{
                 position: 'relative', borderRadius: 20, overflow: 'hidden', padding: 24, color: '#fff',
                 display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 190,
-                background: 'linear-gradient(160deg, rgba(12,29,94,.75), rgba(26,31,255,.7)), url(https://images.unsplash.com/photo-1521547480571-2b6061babf76?auto=format&fit=crop&w=600&q=80) center/cover', textDecoration: 'none',
+                background: `${heroSmallGradients[i % heroSmallGradients.length]}, url(${ev.imageUrl}) center/cover`, textDecoration: 'none',
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ background: 'rgba(255,255,255,.2)', padding: '4px 10px', borderRadius: 999, fontSize: 11, fontWeight: 600 }}>FESTIVAL</span>
-                  <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, letterSpacing: '.12em', opacity: .8 }}>03 SET · 2026</span>
+                  <span style={{ background: 'rgba(255,255,255,.2)', padding: '4px 10px', borderRadius: 999, fontSize: 11, fontWeight: 600 }}>{ev.cat.split('·')[0].trim()}</span>
+                  <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, letterSpacing: '.12em', opacity: .8 }}>{monthDayLabel(ev.date).day} {monthDayLabel(ev.date).month} · {ev.date.slice(0, 4)}</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 14 }}>
                   <div>
-                    <h4 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 28, lineHeight: 1, fontWeight: 700, letterSpacing: '-.02em', margin: '0 0 4px' }}>Rock in Rio 2026</h4>
-                    <div style={{ fontSize: 13, opacity: .85 }}>Rio de Janeiro · Cidade do Rock</div>
+                    <h4 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 28, lineHeight: 1, fontWeight: 700, letterSpacing: '-.02em', margin: '0 0 4px' }}>{ev.title}</h4>
+                    <div style={{ fontSize: 13, opacity: .85 }}>{ev.loc}</div>
                   </div>
-                  <Link href="/eventos/rock-in-rio" style={{ background: 'rgba(255,255,255,.2)', color: '#fff', padding: '9px 16px', borderRadius: 999, fontWeight: 700, fontSize: 12.5, whiteSpace: 'nowrap', textDecoration: 'none', flexShrink: 0 }}>Ver roteiro →</Link>
+                  <span style={{ background: 'rgba(255,255,255,.2)', color: '#fff', padding: '9px 16px', borderRadius: 999, fontWeight: 700, fontSize: 12.5, whiteSpace: 'nowrap', flexShrink: 0 }}>Ver roteiro →</span>
                 </div>
               </Link>
-
-              <Link href="/eventos" style={{
-                position: 'relative', borderRadius: 20, overflow: 'hidden', padding: 24, color: '#fff',
-                display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 190,
-                background: 'linear-gradient(160deg, rgba(26,130,216,.7), rgba(225,29,72,.65)), url(https://images.unsplash.com/photo-1669778631871-7bb6d5411c4b?auto=format&fit=crop&w=600&q=80) center/cover', textDecoration: 'none',
-              }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ background: 'rgba(255,255,255,.2)', padding: '4px 10px', borderRadius: 999, fontSize: 11, fontWeight: 600 }}>CULTURA</span>
-                  <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, letterSpacing: '.12em', opacity: .8 }}>SET–OUT · 2026</span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 14 }}>
-                  <div>
-                    <h4 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 28, lineHeight: 1, fontWeight: 700, letterSpacing: '-.02em', margin: '0 0 4px' }}>Oktoberfest Munique</h4>
-                    <div style={{ fontSize: 13, opacity: .85 }}>Alemanha · com tenda reservada</div>
-                  </div>
-                  <Link href="/eventos" style={{ background: 'rgba(255,255,255,.2)', color: '#fff', padding: '9px 16px', borderRadius: 999, fontWeight: 700, fontSize: 12.5, whiteSpace: 'nowrap', textDecoration: 'none', flexShrink: 0 }}>Ver roteiro →</Link>
-                </div>
-              </Link>
+              ))}
             </div>
           </div>
+          )}
 
           {/* Calendar strip */}
           <div style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: 20, padding: 14, marginTop: 8, display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -292,7 +280,7 @@ export default async function HomePage() {
 
             {/* Event cards */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }} className="events-grid">
-              {catalogEvents.map(ev => (
+              {upcomingEvents.map(ev => (
                 <Link key={ev.title} href={ev.href} className="ev" style={{ textDecoration: 'none', display: 'block' }}>
                   <div className="ev-img" style={{
                     aspectRatio: '16/10',
@@ -301,18 +289,17 @@ export default async function HomePage() {
                       : `repeating-linear-gradient(135deg,#d6cfbb 0 12px,#c7beab 12px 24px)`,
                     position: 'relative',
                   }}>
-                    <span className={`tag${ev.tagType === 'hot' ? ' hot' : ev.tagType === 'sale' ? ' sale' : ''}`}>{ev.tag}</span>
+                    <span className="tag">{ev.tag}</span>
                     <div style={{ position: 'absolute', bottom: 12, left: 12, background: '#fff', color: 'var(--ink)', padding: '6px 10px', borderRadius: 8, fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: 12, display: 'flex', gap: 10, alignItems: 'center', lineHeight: 1 }}>
                       <div>
-                        <div style={{ color: 'var(--muted)', fontSize: 10, fontWeight: 600, letterSpacing: '.04em', textTransform: 'uppercase' }}>{ev.month}</div>
-                        <div style={{ fontSize: 20 }}>{ev.day}</div>
+                        <div style={{ color: 'var(--muted)', fontSize: 10, fontWeight: 600, letterSpacing: '.04em', textTransform: 'uppercase' }}>{monthDayLabel(ev.date).month}</div>
+                        <div style={{ fontSize: 20 }}>{monthDayLabel(ev.date).day}</div>
                       </div>
                     </div>
                   </div>
                   <div style={{ padding: '14px 16px 16px' }}>
                     <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--muted)', marginBottom: 4, display: 'flex', justifyContent: 'space-between' }}>
                       <span>{ev.cat}</span>
-                      <span style={{ color: 'var(--ink-2)', fontWeight: 600 }}>{ev.rating}</span>
                     </div>
                     <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 18, fontWeight: 700, letterSpacing: '-.01em', margin: '0 0 2px', lineHeight: 1.2, color: '#0F2340' }}>{ev.title}</h3>
                     <div style={{ fontSize: 12.5, color: 'var(--muted)', marginBottom: 12 }}>{ev.loc}</div>
