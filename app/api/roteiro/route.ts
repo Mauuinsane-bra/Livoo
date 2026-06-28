@@ -119,6 +119,49 @@ function buildDemoPreview(destination: string, budget: number): PreviewData {
 
 // ── Claude — preview ───────────────────────────────────────────────────────
 
+// Ferramenta que força o preview a vir estruturado (sem JSON.parse frágil).
+const PREVIEW_TOOL = {
+  name: 'montar_preview',
+  description: 'Registra o preview do roteiro (estimativa de orçamento, destaques e documentação).',
+  input_schema: {
+    type: 'object' as const,
+    properties: {
+      destination: { type: 'string', description: 'Nome completo da cidade e país.' },
+      destinationIATA: { type: 'string', description: 'Código IATA de 3 letras do aeroporto principal.' },
+      duration: { type: 'string', description: 'Ex: "7 noites / 8 dias".' },
+      totalBudget: { type: 'number', description: 'Orçamento total em BRL.' },
+      budgetBreakdown: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            category: { type: 'string' },
+            estimated: { type: 'number' },
+            percentage: { type: 'number' },
+            tip: { type: 'string' },
+          },
+          required: ['category', 'estimated', 'percentage', 'tip'],
+        },
+      },
+      highlights: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            day: { type: 'string' },
+            title: { type: 'string' },
+            desc: { type: 'string' },
+          },
+          required: ['day', 'title', 'desc'],
+        },
+      },
+      visaInfo: { type: 'string', description: 'Requisito de visto/documentação preciso para brasileiros.' },
+      bestTime: { type: 'string', description: 'Melhor época para visitar e por quê.' },
+    },
+    required: ['destination', 'destinationIATA', 'duration', 'totalBudget', 'budgetBreakdown', 'highlights', 'visaInfo', 'bestTime'],
+  },
+}
+
 async function generatePreview(
   client: Anthropic,
   destination: string,
@@ -179,41 +222,26 @@ ${surpriseHint ? '- ' + surpriseHint : ''}
 ${radiusHint ? '- ' + radiusHint : ''}
 ${suggestHint}
 
-Retorne este JSON exato (sem markdown, sem texto extra):
-{
-  "destination": "nome completo da cidade e país",
-  "destinationIATA": "código IATA de 3 letras do aeroporto principal",
-  "duration": "${nights > 0 ? `${nights} noites / ${nights + 1} dias` : 'a definir - sugira a duracao ideal'}",
-  "totalBudget": ${budgetBRL},
-  "budgetBreakdown": [
-    {"category":"Voos","estimated":0,"percentage":0,"tip":"dica específica para este destino"},
-    {"category":"Hospedagem","estimated":0,"percentage":0,"tip":"dica de bairro ou tipo de hotel"},
-    {"category":"Alimentação","estimated":0,"percentage":0,"tip":"o que comer e onde"},
-    {"category":"Transporte local","estimated":0,"percentage":0,"tip":"como se locomover"},
-    {"category":"Experiências","estimated":0,"percentage":0,"tip":"o que não perder"},
-    {"category":"Reserva","estimated":0,"percentage":0,"tip":"para imprevistos"}
-  ],
-  "highlights": [
-    {"day":"Dia 1","title":"título curto","desc":"descrição de 1-2 frases do que fazer neste dia"},
-    {"day":"Dia ${Math.round((nights + 1) / 2)}","title":"título curto","desc":"descrição de 1-2 frases"},
-    {"day":"Dia ${nights + 1}","title":"título curto","desc":"descrição de 1-2 frases"}
-  ],
-  "visaInfo": "informação precisa sobre necessidade de visto para brasileiros",
-  "bestTime": "melhor época para visitar e por quê"
-}
-Os percentuais devem somar 100. Os estimated devem somar exatamente ${budgetBRL}.`
+Use a ferramenta montar_preview para registrar o preview:
+- duration: ${nights > 0 ? `${nights} noites / ${nights + 1} dias` : 'a definir — sugira a duração ideal'}
+- budgetBreakdown: 6 categorias na ordem Voos, Hospedagem, Alimentação, Transporte local, Experiências, Reserva. Os "percentage" devem somar 100 e os "estimated" devem somar exatamente ${budgetBRL}.
+- highlights: 3 dias-destaque (ex: Dia 1, Dia ${Math.round((nights + 1) / 2)}, Dia ${nights + 1}), cada um com título curto e descrição de 1-2 frases.
+- visaInfo: requisito de visto preciso para BRASILEIROS conforme as REGRAS DE DOCUMENTAÇÃO.`
 
   const response = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
-    max_tokens: 1024,
-    messages: [{ role: 'user', content: userPrompt }],
+    max_tokens: 2048,
     system: systemPrompt,
+    messages: [{ role: 'user', content: userPrompt }],
+    tools: [PREVIEW_TOOL],
+    tool_choice: { type: 'tool', name: 'montar_preview' },
   })
 
-  const text = response.content[0].type === 'text' ? response.content[0].text : ''
-  const jsonMatch = text.match(/\{[\s\S]*\}/)
-  if (!jsonMatch) throw new Error('Claude retornou formato inválido')
-  return JSON.parse(jsonMatch[0]) as PreviewData
+  const toolUse = response.content.find((b) => b.type === 'tool_use')
+  if (!toolUse || toolUse.type !== 'tool_use') {
+    throw new Error('Claude não retornou o preview estruturado')
+  }
+  return toolUse.input as PreviewData
 }
 
 // ── Claude — itinerário completo ───────────────────────────────────────────
