@@ -5,7 +5,11 @@ import { WelcomeModal } from '@/components/WelcomeModal'
 import { getLatestPosts } from '@/lib/sanity-queries'
 import { urlFor, categoryColor, type SanityBlogPost } from '@/lib/sanity'
 import { getTrendingDestinations, type TrendingDestination } from '@/lib/trending-destinations'
-import { STATIC_HOME_EVENTS, getUpcomingEvents, monthDayLabel } from '@/lib/home-events'
+import { getHomeEvents, monthDayLabel } from '@/lib/home-events'
+
+// Revalida a cada 5 min — eventos adicionados/removidos no painel Sanity
+// aparecem na home sem precisar de novo deploy.
+export const revalidate = 300
 
 function blogImgUrl(post: SanityBlogPost & { _fallbackImageUrl?: string }): string {
   if (post.coverImage) {
@@ -75,9 +79,10 @@ const FALLBACK_DESTINATIONS = [
 const filterCats =['Todos', 'Shows & Festivais', 'Esportes', 'Automobilismo', 'Gastronomia', 'Cultura', 'Aventura', 'Ecoturismo', 'Artes']
 
 export default async function HomePage() {
-  const [latestPostsRaw, trendingRaw] = await Promise.all([
+  const [latestPostsRaw, trendingRaw, upcomingEvents] = await Promise.all([
     getLatestPosts(4),
     getTrendingDestinations('GRU', 5),
+    getHomeEvents(),
   ])
   const latestPosts = latestPostsRaw as (SanityBlogPost & { _fallbackImageUrl?: string })[]
 
@@ -115,9 +120,8 @@ export default async function HomePage() {
     ? trendingRaw.map(d => ({ name: d.name, sub: d.sub, price: d.price, href: d.href, photo: d.photo }))
     : FALLBACK_DESTINATIONS
 
-  // Eventos da home — só os futuros, ordenados do mais próximo ao mais distante.
-  // Eventos vencidos somem sozinhos (ver lib/home-events.ts).
-  const upcomingEvents = getUpcomingEvents(STATIC_HOME_EVENTS, today)
+  // upcomingEvents vem do getHomeEvents() (painel Sanity → fallback estático),
+  // já filtrado (só futuros) e ordenado. Eventos vencidos somem sozinhos.
   const heroBig = upcomingEvents[0]
   const heroSmall = upcomingEvents.slice(1, 3)
   const heroSmallGradients = [

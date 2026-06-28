@@ -1,4 +1,6 @@
 // lib/home-events.ts
+import { sanityClient, urlFor } from './sanity'
+
 // Fonte única dos eventos exibidos na home (banner de destaque + grade).
 //
 // REGRA: a home mostra SOMENTE eventos futuros. Cada evento tem uma data real
@@ -28,11 +30,20 @@ export interface HomeEventItem {
 
 const MONTHS_PT = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ']
 
+const MONTHS_PT_LONG = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+
 /** Retorna { month: 'JUL', day: '17' } a partir de uma data ISO. */
 export function monthDayLabel(iso: string): { month: string; day: string } {
   const [, m, d] = iso.split('-')
   const monthIdx = Math.max(0, Math.min(11, parseInt(m, 10) - 1))
   return { month: MONTHS_PT[monthIdx], day: String(parseInt(d, 10)).padStart(2, '0') }
+}
+
+/** Retorna 'Julho 2026' a partir de uma data ISO — usado como selo padrão. */
+function monthYearLabel(iso: string): string {
+  const [y, m] = iso.split('-')
+  const monthIdx = Math.max(0, Math.min(11, parseInt(m, 10) - 1))
+  return `${MONTHS_PT_LONG[monthIdx]} ${y}`
 }
 
 /**
@@ -93,3 +104,70 @@ export const STATIC_HOME_EVENTS: HomeEventItem[] = [
     imageUrl: 'https://images.unsplash.com/photo-1752884991193-f40e0018e483?auto=format&fit=crop&w=900&q=80',
   },
 ]
+
+// ── Eventos do painel Sanity ─────────────────────────────────────────────────
+// Formato cru retornado pela query GROQ do tipo "event".
+interface SanityEventRaw {
+  title?: string
+  date?: string
+  endDate?: string
+  loc?: string
+  category?: string
+  categoryDetail?: string
+  badge?: string
+  includes?: string[]
+  link?: string
+  coverImage?: unknown
+  coverImageUrl?: string
+}
+
+/** Busca eventos cadastrados no painel Sanity e os converte para HomeEventItem. */
+async function getSanityEvents(): Promise<HomeEventItem[]> {
+  try {
+    const rows = await sanityClient.fetch<SanityEventRaw[]>(
+      `*[_type == "event" && defined(date)] | order(date asc) {
+        title, "date": date, "endDate": endDate, "loc": location,
+        category, categoryDetail, badge, includes, link,
+        coverImage { asset }, coverImageUrl
+      }`
+    )
+    if (!rows || rows.length === 0) return []
+    return rows
+      .filter((r): r is SanityEventRaw & { date: string; title: string } => Boolean(r.date && r.title))
+      .map((r) => {
+        let imageUrl = r.coverImageUrl ?? ''
+        if (r.coverImage) {
+          try { imageUrl = urlFor(r.coverImage).width(900).url() } catch { /* mantém coverImageUrl */ }
+        }
+        const cat = [r.category, r.categoryDetail]
+          .filter(Boolean)
+          .map((s) => (s as string).toUpperCase())
+          .join(' · ') || 'EVENTO'
+        return {
+          date: r.date,
+          endDate: r.endDate,
+          title: r.title,
+          loc: r.loc ?? '',
+          cat,
+          tag: r.badge?.trim() || monthYearLabel(r.date),
+          chips: Array.isArray(r.includes) ? r.includes : [],
+          href: r.link?.trim() || '/eventos',
+          imageUrl: imageUrl || 'https://images.unsplash.com/photo-1488085061387-422e29b40080?auto=format&fit=crop&w=900&q=80',
+        }
+      })
+  } catch (err) {
+    console.info('[Go Livoo] Sanity getSanityEvents: usando fallback estático', err)
+    return []
+  }
+}
+
+/**
+ * Eventos para a home, já filtrados (só futuros) e ordenados.
+ * Prioriza o painel Sanity; se não houver evento futuro cadastrado lá,
+ * cai na lista estática — então a home nunca fica vazia durante a transição.
+ */
+export async function getHomeEvents(now: Date = new Date()): Promise<HomeEventItem[]> {
+  const upcomingSanity = getUpcomingEvents(await getSanityEvents(), now)
+  if (upcomingSanity.length > 0) return upcomingSanity
+  return getUpcomingEvents(STATIC_HOME_EVENTS, now)
+}
