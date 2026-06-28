@@ -270,22 +270,22 @@ const FULL_ITINERARY_TOOL = {
                 properties: {
                   time: { type: 'string', description: 'Horário, ex: "09h", "14h30".' },
                   title: { type: 'string', description: 'Nome da atividade ou lugar real.' },
-                  desc: { type: 'string', description: 'Descrição prática de 1-2 frases.' },
+                  desc: { type: 'string', description: 'Descrição RICA e detalhada, de 4 a 6 frases (um parágrafo cheio): o que é o lugar, por que vale a visita, o que ver/fazer ali especificamente, quanto tempo reservar, e um detalhe prático (melhor horário, ingresso, como chegar). Escreva como um guia premium, não como bullet seco.' },
                 },
                 required: ['time', 'title', 'desc'],
               },
             },
-            curiosity: { type: 'string', description: 'Uma curiosidade histórica/cultural ÚNICA e verdadeira sobre algo do dia (origem do nome, fato escondido, etimologia). Evite o óbvio de guia turístico.' },
-            hiddenGem: { type: 'string', description: 'Uma joia escondida "por perto" — lugar autêntico fora do circuito turístico óbvio, com o porquê de valer a pena.' },
-            travelerTip: { type: 'string', description: 'Uma dica de viajante experiente: melhor horário para evitar fila, golpe comum a evitar, atalho, ou como economizar.' },
+            curiosity: { type: 'string', description: 'Um parágrafo denso (4 a 6 frases) com uma curiosidade histórica/cultural ÚNICA e verdadeira sobre algo do dia — origem do nome, etimologia, fato escondido, lenda, evento histórico. Conte como uma boa história; surpreenda quem já viajou muito. Evite o óbvio de guia turístico.' },
+            hiddenGem: { type: 'string', description: 'Um parágrafo (3 a 5 frases) sobre uma joia escondida "por perto" — lugar autêntico fora do circuito turístico óbvio: o que é, como chegar a partir do roteiro do dia, e por que vale a pena ir.' },
+            travelerTip: { type: 'string', description: 'Um parágrafo (3 a 5 frases) com dica de viajante experiente e específica: melhor horário para evitar fila, golpe comum a evitar, atalho, como economizar, o que reservar com antecedência. Concreto, não genérico.' },
             restaurants: {
               type: 'array',
-              description: '1 a 3 restaurantes reais com descrição curta (o que pedir, faixa, ambiente).',
+              description: '2 a 3 restaurantes reais. Cada um com descrição de 2 a 4 frases.',
               items: {
                 type: 'object',
                 properties: {
-                  name: { type: 'string' },
-                  desc: { type: 'string' },
+                  name: { type: 'string', description: 'Nome real do restaurante.' },
+                  desc: { type: 'string', description: '2 a 4 frases: tipo de cozinha, o prato/especialidade para pedir, ambiente, faixa de preço e por que vale.' },
                 },
                 required: ['name', 'desc'],
               },
@@ -328,12 +328,14 @@ async function generateFullItinerary(
 
   const systemPrompt = `Você é o melhor planejador de viagens do Brasil, criando roteiros PREMIUM dia a dia para viajantes brasileiros. O cliente PAGOU por este roteiro — ele precisa ser melhor do que qualquer guia genérico ou conteúdo de blog.
 
+PROFUNDIDADE (regra mais importante): escreva como um guia de viagem premium, com PARÁGRAFOS DENSOS E ENVOLVENTES, não frases curtas nem bullets secos. Cada descrição deve ter substância — contexto, história, sensação do lugar e detalhe prático. Roteiro raso ("alto nível", genérico) é falha grave: o cliente PAGOU e tem de sentir que recebeu muito mais do que um blog gratuito entrega.
+
 PADRÃO DE QUALIDADE (cada dia DEVE ter):
-- Atividades com lugares REAIS, específicos e horários realistas (nada de "visite o centro").
-- Uma CURIOSIDADE única e verdadeira (origem de nome, fato histórico escondido, etimologia) — surpreenda quem já viajou muito; evite o óbvio.
-- Uma JOIA ESCONDIDA "por perto": lugar autêntico fora do circuito turístico, com o porquê.
-- Uma DICA DE VIAJANTE EXPERIENTE: melhor horário pra evitar fila, golpe comum, atalho, ou como economizar.
-- 1 a 3 RESTAURANTES reais com o que pedir e o tipo de ambiente.
+- 4 a 5 ATIVIDADES com lugares REAIS e específicos (nada de "visite o centro"), cada uma com descrição de 4-6 frases.
+- Uma CURIOSIDADE única e verdadeira, contada como história (4-6 frases) — origem de nome, etimologia, fato histórico escondido, lenda. Surpreenda quem já viajou muito; evite o óbvio.
+- Uma JOIA ESCONDIDA "por perto" (3-5 frases): lugar autêntico fora do circuito turístico, como chegar e por quê.
+- Uma DICA DE VIAJANTE EXPERIENTE (3-5 frases): melhor horário pra evitar fila, golpe comum, atalho, ou como economizar.
+- 2 a 3 RESTAURANTES reais, cada um com 2-4 frases (o que pedir, ambiente, faixa de preço).
 Seja concreto e específico. Se não tiver certeza de um fato, escolha outro que conheça — nunca invente nomes de lugares.
 
 REGRAS DE DOCUMENTAÇÃO PARA BRASILEIROS (OBRIGATÓRIO — nunca inventar requisitos):
@@ -366,17 +368,22 @@ ${radiusHint ? '- ' + radiusHint : ''}
 
 Crie EXATAMENTE ${totalDays} dias. Cada dia com 4-5 atividades + curiosidade + joia escondida + dica de viajante + restaurantes. O checklist deve ter: Documentos (visto correto para brasileiros conforme as regras), Saúde (vacinas), Finanças e Tecnologia.`
 
-  const response = await client.messages.create({
+  // Streaming + max_tokens alto: conteúdo premium é volumoso; evita corte do
+  // roteiro em viagens longas e timeout de HTTP em geração demorada.
+  const stream = client.messages.stream({
     model: 'claude-opus-4-8',
-    max_tokens: 16000,
+    max_tokens: 32000,
     system: systemPrompt,
     messages: [{ role: 'user', content: userPrompt }],
     tools: [FULL_ITINERARY_TOOL],
     tool_choice: { type: 'tool', name: 'montar_roteiro' },
   })
+  const response = await stream.finalMessage()
 
-  const toolUse = response.content.find((b) => b.type === 'tool_use')
-  if (!toolUse || toolUse.type !== 'tool_use') {
+  const toolUse = response.content.find(
+    (b: { type: string }) => b.type === 'tool_use',
+  ) as { type: 'tool_use'; input: unknown } | undefined
+  if (!toolUse) {
     throw new Error('Claude não retornou o roteiro estruturado')
   }
   const full = toolUse.input as Pick<FullItinerary, 'dayByDay' | 'checklist'>
@@ -387,7 +394,7 @@ Crie EXATAMENTE ${totalDays} dias. Cada dia com 4-5 atividades + curiosidade + j
     dayByDay: full.dayByDay,
     checklist: full.checklist,
     flightLink: buildKiwiUrl(originIATA, preview.destinationIATA, checkIn, checkOut, 1),
-    hotelLink: `https://hotellook.com/search?destination=${encodeURIComponent(preview.destination)}&adults=1`,
+    hotelLink: '/hoteis', // página interna Go Livoo (nossa camada) — não link externo
   }
 }
 
@@ -478,7 +485,7 @@ export async function POST(req: NextRequest) {
             },
           ],
           flightLink: buildKiwiUrl(originIATA, demoPreview.destinationIATA, checkIn || '2026-01-01', checkOut || '2026-01-08', 1),
-          hotelLink: `https://hotellook.com/search?destination=${encodeURIComponent(destination)}&adults=1`,
+          hotelLink: '/hoteis',
           checklist: [
             { category: 'Documentos', items: ['Passaporte valido por 6 meses', 'Seguro viagem'] },
             { category: 'Financas', items: ['Cartao internacional', 'Dinheiro local para emergencias'] },

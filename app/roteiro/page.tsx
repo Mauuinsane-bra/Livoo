@@ -916,7 +916,7 @@ function FullItineraryStep({ itinerary }: { itinerary: FullItinerary }) {
             <span style={{ fontSize: '1.4rem' }}>🏨</span>
             <div>
               <div style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '0.95rem' }}>Buscar hotéis</div>
-              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', opacity: 0.8 }}>Compare preços via Hotellook</div>
+              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', opacity: 0.8 }}>Hotéis selecionados na Go Livoo</div>
             </div>
           </a>
         </div>
