@@ -15,7 +15,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'cdn.sanity.io' },
     ],
   },
-  serverExternalPackages: ['amadeus'],
+  serverExternalPackages: ['amadeus', '@react-pdf/renderer'],
 
   // ── Security Headers ──────────────────────────────────
   async headers() {

@@ -868,6 +868,29 @@ function DayNote({ label, color, text }: { label: string; color: string; text: s
 
 function FullItineraryStep({ itinerary }: { itinerary: FullItinerary }) {
   const [openDay, setOpenDay] = useState(1)
+  const [email, setEmail] = useState('')
+  const [pdfState, setPdfState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [pdfMsg, setPdfMsg] = useState('')
+
+  async function sendPdf() {
+    if (pdfState === 'sending') return
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setPdfState('error'); setPdfMsg('Informe um e-mail válido.'); return
+    }
+    setPdfState('sending'); setPdfMsg('')
+    try {
+      const res = await fetch('/api/roteiro/pdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ itinerary, email: email.trim() }),
+      })
+      const data = await res.json()
+      if (res.ok && data.success) { setPdfState('sent') }
+      else { setPdfState('error'); setPdfMsg(data.error ?? 'Não foi possível enviar agora.') }
+    } catch {
+      setPdfState('error'); setPdfMsg('Erro de conexão. Tente novamente.')
+    }
+  }
 
   return (
     <div style={{ background: '#fafaf7', minHeight: '100vh', paddingBottom: 80 }}>
@@ -919,6 +942,41 @@ function FullItineraryStep({ itinerary }: { itinerary: FullItinerary }) {
               <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', opacity: 0.8 }}>Hotéis selecionados na Go Livoo</div>
             </div>
           </a>
+        </div>
+
+        {/* Receba o roteiro em PDF por e-mail */}
+        <div style={{ background: '#0F2340', borderRadius: 16, padding: '22px 24px', marginBottom: 24 }}>
+          <div style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '1.05rem', color: '#fff', marginBottom: 4 }}>
+            Receba este roteiro em PDF no seu e-mail
+          </div>
+          <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: 'rgba(255,255,255,0.7)', marginBottom: 14 }}>
+            Um PDF completo da Go Livoo, pronto para imprimir ou levar no celular.
+          </div>
+          {pdfState === 'sent' ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#34d399', fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', fontWeight: 600 }}>
+              <CheckIcon /> Enviado! Confira sua caixa de entrada (e a pasta de spam).
+            </div>
+          ) : (
+            <>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                <input
+                  type="email" value={email} onChange={e => setEmail(e.target.value)}
+                  placeholder="seu@email.com"
+                  style={{ flex: 1, minWidth: 200, padding: '12px 14px', borderRadius: 10, border: 'none', fontSize: '0.9rem', fontFamily: 'Inter, sans-serif' }}
+                />
+                <button onClick={sendPdf} disabled={pdfState === 'sending'} style={{
+                  background: '#F5A800', color: '#0F2340', border: 'none', borderRadius: 10, padding: '12px 22px',
+                  fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', whiteSpace: 'nowrap',
+                  opacity: pdfState === 'sending' ? 0.7 : 1,
+                }}>
+                  {pdfState === 'sending' ? 'Enviando...' : 'Receber PDF'}
+                </button>
+              </div>
+              {pdfState === 'error' && (
+                <div style={{ color: '#fca5a5', fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', marginTop: 8 }}>{pdfMsg}</div>
+              )}
+            </>
+          )}
         </div>
 
         {/* Roteiro dia a dia */}
