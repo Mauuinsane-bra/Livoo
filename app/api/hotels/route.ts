@@ -40,42 +40,26 @@ export async function GET(req: NextRequest) {
     )
   }
 
+  const { searchHotels, buildBookingFallbackUrl } = await import('@/lib/hotellook')
+  const fallbackUrl = buildBookingFallbackUrl({ location, checkIn, checkOut, adults })
+
   if (!process.env.TRAVELPAYOUTS_TOKEN) {
-    return NextResponse.json(
-      { error: 'API de hotéis não configurada. Adicione TRAVELPAYOUTS_TOKEN no .env.local.' },
-      { status: 503 }
-    )
+    // Sem token não há preços em cache, mas o deep link de disponibilidade
+    // (com afiliado) continua útil — não devolver erro.
+    return NextResponse.json({ hotels: [], fallbackUrl })
   }
 
   try {
-    const { searchHotels, buildBookingFallbackUrl } = await import('@/lib/hotellook')
-
     const hotels = await searchHotels({ location, checkIn, checkOut, adults })
-    const fallbackUrl = buildBookingFallbackUrl({ location, checkIn, checkOut, adults })
-
     return NextResponse.json({ hotels, fallbackUrl })
 
   } catch (error: unknown) {
     const errMsg = error instanceof Error ? error.message : String(error)
-    console.error('Erro ao buscar hotéis:', errMsg)
-
-    if (errMsg.includes('401') || errMsg.includes('403')) {
-      return NextResponse.json(
-        { error: 'Erro de autenticação na API de hotéis.' },
-        { status: 401 }
-      )
-    }
-
-    if (errMsg.includes('TRAVELPAYOUTS_TOKEN')) {
-      return NextResponse.json(
-        { error: 'API de hotéis não configurada. Adicione TRAVELPAYOUTS_TOKEN no .env.local.' },
-        { status: 503 }
-      )
-    }
-
-    return NextResponse.json(
-      { error: 'Erro ao buscar hotéis. Tente novamente.' },
-      { status: 500 }
-    )
+    // O endpoint de cache do Hotellook (engine.hotellook.com/api/v2/cache.json)
+    // foi descontinuado (retorna 404) — detectado em 06/jul/2026. Degradação
+    // graciosa: sem preços, mas com o link de disponibilidade (mesmo padrão
+    // do /api/hotel-deals).
+    console.error('Erro ao buscar hotéis (fallback aplicado):', errMsg)
+    return NextResponse.json({ hotels: [], fallbackUrl })
   }
 }
