@@ -1,6 +1,6 @@
 // app/api/roteiro/checkout/route.ts
 // POST /api/roteiro/checkout
-// Cria sessao Stripe para desbloquear roteiro completo (R$19,90)
+// Cria sessao Stripe para desbloquear roteiro completo (R$29,90)
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createRateLimiter } from '@/lib/rate-limit'
@@ -81,10 +81,10 @@ export async function POST(req: NextRequest) {
         {
           price_data: {
             currency: 'brl',
-            unit_amount: 1990,
+            unit_amount: 2990,
             product_data: {
               name: 'Roteiro completo - ' + destination,
-              description: 'Plano dia a dia ' + descPeriod + ' com links de reserva e checklist',
+              description: 'Plano dia a dia ' + descPeriod + ' com PDF por e-mail, links de reserva e checklist',
               images: [],
             },
           },
@@ -92,7 +92,10 @@ export async function POST(req: NextRequest) {
         },
       ],
       mode: 'payment',
-      success_url: baseUrl + '/roteiro?' + params.toString(),
+      // {CHECKOUT_SESSION_ID} é um placeholder literal que o Stripe substitui
+      // pelo ID real da sessão — a API /api/roteiro verifica esse ID
+      // server-side antes de gerar o roteiro completo (correção do paywall).
+      success_url: baseUrl + '/roteiro?' + params.toString() + '&session_id={CHECKOUT_SESSION_ID}',
       cancel_url: baseUrl + '/roteiro?destination=' + encodeURIComponent(destination) + '&checkIn=' + checkIn + '&checkOut=' + checkOut + '&budgetBRL=' + budgetBRL,
       metadata: {
         destination,

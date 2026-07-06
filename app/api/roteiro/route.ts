@@ -1,16 +1,38 @@
 // app/api/roteiro/route.ts
-// POST /api/roteiro — gera preview gratuito ou roteiro completo via Claude
+// POST /api/roteiro — gera preview gratuito ou roteiro completo via Claude.
+//
+// Segurança (12/mai correção do furo do paywall): o modo 'full' agora EXIGE
+// verificação server-side da sessão Stripe (payment_status === 'paid').
+// O antigo ?paid=true da URL era apenas cosmético — qualquer pessoa chamava a
+// API direto e gerava o produto pago de graça, às custas da conta Anthropic.
+//
+// Motor v2 (lib/roteiro-engine.ts): arquiteto (Sonnet) → escritores por dia em
+// paralelo (Opus 4.8) → revisor (Haiku), com preço real de voo no orçamento.
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createRateLimiter, sanitizeString } from '@/lib/rate-limit'
 import { buildKiwiUrl } from '@/lib/travelpayouts'
+import { generateFullItineraryV2 } from '@/lib/roteiro-engine'
+import type { PreviewData, FullItinerary } from '@/lib/roteiro-types'
 import Anthropic from '@anthropic-ai/sdk'
+
+// Re-export para compatibilidade com imports existentes (ex: roteiro/page.tsx, pdf route)
+export type {
+  BudgetCategory,
+  HighlightItem,
+  DayActivity,
+  DayRestaurant,
+  DayPlan,
+  ChecklistSection,
+  PreviewData,
+  FullItinerary,
+} from '@/lib/roteiro-types'
 
 const rateLimit = createRateLimiter('roteiro', { maxRequests: 10, windowMs: 60_000 })
 const MAX_LENGTH = 500
 
-// Opus 4.8 gerando um roteiro premium pode levar mais de 1 min — dá folga
-// para a função serverless da Vercel não ser cortada no meio.
+// O pipeline completo (esqueleto + N dias em paralelo + revisão + PDF) pode
+// levar alguns minutos — dá folga para a função serverless da Vercel.
 export const maxDuration = 300
 export const runtime = 'nodejs'
 
@@ -27,68 +49,38 @@ function sanitizeInput(s: string) {
   return clean.trim()
 }
 
-// ── Tipos ──────────────────────────────────────────────────────────────────
+// ── Verificação de pagamento (Stripe, server-side) ─────────────────────────
 
-export interface BudgetCategory {
-  category: string
-  estimated: number
-  percentage: number
-  tip: string
+interface PaymentCheck {
+  ok: boolean
+  email?: string
+  error?: string
 }
 
-export interface HighlightItem {
-  day: string
-  title: string
-  desc: string
-}
+async function verifyPaidSession(sessionId: string, destination: string): Promise<PaymentCheck> {
+  try {
+    const Stripe = (await import('stripe')).default
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
+    const session = await stripe.checkout.sessions.retrieve(sessionId)
 
-export interface DayActivity {
-  time: string
-  title: string
-  desc: string
-  link?: string
-}
-
-export interface DayRestaurant {
-  name: string
-  desc: string
-}
-
-export interface DayPlan {
-  day: number
-  title: string
-  activities: DayActivity[]
-  /** Curiosidade histórica/cultural única do dia (etimologia, fato escondido). */
-  curiosity?: string
-  /** Joia escondida "por perto" — lugar fora do circuito turístico óbvio. */
-  hiddenGem?: string
-  /** Dica de viajante experiente (horário, fila, golpe a evitar, atalho). */
-  travelerTip?: string
-  /** Restaurantes recomendados com descrição curta. */
-  restaurants?: DayRestaurant[]
-}
-
-export interface ChecklistSection {
-  category: string
-  items: string[]
-}
-
-export interface PreviewData {
-  destination: string
-  destinationIATA: string
-  duration: string
-  totalBudget: number
-  budgetBreakdown: BudgetCategory[]
-  highlights: HighlightItem[]
-  visaInfo: string
-  bestTime: string
-}
-
-export interface FullItinerary extends PreviewData {
-  dayByDay: DayPlan[]
-  flightLink: string
-  hotelLink: string
-  checklist: ChecklistSection[]
+    if (session.payment_status !== 'paid') {
+      return { ok: false, error: 'Pagamento não confirmado. Se você acabou de pagar, aguarde alguns segundos e recarregue a página.' }
+    }
+    // Janela de 48h: a mesma sessão pode regerar o MESMO roteiro (refresh,
+    // falha de geração), mas não vira passe permanente.
+    if (session.created * 1000 < Date.now() - 48 * 3600 * 1000) {
+      return { ok: false, error: 'Esta sessão de pagamento expirou. Entre em contato: contato@golivoo.com.br.' }
+    }
+    // A sessão paga vale para o destino que foi pago — não para N destinos.
+    const paidDest = (session.metadata?.destination ?? '').trim().toLowerCase()
+    if (paidDest && paidDest !== destination.trim().toLowerCase()) {
+      return { ok: false, error: 'Este pagamento é de outro roteiro. Gere um novo roteiro para este destino.' }
+    }
+    return { ok: true, email: session.customer_details?.email ?? undefined }
+  } catch (err) {
+    console.error('[roteiro] verificação Stripe falhou:', err)
+    return { ok: false, error: 'Não foi possível confirmar o pagamento. Tente novamente.' }
+  }
 }
 
 // ── Demo data ──────────────────────────────────────────────────────────────
@@ -244,160 +236,6 @@ Use a ferramenta montar_preview para registrar o preview:
   return toolUse.input as PreviewData
 }
 
-// ── Claude — itinerário completo ───────────────────────────────────────────
-
-// Ferramenta que força o Claude a devolver o roteiro já estruturado (sem
-// "pescar JSON" com regex e sem o modelo misturar texto com os dados).
-const FULL_ITINERARY_TOOL = {
-  name: 'montar_roteiro',
-  description: 'Registra o roteiro de viagem completo, dia a dia, com todos os detalhes premium.',
-  input_schema: {
-    type: 'object' as const,
-    properties: {
-      dayByDay: {
-        type: 'array',
-        description: 'Um objeto por dia da viagem, na ordem.',
-        items: {
-          type: 'object',
-          properties: {
-            day: { type: 'integer', description: 'Número do dia (1, 2, 3...).' },
-            title: { type: 'string', description: 'Título curto e evocativo do dia.' },
-            activities: {
-              type: 'array',
-              description: '4 a 5 atividades com horário, na ordem do dia.',
-              items: {
-                type: 'object',
-                properties: {
-                  time: { type: 'string', description: 'Horário, ex: "09h", "14h30".' },
-                  title: { type: 'string', description: 'Nome da atividade ou lugar real.' },
-                  desc: { type: 'string', description: 'Descrição RICA e detalhada, de 4 a 6 frases (um parágrafo cheio): o que é o lugar, por que vale a visita, o que ver/fazer ali especificamente, quanto tempo reservar, e um detalhe prático (melhor horário, ingresso, como chegar). Escreva como um guia premium, não como bullet seco.' },
-                },
-                required: ['time', 'title', 'desc'],
-              },
-            },
-            curiosity: { type: 'string', description: 'Um parágrafo denso (4 a 6 frases) com uma curiosidade histórica/cultural ÚNICA e verdadeira sobre algo do dia — origem do nome, etimologia, fato escondido, lenda, evento histórico. Conte como uma boa história; surpreenda quem já viajou muito. Evite o óbvio de guia turístico.' },
-            hiddenGem: { type: 'string', description: 'Um parágrafo (3 a 5 frases) sobre uma joia escondida "por perto" — lugar autêntico fora do circuito turístico óbvio: o que é, como chegar a partir do roteiro do dia, e por que vale a pena ir.' },
-            travelerTip: { type: 'string', description: 'Um parágrafo (3 a 5 frases) com dica de viajante experiente e específica: melhor horário para evitar fila, golpe comum a evitar, atalho, como economizar, o que reservar com antecedência. Concreto, não genérico.' },
-            restaurants: {
-              type: 'array',
-              description: '2 a 3 restaurantes reais. Cada um com descrição de 2 a 4 frases.',
-              items: {
-                type: 'object',
-                properties: {
-                  name: { type: 'string', description: 'Nome real do restaurante.' },
-                  desc: { type: 'string', description: '2 a 4 frases: tipo de cozinha, o prato/especialidade para pedir, ambiente, faixa de preço e por que vale.' },
-                },
-                required: ['name', 'desc'],
-              },
-            },
-          },
-          required: ['day', 'title', 'activities', 'curiosity', 'hiddenGem', 'travelerTip', 'restaurants'],
-        },
-      },
-      checklist: {
-        type: 'array',
-        description: 'Seções do checklist de preparação.',
-        items: {
-          type: 'object',
-          properties: {
-            category: { type: 'string' },
-            items: { type: 'array', items: { type: 'string' } },
-          },
-          required: ['category', 'items'],
-        },
-      },
-    },
-    required: ['dayByDay', 'checklist'],
-  },
-}
-
-async function generateFullItinerary(
-  client: Anthropic,
-  preview: PreviewData,
-  checkIn: string,
-  checkOut: string,
-  priorities: string[],
-  originCity: string = 'São Paulo',
-  originIATA: string = 'GRU',
-  opts: { flexDates?: boolean; mobility?: string; surprise?: boolean; radius?: number } = {},
-): Promise<FullItinerary> {
-  const nights = (checkIn && checkOut)
-    ? Math.round((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 60 * 60 * 24))
-    : 7
-  const totalDays = nights + 1
-
-  const systemPrompt = `Você é o melhor planejador de viagens do Brasil, criando roteiros PREMIUM dia a dia para viajantes brasileiros. O cliente PAGOU por este roteiro — ele precisa ser melhor do que qualquer guia genérico ou conteúdo de blog.
-
-PROFUNDIDADE (regra mais importante): escreva como um guia de viagem premium, com PARÁGRAFOS DENSOS E ENVOLVENTES, não frases curtas nem bullets secos. Cada descrição deve ter substância — contexto, história, sensação do lugar e detalhe prático. Roteiro raso ("alto nível", genérico) é falha grave: o cliente PAGOU e tem de sentir que recebeu muito mais do que um blog gratuito entrega.
-
-PADRÃO DE QUALIDADE (cada dia DEVE ter):
-- 4 a 5 ATIVIDADES com lugares REAIS e específicos (nada de "visite o centro"), cada uma com descrição de 4-6 frases.
-- Uma CURIOSIDADE única e verdadeira, contada como história (4-6 frases) — origem de nome, etimologia, fato histórico escondido, lenda. Surpreenda quem já viajou muito; evite o óbvio.
-- Uma JOIA ESCONDIDA "por perto" (3-5 frases): lugar autêntico fora do circuito turístico, como chegar e por quê.
-- Uma DICA DE VIAJANTE EXPERIENTE (3-5 frases): melhor horário pra evitar fila, golpe comum, atalho, ou como economizar.
-- 2 a 3 RESTAURANTES reais, cada um com 2-4 frases (o que pedir, ambiente, faixa de preço).
-Seja concreto e específico. Se não tiver certeza de um fato, escolha outro que conheça — nunca invente nomes de lugares.
-
-REGRAS DE DOCUMENTAÇÃO PARA BRASILEIROS (OBRIGATÓRIO — nunca inventar requisitos):
-- VISTO OBRIGATÓRIO: EUA (B1/B2 — NÃO ESTA), Canadá (visto de visitante — NÃO eTA), Austrália (visto de visitante — NÃO eVisitor), Japão, China, Rússia, Índia, Arábia Saudita.
-- ESTA/eTA NÃO se aplica a brasileiros. Nunca mencionar ESTA ou eTA para viajantes brasileiros.
-- SEM VISTO: UE/Schengen, Reino Unido, América do Sul, México, Turquia, Marrocos, África do Sul, Tailândia, Coreia do Sul, EAU, Israel, Filipinas, Malásia, Indonésia, Nova Zelândia.
-- Se não tiver certeza absoluta: "Verifique os requisitos atualizados no consulado ou em gov.br/mre."
-- Seguro viagem obrigatório para Espaço Schengen (mín. EUR 30.000). Recomendado para todos.
-- Passaporte com validade mínima de 6 meses além da data de retorno.
-O checklist de documentos deve refletir EXATAMENTE o que o destino exige de brasileiros.
-
-Use a ferramenta montar_roteiro para registrar o roteiro.`
-
-  const mobilityHint = opts.mobility === 'a-pe' ? 'Priorize rotas a pé e distâncias curtas entre atividades.'
-    : opts.mobility === 'transporte-publico' ? 'Baseie o roteiro em metrô, ônibus e trem. Mencione linhas/estações.'
-    : opts.mobility === 'carro' ? 'Inclua estradas cênicas, estacionamento e distâncias maiores.'
-    : ''
-  const surpriseHint = opts.surprise ? 'Inclua pelo menos 1-2 destinos surpresa (vilas, bairros ou cidades pouco conhecidas próximas).' : ''
-  const radiusHint = opts.radius && opts.radius > 0 ? `Sugira day trips dentro de ${opts.radius} km do destino principal.` : ''
-
-  const userPrompt = `Monte o roteiro COMPLETO dia a dia para:
-- Origem: ${originCity} (${originIATA}), Brasil — viajante BRASILEIRO
-- Destino: ${preview.destination} (IATA: ${preview.destinationIATA})
-- ${totalDays} dias (${nights} noites)${checkIn ? `, check-in: ${checkIn}` : ''}
-- Orçamento: R$ ${preview.totalBudget.toLocaleString('pt-BR')}
-- Prioridades: ${priorities.join(', ') || 'equilíbrio geral'}
-${mobilityHint ? '- ' + mobilityHint : ''}
-${surpriseHint ? '- ' + surpriseHint : ''}
-${radiusHint ? '- ' + radiusHint : ''}
-
-Crie EXATAMENTE ${totalDays} dias. Cada dia com 4-5 atividades + curiosidade + joia escondida + dica de viajante + restaurantes. O checklist deve ter: Documentos (visto correto para brasileiros conforme as regras), Saúde (vacinas), Finanças e Tecnologia.`
-
-  // Streaming + max_tokens alto: conteúdo premium é volumoso; evita corte do
-  // roteiro em viagens longas e timeout de HTTP em geração demorada.
-  const stream = client.messages.stream({
-    model: 'claude-opus-4-8',
-    max_tokens: 32000,
-    system: systemPrompt,
-    messages: [{ role: 'user', content: userPrompt }],
-    tools: [FULL_ITINERARY_TOOL],
-    tool_choice: { type: 'tool', name: 'montar_roteiro' },
-  })
-  const response = await stream.finalMessage()
-
-  const toolUse = response.content.find(
-    (b: { type: string }) => b.type === 'tool_use',
-  ) as { type: 'tool_use'; input: unknown } | undefined
-  if (!toolUse) {
-    throw new Error('Claude não retornou o roteiro estruturado')
-  }
-  const full = toolUse.input as Pick<FullItinerary, 'dayByDay' | 'checklist'>
-
-  // Links calculados no código — o modelo não fabrica URLs.
-  return {
-    ...preview,
-    dayByDay: full.dayByDay,
-    checklist: full.checklist,
-    flightLink: buildKiwiUrl(originIATA, preview.destinationIATA, checkIn, checkOut, 1),
-    hotelLink: '/hoteis', // página interna Go Livoo (nossa camada) — não link externo
-  }
-}
-
 // ── Handler ────────────────────────────────────────────────────────────────
 
 export async function POST(req: NextRequest) {
@@ -423,6 +261,7 @@ export async function POST(req: NextRequest) {
       prefSeason?: string
       mode: 'preview' | 'full'
       previewData?: PreviewData
+      sessionId?: string
     }
 
     const { mode, checkIn, checkOut, budgetBRL, previewData } = body
@@ -437,6 +276,7 @@ export async function POST(req: NextRequest) {
     const expTypes = Array.isArray(body.expTypes) ? body.expTypes.slice(0, 6) : []
     const prefDuration = typeof body.prefDuration === 'string' ? body.prefDuration : ''
     const prefSeason = typeof body.prefSeason === 'string' ? body.prefSeason : ''
+    const sessionId = typeof body.sessionId === 'string' ? body.sessionId.slice(0, 200) : ''
 
     if (!suggestMode && (!destination || destination.length < 2)) {
       return NextResponse.json({ error: 'Informe o destino.' }, { status: 400 })
@@ -526,19 +366,60 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    // Full mode
+    // ── Full mode — exige pagamento verificado no Stripe ──────────────────
+    let customerEmail: string | undefined
+
+    if (process.env.STRIPE_SECRET_KEY) {
+      if (!sessionId) {
+        return NextResponse.json(
+          { error: 'O roteiro completo é liberado após o pagamento. Gere o preview e desbloqueie por R$ 29,90.' },
+          { status: 402 },
+        )
+      }
+      const payment = await verifyPaidSession(sessionId, destination)
+      if (!payment.ok) {
+        return NextResponse.json({ error: payment.error }, { status: 402 })
+      }
+      customerEmail = payment.email
+    } else if (process.env.NODE_ENV === 'production') {
+      // Produção sem Stripe configurado: não há como verificar pagamento —
+      // não entregar o produto pago de graça.
+      return NextResponse.json(
+        { error: 'Pagamento indisponível no momento. Tente novamente mais tarde.' },
+        { status: 503 },
+      )
+    }
+
     const basePreview = (previewData as PreviewData) ?? await generatePreview(client, destination, checkIn, checkOut, budgetBRL, priorities, origin, originIATA, { flexDates, mobility, surprise, radius, suggestMode, expTypes, prefDuration, prefSeason })
-    const itinerary = await generateFullItinerary(client, basePreview, checkIn, checkOut, priorities, origin, originIATA, { flexDates, mobility, surprise, radius })
+    const itinerary: FullItinerary = await generateFullItineraryV2(client, basePreview, checkIn, checkOut, priorities, origin, originIATA, { flexDates, mobility, surprise, radius })
+
+    // Envio automático do PDF para o e-mail do pagamento (best-effort:
+    // falha de e-mail não pode negar o roteiro que o cliente pagou)
+    let pdfSentTo: string | null = null
+    if (customerEmail && process.env.RESEND_API_KEY) {
+      try {
+        const { sendRoteiroPdfEmail } = await import('@/lib/roteiro-email')
+        await sendRoteiroPdfEmail(itinerary, customerEmail)
+        pdfSentTo = customerEmail
+      } catch (mailErr) {
+        console.error('[roteiro] envio automático de PDF falhou (não-bloqueante):', mailErr)
+      }
+    }
 
     return NextResponse.json({
       success: true,
       mode: 'full',
       itinerary,
+      pdfSentTo,
     })
 
   } catch (err: unknown) {
+    // Log completo no servidor; mensagem genérica para o cliente
+    // (mensagens internas de API não devem vazar para a UI).
     console.error('[roteiro] erro:', err)
-    const message = err instanceof Error ? err.message : 'Erro interno'
-    return NextResponse.json({ error: message }, { status: 500 })
+    return NextResponse.json(
+      { error: 'Não foi possível gerar o roteiro agora. Tente novamente em instantes.' },
+      { status: 500 },
+    )
   }
 }

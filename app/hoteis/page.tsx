@@ -1,8 +1,22 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import type { HotelDeal } from '@/app/api/hotel-deals/route'
+
+// Resultado de /api/hotels (Hotellook via Travelpayouts)
+interface CityHotel {
+  id: string
+  name: string
+  location: string
+  country: string
+  stars: number
+  pricePerNight: number
+  currency: string
+  imageUrl: string
+  link: string
+}
 
 // ── Regiões ────────────────────────────────────────────────────────────────
 
@@ -133,9 +147,142 @@ function HotelDealCard({ deal }: { deal: HotelDeal }) {
   )
 }
 
+// ── Hotéis do destino do roteiro (?destino=Cidade) ─────────────────────────
+// Quando o usuário chega do roteiro pago, mostramos os hotéis reais da cidade
+// dele no topo — em vez de uma grade genérica de destinos.
+
+function DestinationHotels({ destino, checkIn, checkOut }: { destino: string; checkIn: string; checkOut: string }) {
+  const [hotels, setHotels]         = useState<CityHotel[]>([])
+  const [fallbackUrl, setFallback]  = useState('')
+  const [loading, setLoading]       = useState(true)
+  const [imgErrors, setImgErrors]   = useState<Record<string, boolean>>({})
+
+  // Sem datas (roteiro com datas flexíveis): estima uma janela de 7 noites
+  // daqui a ~60 dias só para consultar preços.
+  const hasDates = /^\d{4}-\d{2}-\d{2}$/.test(checkIn) && /^\d{4}-\d{2}-\d{2}$/.test(checkOut)
+  const inDate  = hasDates ? checkIn  : new Date(Date.now() + 60 * 86400000).toISOString().slice(0, 10)
+  const outDate = hasDates ? checkOut : new Date(Date.now() + 67 * 86400000).toISOString().slice(0, 10)
+
+  useEffect(() => {
+    let alive = true
+    async function fetchCityHotels() {
+      setLoading(true)
+      try {
+        const res  = await fetch(`/api/hotels?location=${encodeURIComponent(destino)}&checkIn=${inDate}&checkOut=${outDate}`)
+        const data = await res.json()
+        if (!alive) return
+        setHotels(Array.isArray(data.hotels) ? data.hotels.slice(0, 6) : [])
+        setFallback(typeof data.fallbackUrl === 'string' ? data.fallbackUrl : '')
+      } catch {
+        if (alive) setHotels([])
+      } finally {
+        if (alive) setLoading(false)
+      }
+    }
+    fetchCityHotels()
+    return () => { alive = false }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [destino])
+
+  if (!loading && hotels.length === 0 && !fallbackUrl) return null
+
+  return (
+    <section style={{ padding: '48px 0 0' }}>
+      <div className="container">
+        <div style={{ background: '#fff', borderRadius: 20, border: '1.5px solid #1A82D8', padding: '28px 28px 32px', boxShadow: '0 8px 32px rgba(26,130,216,0.10)' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8, marginBottom: 20 }}>
+            <div>
+              <span style={{
+                display: 'inline-block', background: '#E6F3FF', color: '#1260A8',
+                fontFamily: 'Inter, sans-serif', fontSize: '0.68rem', fontWeight: 700,
+                letterSpacing: '1.2px', textTransform: 'uppercase',
+                padding: '4px 12px', borderRadius: 50, marginBottom: 10,
+              }}>
+                Do seu roteiro
+              </span>
+              <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.4rem', fontWeight: 700, color: '#0F2340', margin: 0 }}>
+                Hotéis em {destino}
+              </h2>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#64748B', margin: '4px 0 0' }}>
+                {hasDates
+                  ? `Preços para ${inDate.split('-').reverse().join('/')} – ${outDate.split('-').reverse().join('/')}`
+                  : 'Preços estimados por noite — ajuste as datas ao reservar'}
+              </p>
+            </div>
+            {fallbackUrl && (
+              <a href={fallbackUrl} target="_blank" rel="noopener noreferrer" style={{
+                fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', fontWeight: 600,
+                color: '#1A82D8', textDecoration: 'none', whiteSpace: 'nowrap',
+              }}>
+                Ver todos em {destino} →
+              </a>
+            )}
+          </div>
+
+          {loading ? (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
+              {Array.from({ length: 3 }).map((_, i) => <SkeletonCard key={i} />)}
+            </div>
+          ) : hotels.length > 0 ? (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
+              {hotels.map(h => (
+                <a key={h.id} href={h.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block' }}>
+                  <div style={{ background: '#fff', borderRadius: 14, overflow: 'hidden', border: '1px solid #E2E8F0', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+                    <div style={{
+                      position: 'relative', height: 130, overflow: 'hidden',
+                      background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 100%)',
+                    }}>
+                      {!imgErrors[h.id] && h.imageUrl && (
+                        <img
+                          src={h.imageUrl}
+                          alt={h.name}
+                          loading="lazy"
+                          onError={() => setImgErrors(prev => ({ ...prev, [h.id]: true }))}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                      )}
+                    </div>
+                    <div style={{ padding: '12px 14px' }}>
+                      <div style={{ fontFamily: 'Nunito, sans-serif', fontSize: '0.9rem', fontWeight: 700, color: '#0F2340', marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {h.name}
+                      </div>
+                      {h.stars > 0 && (
+                        <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', color: '#F5A800', marginBottom: 6 }}>
+                          {'★'.repeat(Math.min(h.stars, 5))}
+                        </div>
+                      )}
+                      <div style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.05rem', fontWeight: 800, color: '#1A82D8' }}>
+                        US$ {h.pricePerNight}
+                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', fontWeight: 400, color: '#9a9aa0' }}> / noite</span>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          ) : (
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.88rem', color: '#64748B', margin: 0 }}>
+              Não encontramos preços em cache para {destino} agora.{' '}
+              {fallbackUrl && (
+                <a href={fallbackUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#1A82D8', fontWeight: 600 }}>
+                  Ver disponibilidade em {destino} →
+                </a>
+              )}
+            </p>
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // ── Página principal ───────────────────────────────────────────────────────
 
-export default function HoteisPage() {
+function HoteisContent() {
+  const searchParams = useSearchParams()
+  const destino  = (searchParams.get('destino') ?? '').trim().slice(0, 80)
+  const qCheckIn  = searchParams.get('checkIn') ?? ''
+  const qCheckOut = searchParams.get('checkOut') ?? ''
   const [selectedRegion, setSelectedRegion] = useState('europa')
   const [deals, setDeals]                   = useState<HotelDeal[]>([])
   const [loading, setLoading]               = useState(true)
@@ -216,6 +363,9 @@ export default function HoteisPage() {
           </div>
         </div>
       </section>
+
+      {/* ── HOTÉIS DO DESTINO DO ROTEIRO (?destino=) ──────────── */}
+      {destino && <DestinationHotels destino={destino} checkIn={qCheckIn} checkOut={qCheckOut} />}
 
       {/* ── DEALS GRID ────────────────────────────────────────── */}
       <section style={{ padding: '48px 0 80px' }}>
@@ -309,5 +459,18 @@ export default function HoteisPage() {
         </div>
       </section>
     </div>
+  )
+}
+
+// useSearchParams exige um limite de Suspense no App Router
+export default function HoteisPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}>Carregando...</p>
+      </div>
+    }>
+      <HoteisContent />
+    </Suspense>
   )
 }

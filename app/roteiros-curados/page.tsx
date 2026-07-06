@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Roteiros Curados — Go Livoo',
-  description: 'Roteiros prontos para os destinos mais procurados por brasileiros. Personalize com seu orçamento e datas por R$19,90.',
+  description: 'Roteiros prontos para os destinos mais procurados por brasileiros. Personalize com seu orçamento e datas por R$29,90.',
 }
 
 const CURATED = [
@@ -145,7 +145,7 @@ export default function RoteirosCuradosPage() {
             Roteiros prontos para personalizar
           </h1>
           <p style={{ fontFamily: 'Inter, sans-serif', color: 'rgba(255,255,255,0.75)', fontSize: '1rem', margin: '0 0 32px', lineHeight: 1.7, maxWidth: 560, marginLeft: 'auto', marginRight: 'auto' }}>
-            Escolha o destino, adicione suas datas e orçamento. A Go Livoo gera o plano dia a dia completo por R$19,90.
+            Escolha o destino, adicione suas datas e orçamento. A Go Livoo gera o plano dia a dia completo, com PDF no seu e-mail, por R$29,90.
           </p>
 
           {/* CTA personalizado */}
@@ -232,7 +232,7 @@ export default function RoteirosCuradosPage() {
                       transition: 'background 0.15s',
                     }}
                   >
-                    Personalizar este roteiro — R$ 19,90
+                    Personalizar este roteiro — R$ 29,90
                   </Link>
                 </div>
               </div>

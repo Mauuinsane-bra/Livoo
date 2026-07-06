@@ -201,7 +201,7 @@ function FormStep({
       <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 100%)', padding: '56px 24px 80px' }}>
         <div style={{ maxWidth: 640, margin: '0 auto', textAlign: 'center' }}>
           <span style={{ display: 'inline-block', background: 'rgba(245,168,0,0.2)', color: '#F5A800', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', padding: '5px 14px', borderRadius: 50, marginBottom: 20, border: '1px solid rgba(245,168,0,0.3)' }}>
-            Roteiro Completo · R$ 19,90
+            Roteiro Completo · R$ 29,90
           </span>
           <h1 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 700, color: '#fff', margin: '0 0 16px', lineHeight: 1.1 }}>
             Planeje sua viagem do zero.
@@ -620,7 +620,7 @@ function FormStep({
           </button>
 
           <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#94a3b8', textAlign: 'center', margin: '12px 0 0' }}>
-            Preview gratuito · Roteiro completo por R$19,90
+            Preview gratuito · Roteiro completo com PDF por R$29,90
           </p>
         </form>
 
@@ -802,7 +802,7 @@ function PreviewStep({
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
             <span style={{ color: '#F5A800' }}><LockIcon /></span>
             <h3 style={{ fontFamily: 'Nunito, sans-serif', color: '#fff', fontSize: '1.3rem', margin: 0, fontWeight: 700 }}>
-              Roteiro completo · R$ 19,90
+              Roteiro completo · R$ 29,90
             </h3>
           </div>
 
@@ -814,8 +814,8 @@ function PreviewStep({
             {[
               'Plano dia a dia completo',
               `${Math.round((new Date(params.checkOut).getTime() - new Date(params.checkIn).getTime()) / 86400000) + 1} dias detalhados`,
-              'Link direto para voos',
-              'Link direto para hotéis',
+              'PDF completo no seu e-mail',
+              'Links para voos e hotéis',
               'Checklist de documentos',
               'Dicas de gastronomia local',
             ].map(item => (
@@ -837,7 +837,7 @@ function PreviewStep({
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
             }}
           >
-            {isPaying ? 'Redirecionando...' : '🔓 Desbloquear roteiro completo — R$ 19,90'}
+            {isPaying ? 'Redirecionando...' : 'Desbloquear roteiro completo — R$ 29,90'}
           </button>
 
           <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', color: 'rgba(255,255,255,0.45)', textAlign: 'center', margin: '12px 0 0' }}>
@@ -866,7 +866,7 @@ function DayNote({ label, color, text }: { label: string; color: string; text: s
   )
 }
 
-function FullItineraryStep({ itinerary }: { itinerary: FullItinerary }) {
+function FullItineraryStep({ itinerary, pdfSentTo }: { itinerary: FullItinerary; pdfSentTo?: string }) {
   const [openDay, setOpenDay] = useState(1)
   const [email, setEmail] = useState('')
   const [pdfState, setPdfState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
@@ -952,6 +952,11 @@ function FullItineraryStep({ itinerary }: { itinerary: FullItinerary }) {
           <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: 'rgba(255,255,255,0.7)', marginBottom: 14 }}>
             Um PDF completo da Go Livoo, pronto para imprimir ou levar no celular.
           </div>
+          {pdfSentTo && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#34d399', fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', fontWeight: 600, marginBottom: 12 }}>
+              <CheckIcon /> Enviamos o PDF automaticamente para {pdfSentTo}. Quer receber em outro e-mail? Use o campo abaixo.
+            </div>
+          )}
           {pdfState === 'sent' ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#34d399', fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', fontWeight: 600 }}>
               <CheckIcon /> Enviado! Confira sua caixa de entrada (e a pasta de spam).
@@ -1105,38 +1110,44 @@ function RoteiroContent() {
   const router = useRouter()
 
   // Detectar retorno do Stripe
-  const paid         = params.get('paid') === 'true'
-  const origin       = params.get('origin') ?? ''
-  const originIATA   = params.get('originIATA') ?? 'GRU'
-  const destination  = params.get('destination') ?? ''
-  const checkIn      = params.get('checkIn') ?? ''
-  const checkOut     = params.get('checkOut') ?? ''
-  const budgetBRL    = Number(params.get('budgetBRL') ?? 0)
-  const priorities   = params.get('priorities') ? params.get('priorities')!.split(',').filter(Boolean) : []
+  const paid          = params.get('paid') === 'true'
+  const stripeSession = params.get('session_id') ?? '' // verificado server-side na API
+  const origin        = params.get('origin') ?? ''
+  const originIATA    = params.get('originIATA') ?? 'GRU'
+  const destination   = params.get('destination') ?? ''
+  const checkIn       = params.get('checkIn') ?? ''
+  const checkOut      = params.get('checkOut') ?? ''
+  const urlFlexDates  = params.get('flexDates') === 'true'
+  const budgetBRL     = Number(params.get('budgetBRL') ?? 0)
+  const priorities    = params.get('priorities') ? params.get('priorities')!.split(',').filter(Boolean) : []
 
   const [pageState,    setPageState]    = useState<PageState>('form')
   const [preview,      setPreview]      = useState<PreviewData | null>(null)
   const [itinerary,    setItinerary]    = useState<FullItinerary | null>(null)
+  const [pdfSentTo,    setPdfSentTo]    = useState('')
   const [errorMsg,     setErrorMsg]     = useState('')
   const [isPaying,     setIsPaying]     = useState(false)
   const destinations   = destination ? destination.split(' → ').filter(Boolean) : []
   const [formValues,   setFormValues]   = useState({ origin, originIATA, destinations, checkIn, checkOut, flexDates: false, budgetBRL, priorities, mobility: '', surprise: false, radius: 0, suggestMode: false, expTypes: [] as string[], prefDuration: '', prefSeason: '' })
 
-  // Se veio do Stripe com ?paid=true, gerar roteiro completo automaticamente
+  // Se veio do Stripe com ?paid=true, gerar roteiro completo automaticamente.
+  // O session_id do Stripe vai junto — a API só gera após confirmar o
+  // pagamento server-side. Datas podem estar vazias quando flexDates=true.
   useEffect(() => {
-    if (paid && destination && checkIn && checkOut && budgetBRL) {
+    if (paid && destination && budgetBRL && (urlFlexDates || (checkIn && checkOut))) {
       const dests = destination.split(' → ').filter(Boolean)
-      setFormValues({ origin, originIATA, destinations: dests, checkIn, checkOut, flexDates: false, budgetBRL, priorities, mobility: '', surprise: false, radius: 0, suggestMode: false, expTypes: [], prefDuration: '', prefSeason: '' })
+      setFormValues({ origin, originIATA, destinations: dests, checkIn, checkOut, flexDates: urlFlexDates, budgetBRL, priorities, mobility: '', surprise: false, radius: 0, suggestMode: false, expTypes: [], prefDuration: '', prefSeason: '' })
       setPageState('loading-full')
       fetch('/api/roteiro', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ origin, originIATA, destination, checkIn, checkOut, budgetBRL, priorities, mode: 'full' }),
+        body: JSON.stringify({ origin, originIATA, destination, checkIn, checkOut, flexDates: urlFlexDates, budgetBRL, priorities, mode: 'full', sessionId: stripeSession }),
       })
         .then(r => r.json())
         .then(data => {
           if (data.success && data.itinerary) {
             setItinerary(data.itinerary)
+            setPdfSentTo(data.pdfSentTo ?? '')
             setPageState('full')
           } else {
             setErrorMsg(data.error ?? 'Erro ao gerar roteiro.')
@@ -1226,7 +1237,7 @@ function RoteiroContent() {
   }
 
   // ── States ────────────────────────────────────────────────────────────────
-  if (pageState === 'full' && itinerary)   return <FullItineraryStep itinerary={itinerary} />
+  if (pageState === 'full' && itinerary)   return <FullItineraryStep itinerary={itinerary} pdfSentTo={pdfSentTo} />
   if (pageState === 'preview' && preview)  return <PreviewStep preview={preview} params={formValues} onPay={handlePay} isPaying={isPaying} />
   return <FormStep onSubmit={handleFormSubmit} initialValues={formValues} />
 }
