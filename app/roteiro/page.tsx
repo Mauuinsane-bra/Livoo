@@ -4,6 +4,7 @@ import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import CitySearch from '@/components/CitySearch'
+import { track } from '@/lib/analytics'
 import type { PreviewData, FullItinerary, BudgetCategory, DayPlan, ChecklistSection } from '@/app/api/roteiro/route'
 // ── Constantes ─────────────────────────────────────────────────────────────
 
@@ -1149,12 +1150,14 @@ function RoteiroContent() {
             setItinerary(data.itinerary)
             setPdfSentTo(data.pdfSentTo ?? '')
             setPageState('full')
+            track('roteiro_paid_generated', { destination, pdf_sent: Boolean(data.pdfSentTo) })
           } else {
             setErrorMsg(data.error ?? 'Erro ao gerar roteiro.')
             setPageState('error')
+            track('roteiro_error', { stage: 'full', destination })
           }
         })
-        .catch(() => { setErrorMsg('Erro de conexão.'); setPageState('error') })
+        .catch(() => { setErrorMsg('Erro de conexão.'); setPageState('error'); track('roteiro_error', { stage: 'full-network' }) })
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -1163,6 +1166,7 @@ function RoteiroContent() {
     setFormValues(values)
     setPageState('loading-preview')
     const destinationStr = values.suggestMode ? 'ME_SUGIRA' : values.destinations.join(' \u2192 ')
+    track('roteiro_form_submit', { destination: destinationStr, budget: values.budgetBRL, flex_dates: values.flexDates })
     try {
       const res = await fetch('/api/roteiro', {
         method: 'POST',
@@ -1173,19 +1177,23 @@ function RoteiroContent() {
       if (data.success && data.preview) {
         setPreview(data.preview)
         setPageState('preview')
+        track('roteiro_preview_shown', { destination: data.preview.destination })
       } else {
         setErrorMsg(data.error ?? 'Não foi possível gerar o preview.')
         setPageState('error')
+        track('roteiro_error', { stage: 'preview', destination: destinationStr })
       }
     } catch {
       setErrorMsg('Erro de conexão. Verifique sua internet e tente novamente.')
       setPageState('error')
+      track('roteiro_error', { stage: 'preview-network' })
     }
   }
 
   async function handlePay() {
     setIsPaying(true)
     const destinationStr = formValues.destinations.join(' → ')
+    track('roteiro_pay_click', { destination: destinationStr, budget: formValues.budgetBRL })
     try {
       const res = await fetch('/api/roteiro/checkout', {
         method: 'POST',
@@ -1194,14 +1202,17 @@ function RoteiroContent() {
       })
       const data = await res.json()
       if (data.url) {
+        track('roteiro_checkout_redirect', { destination: destinationStr })
         window.location.href = data.url
       } else {
         setErrorMsg(data.error ?? 'Erro ao processar pagamento.')
         setIsPaying(false)
+        track('roteiro_error', { stage: 'checkout', destination: destinationStr })
       }
     } catch {
       setErrorMsg('Erro de conexão com o pagamento.')
       setIsPaying(false)
+      track('roteiro_error', { stage: 'checkout-network' })
     }
   }
 

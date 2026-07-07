@@ -1,10 +1,9 @@
 import Link from 'next/link'
-import Image from 'next/image'
-import HomeEventsGrid from '@/components/HomeEventsGrid'
 import { WelcomeModal } from '@/components/WelcomeModal'
+import HeroRoteiroForm from '@/components/HeroRoteiroForm'
 import { getLatestPosts } from '@/lib/sanity-queries'
-import { urlFor, categoryColor, type SanityBlogPost } from '@/lib/sanity'
-import { getTrendingDestinations, type TrendingDestination } from '@/lib/trending-destinations'
+import { urlFor, type SanityBlogPost } from '@/lib/sanity'
+import { getTrendingDestinations } from '@/lib/trending-destinations'
 import { getHomeEvents, monthDayLabel } from '@/lib/home-events'
 
 // Revalida a cada 5 min — eventos adicionados/removidos no painel Sanity
@@ -74,9 +73,7 @@ const FALLBACK_DESTINATIONS = [
   { name: 'Santiago', sub: 'Chile · SA', price: 0, href: '/explorar-destinos', photo: 'https://images.unsplash.com/photo-1689850543263-01a52ccc6943?auto=format&fit=crop&w=600&q=80' },
 ]
 
-// calDays gerado dinamicamente dentro do componente HomePage — usa new Date() em tempo de render
-
-const filterCats =['Todos', 'Shows & Festivais', 'Esportes', 'Automobilismo', 'Gastronomia', 'Cultura', 'Aventura', 'Ecoturismo', 'Artes']
+const filterCats = ['Todos', 'Shows & Festivais', 'Esportes', 'Automobilismo', 'Gastronomia', 'Cultura', 'Aventura', 'Ecoturismo', 'Artes']
 
 export default async function HomePage() {
   const [latestPostsRaw, trendingRaw, upcomingEvents] = await Promise.all([
@@ -99,23 +96,6 @@ export default async function HomePage() {
     }
   } catch { /* silencia — fallback */ }
 
-  // Calendar strip dinâmico — gera 9 dias a partir de hoje, marca hoje como "active"
-  const today = new Date()
-  const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
-  const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
-  const calDays = Array.from({ length: 9 }, (_, i) => {
-    const date = new Date(today)
-    date.setDate(today.getDate() + i)
-    return {
-      m: dayNames[date.getDay()],
-      d: String(date.getDate()),
-      active: i === 0,
-      dot: i > 0 && i % 2 === 1,
-    }
-  })
-  const calMonthLabel = monthNames[today.getMonth()]
-  const calYearLabel = String(today.getFullYear())
-
   const destinations = trendingRaw.length > 0
     ? trendingRaw.map(d => ({ name: d.name, sub: d.sub, price: d.price, href: d.href, photo: d.photo }))
     : FALLBACK_DESTINATIONS
@@ -131,28 +111,83 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ── Hero ───────────────────────────────────────── */}
-      <section style={{ padding: '36px 0 12px', background: 'var(--bg)' }}>
+      {/* ── Hero — o Roteiro é o produto principal ─────── */}
+      <section style={{ padding: '56px 0 48px', background: 'var(--bg)' }}>
         <div className="wrap">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 24, gap: 20, flexWrap: 'wrap' }}>
+          <div style={{ maxWidth: 860, margin: '0 auto', textAlign: 'center' }}>
             <h1 style={{
-              fontFamily: 'Nunito, sans-serif', fontSize: 72, lineHeight: .95,
-              fontWeight: 700, letterSpacing: '-.04em', margin: 0, maxWidth: 800,
+              fontFamily: 'Nunito, sans-serif', fontSize: 'clamp(38px, 6vw, 68px)', lineHeight: 1.02,
+              fontWeight: 700, letterSpacing: '-.04em', margin: '0 0 18px',
             }}>
-              Um catálogo de{' '}
-              <em style={{ fontStyle: 'normal', background: '#F5A800', padding: '0 10px', borderRadius: 6 }}>experiências</em>
-              ,<br />com a viagem inteira junto.
+              Você quer a{' '}
+              <em style={{ fontStyle: 'normal', background: '#F5A800', padding: '0 10px', borderRadius: 6 }}>experiência</em>
+              .<br />A Go Livoo resolve o resto.
             </h1>
-            <div style={{ display: 'flex', gap: 24, alignItems: 'flex-end', flexShrink: 0 }}>
-              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11.5, letterSpacing: '.08em', textTransform: 'uppercase', color: '#64748B', textAlign: 'right' }}>
-                <span style={{ fontFamily: 'Nunito, sans-serif', fontSize: 38, color: '#0F2340', fontWeight: 700, letterSpacing: '-.02em', display: 'block', lineHeight: 1 }}>+20</span>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 16.5, color: 'var(--ink-2)', maxWidth: 620, margin: '0 auto 30px', lineHeight: 1.65 }}>
+              Diga o que quer viver — um show, um GP, uma cidade — e receba a viagem
+              inteira montada: voo, hotel, documentação e o plano dia a dia.
+            </p>
+
+            <div style={{ maxWidth: 720, margin: '0 auto' }}>
+              <HeroRoteiroForm />
+            </div>
+
+            <div style={{ display: 'flex', gap: 36, justifyContent: 'center', marginTop: 34, flexWrap: 'wrap' }}>
+              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, letterSpacing: '.08em', textTransform: 'uppercase', color: '#64748B', textAlign: 'center' }}>
+                <span style={{ fontFamily: 'Nunito, sans-serif', fontSize: 32, color: '#0F2340', fontWeight: 700, letterSpacing: '-.02em', display: 'block', lineHeight: 1 }}>+20</span>
                 eventos internacionais<br />selecionados a dedo
               </div>
-              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11.5, letterSpacing: '.08em', textTransform: 'uppercase', color: '#64748B', textAlign: 'right' }}>
-                <span style={{ fontFamily: 'Nunito, sans-serif', fontSize: 38, color: '#1A82D8', fontWeight: 700, letterSpacing: '-.02em', display: 'block', lineHeight: 1 }}>+{roteiroCount}</span>
+              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, letterSpacing: '.08em', textTransform: 'uppercase', color: '#64748B', textAlign: 'center' }}>
+                <span style={{ fontFamily: 'Nunito, sans-serif', fontSize: 32, color: '#1A82D8', fontWeight: 700, letterSpacing: '-.02em', display: 'block', lineHeight: 1 }}>+{roteiroCount}</span>
                 roteiros<br />montados
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Como funciona ──────────────────────────────── */}
+      <section style={{ background: 'var(--bg-alt)', padding: '64px 0' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: 44 }}>
+            <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--primary)', marginBottom: 12 }}>
+              Como funciona
+            </p>
+            <h2 style={{ fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 800, fontFamily: 'Nunito, sans-serif', color: 'var(--navy)', margin: 0, maxWidth: 640, marginInline: 'auto' }}>
+              Você foca na experiência. A Go Livoo resolve o resto.
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24 }}>
+            {[
+              { step: '01', title: 'Descreva o que quer viver', desc: 'Não precisa saber datas, voos ou hotéis. Só o sonho — "GP de Mônaco", "Rock in Rio", "Hanami em Tóquio".' },
+              { step: '02', title: 'Receba o roteiro completo', desc: 'Voo + hospedagem perto do evento + documentação necessária (visto, passaporte, vacinas) + plano dia a dia, com PDF no seu e-mail.' },
+              { step: '03', title: 'Reserve direto com nossos parceiros', desc: 'Você compra direto nos sites parceiros (Kiwi, Booking, Rentcars). A plataforma é gratuita — vivemos da comissão dos parceiros.' },
+            ].map((item) => (
+              <div key={item.step} style={{ background: '#fff', borderRadius: 'var(--radius)', padding: '32px 28px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: 'var(--navy)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 16, fontFamily: 'Nunito, sans-serif', letterSpacing: '0.02em' }}>{item.step}</div>
+                <h3 style={{ fontSize: 20, fontWeight: 800, fontFamily: 'Nunito, sans-serif', color: 'var(--navy)', margin: 0, lineHeight: 1.2 }}>{item.title}</h3>
+                <p style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--gray)', margin: 0 }}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div style={{ textAlign: 'center', marginTop: 40 }}>
+            <Link href="/roteiro" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', fontSize: 15, fontWeight: 700 }}>
+              Começar agora — é grátis
+              <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Experiências em alta ───────────────────────── */}
+      <section style={{ padding: '56px 0 32px', background: 'var(--bg)' }}>
+        <div className="wrap">
+          <div className="sec-head">
+            <h2 className="display">Experiências em <em>alta</em></h2>
+            <Link href="/eventos" className="all">Ver todos os eventos →</Link>
+          </div>
+          <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11.5, color: 'var(--muted)', letterSpacing: '.04em', textTransform: 'uppercase', margin: '0 0 20px' }}>
+            Eventos internacionais selecionados · o roteiro inclui voo + hotel + ingresso
           </div>
 
           {/* Category pills */}
@@ -172,7 +207,7 @@ export default async function HomePage() {
 
           {/* Featured grid — montado a partir dos eventos futuros (lib/home-events.ts) */}
           {heroBig && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 16, marginBottom: 16 }} className="feat-grid">
+          <div style={{ display: 'grid', gridTemplateColumns: '1.35fr 1fr', gap: 16, marginBottom: 24 }} className="feat-grid">
             {/* Big card */}
             <Link href={heroBig.href} style={{
               position: 'relative', borderRadius: 24, overflow: 'hidden', aspectRatio: '16/11',
@@ -215,110 +250,42 @@ export default async function HomePage() {
           </div>
           )}
 
-          {/* Calendar strip */}
-          <div style={{ background: '#fff', border: '1px solid var(--line)', borderRadius: 20, padding: 14, marginTop: 8, display: 'flex', alignItems: 'center', gap: 14 }}>
-            <div style={{ fontFamily: 'Nunito, sans-serif', fontSize: 18, fontWeight: 700, paddingLeft: 8, whiteSpace: 'nowrap' }}>{calMonthLabel}<br />{calYearLabel}</div>
-            <div style={{ flex: 1, display: 'grid', gridTemplateColumns: 'repeat(9,1fr)', gap: 6 }} className="cal-grid">
-              {calDays.map(({ m, d, dot, active }) => (
-                <div key={d} style={{
-                  borderRadius: 10, border: `1px solid ${active ? '#0F2340' : 'var(--line)'}`,
-                  padding: '8px 4px', textAlign: 'center', position: 'relative', cursor: 'pointer',
-                  background: active ? '#0F2340' : 'transparent', color: active ? '#fff' : 'inherit',
+          {/* Event cards */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }} className="events-grid">
+            {upcomingEvents.map(ev => (
+              <Link key={ev.title} href={ev.href} className="ev" style={{ textDecoration: 'none', display: 'block' }}>
+                <div className="ev-img" style={{
+                  aspectRatio: '16/10',
+                  background: ev.imageUrl
+                    ? `linear-gradient(180deg,rgba(0,0,0,.08) 0%,rgba(0,0,0,.55) 100%), url(${ev.imageUrl}) center/cover`
+                    : `repeating-linear-gradient(135deg,#d6cfbb 0 12px,#c7beab 12px 24px)`,
+                  position: 'relative',
                 }}>
-                  <div style={{ fontSize: 10, letterSpacing: '.08em', textTransform: 'uppercase', color: active ? '#aaa' : 'var(--muted)', fontWeight: 600 }}>{m}</div>
-                  <div style={{ fontFamily: 'Nunito, sans-serif', fontSize: 18, fontWeight: 700, marginTop: 1 }}>{d}</div>
-                  {dot && <div style={{ width: 5, height: 5, borderRadius: 999, background: active ? '#F5A800' : '#1A82D8', margin: '3px auto 0' }} />}
-                </div>
-              ))}
-            </div>
-            <Link href="/eventos" style={{ width: 38, height: 38, borderRadius: 10, border: '1px solid var(--line)', display: 'grid', placeItems: 'center', color: 'var(--muted)', textDecoration: 'none', flexShrink: 0, fontSize: 18 }}>›</Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Catalog grid ───────────────────────────────── */}
-      <section style={{ paddingTop: 20, paddingBottom: 32, background: 'var(--bg)' }}>
-        <div className="wrap">
-          {/* Toolbar */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '28px 0 14px', gap: 14, flexWrap: 'wrap' }}>
-            <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11.5, color: 'var(--muted)', letterSpacing: '.04em', textTransform: 'uppercase' }}>
-              Eventos internacionais selecionados · roteiro inclui voo + hotel + ingresso
-            </div>
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-              <select style={{ padding: '8px 14px', border: '1px solid var(--line)', borderRadius: 10, background: '#fff', fontSize: 13, fontFamily: 'inherit', fontWeight: 500 }}>
-                <option>Ordenar · Em alta</option>
-                <option>Data mais próxima</option>
-                <option>Recém-adicionados</option>
-              </select>
-              <div style={{ display: 'flex', border: '1px solid var(--line)', borderRadius: 10, overflow: 'hidden' }}>
-                <button style={{ border: 0, borderRight: '1px solid var(--line)', padding: '8px 12px', background: '#0F2340', color: '#fff', fontSize: 13 }}>Grid</button>
-                <button style={{ border: 0, padding: '8px 12px', fontSize: 13 }}>Lista</button>
-              </div>
-            </div>
-          </div>
-
-          {/* Layout: filter rail + grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: 24, alignItems: 'start' }} className="catalog-layout">
-            {/* Filter rail */}
-            <aside style={{ position: 'sticky', top: 80, background: '#fff', border: '1px solid var(--line)', borderRadius: 16, padding: 6 }} className="filter-rail">
-              {[
-                { title: 'Categoria', opts: [['Shows & Festivais', 42, true], ['Esportes', 34, true], ['Automobilismo', 12, false], ['Gastronomia', 18, false], ['Cultura', 7, false], ['Aventura', 15, false]] },
-                { title: 'Continente', opts: [['América do Sul', 38, true], ['Europa', 54, true], ['América do Norte', 22, false], ['Ásia', 10, false]] },
-                { title: 'Período', opts: [['Próximos 30 dias', 22, true], ['2º semestre 2026', 86, true], ['2027', 20, false]] },
-                { title: 'O que inclui', opts: [['Voo direto', 54, true], ['Traslado', 92, true], ['Guia falando PT', 48, false], ['Seguro incluído', 88, false]] },
-              ].map(({ title, opts }) => (
-                <div key={title} style={{ padding: '6px 10px 10px', borderBottom: '1px solid var(--line)' }}>
-                  <h5 style={{ margin: '14px 6px 8px', fontFamily: 'Nunito, sans-serif', fontSize: 12, letterSpacing: '.04em', textTransform: 'uppercase', color: 'var(--muted)', fontWeight: 700 }}>{title}</h5>
-                  {(opts as [string, number, boolean][]).map(([label, count, checked]) => (
-                    <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '7px 8px', borderRadius: 8, fontSize: 13, cursor: 'pointer' }}>
-                      <span style={{ width: 16, height: 16, borderRadius: 4, border: `1.5px solid ${checked ? '#0F2340' : 'var(--line-2)'}`, display: 'grid', placeItems: 'center', flexShrink: 0, background: checked ? '#0F2340' : 'transparent', color: '#fff', fontSize: 10, fontWeight: 700 }}>
-                        {checked && '✓'}
-                      </span>
-                      {label}
-                      <span style={{ marginLeft: 'auto', fontFamily: 'JetBrains Mono, monospace', fontSize: 10.5, color: 'var(--muted)' }}>{count}</span>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </aside>
-
-            {/* Event cards */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }} className="events-grid">
-              {upcomingEvents.map(ev => (
-                <Link key={ev.title} href={ev.href} className="ev" style={{ textDecoration: 'none', display: 'block' }}>
-                  <div className="ev-img" style={{
-                    aspectRatio: '16/10',
-                    background: ev.imageUrl
-                      ? `linear-gradient(180deg,rgba(0,0,0,.08) 0%,rgba(0,0,0,.55) 100%), url(${ev.imageUrl}) center/cover`
-                      : `repeating-linear-gradient(135deg,#d6cfbb 0 12px,#c7beab 12px 24px)`,
-                    position: 'relative',
-                  }}>
-                    <span className="tag">{ev.tag}</span>
-                    <div style={{ position: 'absolute', bottom: 12, left: 12, background: '#fff', color: 'var(--ink)', padding: '6px 10px', borderRadius: 8, fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: 12, display: 'flex', gap: 10, alignItems: 'center', lineHeight: 1 }}>
-                      <div>
-                        <div style={{ color: 'var(--muted)', fontSize: 10, fontWeight: 600, letterSpacing: '.04em', textTransform: 'uppercase' }}>{monthDayLabel(ev.date).month}</div>
-                        <div style={{ fontSize: 20 }}>{monthDayLabel(ev.date).day}</div>
-                      </div>
+                  <span className="tag">{ev.tag}</span>
+                  <div style={{ position: 'absolute', bottom: 12, left: 12, background: '#fff', color: 'var(--ink)', padding: '6px 10px', borderRadius: 8, fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: 12, display: 'flex', gap: 10, alignItems: 'center', lineHeight: 1 }}>
+                    <div>
+                      <div style={{ color: 'var(--muted)', fontSize: 10, fontWeight: 600, letterSpacing: '.04em', textTransform: 'uppercase' }}>{monthDayLabel(ev.date).month}</div>
+                      <div style={{ fontSize: 20 }}>{monthDayLabel(ev.date).day}</div>
                     </div>
                   </div>
-                  <div style={{ padding: '14px 16px 16px' }}>
-                    <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--muted)', marginBottom: 4, display: 'flex', justifyContent: 'space-between' }}>
-                      <span>{ev.cat}</span>
-                    </div>
-                    <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 18, fontWeight: 700, letterSpacing: '-.01em', margin: '0 0 2px', lineHeight: 1.2, color: '#0F2340' }}>{ev.title}</h3>
-                    <div style={{ fontSize: 12.5, color: 'var(--muted)', marginBottom: 12 }}>{ev.loc}</div>
-                    <div style={{ display: 'flex', gap: 6, marginBottom: 12, flexWrap: 'wrap' }}>
-                      {ev.chips.map(c => (
-                        <span key={c} style={{ background: 'var(--bg)', fontSize: 10.5, padding: '3px 7px', borderRadius: 4, color: 'var(--ink-2)', fontWeight: 500 }}>{c}</span>
-                      ))}
-                    </div>
-                    <div className="ev-foot">
-                      <span className="buy" style={{ width: '100%', textAlign: 'center' }}>Montar roteiro →</span>
-                    </div>
+                </div>
+                <div style={{ padding: '14px 16px 16px' }}>
+                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--muted)', marginBottom: 4, display: 'flex', justifyContent: 'space-between' }}>
+                    <span>{ev.cat}</span>
                   </div>
-                </Link>
-              ))}
-            </div>
+                  <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 18, fontWeight: 700, letterSpacing: '-.01em', margin: '0 0 2px', lineHeight: 1.2, color: '#0F2340' }}>{ev.title}</h3>
+                  <div style={{ fontSize: 12.5, color: 'var(--muted)', marginBottom: 12 }}>{ev.loc}</div>
+                  <div style={{ display: 'flex', gap: 6, marginBottom: 12, flexWrap: 'wrap' }}>
+                    {ev.chips.map(c => (
+                      <span key={c} style={{ background: 'var(--bg)', fontSize: 10.5, padding: '3px 7px', borderRadius: 4, color: 'var(--ink-2)', fontWeight: 500 }}>{c}</span>
+                    ))}
+                  </div>
+                  <div className="ev-foot">
+                    <span className="buy" style={{ width: '100%', textAlign: 'center' }}>Montar roteiro →</span>
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
 
           <div style={{ textAlign: 'center', marginTop: 32 }}>
@@ -366,12 +333,15 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Produtos ───────────────────────────────────── */}
+      {/* ── Ferramentas de viagem ──────────────────────── */}
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="wrap">
           <div className="sec-head">
-            <h2 className="display">Prefere buscar por <em>tipo</em>?</h2>
+            <h2 className="display">Prefere montar por <em>partes</em>?</h2>
           </div>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13.5, color: 'var(--muted)', margin: '-6px 0 18px' }}>
+            Ferramentas de apoio para quem já sabe o que quer: busque cada parte da viagem separadamente.
+          </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 8 }} className="prods-grid">
             {products.map(p => (
               <Link key={p.label} href={p.href} className="prod-card" style={{
@@ -424,40 +394,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Testimonials ───────────────────────────────── */}
-      {/* ── Como funciona — substituiu testemunhos fabricados em 13/mai/2026 ── */}
-      <section style={{ background: 'var(--bg-alt)', padding: '72px 0' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--primary)', marginBottom: 12 }}>
-              Como funciona
-            </p>
-            <h2 style={{ fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 800, fontFamily: 'Nunito, sans-serif', color: 'var(--navy)', margin: 0, maxWidth: 640, marginInline: 'auto' }}>
-              Você foca na experiência. A Go Livoo resolve o resto.
-            </h2>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24 }}>
-            {[
-              { step: '01', title: 'Descreva o que quer viver', desc: 'Não precisa saber datas, voos ou hotéis. Só o sonho — "GP de Mônaco", "Rock in Rio", "Hanami em Tóquio".' },
-              { step: '02', title: 'Receba o roteiro completo', desc: 'Voo + hospedagem perto do evento + documentação necessária (visto, passaporte, vacinas) + dicas do destino. Tudo em um só lugar.' },
-              { step: '03', title: 'Reserve direto com nossos parceiros', desc: 'Você compra direto nos sites parceiros (Kiwi, Booking, Rentcars). A Go Livoo é gratuita — vivemos da comissão dos parceiros.' },
-            ].map((item) => (
-              <div key={item.step} style={{ background: '#fff', borderRadius: 'var(--radius)', padding: '32px 28px', boxShadow: '0 2px 12px rgba(0,0,0,0.07)', display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <div style={{ width: 48, height: 48, borderRadius: 12, background: 'var(--navy)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 16, fontFamily: 'Nunito, sans-serif', letterSpacing: '0.02em' }}>{item.step}</div>
-                <h3 style={{ fontSize: 20, fontWeight: 800, fontFamily: 'Nunito, sans-serif', color: 'var(--navy)', margin: 0, lineHeight: 1.2 }}>{item.title}</h3>
-                <p style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--gray)', margin: 0 }}>{item.desc}</p>
-              </div>
-            ))}
-          </div>
-          <div style={{ textAlign: 'center', marginTop: 40 }}>
-            <Link href="/roteiro" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', fontSize: 15, fontWeight: 700 }}>
-              Começar agora — é grátis
-              <span aria-hidden="true">→</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* ── Newsletter ─────────────────────────────────── */}
       <section className="section" style={{ paddingTop: 0, paddingBottom: 56 }}>
         <div className="wrap">
@@ -499,15 +435,11 @@ export default async function HomePage() {
         .blog-card:hover { border-color: #0F2340 !important; }
         @media (max-width: 900px) {
           .feat-grid { grid-template-columns: 1fr !important; }
-          .catalog-layout { grid-template-columns: 1fr !important; }
-          .filter-rail { position: static !important; display: none; }
           .events-grid { grid-template-columns: repeat(2,1fr) !important; }
           .dest-grid { grid-template-columns: repeat(2,1fr) !important; }
           .prods-grid { grid-template-columns: repeat(4,1fr) !important; }
           .blog-grid-home { grid-template-columns: repeat(2,1fr) !important; }
-          .prep-grid { grid-template-columns: 1fr !important; }
           .news-grid { grid-template-columns: 1fr !important; }
-          .cal-grid { grid-template-columns: repeat(5,1fr) !important; }
         }
         @media (max-width: 600px) {
           .events-grid { grid-template-columns: 1fr !important; }
