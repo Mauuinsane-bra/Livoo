@@ -47,10 +47,27 @@ const CATEGORY_COLORS: Record<string, string> = {
 }
 
 
+const WalkIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="13" cy="4" r="2"/><path d="M13 8l-3 4 2 3v5"/><path d="M10 12l-3 2"/><path d="M13 11l3 2 2 4"/>
+  </svg>
+)
+const MetroIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14"/><circle cx="9" cy="14" r="0.5"/><circle cx="15" cy="14" r="0.5"/><path d="M8 21l2-4M16 21l-2-4"/>
+  </svg>
+)
+const CarIconSm = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M5 11l1.5-4.5A2 2 0 018.4 5h7.2a2 2 0 011.9 1.5L19 11"/><rect x="3" y="11" width="18" height="6" rx="2"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/>
+  </svg>
+)
+
+// Multi-seleção: o viajante pode mesclar modos (ex: a pé + carro)
 const MOBILITY_OPTIONS = [
-  { id: 'a-pe',              label: 'Adoro andar a pé',        icon: '🚶' },
-  { id: 'transporte-publico', label: 'Transporte público',     icon: '🚇' },
-  { id: 'carro',             label: 'Prefiro carro',           icon: '🚗' },
+  { id: 'a-pe',               label: 'Adoro andar a pé',    icon: <WalkIcon /> },
+  { id: 'transporte-publico', label: 'Transporte público',  icon: <MetroIcon /> },
+  { id: 'carro',              label: 'Prefiro carro',       icon: <CarIconSm /> },
 ]
 
 const RADIUS_OPTIONS = [
@@ -146,13 +163,17 @@ function FormStep({
   const [prefDuration, setPrefDuration] = useState('')
   const [prefSeason,   setPrefSeason]   = useState('')
   const [flexDates,   setFlexDates]   = useState(initialValues?.flexDates ?? false)
-  const [mobility,    setMobility]    = useState(initialValues?.mobility ?? '')
+  const [mobilities,  setMobilities]  = useState<string[]>((initialValues?.mobility ?? '').split(',').filter(Boolean))
   const [surprise,    setSurprise]    = useState(initialValues?.surprise ?? false)
   const [radius,      setRadius]      = useState(initialValues?.radius ?? 0)
   const [error,       setError]       = useState('')
 
   function togglePriority(id: string) {
     setPriorities(prev => prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id])
+  }
+
+  function toggleMobility(id: string) {
+    setMobilities(prev => prev.includes(id) ? prev.filter(m => m !== id) : [...prev, id])
   }
 
   function handleOriginChange(iata: string) {
@@ -187,6 +208,7 @@ function FormStep({
       if (checkOut <= checkIn) return setError('A volta deve ser depois da ida.')
     }
     if (!budgetBRL)          return setError('Selecione o orçamento.')
+    const mobility = mobilities.join(',')
     const submitData = suggestMode
       ? { origin, originIATA, destinations: ['ME_SUGIRA'], checkIn, checkOut, flexDates: true, budgetBRL, priorities, mobility, surprise, radius, suggestMode: true, expTypes, prefDuration, prefSeason }
       : { origin, originIATA, destinations: cleanDests, checkIn, checkOut, flexDates, budgetBRL, priorities, mobility, surprise, radius, suggestMode: false, expTypes: [], prefDuration: '', prefSeason: '' }
@@ -356,7 +378,7 @@ function FormStep({
                     <CitySearch
                       value={dest}
                       onChange={(v) => updateDestination(i, v)}
-                      placeholder={i === 0 ? 'Ex: Lisboa, Paris, Tokyo...' : 'Próximo destino...'}
+                      placeholder={i === 0 ? 'Cidade, região ou lugar — ex: Lisboa, Lago de Como, Patagônia...' : 'Próximo destino...'}
                       dark={false}
                       inputStyle={{
                         padding: '14px', fontSize: '0.95rem',
@@ -497,16 +519,16 @@ function FormStep({
           {/* Mobilidade */}
           <div style={{ marginBottom: 24 }}>
             <label style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '1px', display: 'block', marginBottom: 8 }}>
-              Como você se locomove? (opcional)
+              Como você se locomove? (opcional — pode marcar mais de um)
             </label>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               {MOBILITY_OPTIONS.map(opt => {
-                const active = mobility === opt.id
+                const active = mobilities.includes(opt.id)
                 return (
                   <button
                     key={opt.id}
                     type="button"
-                    onClick={() => setMobility(active ? '' : opt.id)}
+                    onClick={() => toggleMobility(opt.id)}
                     style={{
                       padding: '10px 16px', borderRadius: 12, fontSize: '0.85rem', fontWeight: 600,
                       fontFamily: 'Inter, sans-serif', cursor: 'pointer', transition: 'all 0.15s',
@@ -516,12 +538,17 @@ function FormStep({
                       display: 'flex', alignItems: 'center', gap: 6,
                     }}
                   >
-                    <span style={{ fontSize: '1rem' }}>{opt.icon}</span>
+                    {opt.icon}
                     {opt.label}
                   </button>
                 )
               })}
             </div>
+            {mobilities.length > 1 && (
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#1A82D8', margin: '8px 0 0' }}>
+                O roteiro vai mesclar os modos: trechos a pé onde vale a pena e {mobilities.includes('carro') ? 'carro' : 'transporte público'} nas distâncias maiores.
+              </p>
+            )}
           </div>
 
           {/* Raio de exploração + Me surpreenda */}
@@ -858,17 +885,32 @@ function PreviewStep({
 
 // ── Componente: Roteiro completo ───────────────────────────────────────────
 
-function DayNote({ label, color, text }: { label: string; color: string; text: string }) {
+// Links do Google Maps — sem chave de API (busca, rota do dia e mapa embutido)
+function mapsSearchUrl(place: string, city: string): string {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${place}, ${city}`)}`
+}
+function mapsRouteUrl(places: string[], city: string): string {
+  const pts = places.map(p => encodeURIComponent(`${p}, ${city}`))
+  if (pts.length < 2) return `https://www.google.com/maps/search/?api=1&query=${pts[0] ?? encodeURIComponent(city)}`
+  const waypoints = pts.slice(1, -1).join('%7C')
+  return `https://www.google.com/maps/dir/?api=1&origin=${pts[0]}&destination=${pts[pts.length - 1]}${waypoints ? `&waypoints=${waypoints}` : ''}`
+}
+function mapEmbedUrl(place: string, city: string): string {
+  return `https://maps.google.com/maps?q=${encodeURIComponent(`${place}, ${city}`)}&z=14&hl=pt-BR&output=embed`
+}
+
+function DayNote({ label, color, bg, text }: { label: string; color: string; bg: string; text: string }) {
   return (
-    <div>
-      <div style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '0.68rem', letterSpacing: '0.6px', textTransform: 'uppercase', color, marginBottom: 3 }}>{label}</div>
-      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#374151', lineHeight: 1.5 }}>{text}</div>
+    <div style={{ background: bg, borderLeft: `3px solid ${color}`, borderRadius: 10, padding: '12px 14px' }}>
+      <div style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 800, fontSize: '0.66rem', letterSpacing: '0.8px', textTransform: 'uppercase', color, marginBottom: 5 }}>{label}</div>
+      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#374151', lineHeight: 1.55 }}>{text}</div>
     </div>
   )
 }
 
 function FullItineraryStep({ itinerary, pdfSentTo }: { itinerary: FullItinerary; pdfSentTo?: string }) {
   const [openDay, setOpenDay] = useState(1)
+  const city = itinerary.destination.split(',')[0].trim()
   const [email, setEmail] = useState('')
   const [pdfState, setPdfState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
   const [pdfMsg, setPdfMsg] = useState('')
@@ -927,7 +969,9 @@ function FullItineraryStep({ itinerary, pdfSentTo }: { itinerary: FullItinerary;
             background: '#1A82D8', color: '#fff', borderRadius: 14, padding: '18px 20px',
             textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 12,
           }}>
-            <span style={{ fontSize: '1.4rem' }}>✈️</span>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+              <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>
+            </svg>
             <div>
               <div style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '0.95rem' }}>Buscar voos</div>
               <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', opacity: 0.8 }}>Melhores preços via Kiwi.com</div>
@@ -937,7 +981,9 @@ function FullItineraryStep({ itinerary, pdfSentTo }: { itinerary: FullItinerary;
             background: '#0F2340', color: '#fff', borderRadius: 14, padding: '18px 20px',
             textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 12,
           }}>
-            <span style={{ fontSize: '1.4rem' }}>🏨</span>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+              <path d="M3 21V7l9-4 9 4v14"/><path d="M9 21v-6h6v6"/><path d="M8 10h.01M12 10h.01M16 10h.01M8 14h.01M16 14h.01"/>
+            </svg>
             <div>
               <div style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '0.95rem' }}>Buscar hotéis</div>
               <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', opacity: 0.8 }}>Hotéis selecionados na Go Livoo</div>
@@ -1009,40 +1055,84 @@ function FullItineraryStep({ itinerary, pdfSentTo }: { itinerary: FullItinerary;
                       {day.title}
                     </span>
                   </div>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={openDay === day.day ? '#fff' : '#64748B'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                    style={{ transform: openDay === day.day ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
-                    <polyline points="6 9 12 15 18 9"/>
-                  </svg>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', fontWeight: 600, color: openDay === day.day ? 'rgba(255,255,255,0.6)' : '#94a3b8', whiteSpace: 'nowrap' }}>
+                      {day.activities.length} atividades
+                    </span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={openDay === day.day ? '#fff' : '#64748B'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                      style={{ transform: openDay === day.day ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+                      <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                  </div>
                 </button>
                 {openDay === day.day && (
-                  <div style={{ padding: '4px 0 8px' }}>
-                    {day.activities.map((act, i) => (
-                      <div key={i} style={{ display: 'flex', gap: 14, padding: '12px 18px', borderTop: i > 0 ? '1px solid #F8FAFC' : 'none' }}>
-                        <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.72rem', color: '#94a3b8', minWidth: 32, paddingTop: 2 }}>{act.time}</span>
-                        <div style={{ flex: 1 }}>
-                          <div style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '0.88rem', color: '#0F2340', marginBottom: 3 }}>{act.title}</div>
-                          <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#64748B', lineHeight: 1.5 }}>{act.desc}</div>
-                          {act.link && (
-                            <a href={act.link} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#1A82D8', textDecoration: 'none', marginTop: 4, display: 'inline-block' }}>
-                              Ver no mapa →
-                            </a>
-                          )}
-                        </div>
-                      </div>
-                    ))}
+                  <div style={{ padding: '18px 18px 20px' }}>
 
+                    {/* Timeline de atividades */}
+                    <div>
+                      {day.activities.map((act, i) => (
+                        <div key={i} style={{ display: 'flex', gap: 14, position: 'relative' }}>
+                          {/* Horário + linha vertical */}
+                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 52, flexShrink: 0 }}>
+                            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.68rem', fontWeight: 700, color: '#1A82D8', background: '#EBF5FF', borderRadius: 8, padding: '4px 7px', whiteSpace: 'nowrap' }}>
+                              {act.time}
+                            </span>
+                            {i < day.activities.length - 1 && (
+                              <span style={{ flex: 1, width: 2, background: '#E2E8F0', margin: '6px 0' }} />
+                            )}
+                          </div>
+                          <div style={{ flex: 1, paddingBottom: i < day.activities.length - 1 ? 18 : 0 }}>
+                            <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap', marginBottom: 4 }}>
+                              <span style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '0.92rem', color: '#0F2340' }}>{act.title}</span>
+                              <a href={mapsSearchUrl(act.title, city)} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', color: '#1A82D8', textDecoration: 'none', fontWeight: 600, whiteSpace: 'nowrap' }}>
+                                Ver no mapa →
+                              </a>
+                            </div>
+                            <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#4B5563', lineHeight: 1.6 }}>{act.desc}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Mapa do dia + rota completa */}
+                    {day.activities.length > 0 && (
+                      <div style={{ marginTop: 18, borderRadius: 14, overflow: 'hidden', border: '1px solid #E2E8F0' }}>
+                        <iframe
+                          src={mapEmbedUrl(day.activities[0].title, city)}
+                          title={`Mapa do dia ${day.day} — ${city}`}
+                          loading="lazy"
+                          referrerPolicy="no-referrer-when-downgrade"
+                          style={{ width: '100%', height: 220, border: 0, display: 'block' }}
+                        />
+                        <a
+                          href={mapsRouteUrl(day.activities.map(a => a.title), city)}
+                          target="_blank" rel="noopener noreferrer"
+                          style={{
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                            background: '#0F2340', color: '#fff', padding: '12px 16px', textDecoration: 'none',
+                            fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '0.85rem',
+                          }}
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                          Abrir a rota do dia {day.day} no Google Maps
+                        </a>
+                      </div>
+                    )}
+
+                    {/* Notas do dia — painéis coloridos */}
                     {(day.curiosity || day.hiddenGem || day.travelerTip || (day.restaurants && day.restaurants.length > 0)) && (
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '12px 18px 4px', borderTop: '1px solid #F1F5F9', marginTop: 4 }}>
-                        {day.curiosity && <DayNote label="Curiosidade" color="#1A82D8" text={day.curiosity} />}
-                        {day.hiddenGem && <DayNote label="Por perto" color="#16a34a" text={day.hiddenGem} />}
-                        {day.travelerTip && <DayNote label="Dica de viajante" color="#F5A800" text={day.travelerTip} />}
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 10, marginTop: 18 }}>
+                        {day.curiosity && <DayNote label="Curiosidade" color="#1A82D8" bg="#EFF6FF" text={day.curiosity} />}
+                        {day.hiddenGem && <DayNote label="Joia escondida por perto" color="#16a34a" bg="#F0FDF4" text={day.hiddenGem} />}
+                        {day.travelerTip && <DayNote label="Dica de viajante" color="#D48A0A" bg="#FFF8EC" text={day.travelerTip} />}
                         {day.restaurants && day.restaurants.length > 0 && (
-                          <div>
-                            <div style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '0.68rem', letterSpacing: '0.6px', textTransform: 'uppercase', color: '#9333ea', marginBottom: 6 }}>Onde comer</div>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                          <div style={{ background: '#FAF5FF', borderLeft: '3px solid #9333ea', borderRadius: 10, padding: '12px 14px' }}>
+                            <div style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 800, fontSize: '0.66rem', letterSpacing: '0.8px', textTransform: 'uppercase', color: '#9333ea', marginBottom: 8 }}>Onde comer</div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                               {day.restaurants.map((r, ri) => (
-                                <div key={ri} style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#374151', lineHeight: 1.5 }}>
-                                  <span style={{ fontWeight: 700, color: '#0F2340' }}>{r.name}</span>{r.desc ? ` — ${r.desc}` : ''}
+                                <div key={ri} style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#374151', lineHeight: 1.55 }}>
+                                  <a href={mapsSearchUrl(r.name, city)} target="_blank" rel="noopener noreferrer" style={{ fontWeight: 700, color: '#0F2340', textDecoration: 'none', borderBottom: '1px dotted #9333ea' }}>{r.name}</a>
+                                  {r.desc ? ` — ${r.desc}` : ''}
                                 </div>
                               ))}
                             </div>
@@ -1081,6 +1171,34 @@ function FullItineraryStep({ itinerary, pdfSentTo }: { itinerary: FullItinerary;
           </div>
         </div>
 
+        {/* Orçamento */}
+        {itinerary.budgetBreakdown && itinerary.budgetBreakdown.length > 0 && (
+          <div style={{ background: '#fff', borderRadius: 16, padding: 28, boxShadow: '0 4px 20px rgba(15,35,64,0.08)', marginBottom: 20 }}>
+            <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.15rem', color: '#0F2340', margin: '0 0 4px', fontWeight: 700 }}>
+              Resumo do orçamento
+            </h2>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#94a3b8', margin: '0 0 20px' }}>
+              Estimativas para o total de R$ {itinerary.totalBudget.toLocaleString('pt-BR')}
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {itinerary.budgetBreakdown.map((cat: BudgetCategory) => (
+                <div key={cat.category}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 5 }}>
+                    <span style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '0.85rem', color: '#0F2340' }}>{cat.category}</span>
+                    <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.8rem', fontWeight: 700, color: '#1A82D8' }}>
+                      R$ {cat.estimated.toLocaleString('pt-BR')}
+                    </span>
+                  </div>
+                  <div style={{ background: '#EEF2F7', borderRadius: 99, height: 6, overflow: 'hidden', marginBottom: 4 }}>
+                    <div style={{ width: `${Math.min(100, Math.max(2, cat.percentage))}%`, height: '100%', background: '#1A82D8', borderRadius: 99 }} />
+                  </div>
+                  <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.74rem', color: '#64748B', lineHeight: 1.45 }}>{cat.tip}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Avaliação + novo roteiro */}
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
           <div style={{ flex: 1, background: '#FFF8EC', border: '1px solid rgba(245,168,0,0.3)', borderRadius: 14, padding: '20px 24px', display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -1098,6 +1216,89 @@ function FullItineraryStep({ itinerary, pdfSentTo }: { itinerary: FullItinerary;
           </Link>
         </div>
       </div>
+    </div>
+  )
+}
+
+// ── Componente: Progresso da geração ───────────────────────────────────────
+// O roteiro completo leva 1,5–3 min (motor v2: esqueleto → dias em paralelo →
+// revisão). Sem feedback, o usuário acha que travou. As etapas abaixo seguem
+// o tempo real médio de cada fase do pipeline.
+
+const FULL_STAGES = [
+  { at: 0,   label: 'Analisando destino, datas e orçamento' },
+  { at: 8,   label: 'Desenhando o esqueleto da viagem — regiões, ritmo e trajetos' },
+  { at: 28,  label: 'Escrevendo cada dia do roteiro em paralelo (a etapa mais longa)' },
+  { at: 110, label: 'Revisando qualidade — locais duplicados, geografia, profundidade' },
+  { at: 145, label: 'Finalizando os últimos detalhes' },
+]
+const PREVIEW_STAGES = [
+  { at: 0,  label: 'Analisando o destino' },
+  { at: 5,  label: 'Calculando orçamento e documentação para brasileiros' },
+  { at: 10, label: 'Montando os destaques da viagem' },
+]
+
+function GenerationProgress({ mode }: { mode: 'preview' | 'full' }) {
+  const [elapsed, setElapsed] = useState(0)
+  useEffect(() => {
+    const t = setInterval(() => setElapsed(e => e + 1), 1000)
+    return () => clearInterval(t)
+  }, [])
+
+  const stages = mode === 'full' ? FULL_STAGES : PREVIEW_STAGES
+  const expected = mode === 'full' ? 170 : 16
+  const pct = Math.min(94, Math.round((elapsed / expected) * 100))
+  const currentIdx = stages.reduce((acc, s, i) => (elapsed >= s.at ? i : acc), 0)
+
+  return (
+    <div style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 24, background: '#fafaf7' }}>
+      <div style={{ background: '#fff', borderRadius: 20, padding: '36px 32px', maxWidth: 460, width: '100%', boxShadow: '0 8px 40px rgba(15,35,64,0.10)' }}>
+        <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.2rem', fontWeight: 700, color: '#0F2340', margin: '0 0 6px' }}>
+          {mode === 'full' ? 'Montando seu roteiro completo' : 'Preparando seu preview'}
+        </h2>
+        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', color: '#64748B', margin: '0 0 22px', lineHeight: 1.5 }}>
+          {mode === 'full'
+            ? 'Leva de 1,5 a 3 minutos — cada dia é escrito individualmente e revisado. Não feche esta página.'
+            : 'Alguns segundos — estamos analisando seu destino.'}
+        </p>
+
+        {/* Barra de progresso */}
+        <div style={{ background: '#EEF2F7', borderRadius: 99, height: 8, overflow: 'hidden', marginBottom: 22 }}>
+          <div style={{ width: `${pct}%`, height: '100%', background: 'linear-gradient(90deg, #1A82D8, #F5A800)', borderRadius: 99, transition: 'width 1s linear' }} />
+        </div>
+
+        {/* Etapas */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {stages.map((stage, i) => {
+            const done = i < currentIdx
+            const current = i === currentIdx
+            return (
+              <div key={stage.at} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, opacity: done || current ? 1 : 0.38 }}>
+                <span style={{
+                  width: 20, height: 20, borderRadius: '50%', flexShrink: 0, display: 'grid', placeItems: 'center',
+                  background: done ? '#16a34a' : current ? '#1A82D8' : '#E2E8F0',
+                }}>
+                  {done ? (
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  ) : current ? (
+                    <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#fff', animation: 'pulse-dot 1s ease-in-out infinite' }} />
+                  ) : null}
+                </span>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.84rem', color: current ? '#0F2340' : '#64748B', fontWeight: current ? 600 : 400, lineHeight: 1.45 }}>
+                  {stage.label}{current ? '…' : ''}
+                </span>
+              </div>
+            )
+          })}
+        </div>
+
+        {mode === 'full' && elapsed > expected && (
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#92400e', background: '#FFF8EC', borderRadius: 10, padding: '10px 14px', margin: '20px 0 0', lineHeight: 1.5 }}>
+            Viagens longas podem levar um pouco mais. Estamos quase lá — obrigado pela paciência.
+          </p>
+        )}
+      </div>
+      <style>{`@keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: .35; } }`}</style>
     </div>
   )
 }
@@ -1218,16 +1419,7 @@ function RoteiroContent() {
 
   // ── Loading ──────────────────────────────────────────────────────────────
   if (pageState === 'loading-preview' || pageState === 'loading-full') {
-    const msg = pageState === 'loading-preview'
-      ? 'Analisando seu destino e montando o preview...'
-      : 'Gerando seu roteiro completo dia a dia...'
-    return (
-      <div style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, background: '#fafaf7' }}>
-        <div style={{ width: 56, height: 56, border: '4px solid #E2E8F0', borderTop: '4px solid #1A82D8', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
-        <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B', fontSize: '0.95rem', maxWidth: 300, textAlign: 'center', lineHeight: 1.6 }}>{msg}</p>
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-      </div>
-    )
+    return <GenerationProgress mode={pageState === 'loading-preview' ? 'preview' : 'full'} />
   }
 
   // ── Erro ─────────────────────────────────────────────────────────────────

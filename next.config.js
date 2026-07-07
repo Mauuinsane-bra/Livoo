@@ -39,17 +39,23 @@ const nextConfig = {
             key: 'Strict-Transport-Security',
             value: 'max-age=31536000; includeSubDomains',
           },
-          // Content Security Policy básica
+          // Content Security Policy
+          // ⚠️ Corrigido em 06/jul/2026: a versão anterior BLOQUEAVA o GA4 e o
+          // Clarity (script-src sem googletagmanager/clarity) — o analytics
+          // nunca coletou nada em produção. Também bloqueava o Supabase no
+          // browser e o widget do Clerk. frame-src ganhou o Google Maps
+          // (mapa por dia no roteiro).
           {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://www.googletagmanager.com https://www.clarity.ms https://*.clarity.ms https://*.clerk.accounts.dev https://challenges.cloudflare.com",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com",
               "img-src 'self' data: https: blob:",
-              "connect-src 'self' https://api.stripe.com https://*.clerk.accounts.dev https://*.clerk.dev https://api.resend.com",
-              "frame-src https://js.stripe.com https://*.clerk.accounts.dev",
+              "connect-src 'self' https://api.stripe.com https://*.clerk.accounts.dev https://*.clerk.dev https://api.resend.com https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://*.clarity.ms https://*.supabase.co",
+              "frame-src https://js.stripe.com https://*.clerk.accounts.dev https://challenges.cloudflare.com https://www.google.com https://maps.google.com",
+              "worker-src 'self' blob:",
             ].join('; '),
           },
         ],

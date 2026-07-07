@@ -66,9 +66,13 @@ export default function CitySearch({
         }
       }
       setOptions(cities)
-      setOpen(cities.length > 0)
+      // Abre mesmo sem resultados — o dropdown mostra a opção de texto livre,
+      // deixando claro que qualquer cidade/lugar digitado é aceito (a lista de
+      // sugestões cobre só cidades com aeroporto).
+      setOpen(true)
     } catch {
       setOptions([])
+      setOpen(true)
     } finally {
       setLoading(false)
     }
@@ -129,7 +133,7 @@ export default function CitySearch({
         value={query}
         onChange={handleInput}
         onKeyDown={handleKeyDown}
-        onFocus={() => query.length >= 2 && options.length > 0 && setOpen(true)}
+        onFocus={() => query.trim().length >= 2 && setOpen(true)}
         placeholder={placeholder}
         required={required}
         autoComplete="off"
@@ -148,7 +152,7 @@ export default function CitySearch({
       )}
 
       {/* Dropdown */}
-      {open && options.length > 0 && (
+      {open && query.trim().length >= 2 && (
         <ul style={{
           position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, zIndex: 100,
           background: '#fff', border: '1px solid #E2E8F0',
@@ -156,6 +160,24 @@ export default function CitySearch({
           listStyle: 'none', margin: 0, padding: 4,
           maxHeight: 280, overflowY: 'auto',
         }}>
+          {/* Texto livre — sempre disponível: a lista cobre só cidades com
+              aeroporto, mas o usuário pode digitar qualquer lugar/evento */}
+          <li
+            onMouseDown={() => { setOpen(false); setOptions([]) }}
+            style={{
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+              padding: '10px 14px', borderRadius: 8, cursor: 'pointer',
+              background: highlighted === -1 ? '#fafaf7' : 'transparent',
+              borderBottom: options.length > 0 ? '1px solid #F1F5F9' : 'none',
+            }}
+          >
+            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: '#0F2340', fontWeight: 500 }}>
+              Usar &ldquo;{query.trim()}&rdquo;
+            </span>
+            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', color: '#1A82D8', fontWeight: 600 }}>
+              qualquer lugar vale
+            </span>
+          </li>
           {options.map((opt, i) => (
             <li
               key={`${opt.city}-${opt.country}`}

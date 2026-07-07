@@ -12,7 +12,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createRateLimiter, sanitizeString } from '@/lib/rate-limit'
 import { buildKiwiUrl } from '@/lib/travelpayouts'
-import { generateFullItineraryV2 } from '@/lib/roteiro-engine'
+import { generateFullItineraryV2, buildMobilityHint } from '@/lib/roteiro-engine'
 import type { PreviewData, FullItinerary } from '@/lib/roteiro-types'
 import Anthropic from '@anthropic-ai/sdk'
 
@@ -183,10 +183,7 @@ REGRAS DE DOCUMENTAÇÃO PARA BRASILEIROS (OBRIGATÓRIO — nunca inventar requi
 - Passaporte: validade mínima de 6 meses além da data de retorno é exigência padrão.
 - Seguro viagem: obrigatório para Espaço Schengen (cobertura mínima EUR 30.000). Recomendado para todos os destinos.`
 
-  const mobilityHint = opts.mobility === 'a-pe' ? 'O viajante ADORA andar a pe - priorize rotas a pe e distancias curtas.'
-    : opts.mobility === 'transporte-publico' ? 'O viajante prefere transporte publico - baseie o roteiro em metro, onibus e trem.'
-    : opts.mobility === 'carro' ? 'O viajante prefere carro - inclua estradas cenicas, estacionamento e distancias maiores.'
-    : ''
+  const mobilityHint = buildMobilityHint(opts.mobility)
 
   const surpriseHint = opts.surprise ? 'INCLUA cidades/vilas menos conhecidas proximas ao destino (ex: vilarejos medievais, praias escondidas, cidades historicas fora do circuito turistico).' : ''
 
@@ -269,7 +266,9 @@ export async function POST(req: NextRequest) {
     const origin = sanitizeInput(body.origin ?? 'São Paulo')
     const originIATA = (body.originIATA ?? 'GRU').replace(/[^A-Z]/gi, '').slice(0, 3).toUpperCase() || 'GRU'
     const flexDates = body.flexDates === true
-    const mobility = ['a-pe', 'transporte-publico', 'carro'].includes(body.mobility ?? '') ? body.mobility! : ''
+    // Mobilidade aceita combinação em CSV (ex: 'a-pe,carro')
+    const MOBILITY_VALUES = ['a-pe', 'transporte-publico', 'carro']
+    const mobility = (body.mobility ?? '').split(',').map(s => s.trim()).filter(m => MOBILITY_VALUES.includes(m)).join(',')
     const surprise = body.surprise === true
     const radius = [0, 50, 100, 200, 500].includes(body.radius ?? 0) ? (body.radius ?? 0) : 0
     const suggestMode = body.suggestMode === true

@@ -33,9 +33,29 @@ const MAX_REPAIRS = 3
 
 export interface EngineOpts {
   flexDates?: boolean
+  /** CSV de modos: 'a-pe', 'transporte-publico', 'carro' — pode combinar ('a-pe,carro'). */
   mobility?: string
   surprise?: boolean
   radius?: number
+}
+
+/**
+ * Transforma o CSV de modos de locomoção em instrução para o modelo.
+ * Suporta combinações (ex: a pé + carro → mesclar com bom senso).
+ */
+export function buildMobilityHint(mobility: string | undefined): string {
+  const modes = (mobility ?? '').split(',').filter(Boolean)
+  if (modes.length === 0) return ''
+  const parts: string[] = []
+  if (modes.includes('a-pe')) parts.push('adora andar a pé (priorize trechos caminháveis e distâncias curtas dentro de cada região)')
+  if (modes.includes('transporte-publico')) parts.push('usa transporte público (cite linhas e estações de metrô/ônibus/trem)')
+  if (modes.includes('carro')) parts.push('terá carro disponível (estradas cênicas e distâncias maiores são bem-vindas; mencione estacionamento)')
+  const joined = parts.join('; ')
+  if (modes.length > 1) {
+    const longHaul = modes.includes('carro') ? 'carro' : 'transporte público'
+    return `O viajante quer MESCLAR modos de locomoção: ${joined}. Combine com bom senso — a pé dentro de cada bairro, ${longHaul} nos deslocamentos longos e day trips.`
+  }
+  return `O viajante ${joined}.`
 }
 
 // ── Etapa 0 — preço real do voo ────────────────────────────────────────────
@@ -200,10 +220,7 @@ async function generateArchitectPlan(
   originCity: string,
   opts: EngineOpts,
 ): Promise<ArchitectPlan> {
-  const mobilityHint = opts.mobility === 'a-pe' ? 'O viajante prefere andar a pé — dias compactos, distâncias curtas.'
-    : opts.mobility === 'transporte-publico' ? 'O viajante usa transporte público — organize os dias ao redor de linhas de metrô/trem.'
-    : opts.mobility === 'carro' ? 'O viajante terá carro — pode incluir estradas cênicas e distâncias maiores.'
-    : ''
+  const mobilityHint = buildMobilityHint(opts.mobility)
   const surpriseHint = opts.surprise ? 'Inclua 1-2 dias (ou meios-dias) em vilas/cidades pouco conhecidas próximas — o fator surpresa é desejado.' : ''
   const radiusHint = opts.radius && opts.radius > 0 ? `Considere day trips num raio de ${opts.radius} km.` : ''
 
@@ -328,10 +345,7 @@ async function writeDay(
   const prev = ctx.skeleton.days.find((d) => d.day === day.day - 1)
   const next = ctx.skeleton.days.find((d) => d.day === day.day + 1)
 
-  const mobilityHint = ctx.mobility === 'a-pe' ? 'Priorize trajetos a pé.'
-    : ctx.mobility === 'transporte-publico' ? 'Cite linhas/estações de transporte público.'
-    : ctx.mobility === 'carro' ? 'Considere que o viajante está de carro (estacionamento, estradas).'
-    : ''
+  const mobilityHint = buildMobilityHint(ctx.mobility)
 
   const userPrompt = `Escreva o DIA ${day.day} de ${ctx.totalDays} em ${ctx.destination}.
 
