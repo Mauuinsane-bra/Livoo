@@ -20,11 +20,11 @@ export const metadata: Metadata = {
     'golivoo',
     'go livoo',
   ],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'https://livoo-two.vercel.app'),
   openGraph: {
     type:      'website',
     locale:    'pt_BR',
-    url:       process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
+    url:       process.env.NEXT_PUBLIC_APP_URL ?? 'https://livoo-two.vercel.app',
     siteName:  'Go Livoo',
     title:     'Go Livoo — Vá mais longe por menos',
     description: 'Você quer a experiência. A Go Livoo resolve o resto.',

@@ -56,7 +56,8 @@ export async function POST(req: NextRequest) {
     const Stripe = (await import('stripe')).default
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
-    const baseUrl = process.env.NEXT_PUBLIC_URL ?? 'http://localhost:3000'
+    const { getBaseUrl } = await import('@/lib/base-url')
+    const baseUrl = getBaseUrl(req)
 
     const params = new URLSearchParams({
       paid: 'true',
