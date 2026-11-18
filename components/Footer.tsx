@@ -6,17 +6,13 @@ import BirdCabecudinha from './BirdCabecudinha'
 
 const cols = {
   Produto: [
-    { label: 'Eventos',         href: '/eventos' },
-    { label: 'Roteiro Completo',href: '/roteiro' },
+    { label: 'Promoções',       href: '/promocoes' },
     { label: 'Passagens',       href: '/passagens' },
-    { label: 'Promoções',         href: '/promocoes' },
-    { label: 'Explorar Destinos', href: '/explorar-destinos' },
+    { label: 'Roteiro Completo',href: '/roteiro' },
     { label: 'Hotéis',           href: '/hoteis' },
     { label: 'Voos Baratos',    href: '/voos-baratos' },
-    { label: 'Roteiros',        href: '/roteiros-curados' },
-    { label: 'Carros',          href: '/carros' },
-    { label: 'Ônibus',         href: '/onibus' },
     { label: 'Guias',           href: '/guias' },
+    { label: 'Eventos',         href: '/eventos' },
   ],
   Empresa: [
     { label: 'Sobre a Go Livoo', href: '/sobre' },
