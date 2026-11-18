@@ -90,7 +90,7 @@ export default function Footer() {
                 {links.map(l => (
                   <li key={l.href}>
                     <Link href={l.href} style={{ fontSize: 13, color: '#0F2340', textDecoration: 'none', transition: 'color .15s' }}
-                      onMouseOver={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#1A82D8'; }}
+                      onMouseOver={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#0D9488'; }}
                       onMouseOut={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#0F2340'; }}
                     >
                       {l.label}

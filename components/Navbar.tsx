@@ -80,7 +80,7 @@ export default function Navbar() {
               </SignInButton>
               <SignUpButton mode="modal">
                 <button style={{
-                  background: '#1A82D8', color: '#fff', borderRadius: 999, padding: '9px 16px',
+                  background: '#0D9488', color: '#fff', borderRadius: 999, padding: '9px 16px',
                   fontWeight: 600, fontSize: 13.5, cursor: 'pointer',
                 }}>
                   Criar conta
@@ -127,7 +127,7 @@ export default function Navbar() {
                   <button style={{ flex: 1, padding: '10px', border: '1px solid #E2E8F0', borderRadius: 999, fontSize: 13.5, fontWeight: 600 }}>Entrar</button>
                 </SignInButton>
                 <SignUpButton mode="modal">
-                  <button style={{ flex: 1, padding: '10px', background: '#1A82D8', color: '#fff', borderRadius: 999, fontSize: 13.5, fontWeight: 600 }}>Criar conta</button>
+                  <button style={{ flex: 1, padding: '10px', background: '#0D9488', color: '#fff', borderRadius: 999, fontSize: 13.5, fontWeight: 600 }}>Criar conta</button>
                 </SignUpButton>
               </SignedOut>
               <SignedIn>
