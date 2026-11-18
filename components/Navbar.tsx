@@ -7,16 +7,16 @@ import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@cl
 import BirdCabecudinha from './BirdCabecudinha'
 
 const navLinks = [
-  { label: 'Eventos',    href: '/eventos' },
-  { label: 'Roteiro',    href: '/roteiro' },
-  { label: 'Passagens',  href: '/passagens' },
   { label: 'Promoções',         href: '/promocoes' },
+  { label: 'Passagens',  href: '/passagens' },
   { label: 'Explorar Destinos', href: '/explorar-destinos' },
+  { label: 'Roteiro',    href: '/roteiro' },
   { label: 'Hotéis',           href: '/hoteis' },
   { label: 'Roteiros',   href: '/roteiros-curados' },
   { label: 'Carros',     href: '/carros' },
   { label: 'Ônibus',    href: '/onibus' },
   { label: 'Blog',       href: '/blog' },
+  { label: 'Eventos',    href: '/eventos' },
 ]
 
 export default function Navbar() {
