@@ -22,7 +22,7 @@ export default function PrivacidadePage() {
           <span style={{
             display: 'inline-block',
             background: '#fafaf7',
-            color: '#1A82D8',
+            color: '#0D9488',
             fontSize: '0.72rem',
             fontWeight: 700,
             letterSpacing: '1.5px',
@@ -59,7 +59,7 @@ export default function PrivacidadePage() {
         }}>
           <Section title="1. Quem somos">
             <p>A <strong>Go Livoo</strong> é uma plataforma de soluções para viajantes, empresa em constituição no Brasil. Esta Política de Privacidade descreve como coletamos, usamos e protegemos seus dados pessoais, em total conformidade com a Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018).</p>
-            <p>Para dúvidas ou solicitações relacionadas a esta política, entre em contato: <a href="mailto:contato@golivoo.com.br" style={{ color: '#1A82D8' }}>contato@golivoo.com.br</a></p>
+            <p>Para dúvidas ou solicitações relacionadas a esta política, entre em contato: <a href="mailto:contato@golivoo.com.br" style={{ color: '#0D9488' }}>contato@golivoo.com.br</a></p>
           </Section>
 
           <Section title="2. Dados que coletamos">
@@ -117,7 +117,7 @@ export default function PrivacidadePage() {
               <li><strong>Revogação do consentimento:</strong> cancelar sua inscrição na lista de espera a qualquer momento.</li>
               <li><strong>Oposição:</strong> opor-se ao tratamento realizado com base em interesse legítimo.</li>
             </ul>
-            <p>Para exercer qualquer um destes direitos, envie um email para: <a href="mailto:contato@golivoo.com.br" style={{ color: '#1A82D8' }}>contato@golivoo.com.br</a></p>
+            <p>Para exercer qualquer um destes direitos, envie um email para: <a href="mailto:contato@golivoo.com.br" style={{ color: '#0D9488' }}>contato@golivoo.com.br</a></p>
           </Section>
 
           <Section title="7. Cookies e rastreamento">
@@ -139,7 +139,7 @@ export default function PrivacidadePage() {
           </Section>
 
           <Section title="11. Encarregado de Proteção de Dados (DPO)">
-            <p>Enquanto a empresa está em constituição, as solicitações relacionadas a dados pessoais devem ser enviadas para: <a href="mailto:contato@golivoo.com.br" style={{ color: '#1A82D8' }}>contato@golivoo.com.br</a></p>
+            <p>Enquanto a empresa está em constituição, as solicitações relacionadas a dados pessoais devem ser enviadas para: <a href="mailto:contato@golivoo.com.br" style={{ color: '#0D9488' }}>contato@golivoo.com.br</a></p>
             <p>Respondemos a todas as solicitações em até 15 dias úteis.</p>
           </Section>
 
@@ -148,7 +148,7 @@ export default function PrivacidadePage() {
             padding: '20px 24px',
             background: '#fafaf7',
             borderRadius: 12,
-            borderLeft: '4px solid #1A82D8',
+            borderLeft: '4px solid #0D9488',
           }}>
             <p style={{
               fontFamily: 'Inter, sans-serif',
@@ -156,7 +156,7 @@ export default function PrivacidadePage() {
               color: '#64748B',
               margin: 0,
             }}>
-              Esta política foi elaborada em conformidade com a <strong>Lei Geral de Proteção de Dados (Lei nº 13.709/2018)</strong> e com os princípios de privacidade desde o design (Privacy by Design). Para denúncias ou reclamações, você também pode acionar a <strong>Autoridade Nacional de Proteção de Dados (ANPD)</strong> em <a href="https://www.gov.br/anpd" target="_blank" rel="noopener noreferrer" style={{ color: '#1A82D8' }}>gov.br/anpd</a>.
+              Esta política foi elaborada em conformidade com a <strong>Lei Geral de Proteção de Dados (Lei nº 13.709/2018)</strong> e com os princípios de privacidade desde o design (Privacy by Design). Para denúncias ou reclamações, você também pode acionar a <strong>Autoridade Nacional de Proteção de Dados (ANPD)</strong> em <a href="https://www.gov.br/anpd" target="_blank" rel="noopener noreferrer" style={{ color: '#0D9488' }}>gov.br/anpd</a>.
             </p>
           </div>
         </div>

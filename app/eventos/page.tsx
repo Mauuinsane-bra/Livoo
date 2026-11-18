@@ -425,7 +425,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     flag: '🇺🇸',
     category: 'esportes',
     tag: 'NFL',
-    tagColor: '#1A82D8',
+    tagColor: '#0D9488',
     imageUrl: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=600',
     ticketUrl: 'https://www.nfl.com/super-bowl/',
     ticketLabel: 'Info — nfl.com',
@@ -463,7 +463,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     flag: '🇺🇸',
     category: 'esportes',
     tag: 'NBA',
-    tagColor: '#1A82D8',
+    tagColor: '#0D9488',
     imageUrl: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=600',
     ticketUrl: 'https://www.nba.com/playoffs',
     ticketLabel: 'Info — nba.com',
@@ -520,7 +520,7 @@ const STATIC_EVENTS: StaticEvent[] = [
     flag: '🌍',
     category: 'futebol',
     tag: 'Champions League',
-    tagColor: '#1A82D8',
+    tagColor: '#0D9488',
     imageUrl: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600',
     ticketUrl: 'https://www.uefa.com/uefachampionsleague/',
     ticketLabel: 'Info — uefa.com',
@@ -646,7 +646,7 @@ function EventCard({ event }: { event: AnyEvent }) {
         <div style={{
           fontSize: '0.72rem',
           fontWeight: 600,
-          color: '#1A82D8',
+          color: '#0D9488',
           textTransform: 'uppercase',
           letterSpacing: '1px',
           fontFamily: 'Inter, sans-serif',
@@ -694,7 +694,7 @@ function EventCard({ event }: { event: AnyEvent }) {
             rel="noopener noreferrer"
             style={{
               display: 'block',
-              background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
+              background: 'linear-gradient(135deg, #0D9488 0%, #0F766E 100%)',
               color: '#fff',
               fontFamily: 'Inter, sans-serif',
               fontWeight: 600,
@@ -712,7 +712,7 @@ function EventCard({ event }: { event: AnyEvent }) {
             style={{
               display: 'block',
               background: 'transparent',
-              color: '#1A82D8',
+              color: '#0D9488',
               fontFamily: 'Inter, sans-serif',
               fontWeight: 600,
               fontSize: '0.82rem',
@@ -720,7 +720,7 @@ function EventCard({ event }: { event: AnyEvent }) {
               borderRadius: 100,
               textDecoration: 'none',
               textAlign: 'center',
-              border: '1.5px solid #1A82D8',
+              border: '1.5px solid #0D9488',
             }}
           >
             Montar roteiro
@@ -833,7 +833,7 @@ export default function EventosPage() {
 
       {/* ── HEADER ── */}
       <section style={{
-        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #0D9488 60%, #0D9488 100%)',
         padding: '64px 0 48px',
       }}>
         <div className="container" style={{ textAlign: 'center' }}>

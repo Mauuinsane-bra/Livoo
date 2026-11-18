@@ -48,7 +48,7 @@ export default function FlightCard({ flight, onSelect }: FlightCardProps) {
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           margin: '0 auto 6px',
           fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', fontWeight: 700,
-          color: '#1A82D8',
+          color: '#0D9488',
         }}>
           {airlineCode}
         </div>
@@ -78,7 +78,7 @@ export default function FlightCard({ flight, onSelect }: FlightCardProps) {
             <div style={{
               position: 'absolute', left: '50%', top: '50%',
               transform: 'translate(-50%, -50%)',
-              background: '#fff', border: '2px solid #1A82D8',
+              background: '#fff', border: '2px solid #0D9488',
               borderRadius: '50%', width: 8, height: 8,
             }} />
           </div>

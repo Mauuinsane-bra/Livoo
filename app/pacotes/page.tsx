@@ -118,7 +118,7 @@ function buildPackages(): Package[] {
 function PackageHero() {
   return (
     <div style={{
-      background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)',
+      background: 'linear-gradient(135deg, #0F2340 0%, #0D9488 60%, #0D9488 100%)',
       padding: '72px 24px 80px',
       textAlign: 'center',
     }}>
@@ -191,7 +191,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
             fontFamily: 'Inter, sans-serif',
             fontSize: '0.72rem', fontWeight: 700,
             color: '#fff',
-            background: pkg.badgeColor || '#1A82D8',
+            background: pkg.badgeColor || '#0D9488',
             padding: '4px 12px', borderRadius: 50,
             letterSpacing: '0.5px', textTransform: 'uppercase',
           }}>
@@ -258,7 +258,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
           <span style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: '0.82rem', fontWeight: 600,
-            color: '#1A82D8',
+            color: '#0D9488',
             background: 'rgba(26,130,216,0.08)',
             padding: '6px 14px', borderRadius: 50,
             whiteSpace: 'nowrap',
@@ -366,7 +366,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
                 </span>
                 <span style={{
                   fontFamily: 'Inter, sans-serif',
-                  fontSize: '0.78rem', color: '#1A82D8',
+                  fontSize: '0.78rem', color: '#0D9488',
                   fontWeight: 600,
                 }}>
                   →
@@ -506,7 +506,7 @@ export default function PacotesPage() {
           gap: 20,
           alignItems: 'flex-start',
         }}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0D9488" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
             <circle cx="12" cy="12" r="10"/>
             <line x1="12" y1="16" x2="12" y2="12"/>
             <line x1="12" y1="8" x2="12.01" y2="8"/>

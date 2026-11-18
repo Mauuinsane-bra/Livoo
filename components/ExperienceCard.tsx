@@ -14,7 +14,7 @@ interface ExperienceCardProps {
 }
 
 const tagColors: Record<string, { bg: string; color: string }> = {
-  'Em alta':   { bg: '#fafaf7', color: '#1A82D8' },
+  'Em alta':   { bg: '#fafaf7', color: '#0D9488' },
   'Exclusivo': { bg: '#FFF8EC', color: '#D48A0A' },
   'Esgotando': { bg: '#FFF0F0', color: '#DC2626' },
 }

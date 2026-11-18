@@ -38,7 +38,7 @@ const PRIORITY_OPTIONS = [
 ]
 
 const CATEGORY_COLORS: Record<string, string> = {
-  'Voos':             '#1A82D8',
+  'Voos':             '#0D9488',
   'Hospedagem':       '#0F2340',
   'Alimentação':      '#F5A800',
   'Transporte local': '#16a34a',
@@ -221,7 +221,7 @@ function FormStep({
     <div style={{ background: '#fafaf7', minHeight: '100vh' }}>
 
       {/* Hero */}
-      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 100%)', padding: '56px 24px 80px' }}>
+      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #0D9488 100%)', padding: '56px 24px 80px' }}>
         <div style={{ maxWidth: 640, margin: '0 auto', textAlign: 'center' }}>
           <span style={{ display: 'inline-block', background: 'rgba(245,168,0,0.2)', color: '#F5A800', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', padding: '5px 14px', borderRadius: 50, marginBottom: 20, border: '1px solid rgba(245,168,0,0.3)' }}>
             Roteiro Completo · R$ 29,90
@@ -253,7 +253,7 @@ function FormStep({
                 onChange={e => handleOriginChange(e.target.value)}
                 style={{
                   width: '100%', padding: '14px 14px 14px 40px', fontSize: '0.95rem',
-                  border: `1.5px solid ${originIATA ? '#1A82D8' : '#E2E8F0'}`, borderRadius: 12, fontFamily: 'Inter, sans-serif',
+                  border: `1.5px solid ${originIATA ? '#0D9488' : '#E2E8F0'}`, borderRadius: 12, fontFamily: 'Inter, sans-serif',
                   color: originIATA ? '#0F2340' : '#9BA8BC', outline: 'none', boxSizing: 'border-box',
                   transition: 'border-color 0.15s', background: '#fff',
                   appearance: 'none', WebkitAppearance: 'none', cursor: 'pointer',
@@ -370,7 +370,7 @@ function FormStep({
               {destinations.map((dest, i) => (
                 <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                   {destinations.length > 1 && (
-                    <span style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '0.75rem', color: '#1A82D8', background: '#EBF5FF', borderRadius: 8, padding: '4px 8px', minWidth: 20, textAlign: 'center', flexShrink: 0 }}>
+                    <span style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '0.75rem', color: '#0D9488', background: '#EBF5FF', borderRadius: 8, padding: '4px 8px', minWidth: 20, textAlign: 'center', flexShrink: 0 }}>
                       {i + 1}
                     </span>
                   )}
@@ -434,10 +434,10 @@ function FormStep({
                 onClick={() => { setFlexDates(!flexDates); if (!flexDates) { setCheckIn(''); setCheckOut('') } }}
                 style={{
                   background: flexDates ? '#EBF5FF' : 'transparent',
-                  border: `1.5px solid ${flexDates ? '#1A82D8' : '#CBD5E1'}`,
+                  border: `1.5px solid ${flexDates ? '#0D9488' : '#CBD5E1'}`,
                   borderRadius: 999, padding: '4px 12px', cursor: 'pointer',
                   fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', fontWeight: 600,
-                  color: flexDates ? '#1A82D8' : '#64748B', transition: 'all 0.15s',
+                  color: flexDates ? '#0D9488' : '#64748B', transition: 'all 0.15s',
                   display: 'flex', alignItems: 'center', gap: 5,
                 }}
               >
@@ -481,7 +481,7 @@ function FormStep({
                           border: '1.5px solid #E2E8F0', borderRadius: 12, fontFamily: 'Inter, sans-serif',
                           color: '#0F2340', outline: 'none', boxSizing: 'border-box', cursor: 'pointer',
                         }}
-                        onFocus={e => { e.currentTarget.style.borderColor = '#1A82D8' }}
+                        onFocus={e => { e.currentTarget.style.borderColor = '#0D9488' }}
                         onBlur={e => { e.currentTarget.style.borderColor = '#E2E8F0' }}
                       />
                     </div>
@@ -505,9 +505,9 @@ function FormStep({
                   style={{
                     padding: '10px 8px', borderRadius: 10, fontSize: '0.78rem', fontWeight: 600,
                     fontFamily: 'Inter, sans-serif', cursor: 'pointer', transition: 'all 0.15s',
-                    border: `1.5px solid ${budgetBRL === opt.value ? '#1A82D8' : '#E2E8F0'}`,
+                    border: `1.5px solid ${budgetBRL === opt.value ? '#0D9488' : '#E2E8F0'}`,
                     background: budgetBRL === opt.value ? '#EBF5FF' : '#fff',
-                    color: budgetBRL === opt.value ? '#1A82D8' : '#0F2340',
+                    color: budgetBRL === opt.value ? '#0D9488' : '#0F2340',
                   }}
                 >
                   {opt.label}
@@ -532,9 +532,9 @@ function FormStep({
                     style={{
                       padding: '10px 16px', borderRadius: 12, fontSize: '0.85rem', fontWeight: 600,
                       fontFamily: 'Inter, sans-serif', cursor: 'pointer', transition: 'all 0.15s',
-                      border: `1.5px solid ${active ? '#1A82D8' : '#E2E8F0'}`,
+                      border: `1.5px solid ${active ? '#0D9488' : '#E2E8F0'}`,
                       background: active ? '#EBF5FF' : '#fff',
-                      color: active ? '#1A82D8' : '#0F2340',
+                      color: active ? '#0D9488' : '#0F2340',
                       display: 'flex', alignItems: 'center', gap: 6,
                     }}
                   >
@@ -545,7 +545,7 @@ function FormStep({
               })}
             </div>
             {mobilities.length > 1 && (
-              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#1A82D8', margin: '8px 0 0' }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', color: '#0D9488', margin: '8px 0 0' }}>
                 O roteiro vai mesclar os modos: trechos a pé onde vale a pena e {mobilities.includes('carro') ? 'carro' : 'transporte público'} nas distâncias maiores.
               </p>
             )}
@@ -568,9 +568,9 @@ function FormStep({
                       style={{
                         padding: '8px 14px', borderRadius: 10, fontSize: '0.78rem', fontWeight: 600,
                         fontFamily: 'Inter, sans-serif', cursor: 'pointer', transition: 'all 0.15s',
-                        border: `1.5px solid ${active ? '#1A82D8' : '#E2E8F0'}`,
+                        border: `1.5px solid ${active ? '#0D9488' : '#E2E8F0'}`,
                         background: active ? '#EBF5FF' : '#fff',
-                        color: active ? '#1A82D8' : '#0F2340',
+                        color: active ? '#0D9488' : '#0F2340',
                       }}
                     >
                       {opt.label}
@@ -638,7 +638,7 @@ function FormStep({
           <button
             type="submit"
             style={{
-              width: '100%', padding: '16px', background: '#1A82D8', color: '#fff',
+              width: '100%', padding: '16px', background: '#0D9488', color: '#fff',
               border: 'none', borderRadius: 14, fontFamily: 'Nunito, sans-serif',
               fontWeight: 700, fontSize: '1.05rem', cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
@@ -685,7 +685,7 @@ function AccountNudge() {
       marginBottom: 8,
     }}>
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
-        <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-6v2m0-8v4" stroke="#1A82D8" strokeWidth="1.8" strokeLinecap="round"/>
+        <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-6v2m0-8v4" stroke="#0D9488" strokeWidth="1.8" strokeLinecap="round"/>
       </svg>
       <div style={{ flex: 1 }}>
         <p style={{ margin: 0, fontSize: 13.5, fontWeight: 700, color: '#1E40AF' }}>
@@ -698,7 +698,7 @@ function AccountNudge() {
       <a
         href="/cadastro"
         style={{
-          background: '#1A82D8', color: '#fff',
+          background: '#0D9488', color: '#fff',
           padding: '8px 16px', borderRadius: 8,
           fontWeight: 700, fontSize: 12.5, textDecoration: 'none',
           whiteSpace: 'nowrap', flexShrink: 0,
@@ -733,7 +733,7 @@ function PreviewStep({
     <div style={{ background: '#fafaf7', minHeight: '100vh', paddingBottom: 80 }}>
 
       {/* Hero */}
-      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 100%)', padding: '48px 24px 72px' }}>
+      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #0D9488 100%)', padding: '48px 24px 72px' }}>
         <div style={{ maxWidth: 800, margin: '0 auto' }}>
           <span style={{ display: 'inline-block', background: 'rgba(245,168,0,0.2)', color: '#F5A800', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', padding: '5px 14px', borderRadius: 50, marginBottom: 20, border: '1px solid rgba(245,168,0,0.3)' }}>
             Preview gratuito
@@ -939,7 +939,7 @@ function FullItineraryStep({ itinerary, pdfSentTo }: { itinerary: FullItinerary;
     <div style={{ background: '#fafaf7', minHeight: '100vh', paddingBottom: 80 }}>
 
       {/* Hero */}
-      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 100%)', padding: '48px 24px 72px' }}>
+      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #0D9488 100%)', padding: '48px 24px 72px' }}>
         <div style={{ maxWidth: 860, margin: '0 auto' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'rgba(16,185,129,0.2)', color: '#34d399', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', padding: '5px 14px', borderRadius: 50, marginBottom: 20, border: '1px solid rgba(16,185,129,0.3)' }}>
             <CheckIcon /> Roteiro desbloqueado
@@ -966,7 +966,7 @@ function FullItineraryStep({ itinerary, pdfSentTo }: { itinerary: FullItinerary;
         {/* Links rápidos — voo e hotel */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 20 }}>
           <a href={itinerary.flightLink} target="_blank" rel="noopener noreferrer" style={{
-            background: '#1A82D8', color: '#fff', borderRadius: 14, padding: '18px 20px',
+            background: '#0D9488', color: '#fff', borderRadius: 14, padding: '18px 20px',
             textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 12,
           }}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
@@ -1074,7 +1074,7 @@ function FullItineraryStep({ itinerary, pdfSentTo }: { itinerary: FullItinerary;
                         <div key={i} style={{ display: 'flex', gap: 14, position: 'relative' }}>
                           {/* Horário + linha vertical */}
                           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 52, flexShrink: 0 }}>
-                            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.68rem', fontWeight: 700, color: '#1A82D8', background: '#EBF5FF', borderRadius: 8, padding: '4px 7px', whiteSpace: 'nowrap' }}>
+                            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.68rem', fontWeight: 700, color: '#0D9488', background: '#EBF5FF', borderRadius: 8, padding: '4px 7px', whiteSpace: 'nowrap' }}>
                               {act.time}
                             </span>
                             {i < day.activities.length - 1 && (
@@ -1084,7 +1084,7 @@ function FullItineraryStep({ itinerary, pdfSentTo }: { itinerary: FullItinerary;
                           <div style={{ flex: 1, paddingBottom: i < day.activities.length - 1 ? 18 : 0 }}>
                             <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap', marginBottom: 4 }}>
                               <span style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '0.92rem', color: '#0F2340' }}>{act.title}</span>
-                              <a href={mapsSearchUrl(act.title, city)} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', color: '#1A82D8', textDecoration: 'none', fontWeight: 600, whiteSpace: 'nowrap' }}>
+                              <a href={mapsSearchUrl(act.title, city)} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', color: '#0D9488', textDecoration: 'none', fontWeight: 600, whiteSpace: 'nowrap' }}>
                                 Ver no mapa →
                               </a>
                             </div>
@@ -1122,7 +1122,7 @@ function FullItineraryStep({ itinerary, pdfSentTo }: { itinerary: FullItinerary;
                     {/* Notas do dia — painéis coloridos */}
                     {(day.curiosity || day.hiddenGem || day.travelerTip || (day.restaurants && day.restaurants.length > 0)) && (
                       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 10, marginTop: 18 }}>
-                        {day.curiosity && <DayNote label="Curiosidade" color="#1A82D8" bg="#EFF6FF" text={day.curiosity} />}
+                        {day.curiosity && <DayNote label="Curiosidade" color="#0D9488" bg="#EFF6FF" text={day.curiosity} />}
                         {day.hiddenGem && <DayNote label="Joia escondida por perto" color="#16a34a" bg="#F0FDF4" text={day.hiddenGem} />}
                         {day.travelerTip && <DayNote label="Dica de viajante" color="#D48A0A" bg="#FFF8EC" text={day.travelerTip} />}
                         {day.restaurants && day.restaurants.length > 0 && (
@@ -1161,7 +1161,7 @@ function FullItineraryStep({ itinerary, pdfSentTo }: { itinerary: FullItinerary;
                 <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {section.items.map((item, i) => (
                     <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
-                      <span style={{ color: '#1A82D8', flexShrink: 0, marginTop: 2 }}><CheckIcon /></span>
+                      <span style={{ color: '#0D9488', flexShrink: 0, marginTop: 2 }}><CheckIcon /></span>
                       <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.83rem', color: '#374151', lineHeight: 1.4 }}>{item}</span>
                     </li>
                   ))}
@@ -1185,12 +1185,12 @@ function FullItineraryStep({ itinerary, pdfSentTo }: { itinerary: FullItinerary;
                 <div key={cat.category}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 5 }}>
                     <span style={{ fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '0.85rem', color: '#0F2340' }}>{cat.category}</span>
-                    <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.8rem', fontWeight: 700, color: '#1A82D8' }}>
+                    <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '0.8rem', fontWeight: 700, color: '#0D9488' }}>
                       R$ {cat.estimated.toLocaleString('pt-BR')}
                     </span>
                   </div>
                   <div style={{ background: '#EEF2F7', borderRadius: 99, height: 6, overflow: 'hidden', marginBottom: 4 }}>
-                    <div style={{ width: `${Math.min(100, Math.max(2, cat.percentage))}%`, height: '100%', background: '#1A82D8', borderRadius: 99 }} />
+                    <div style={{ width: `${Math.min(100, Math.max(2, cat.percentage))}%`, height: '100%', background: '#0D9488', borderRadius: 99 }} />
                   </div>
                   <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.74rem', color: '#64748B', lineHeight: 1.45 }}>{cat.tip}</div>
                 </div>
@@ -1264,7 +1264,7 @@ function GenerationProgress({ mode }: { mode: 'preview' | 'full' }) {
 
         {/* Barra de progresso */}
         <div style={{ background: '#EEF2F7', borderRadius: 99, height: 8, overflow: 'hidden', marginBottom: 22 }}>
-          <div style={{ width: `${pct}%`, height: '100%', background: 'linear-gradient(90deg, #1A82D8, #F5A800)', borderRadius: 99, transition: 'width 1s linear' }} />
+          <div style={{ width: `${pct}%`, height: '100%', background: 'linear-gradient(90deg, #0D9488, #F5A800)', borderRadius: 99, transition: 'width 1s linear' }} />
         </div>
 
         {/* Etapas */}
@@ -1276,7 +1276,7 @@ function GenerationProgress({ mode }: { mode: 'preview' | 'full' }) {
               <div key={stage.at} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, opacity: done || current ? 1 : 0.38 }}>
                 <span style={{
                   width: 20, height: 20, borderRadius: '50%', flexShrink: 0, display: 'grid', placeItems: 'center',
-                  background: done ? '#16a34a' : current ? '#1A82D8' : '#E2E8F0',
+                  background: done ? '#16a34a' : current ? '#0D9488' : '#E2E8F0',
                 }}>
                   {done ? (
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>

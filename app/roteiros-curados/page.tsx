@@ -136,7 +136,7 @@ export default function RoteirosCuradosPage() {
     <div style={{ background: '#fafaf7', minHeight: '100vh', paddingBottom: 80 }}>
 
       {/* Hero */}
-      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 100%)', padding: '56px 24px 48px' }}>
+      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #0D9488 100%)', padding: '56px 24px 48px' }}>
         <div style={{ maxWidth: 860, margin: '0 auto', textAlign: 'center' }}>
           <span style={{ display: 'inline-block', background: 'rgba(245,168,0,0.2)', color: '#F5A800', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', padding: '5px 14px', borderRadius: 50, marginBottom: 20, border: '1px solid rgba(245,168,0,0.3)' }}>
             Roteiros Curados
@@ -213,7 +213,7 @@ export default function RoteirosCuradosPage() {
                   <ul style={{ listStyle: 'none', margin: '0 0 20px', padding: 0, display: 'flex', flexDirection: 'column', gap: 6, flex: 1 }}>
                     {r.highlights.map(h => (
                       <li key={h} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#374151', lineHeight: 1.4 }}>
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0D9488" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}>
                           <polyline points="20 6 9 17 4 12"/>
                         </svg>
                         {h}

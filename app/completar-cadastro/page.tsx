@@ -564,7 +564,7 @@ export default function CompletarCadastroPage() {
                     }}
                   />
                   {loadingCEP && (
-                    <small style={{ color: '#1A82D8', fontSize: '0.75rem', display: 'block', marginTop: 4 }}>
+                    <small style={{ color: '#0D9488', fontSize: '0.75rem', display: 'block', marginTop: 4 }}>
                       Buscando informações...
                     </small>
                   )}

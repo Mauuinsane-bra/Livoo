@@ -76,7 +76,7 @@ function HotelDealCard({ deal }: { deal: HotelDeal }) {
         <div style={{
           position: 'relative', height: 160, overflow: 'hidden',
           background: imgError || !deal.photo
-            ? 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)'
+            ? 'linear-gradient(135deg, #0F2340 0%, #0D9488 60%, #0D9488 100%)'
             : '#0F2340',
         }}>
           {!imgError && deal.photo && (
@@ -131,7 +131,7 @@ function HotelDealCard({ deal }: { deal: HotelDeal }) {
           </div>
           <div style={{
             fontFamily: 'Nunito, sans-serif', fontSize: '1.2rem',
-            fontWeight: 800, color: '#1A82D8',
+            fontWeight: 800, color: '#0D9488',
           }}>
             {deal.priceLabel}
           </div>
@@ -189,11 +189,11 @@ function DestinationHotels({ destino, checkIn, checkOut }: { destino: string; ch
   return (
     <section style={{ padding: '48px 0 0' }}>
       <div className="container">
-        <div style={{ background: '#fff', borderRadius: 20, border: '1.5px solid #1A82D8', padding: '28px 28px 32px', boxShadow: '0 8px 32px rgba(26,130,216,0.10)' }}>
+        <div style={{ background: '#fff', borderRadius: 20, border: '1.5px solid #0D9488', padding: '28px 28px 32px', boxShadow: '0 8px 32px rgba(26,130,216,0.10)' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8, marginBottom: 20 }}>
             <div>
               <span style={{
-                display: 'inline-block', background: '#E6F3FF', color: '#1260A8',
+                display: 'inline-block', background: '#E6F3FF', color: '#0F766E',
                 fontFamily: 'Inter, sans-serif', fontSize: '0.68rem', fontWeight: 700,
                 letterSpacing: '1.2px', textTransform: 'uppercase',
                 padding: '4px 12px', borderRadius: 50, marginBottom: 10,
@@ -212,7 +212,7 @@ function DestinationHotels({ destino, checkIn, checkOut }: { destino: string; ch
             {fallbackUrl && (
               <a href={fallbackUrl} target="_blank" rel="noopener noreferrer" style={{
                 fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', fontWeight: 600,
-                color: '#1A82D8', textDecoration: 'none', whiteSpace: 'nowrap',
+                color: '#0D9488', textDecoration: 'none', whiteSpace: 'nowrap',
               }}>
                 Ver todos em {destino} →
               </a>
@@ -230,7 +230,7 @@ function DestinationHotels({ destino, checkIn, checkOut }: { destino: string; ch
                   <div style={{ background: '#fff', borderRadius: 14, overflow: 'hidden', border: '1px solid #E2E8F0', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
                     <div style={{
                       position: 'relative', height: 130, overflow: 'hidden',
-                      background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 100%)',
+                      background: 'linear-gradient(135deg, #0F2340 0%, #0D9488 100%)',
                     }}>
                       {!imgErrors[h.id] && h.imageUrl && (
                         <img
@@ -251,7 +251,7 @@ function DestinationHotels({ destino, checkIn, checkOut }: { destino: string; ch
                           {'★'.repeat(Math.min(h.stars, 5))}
                         </div>
                       )}
-                      <div style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.05rem', fontWeight: 800, color: '#1A82D8' }}>
+                      <div style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.05rem', fontWeight: 800, color: '#0D9488' }}>
                         US$ {h.pricePerNight}
                         <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', fontWeight: 400, color: '#9a9aa0' }}> / noite</span>
                       </div>
@@ -264,7 +264,7 @@ function DestinationHotels({ destino, checkIn, checkOut }: { destino: string; ch
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.88rem', color: '#64748B', margin: 0 }}>
               Não encontramos preços em cache para {destino} agora.{' '}
               {fallbackUrl && (
-                <a href={fallbackUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#1A82D8', fontWeight: 600 }}>
+                <a href={fallbackUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#0D9488', fontWeight: 600 }}>
                   Ver disponibilidade em {destino} →
                 </a>
               )}
@@ -313,7 +313,7 @@ function HoteisContent() {
 
       {/* ── HERO ──────────────────────────────────────────────── */}
       <section style={{
-        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #0D9488 60%, #0D9488 100%)',
         padding: '64px 0 52px',
       }}>
         <div className="container" style={{ textAlign: 'center' }}>
@@ -351,8 +351,8 @@ function HoteisContent() {
                   fontFamily: 'Inter, sans-serif', fontSize: '0.82rem',
                   fontWeight: 600, padding: '9px 18px', borderRadius: 100,
                   border: '1.5px solid',
-                  borderColor: selectedRegion === r.id ? '#1A82D8' : 'rgba(255,255,255,0.3)',
-                  background: selectedRegion === r.id ? '#1A82D8' : 'transparent',
+                  borderColor: selectedRegion === r.id ? '#0D9488' : 'rgba(255,255,255,0.3)',
+                  background: selectedRegion === r.id ? '#0D9488' : 'transparent',
                   color: selectedRegion === r.id ? '#0F2340' : '#fff',
                   cursor: 'pointer', transition: 'all 0.15s',
                 }}

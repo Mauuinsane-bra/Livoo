@@ -103,7 +103,7 @@ export default function FlightDrawer({ flight, passengers, onClose }: FlightDraw
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
               <div style={{
                 width: 44, height: 44, borderRadius: 10,
-                background: '#1A82D8', color: '#fff',
+                background: '#0D9488', color: '#fff',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontFamily: 'Inter, sans-serif', fontSize: '0.82rem', fontWeight: 700,
               }}>
@@ -135,7 +135,7 @@ export default function FlightDrawer({ flight, passengers, onClose }: FlightDraw
                     position: 'absolute', left: '50%', top: '50%',
                     transform: 'translate(-50%, -50%)',
                     width: 8, height: 8, borderRadius: '50%',
-                    background: '#fff', border: '2px solid #1A82D8',
+                    background: '#fff', border: '2px solid #0D9488',
                   }} />
                 </div>
                 {flight.duration && (
@@ -175,7 +175,7 @@ export default function FlightDrawer({ flight, passengers, onClose }: FlightDraw
               <span style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1rem', fontWeight: 700, color: '#0F2340' }}>
                 Total estimado
               </span>
-              <span style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.1rem', fontWeight: 700, color: '#1A82D8' }}>
+              <span style={{ fontFamily: 'Nunito, sans-serif', fontSize: '1.1rem', fontWeight: 700, color: '#0D9488' }}>
                 {formatPrice(total, flight.currency)}
               </span>
             </div>
@@ -238,7 +238,7 @@ export default function FlightDrawer({ flight, passengers, onClose }: FlightDraw
             style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
               width: '100%', padding: '14px 24px',
-              background: 'linear-gradient(135deg, #1A82D8, #1260A8)',
+              background: 'linear-gradient(135deg, #0D9488, #0F766E)',
               color: '#fff', borderRadius: 12, border: 'none',
               fontFamily: 'Inter, sans-serif', fontSize: '0.95rem', fontWeight: 700,
               textDecoration: 'none', cursor: 'pointer',

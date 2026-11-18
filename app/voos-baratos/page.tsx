@@ -78,7 +78,7 @@ function FlightCard({ flight }: { flight: CheapFlight }) {
         ) : (
           <div style={{
             width: '100%', height: '100%',
-            background: 'linear-gradient(135deg, #093468 0%, #1A82D8 100%)',
+            background: 'linear-gradient(135deg, #093468 0%, #0D9488 100%)',
           }} />
         )}
 
@@ -135,7 +135,7 @@ function FlightCard({ flight }: { flight: CheapFlight }) {
             </div>
             <div style={{
               fontFamily: 'Nunito, sans-serif', fontWeight: 900,
-              fontSize: 28, color: '#1A82D8', lineHeight: 1,
+              fontSize: 28, color: '#0D9488', lineHeight: 1,
             }}>
               <span style={{ fontSize: 13, fontWeight: 700, verticalAlign: 'super', lineHeight: 0 }}>R$</span>
               {' '}{formatPrice(flight.price)}
@@ -172,7 +172,7 @@ function FlightCard({ flight }: { flight: CheapFlight }) {
         {/* Botão CTA */}
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
-          background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
+          background: 'linear-gradient(135deg, #0D9488 0%, #0F766E 100%)',
           color: '#fff', borderRadius: 10, padding: '10px 0',
           fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: 13,
           boxShadow: '0 2px 8px rgba(26,130,216,.3)',
@@ -239,7 +239,7 @@ export default function VoosBaratosPage() {
     <>
       {/* Hero */}
       <section style={{
-        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #0D9488 60%, #0D9488 100%)',
         padding: '56px 24px 52px',
         position: 'relative',
         overflow: 'hidden',
@@ -333,7 +333,7 @@ export default function VoosBaratosPage() {
                 onClick={() => fetchFlights(origin)}
                 style={{
                   background: 'none', border: 'none', cursor: 'pointer',
-                  color: '#1A82D8', fontWeight: 700, fontSize: 12,
+                  color: '#0D9488', fontWeight: 700, fontSize: 12,
                   fontFamily: 'Inter, sans-serif', padding: '0 0 0 4px',
                 }}
               >
@@ -358,7 +358,7 @@ export default function VoosBaratosPage() {
             <button
               onClick={() => fetchFlights(origin)}
               style={{
-                background: '#1A82D8', color: '#fff', border: 'none', borderRadius: 10,
+                background: '#0D9488', color: '#fff', border: 'none', borderRadius: 10,
                 padding: '12px 28px', cursor: 'pointer', fontFamily: 'Inter, sans-serif',
                 fontWeight: 700, fontSize: 14,
                 boxShadow: '0 2px 8px rgba(26,130,216,.3)',

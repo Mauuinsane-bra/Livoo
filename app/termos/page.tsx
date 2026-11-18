@@ -44,7 +44,7 @@ export default function TermosPage() {
 
       {/* Hero */}
       <div style={{
-        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #0D9488 60%, #0D9488 100%)',
         padding: '72px 24px 80px',
         textAlign: 'center',
       }}>
@@ -100,7 +100,7 @@ export default function TermosPage() {
             </P>
             <P>
               O site principal está disponível em <strong>www.golivoo.com.br</strong>. Para dúvidas, entre em contato pelo email{' '}
-              <Link href="mailto:contato@golivoo.com.br" style={{ color: '#1A82D8' }}>contato@golivoo.com.br</Link>.
+              <Link href="mailto:contato@golivoo.com.br" style={{ color: '#0D9488' }}>contato@golivoo.com.br</Link>.
             </P>
           </Section>
 
@@ -232,7 +232,7 @@ export default function TermosPage() {
           <Section title="11. Privacidade">
             <P>
               O tratamento de dados pessoais dos usuários é regido pela nossa{' '}
-              <Link href="/privacidade" style={{ color: '#1A82D8', fontWeight: 600 }}>Política de Privacidade</Link>,
+              <Link href="/privacidade" style={{ color: '#0D9488', fontWeight: 600 }}>Política de Privacidade</Link>,
               em conformidade com a Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018).
             </P>
           </Section>
@@ -248,9 +248,9 @@ export default function TermosPage() {
           <Section title="13. Contato">
             <P>
               Para dúvidas sobre estes termos, entre em contato pelo email{' '}
-              <Link href="mailto:contato@golivoo.com.br" style={{ color: '#1A82D8' }}>contato@golivoo.com.br</Link>{' '}
+              <Link href="mailto:contato@golivoo.com.br" style={{ color: '#0D9488' }}>contato@golivoo.com.br</Link>{' '}
               ou pela nossa{' '}
-              <Link href="/contato" style={{ color: '#1A82D8', fontWeight: 600 }}>página de contato</Link>.
+              <Link href="/contato" style={{ color: '#0D9488', fontWeight: 600 }}>página de contato</Link>.
             </P>
           </Section>
 

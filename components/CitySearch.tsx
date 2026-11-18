@@ -174,7 +174,7 @@ export default function CitySearch({
             <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', color: '#0F2340', fontWeight: 500 }}>
               Usar &ldquo;{query.trim()}&rdquo;
             </span>
-            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', color: '#1A82D8', fontWeight: 600 }}>
+            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', color: '#0D9488', fontWeight: 600 }}>
               qualquer lugar vale
             </span>
           </li>

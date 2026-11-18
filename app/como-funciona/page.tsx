@@ -12,7 +12,7 @@ export default function ComoFuncionaPage() {
 
       {/* Hero */}
       <div style={{
-        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #0D9488 60%, #0D9488 100%)',
         padding: '80px 24px 88px',
         textAlign: 'center',
       }}>
@@ -72,7 +72,7 @@ export default function ComoFuncionaPage() {
               title: 'Você descreve a experiência',
               desc: 'No campo "Roteiro Completo", descreva o que quer fazer: ver um jogo, ir a um festival, assistir a uma corrida. Pode ser vago — nossa IA entende o contexto e faz as perguntas certas.',
               detail: 'Exemplos: "Quero ir ao GP de F1 em Mônaco em maio", "Rock in Rio 2026 com voo saindo de São Paulo", "Hanami no Japão em março".',
-              color: '#1A82D8',
+              color: '#0D9488',
               link: null,
             },
             {
@@ -240,7 +240,7 @@ export default function ComoFuncionaPage() {
                 <p style={{
                   fontFamily: 'Nunito, sans-serif',
                   fontSize: '0.88rem',
-                  color: '#1A82D8',
+                  color: '#0D9488',
                   fontWeight: 600,
                   margin: 0,
                 }}>

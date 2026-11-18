@@ -160,7 +160,7 @@ function RegionRow({
       }}
         onMouseEnter={e => {
           const el = e.currentTarget as HTMLDivElement
-          el.style.borderColor = '#1A82D8'
+          el.style.borderColor = '#0D9488'
           el.style.boxShadow = '0 2px 12px rgba(26,130,216,0.1)'
         }}
         onMouseLeave={e => {
@@ -211,7 +211,7 @@ function RegionRow({
               </div>
               <div style={{
                 fontFamily: 'Nunito, sans-serif',
-                fontSize: '1.15rem', fontWeight: 800, color: '#1A82D8',
+                fontSize: '1.15rem', fontWeight: 800, color: '#0D9488',
               }}>
                 {formatPrice(minFlight.price)}
               </div>
@@ -276,7 +276,7 @@ export default function MelhoresDestinosPage() {
 
       {/* ── HERO ──────────────────────────────────────────────── */}
       <section style={{
-        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #f5a800 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #0D9488 60%, #f5a800 100%)',
         padding: '52px 0 44px',
       }}>
         <div className="container" style={{ textAlign: 'center' }}>

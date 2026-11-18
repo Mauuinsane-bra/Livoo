@@ -237,7 +237,7 @@ export default function EventoSlugPage({ params }: Props) {
                           {r.flag} {r.location} · {r.date}
                         </p>
                       </div>
-                      <span style={{ marginLeft: 'auto', color: '#1A82D8', fontSize: '1rem' }}>›</span>
+                      <span style={{ marginLeft: 'auto', color: '#0D9488', fontSize: '1rem' }}>›</span>
                     </Link>
                   ))}
                 </div>
@@ -253,12 +253,12 @@ export default function EventoSlugPage({ params }: Props) {
               background: '#fafaf7', borderRadius: 10,
               padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 8,
             }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D9488" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
               </svg>
               <span style={{
                 fontFamily: 'Inter, sans-serif', fontSize: '0.8rem',
-                color: '#1A82D8', fontWeight: 600,
+                color: '#0D9488', fontWeight: 600,
               }}>
                 {event.flightFrom}
               </span>
@@ -284,8 +284,8 @@ export default function EventoSlugPage({ params }: Props) {
               style={{
                 display: 'block', textAlign: 'center',
                 background: 'transparent',
-                border: '1.5px solid #1A82D8',
-                color: '#1A82D8',
+                border: '1.5px solid #0D9488',
+                color: '#0D9488',
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 700, fontSize: '0.88rem',
                 padding: '12px', borderRadius: 100,

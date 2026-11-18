@@ -53,7 +53,7 @@ export default function ContatoPage() {
 
       {/* Hero */}
       <div style={{
-        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #0D9488 60%, #0D9488 100%)',
         padding: '80px 24px 88px',
         textAlign: 'center',
       }}>
@@ -120,7 +120,7 @@ export default function ContatoPage() {
               <p style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '0.9rem',
-                color: '#1A82D8',
+                color: '#0D9488',
                 margin: 0,
               }}>
                 contato@golivoo.com.br
@@ -149,7 +149,7 @@ export default function ContatoPage() {
                 lineHeight: 1.65,
               }}>
                 Respondemos em até 48 horas úteis. Para dúvidas rápidas, consulte nossa página
-                {' '}<Link href="/como-funciona" style={{ color: '#1A82D8', fontWeight: 600 }}>Como funciona</Link>.
+                {' '}<Link href="/como-funciona" style={{ color: '#0D9488', fontWeight: 600 }}>Como funciona</Link>.
               </p>
             </div>
 
@@ -183,7 +183,7 @@ export default function ContatoPage() {
                     alignItems: 'center',
                     gap: 8,
                   }}>
-                    <span style={{ color: '#1A82D8', fontWeight: 700 }}>→</span>
+                    <span style={{ color: '#0D9488', fontWeight: 700 }}>→</span>
                     {item}
                   </span>
                 ))}
@@ -404,7 +404,7 @@ export default function ContatoPage() {
                     lineHeight: 1.5,
                   }}>
                     Ao enviar, você concorda com nossa{' '}
-                    <Link href="/privacidade" style={{ color: '#1A82D8' }}>Política de Privacidade</Link>.
+                    <Link href="/privacidade" style={{ color: '#0D9488' }}>Política de Privacidade</Link>.
                   </p>
                 </form>
               </>

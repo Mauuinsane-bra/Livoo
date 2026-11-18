@@ -74,7 +74,7 @@ function FlightSearchContent() {
   return (
     <>
       <section style={{
-        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #0D9488 60%, #0D9488 100%)',
         padding: '40px 24px 36px',
         position: 'relative',
         overflow: 'hidden',
@@ -121,7 +121,7 @@ function FlightSearchContent() {
           <>
             <div style={{
               width: 56, height: 56, margin: '0 auto 20px',
-              border: '3px solid #E2E8F0', borderTopColor: '#1A82D8',
+              border: '3px solid #E2E8F0', borderTopColor: '#0D9488',
               borderRadius: '50%', animation: 'spin 0.8s linear infinite',
             }} />
             <h2 style={{
@@ -142,7 +142,7 @@ function FlightSearchContent() {
               href={kiwiUrl}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
-                background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
+                background: 'linear-gradient(135deg, #0D9488 0%, #0F766E 100%)',
                 color: '#fff', textDecoration: 'none', borderRadius: 12,
                 padding: '13px 28px',
                 fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: 14,
@@ -177,7 +177,7 @@ function FlightSearchContent() {
             </p>
             <Link href="/voos-baratos" style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
-              background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
+              background: 'linear-gradient(135deg, #0D9488 0%, #0F766E 100%)',
               color: '#fff', textDecoration: 'none', borderRadius: 12,
               padding: '13px 28px',
               fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: 14,
@@ -205,7 +205,7 @@ export default function BuscarVooPage() {
         fontFamily: 'Inter, sans-serif', fontSize: 15, color: '#64748B',
         gap: 12,
       }}>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D9488" strokeWidth="2" strokeLinecap="round">
           <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
         </svg>
         Carregando busca de voos…

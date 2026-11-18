@@ -69,7 +69,7 @@ function ExperienceCard({ exp }: { exp: Experience }) {
           {/* Categoria */}
           <span style={{
             fontFamily: 'Inter, sans-serif', fontSize: '0.7rem',
-            fontWeight: 700, color: '#1A82D8', textTransform: 'uppercase',
+            fontWeight: 700, color: '#0D9488', textTransform: 'uppercase',
             letterSpacing: '0.8px', marginBottom: 6, display: 'block',
           }}>
             {exp.category}
@@ -207,7 +207,7 @@ function SearchForm({
   }
 
   return (
-    <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)', padding: '36px 0 48px' }}>
+    <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #0D9488 60%, #0D9488 100%)', padding: '36px 0 48px' }}>
       <div style={{ maxWidth: 960, margin: '0 auto', padding: '0 24px' }}>
         <h1 style={{
           fontFamily: 'Nunito, sans-serif', fontSize: '1.8rem',
@@ -354,7 +354,7 @@ function GuiasContent() {
           <div style={{ textAlign: 'center', padding: 80 }}>
             <div style={{
               width: 40, height: 40, border: '3px solid #fafaf7',
-              borderTop: '3px solid #1A82D8', borderRadius: '50%',
+              borderTop: '3px solid #0D9488', borderRadius: '50%',
               animation: 'spin 0.8s linear infinite', margin: '0 auto 16px',
             }} />
             <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}>
@@ -432,7 +432,7 @@ function GuiasContent() {
                     },
                     {
                       icon: (
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D9488" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
                           <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                         </svg>
@@ -441,7 +441,7 @@ function GuiasContent() {
                     },
                     {
                       icon: (
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D9488" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <circle cx="12" cy="12" r="10"/>
                           <line x1="2" y1="12" x2="22" y2="12"/>
                           <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
@@ -451,7 +451,7 @@ function GuiasContent() {
                     },
                     {
                       icon: (
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D9488" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                         </svg>
                       ),
@@ -536,7 +536,7 @@ function GuiasContent() {
                 rel="noopener noreferrer"
                 style={{
                   fontFamily: 'Inter, sans-serif', fontSize: '0.8rem',
-                  color: '#1A82D8', fontWeight: 600, textDecoration: 'none',
+                  color: '#0D9488', fontWeight: 600, textDecoration: 'none',
                 }}
               >
                 Ver mais no GetYourGuide →

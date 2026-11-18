@@ -222,7 +222,7 @@ function BusDealCard({ deal }: { deal: BusDeal }) {
           </div>
           <div style={{
             fontFamily: 'Inter, sans-serif', fontSize: '0.82rem',
-            fontWeight: 600, color: '#1A82D8', marginTop: 6,
+            fontWeight: 600, color: '#0D9488', marginTop: 6,
           }}>
             Ver disponibilidade →
           </div>
@@ -258,7 +258,7 @@ export default function OnibusPage() {
 
       {/* ── HERO ──────────────────────────────────────────────── */}
       <section style={{
-        background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1260A8 100%)',
+        background: 'linear-gradient(135deg, #0F2340 0%, #0D9488 60%, #0F766E 100%)',
         padding: '64px 0 52px',
       }}>
         <div className="container" style={{ textAlign: 'center' }}>

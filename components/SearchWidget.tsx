@@ -193,10 +193,10 @@ export default function SearchWidget() {
     fontFamily: 'Inter, sans-serif',
     fontSize: '0.82rem',
     fontWeight: activeTab === id ? 700 : 500,
-    color: activeTab === id ? (id === 'roteiro' ? '#1A82D8' : '#0F2340') : '#64748B',
+    color: activeTab === id ? (id === 'roteiro' ? '#0D9488' : '#0F2340') : '#64748B',
     background: activeTab === id ? (id === 'roteiro' ? '#fafaf7' : '#fafaf7') : 'transparent',
     border: 'none',
-    borderBottom: activeTab === id ? `2px solid ${id === 'roteiro' ? '#1A82D8' : '#1A82D8'}` : '2px solid transparent',
+    borderBottom: activeTab === id ? `2px solid ${id === 'roteiro' ? '#0D9488' : '#0D9488'}` : '2px solid transparent',
     cursor: 'pointer',
     whiteSpace: 'nowrap' as const,
     transition: 'all 0.2s',
@@ -235,7 +235,7 @@ export default function SearchWidget() {
                 color: '#0F2340', resize: 'vertical', outline: 'none', marginBottom: 16,
                 transition: 'border-color 0.2s',
               }}
-              onFocus={e => (e.target.style.borderColor = '#1A82D8')}
+              onFocus={e => (e.target.style.borderColor = '#0D9488')}
               onBlur={e => (e.target.style.borderColor = '#E2E8F0')}
             />
 
@@ -244,9 +244,9 @@ export default function SearchWidget() {
               {experienceChips.map(chip => (
                 <button key={chip} type="button" onClick={() => toggleChip(chip)} style={{
                   padding: '5px 12px', borderRadius: 50, cursor: 'pointer', transition: 'all 0.2s',
-                  border: `1.5px solid ${selectedChips.includes(chip) ? '#1A82D8' : '#E2E8F0'}`,
+                  border: `1.5px solid ${selectedChips.includes(chip) ? '#0D9488' : '#E2E8F0'}`,
                   background: selectedChips.includes(chip) ? '#fafaf7' : '#fff',
-                  color: selectedChips.includes(chip) ? '#1A82D8' : '#64748B',
+                  color: selectedChips.includes(chip) ? '#0D9488' : '#64748B',
                   fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 500,
                 }}>
                   {chip}
@@ -272,7 +272,7 @@ export default function SearchWidget() {
                   type="number" min={1} max={60} placeholder="Ex: 7"
                   value={duration} onChange={e => setDuration(e.target.value)}
                   style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #E2E8F0', borderRadius: 10, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', outline: 'none' }}
-                  onFocus={e => (e.target.style.borderColor = '#1A82D8')}
+                  onFocus={e => (e.target.style.borderColor = '#0D9488')}
                   onBlur={e => (e.target.style.borderColor = '#E2E8F0')}
                 />
               </div>
@@ -284,7 +284,7 @@ export default function SearchWidget() {
                   type="text" placeholder="Ex: R$ 15.000"
                   value={budget} onChange={e => setBudget(e.target.value)}
                   style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #E2E8F0', borderRadius: 10, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', outline: 'none' }}
-                  onFocus={e => (e.target.style.borderColor = '#1A82D8')}
+                  onFocus={e => (e.target.style.borderColor = '#0D9488')}
                   onBlur={e => (e.target.style.borderColor = '#E2E8F0')}
                 />
               </div>
@@ -296,7 +296,7 @@ export default function SearchWidget() {
                   type="number" min={1} max={20}
                   value={people} onChange={e => setPeople(e.target.value)}
                   style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #E2E8F0', borderRadius: 10, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', outline: 'none' }}
-                  onFocus={e => (e.target.style.borderColor = '#1A82D8')}
+                  onFocus={e => (e.target.style.borderColor = '#0D9488')}
                   onBlur={e => (e.target.style.borderColor = '#E2E8F0')}
                 />
               </div>
@@ -312,7 +312,7 @@ export default function SearchWidget() {
                   <input
                     type="checkbox" checked={includes[key]}
                     onChange={() => setIncludes(p => ({ ...p, [key]: !p[key] }))}
-                    style={{ accentColor: '#1A82D8', width: 15, height: 15 }}
+                    style={{ accentColor: '#0D9488', width: 15, height: 15 }}
                   />
                   {key.charAt(0).toUpperCase() + key.slice(1)}
                 </label>
@@ -343,9 +343,9 @@ export default function SearchWidget() {
                   style={{
                     padding: '6px 14px',
                     borderRadius: 50,
-                    border: `1.5px solid ${tripType === opt.id ? '#1A82D8' : '#E2E8F0'}`,
+                    border: `1.5px solid ${tripType === opt.id ? '#0D9488' : '#E2E8F0'}`,
                     background: tripType === opt.id ? '#fafaf7' : '#fff',
-                    color: tripType === opt.id ? '#1A82D8' : '#64748B',
+                    color: tripType === opt.id ? '#0D9488' : '#64748B',
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '0.8rem',
                     fontWeight: tripType === opt.id ? 700 : 500,
@@ -376,7 +376,7 @@ export default function SearchWidget() {
                     type="number" min={1} max={9}
                     value={passengers} onChange={e => setPassengers(e.target.value)}
                     style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #E2E8F0', borderRadius: 10, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', outline: 'none' }}
-                    onFocus={e => (e.target.style.borderColor = '#1A82D8')}
+                    onFocus={e => (e.target.style.borderColor = '#0D9488')}
                     onBlur={e => (e.target.style.borderColor = '#E2E8F0')}
                   />
                 </div>
@@ -454,10 +454,10 @@ export default function SearchWidget() {
                       background: 'none', border: '1.5px dashed #E2E8F0',
                       borderRadius: 10, padding: '10px 16px', cursor: 'pointer',
                       fontFamily: 'Inter, sans-serif', fontSize: '0.82rem',
-                      fontWeight: 600, color: '#1A82D8', width: '100%',
+                      fontWeight: 600, color: '#0D9488', width: '100%',
                       justifyContent: 'center', marginTop: 4, transition: 'border-color 0.2s',
                     }}
-                    onMouseEnter={e => (e.currentTarget.style.borderColor = '#1A82D8')}
+                    onMouseEnter={e => (e.currentTarget.style.borderColor = '#0D9488')}
                     onMouseLeave={e => (e.currentTarget.style.borderColor = '#E2E8F0')}
                   >
                     + Adicionar trecho
@@ -472,7 +472,7 @@ export default function SearchWidget() {
                     type="number" min={1} max={9}
                     value={passengers} onChange={e => setPassengers(e.target.value)}
                     style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #E2E8F0', borderRadius: 10, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', outline: 'none' }}
-                    onFocus={e => (e.target.style.borderColor = '#1A82D8')}
+                    onFocus={e => (e.target.style.borderColor = '#0D9488')}
                     onBlur={e => (e.target.style.borderColor = '#E2E8F0')}
                   />
                 </div>
@@ -527,7 +527,7 @@ export default function SearchWidget() {
                   type="number" min={1} max={10}
                   value={hotelGuests} onChange={e => setHotelGuests(e.target.value)}
                   style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #E2E8F0', borderRadius: 10, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', outline: 'none' }}
-                  onFocus={e => (e.target.style.borderColor = '#1A82D8')}
+                  onFocus={e => (e.target.style.borderColor = '#0D9488')}
                   onBlur={e => (e.target.style.borderColor = '#E2E8F0')}
                 />
               </div>
@@ -588,9 +588,9 @@ export default function SearchWidget() {
                   style={{
                     padding: '6px 14px',
                     borderRadius: 50,
-                    border: `1.5px solid ${busTripType === opt.id ? '#1A82D8' : '#E2E8F0'}`,
+                    border: `1.5px solid ${busTripType === opt.id ? '#0D9488' : '#E2E8F0'}`,
                     background: busTripType === opt.id ? '#fafaf7' : '#fff',
-                    color: busTripType === opt.id ? '#1A82D8' : '#64748B',
+                    color: busTripType === opt.id ? '#0D9488' : '#64748B',
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '0.8rem',
                     fontWeight: busTripType === opt.id ? 700 : 500,
@@ -629,7 +629,7 @@ export default function SearchWidget() {
                   type="number" min={1} max={10}
                   value={busPassengers} onChange={e => setBusPassengers(e.target.value)}
                   style={{ width: '100%', padding: '11px 14px', border: '1.5px solid #E2E8F0', borderRadius: 10, fontFamily: 'Inter, sans-serif', fontSize: '0.9rem', outline: 'none' }}
-                  onFocus={e => (e.target.style.borderColor = '#1A82D8')}
+                  onFocus={e => (e.target.style.borderColor = '#0D9488')}
                   onBlur={e => (e.target.style.borderColor = '#E2E8F0')}
                 />
               </div>

@@ -49,11 +49,11 @@ function FlightSection({
         display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12,
       }}>
         {title.includes('Ida') ? (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D9488" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
           </svg>
         ) : (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D9488" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="23 4 23 10 17 10"/>
             <polyline points="1 20 1 14 7 14"/>
             <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
@@ -258,7 +258,7 @@ function PassagensContent() {
     <div style={{ background: '#fafaf7', minHeight: '100vh' }}>
 
       {/* ── Header com título + toggle de modo ──────────── */}
-      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #1A82D8 60%, #1A82D8 100%)', padding: '32px 24px 28px' }}>
+      <div style={{ background: 'linear-gradient(135deg, #0F2340 0%, #0D9488 60%, #0D9488 100%)', padding: '32px 24px 28px' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
             <h1 style={{ fontFamily: 'Nunito, sans-serif', color: '#fff', fontSize: '1.6rem', margin: 0 }}>
@@ -365,14 +365,14 @@ function PassagensContent() {
                   <button key={key} onClick={() => setSortBy(key)} style={{
                     padding: '5px 14px', borderRadius: 100, border: 'none', cursor: 'pointer',
                     fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 500,
-                    background: sortBy === key ? '#1A82D8' : '#fafaf7',
+                    background: sortBy === key ? '#0D9488' : '#fafaf7',
                     color: sortBy === key ? '#fff' : '#64748B', transition: 'all 0.2s',
                   }}>
                     {key === 'price' ? 'Menor preço' : key === 'stops' ? 'Menos escalas' : 'Menor duração'}
                   </button>
                 ))}
                 <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#64748B', cursor: 'pointer' }}>
-                  <input type="checkbox" checked={onlyDirect} onChange={e => setOnlyDirect(e.target.checked)} style={{ accentColor: '#1A82D8' }} />
+                  <input type="checkbox" checked={onlyDirect} onChange={e => setOnlyDirect(e.target.checked)} style={{ accentColor: '#0D9488' }} />
                   Só direto
                 </label>
               </div>
@@ -382,7 +382,7 @@ function PassagensContent() {
           {/* ── Loading ──────────────────────────────────── */}
           {status === 'loading' && (
             <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
-              <div style={{ width: 48, height: 48, border: '4px solid #fafaf7', borderTop: '4px solid #1A82D8', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 16px' }} />
+              <div style={{ width: 48, height: 48, border: '4px solid #fafaf7', borderTop: '4px solid #0D9488', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 16px' }} />
               <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}>
                 {isMultiDestination
                   ? `Buscando voos para ${parsedLegs.length} trechos...`
@@ -427,7 +427,7 @@ function PassagensContent() {
             return (
               <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0D9488" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
                   </svg>
                 </div>
@@ -444,7 +444,7 @@ function PassagensContent() {
                   rel="noopener noreferrer"
                   style={{
                     display: 'inline-block',
-                    background: 'linear-gradient(135deg, #1A82D8 0%, #1260A8 100%)',
+                    background: 'linear-gradient(135deg, #0D9488 0%, #0F766E 100%)',
                     color: '#fff',
                     fontFamily: 'Inter, sans-serif',
                     fontWeight: 700,
@@ -516,7 +516,7 @@ function PassagensContent() {
           {status === 'idle' && !hasParams && (
             <div style={{ background: '#fff', borderRadius: 14, padding: 48, textAlign: 'center', boxShadow: '0 4px 20px rgba(13,27,62,0.07)' }}>
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1A82D8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#0D9488" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
                 </svg>
               </div>
